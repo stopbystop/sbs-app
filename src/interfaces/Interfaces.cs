@@ -178,11 +178,13 @@
 
     public class GeoPlace
     {
-
+        [JsonProperty("i")]
         public string ID { get; set; }
 
+        [JsonProperty("n")]
         public string Name { get; set; }
 
+        [JsonProperty("l")]
         public Location Location { get; set; }
     }
 

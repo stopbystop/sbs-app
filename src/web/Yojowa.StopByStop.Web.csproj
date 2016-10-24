@@ -290,6 +290,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ConfigurableAdaptiveSamplingTelemetryProcessor.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\PoiController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
@@ -337,6 +338,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Client\Views\Service\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
