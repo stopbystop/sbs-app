@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <GenerateBuildInfoConfigFile>true</GenerateBuildInfoConfigFile>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5C3207A8-8384-4AAC-BBFD-E43BA54DB4D7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yojowa.StopByStop.Web</RootNamespace>
+    <AssemblyName>Yojowa.StopByStop.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <ApplicationInsightsResourceId>/subscriptions/fc521fab-583c-41a1-9e5c-970dd9178490/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Yojowa.StopByStop.Web</ApplicationInsightsResourceId>
+    <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <AvailableItemName Include="RootContent">
+      <Visible>false</Visible>
+    </AvailableItemName>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="aistream, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\ApplicationInsights.Stream.1.0.0\lib\net45\aistream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0-beta1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0-beta1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0-beta1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.Web.2.2.0-beta1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0-beta1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.ApplicationInsights.2.2.0-beta1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\sbs\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Client\Content\BreadCrumb.css" />
+    <Content Include="Client\Content\sbsbundle.css" />
+    <Content Include="Client\Content\sbsbundle.min.css">
+      <DependentUpon>sbsbundle.css</DependentUpon>
+    </Content>
+    <Content Include="Client\Content\styles_delayed.css" />
+    <Content Include="Client\Content\v1\icons\add_to_route.png" />
+    <Content Include="Client\Content\v1\images\favicon.ico" />
+    <Content Include="Client\Content\v1\images\hex2.gif" />
+    <Content Include="Client\Content\v1\images\logo2.png" />
+    <Content Include="Client\Scripts\jquery.jBreadCrumb.1.1.js" />
+    <Content Include="Error.htm" />
+    <Content Include="Client\Content\v1\icons\car.png" />
+    <Content Include="Client\Content\v1\icons\exit_map.png" />
+    <Content Include="Client\Content\v1\icons\food2.png" />
+    <Content Include="Client\Content\v1\icons\food_map2.png" />
+    <Content Include="Client\Content\v1\icons\gas.png" />
+    <Content Include="Client\Content\v1\icons\gas_map.png" />
+    <Content Include="Client\Content\v1\icons\go3.png" />
+    <Content Include="Client\Content\v1\icons\phone2.png" />
+    <Content Include="Client\Content\v1\images\svg\feedback.svg" />
+    <Content Include="Client\Content\v1\images\svg\lines7.svg" />
+    <Content Include="Client\Content\v1\images\svg\magnifying-glass32.svg" />
+    <Content Include="Client\Content\v1\images\main_image2.jpg" />
+    <Content Include="Client\Content\v1\images\main_image_mobile2.jpg" />
+    <Content Include="Client\Content\v1\images\route_line.gif" />
+    <Content Include="Client\Content\rrssb.css" />
+    <Content Include="Client\Content\v1\images\svg\sprites.svg" />
+    <Content Include="Client\Content\styles.css" />
+    <Content Include="Global.asax" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="bundleconfig.json" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\sbs-local.pubxml" />
+    <None Include="Properties\PublishProfiles\sbsstaging-azure.pubxml" />
+    <None Include="Properties\PublishProfiles\sbsstaging-azure2.pubxml" />
+    <None Include="Properties\PublishProfiles\stopbystop-production.pubxml" />
+    <Content Include="Client\Scripts\rrssb.min.js" />
+    <Content Include="Client\Scripts\sbsbundle.js" />
+    <Content Include="Client\Scripts\sbsbundle.min.js">
+      <DependentUpon>sbsbundle.js</DependentUpon>
+    </Content>
+    <Content Include="Client\Scripts\stopbystop-kocustombindings.js" />
+    <Content Include="Client\Scripts\stopbystop.js" />
+    <Content Include="Client\Scripts\svg4everybody.js" />
+    <Content Include="Client\Scripts\Telemetry.js" />
+    <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <ServiceBinary Include="sbs_serviceref\bin\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </ServiceBinary>
+    <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="sitemaps-2016-03-13\sitemap-1.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-10.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-11.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-12.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-13.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-14.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-15.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-16.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-17.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-18.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-19.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-2.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-20.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-21.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-22.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-23.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-24.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-25.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-26.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-27.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-28.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-29.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-3.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-30.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-31.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-32.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-33.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-34.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-35.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-36.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-37.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-38.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-39.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-4.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-40.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-41.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-42.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-43.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-44.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-45.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-5.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-6.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-7.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-8.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemap-9.xml" />
+    <Content Include="sitemaps-2016-03-13\sitemapindex.xml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ConfigurableAdaptiveSamplingTelemetryProcessor.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\PoiController.cs" />
+    <Compile Include="Controllers\PlaceController.cs" />
+    <Compile Include="Controllers\RouteController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="JsonNetResult.cs" />
+    <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\PoiListModel.cs" />
+    <Compile Include="Models\PoiModel.cs" />
+    <Compile Include="Models\PoiGroupModel.cs" />
+    <Compile Include="Models\ExitModel.cs" />
+    <Compile Include="Models\RouteModel.cs" />
+    <Compile Include="NoCacheAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderHelper.cs" />
+    <Compile Include="SBSParameterToDimensionInitializer.cs" />
+    <Compile Include="SBSViewPage.cs" />
+    <Compile Include="StopByStopService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Client\Views\web.config" />
+    <Content Include="Client\Views\_ViewStart.cshtml" />
+    <Content Include="Client\Views\Shared\_Layout.cshtml" />
+    <Content Include="Client\Views\Home\Index.cshtml" />
+    <Content Include="Client\Views\Route\Route.cshtml" />
+    <Content Include="Client\Views\Home\About.cshtml" />
+    <Content Include="Client\Views\Route\Exit.cshtml" />
+    <Content Include="Client\Views\Route\Poi.cshtml" />
+    <Content Include="Client\Views\Route\PoiGroup.cshtml" />
+    <Content Include="Client\Views\Shared\_SocialButtons.cshtml" />
+    <Content Include="Client\Views\Shared\_NonHomeLayout.cshtml" />
+    <Content Include="Client\Views\Shared\_POITableAndMap.cshtml" />
+    <Content Include="Client\Views\Shared\_POITableAndMap_SCRIPTS.cshtml" />
+    <Content Include="Client\Views\Test\All.cshtml" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
+      <Project>{a7df5262-9fe9-4191-bb94-9e7b36db0563}</Project>
+      <Name>Yojowa.StopByStop.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj">
+      <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
+      <Name>Yojowa.StopByStop.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Client\Scripts\extensions.ts" />
+    <TypeScriptCompile Include="Client\Scripts\Init.ts" />
+    <TypeScriptCompile Include="Client\Scripts\InitUrls.ts" />
+    <TypeScriptCompile Include="Client\Scripts\stopbystop-interfaces.ts" />
+    <TypeScriptCompile Include="Client\Scripts\Telemetry.ts" />
+    <TypeScriptCompile Include="Client\Scripts\test\RoutePlanViewModelTests.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\ai.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\google.maps.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\jquery.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\jquerymobile.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\qunit.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\Utils.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\FilterViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\AppViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\IAppViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\IStopPlace.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionAppViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionMapViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\LocationViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiCategoryViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiImageViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiOnJunctionViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\ReviewGroupViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteJunctionViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\RoutePlanViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteSegmentViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteStopViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteViewModel.ts" />
+    <TypeScriptCompile Include="Client\Scripts\tsdef\knockout-3.3.d.ts" />
+    <TypeScriptCompile Include="Client\Scripts\ViewModels\SideBarViewModel.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55952</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44100/stopbystopweb/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="AfterBuild">
+    <Exec Command="..\copybundles.cmd" />
+    <Exec Command="..\copyserviceref.cmd" />
+    <Copy DestinationFolder="$(OutputPath)" SourceFiles="@(ServiceBinary)" SkipUnchangedFiles="true" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
