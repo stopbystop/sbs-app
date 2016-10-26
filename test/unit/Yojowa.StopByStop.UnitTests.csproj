@@ -84,6 +84,10 @@
       <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
       <Name>Yojowa.StopByStop.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\web\Yojowa.StopByStop.Web.csproj">
+      <Project>{5c3207a8-8384-4aac-bbfd-e43ba54db4d7}</Project>
+      <Name>Yojowa.StopByStop.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

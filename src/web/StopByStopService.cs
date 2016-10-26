@@ -1,7 +1,10 @@
 ﻿namespace Yojowa.StopByStop.Web
 {
+    using Newtonsoft.Json;
     using System;
+    using System.Net.Http;
     using System.Reflection;
+    using System.Text;
     using System.Web.Configuration;
 
     internal class StopByStopService
@@ -39,53 +42,79 @@
             }
             else
             {
-                service = new StopByStopServiceProxy();
+                service = new StopByStopServiceProxy("");
             }
 
 
             return service;
         }
 
-        class StopByStopServiceProxy : IStopByStopService
+        internal class StopByStopServiceProxy : IStopByStopService
         {
+            private string serviceUrl;
+
+            public StopByStopServiceProxy(string serviceUrl)
+            {
+                this.serviceUrl = serviceUrl;
+            }
+
             public GeoPlace[] FindPlacesByName(string name, bool useCache)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<GeoPlace[]>(
+                    "findplacesbyname",
+                    Tuple.Create<string, object>("name", name),
+                    Tuple.Create<string, object>("useCache", useCache.ToString()));
             }
 
             public Junction GetJunctionFromOSMID(long osmId, bool populatePOICategories)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Junction>(
+                   "getjunctionfromosmid",
+                   Tuple.Create<string, object>("osmId", osmId),
+                   Tuple.Create<string, object>("populatePOICategories", populatePOICategories.ToString()));
             }
 
             public Route[] GetLastRoutes()
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Route[]>("getlastroutes");
             }
 
             public Location GetLocationFromPlaceID(string placeId)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Location>(
+                   "getlocationfromplaceid",
+                   Tuple.Create<string, object>("placeId", placeId));
             }
 
             public PoisWithAreaDiagnostics GetPois(Location poiArea)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<PoisWithAreaDiagnostics>(
+                  "getpois",
+                  Tuple.Create<string, object>("poiArea", poiArea));
             }
 
             public Review[] GetReviews(string SBSID)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Review[]>(
+                   "getreviews",
+                   Tuple.Create<string, object>("SBSID", SBSID));
             }
 
             public Route GetRoute(string routeId, Location start, Location end, RouteOptions routeOptions)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Route>(
+                    "getroute",
+                    Tuple.Create<string, object>("routeId", routeId),
+                    Tuple.Create<string,object>("startString", start), 
+                    Tuple.Create<string, object>("endString", end), 
+                    Tuple.Create<string, object>("routeOptionsString", routeOptions));
             }
 
             public Location[] GetRouteLocationsFromRoutePathId(string pathId)
             {
-                throw new NotImplementedException();
+                return GetObjectFromRemoteServer<Location[]>(
+                    "getroutelocationsfromroutepathid",
+                    Tuple.Create<string, object>("pathId", pathId));
             }
 
             public void SubmitReview(string SBSID, Review review)
@@ -96,6 +125,33 @@
             public Route UpdateRouteProgress(string routeId, Location currentLocation)
             {
                 throw new NotImplementedException();
+            }
+
+            private T GetObjectFromRemoteServer<T>(string methodName, params Tuple<string, object>[] args)
+            {
+                StringBuilder urlStringBuilder = new StringBuilder();
+                urlStringBuilder.Append(this.serviceUrl);
+                urlStringBuilder.Append("/");
+                urlStringBuilder.Append(methodName);
+                urlStringBuilder.Append("?");
+                foreach (var arg in args)
+                {
+                    urlStringBuilder.Append(arg.Item1);
+                    urlStringBuilder.Append("=");
+                    if (arg.Item2 is string)
+                    {
+                        urlStringBuilder.Append(arg.Item2);
+                    }
+                    else
+                    {
+                        urlStringBuilder.Append(JsonConvert.SerializeObject(arg.Item2));
+                    }
+                    urlStringBuilder.Append("&");
+                }
+
+                var responseMessage = new HttpClient().GetAsync(urlStringBuilder.ToString()).Result;
+                var result = responseMessage.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(result);
             }
         }
     }

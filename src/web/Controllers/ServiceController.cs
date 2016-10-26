@@ -1,5 +1,6 @@
 ﻿namespace Yojowa.StopByStop.Web.Controllers
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -58,8 +59,9 @@
         #endregion
 
         #region GetPois
-        public JsonResult GetPois(Location poiArea)
+        public JsonResult GetPois(string poiAreaString)
         {
+            Location poiArea = JsonConvert.DeserializeObject<Location>(poiAreaString);
             return Json(((IStopByStopService)this).GetPois(poiArea), JsonRequestBehavior.AllowGet);
         }
 
@@ -81,8 +83,12 @@
         #endregion
 
         #region GetRoute
-        public JsonResult GetRoute(string routeId, Location start, Location end, RouteOptions routeOptions)
+        public JsonResult GetRoute(string routeId, string startString, string endString, string routeOptionsString)
         {
+            Location start = JsonConvert.DeserializeObject<Location>(startString);
+            Location end = JsonConvert.DeserializeObject<Location>(endString);
+            RouteOptions routeOptions = JsonConvert.DeserializeObject<RouteOptions>(routeOptionsString);
+
             return Json(((IStopByStopService)this).GetRoute(routeId, start, end, routeOptions), JsonRequestBehavior.AllowGet);
         }
         Route IStopByStopService.GetRoute(string routeId, Location start, Location end, RouteOptions routeOptions)
@@ -103,8 +109,9 @@
         #endregion
 
         #region SubmitReview
-        public JsonResult SubmitReview(string SBSID, Review review)
+        public JsonResult SubmitReview(string SBSID, string reviewString)
         {
+            Review review = JsonConvert.DeserializeObject<Review>(reviewString);
             ((IStopByStopService)this).SubmitReview(SBSID, review);
             return Json("");
         }
@@ -115,8 +122,9 @@
         #endregion
 
         #region UpdateRouteProgress
-        public JsonResult UpdateRouteProgress(string routeId, Location currentLocation)
+        public JsonResult UpdateRouteProgress(string routeId, string currentLocationString)
         {
+            Location currentLocation = JsonConvert.DeserializeObject<Location>(currentLocationString);
             return Json(((IStopByStopService)this).UpdateRouteProgress(routeId, currentLocation), JsonRequestBehavior.AllowGet);
         }
         Route IStopByStopService.UpdateRouteProgress(string routeId, Location currentLocation)
