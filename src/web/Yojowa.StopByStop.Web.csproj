@@ -413,6 +413,11 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="BeforePublish">
+    <Exec Command="..\copybundles.cmd" />
+    <Exec Command="..\copyserviceref.cmd" />
+    <Copy DestinationFolder="$(OutputPath)" SourceFiles="@(ServiceBinary)" SkipUnchangedFiles="true" />
+  </Target>
   <Target Name="AfterBuild">
     <Exec Command="..\copybundles.cmd" />
     <Exec Command="..\copyserviceref.cmd" />
