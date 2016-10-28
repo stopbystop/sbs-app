@@ -96,6 +96,33 @@
         IEnumerable<Yojowa.StopByStop.Poi> GetAllPois();
     }
 
+    public interface IPlacesService
+    {
+        /// <summary>
+        /// Gets location from place id
+        /// </summary>
+        /// <param name="placeId">Place id</param>
+        /// <returns>Location object</returns>
+        Location GetLocationFromPlaceId(string placeId);
+
+        /// <summary>
+        /// Gets places by partial match
+        /// </summary>
+        /// <param name="text">Text typed by user</param>
+        /// <param name="maxItems">Max number of items to return</param>
+        /// <returns>Places to matching the input (not case sensitive), sorted by population in reverse order (starting from most populous)</returns>
+        GeoPlace[] FindPlacesByPartialMatch(string name, int maxItems);
+
+        /// <summary>
+        /// Gets places around specified center location
+        /// </summary>
+        /// <param name="center">Center location</param>
+        /// <param name="radiusInMiles">Max radius around the center location to search</param>
+        /// <param name="maxItems">Max number of items to return (starting from the closest to the center</param>
+        /// <returns></returns>
+        GeoPlace[] FindPlacesInArea(Location center, double radiusInMiles);
+    }
+
     public interface IStopByStopService
     {
 
@@ -181,11 +208,17 @@
         [JsonProperty("i")]
         public string ID { get; set; }
 
+        [JsonProperty("sn")]
+        public string ShortName { get; set; }
+
         [JsonProperty("n")]
         public string Name { get; set; }
 
         [JsonProperty("l")]
-        public Location Location { get; set; }
+        public Location Location { get; set; }  
+
+        [JsonProperty("p")]
+        public long Population { get; set; }
     }
 
 

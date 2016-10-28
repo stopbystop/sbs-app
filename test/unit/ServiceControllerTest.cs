@@ -8,7 +8,7 @@
     [TestClass]
     public class ServiceControllerTest
     {
-        private const string LocalServiceUrl = "https://localhost:44100/stopbystopweb/service";
+        private const string LocalServiceUrl = "https://www.stopbystop.com/service";
         public static readonly Location LOCATION_Seattle = new Location(47.606210, -122.332070);
         public static readonly Location LOCATION_Tacoma = new Location(47.252880, -122.444290);
 

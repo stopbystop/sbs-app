@@ -90,7 +90,7 @@
             {
                 return GetObjectFromRemoteServer<PoisWithAreaDiagnostics>(
                   "getpois",
-                  Tuple.Create<string, object>("poiArea", poiArea));
+                  Tuple.Create<string, object>("poiAreaString", poiArea));
             }
 
             public Review[] GetReviews(string SBSID)
