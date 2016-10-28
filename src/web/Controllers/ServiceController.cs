@@ -100,11 +100,11 @@
         #region GetRouteLocationsFromRoutePathId
         public JsonResult GetRouteLocationsFromRoutePathId(string pathId)
         {
-            throw new NotImplementedException();
+            return Json(((IStopByStopService)this).GetRouteLocationsFromRoutePathId(pathId), JsonRequestBehavior.AllowGet);
         }
         Location[] IStopByStopService.GetRouteLocationsFromRoutePathId(string pathId)
         {
-            throw new NotImplementedException();
+            return StopByStopService.Instance.GetRouteLocationsFromRoutePathId(pathId);
         }
         #endregion
 

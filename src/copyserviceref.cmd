@@ -1,1 +1,0 @@
-xcopy c:\sbs\Yojowa.StopByStop.Service\bin\*.* %~dp0\web\sbs_serviceref\bin\ /F/R/Y

@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -224,9 +225,6 @@
     <Content Include="Client\Scripts\Telemetry.js" />
     <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
-    <ServiceBinary Include="sbs_serviceref\bin\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </ServiceBinary>
     <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
@@ -409,16 +407,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Target Name="BeforePublish">
-    <Exec Command="..\copybundles.cmd" />
-    <Exec Command="..\copyserviceref.cmd" />
-    <Copy DestinationFolder="$(OutputPath)" SourceFiles="@(ServiceBinary)" SkipUnchangedFiles="true" />
-  </Target>
-  <Target Name="AfterBuild">
-    <Exec Command="..\copybundles.cmd" />
-    <Exec Command="..\copyserviceref.cmd" />
-    <Copy DestinationFolder="$(OutputPath)" SourceFiles="@(ServiceBinary)" SkipUnchangedFiles="true" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

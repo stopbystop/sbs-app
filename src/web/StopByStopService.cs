@@ -42,7 +42,7 @@
             }
             else
             {
-                service = new StopByStopServiceProxy("");
+                service = new StopByStopServiceProxy(WebConfigurationManager.AppSettings["proxyserviceurl"]);
             }
 
 
