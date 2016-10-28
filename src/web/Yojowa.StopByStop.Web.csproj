@@ -213,10 +213,6 @@
     </Content>
     <None Include="bundleconfig.json" />
     <Content Include="packages.config" />
-    <None Include="Properties\PublishProfiles\sbs-local.pubxml" />
-    <None Include="Properties\PublishProfiles\sbsstaging-azure.pubxml" />
-    <None Include="Properties\PublishProfiles\sbsstaging-azure2.pubxml" />
-    <None Include="Properties\PublishProfiles\stopbystop-production.pubxml" />
     <Content Include="Client\Scripts\rrssb.min.js" />
     <Content Include="Client\Scripts\sbsbundle.js" />
     <Content Include="Client\Scripts\sbsbundle.min.js">
