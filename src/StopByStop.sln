@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Web", "we
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Yojowa.StopByStop.Cordova", "cordova\Yojowa.StopByStop.Cordova.jsproj", "{5F0BCF59-332E-4F7B-99C4-11C9C86BF25D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Places", "places\Yojowa.StopByStop.Places\Yojowa.StopByStop.Places.csproj", "{CCEF4C42-6FB0-492C-8628-43C7163A6E82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Android = Debug|Android
@@ -238,6 +240,42 @@ Global
 		{5F0BCF59-332E-4F7B-99C4-11C9C86BF25D}.Release|Windows-x86.ActiveCfg = Release|Windows-x86
 		{5F0BCF59-332E-4F7B-99C4-11C9C86BF25D}.Release|Windows-x86.Build.0 = Release|Windows-x86
 		{5F0BCF59-332E-4F7B-99C4-11C9C86BF25D}.Release|Windows-x86.Deploy.0 = Release|Windows-x86
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Android.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Android.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|iOS.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|iOS.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows Phone (Universal).Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows Phone 8.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows Phone 8.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-AnyCPU.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-ARM.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-ARM.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-x64.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-x64.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-x86.ActiveCfg = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Debug|Windows-x86.Build.0 = Debug|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Android.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Android.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|iOS.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|iOS.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows Phone (Universal).ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows Phone (Universal).Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows Phone 8.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows Phone 8.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-AnyCPU.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-AnyCPU.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-ARM.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-ARM.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-x64.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-x64.Build.0 = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-x86.ActiveCfg = Release|Any CPU
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -248,5 +286,6 @@ Global
 		{4AA28541-181E-4725-8B7C-2881D4DD267E} = {CBCB16E3-BDD9-4C39-9F2C-2A704D8B7BD7}
 		{5C3207A8-8384-4AAC-BBFD-E43BA54DB4D7} = {549A5855-B419-4D0E-B542-1232F8C0CF07}
 		{5F0BCF59-332E-4F7B-99C4-11C9C86BF25D} = {549A5855-B419-4D0E-B542-1232F8C0CF07}
+		{CCEF4C42-6FB0-492C-8628-43C7163A6E82} = {549A5855-B419-4D0E-B542-1232F8C0CF07}
 	EndGlobalSection
 EndGlobal
