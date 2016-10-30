@@ -1,6 +1,6 @@
 version: 1.0.{build}
 before_build:
- nuget restore
+ nuget restore src\StopByStop-web.sln
 build:
  project: ./src/StopByStop-web.sln
  verbosity: minimal
