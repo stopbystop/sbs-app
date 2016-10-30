@@ -1,2 +1,2 @@
 language: csharp
-solution: ./src/StopByStop.sln
+solution: ./src/StopByStop-web.sln
