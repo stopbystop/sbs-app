@@ -59,7 +59,7 @@ namespace Yojowa.StopByStop.Places
             HashSet<string> insertedCityIds = new HashSet<string>();
             HashSet<string> unsupportedStates = new HashSet<string>(new string[] { "ak", "hi" });
 
-            using (var stream = typeof(PlacesLoader).Assembly.GetManifestResourceStream("Yojowa.StopByStop.Places.cities15000.csv"))
+            using (var stream = typeof(PlacesLoader).Assembly.GetManifestResourceStream("Yojowa.StopByStop.Places.cities1000.csv"))
             {
                 using (var streamReader = new StreamReader(stream))
                 {
