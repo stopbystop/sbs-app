@@ -1,12 +1,28 @@
-﻿namespace Yojowa.StopByStop.Places
+﻿// <copyright file="PlacesLoader.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>10/30/2016</date>
+
+namespace Yojowa.StopByStop.Places
 {
-    using Npgsql;
     using System.Collections.Generic;
     using System.IO;
+    using Npgsql;
 
+    /// <summary>
+    /// Loads geo places. All DB communication should be done through this class
+    /// </summary>
     public class PlacesLoader
     {
+        /// <summary>
+        /// The POSTGRESQL DB connection string 
+        /// </summary>
         public static readonly string PGConnection = "server=stopbystop.centralus.cloudapp.azure.com;User Id=cities_user;Password=chicago;MinPoolSize=8;Database=cities;Timeout=60;CommandTimeout=60;";
+
+        /// <summary>
+        /// Cleans the and reloads the table containing geo data
+        /// </summary>
         public static void CleanAndReloadDb()
         {
             List<GeoPlace> cities = GetGeoPlacesFromEmbeddedFile();
@@ -16,6 +32,9 @@
             // TOOD: insert cities into db
         }
 
+        /// <summary>
+        /// Creates the table.
+        /// </summary>
         internal static void CreateTable()
         {
             // TODO: remove this method
@@ -30,8 +49,10 @@
             }
         }
 
-
-
+        /// <summary>
+        /// Gets the geo places from the file embedded into assembly
+        /// </summary>
+        /// <returns>List of geo places</returns>
         internal static List<GeoPlace> GetGeoPlacesFromEmbeddedFile()
         {
             List<GeoPlace> cities = new List<GeoPlace>();
@@ -60,7 +81,6 @@
 
                                 if (!insertedCityIds.Contains(cityId))
                                 {
-
                                     GeoPlace city = new GeoPlace()
                                     {
                                         ID = cityId,
@@ -78,6 +98,7 @@
                     }
                 }
             }
+
             return cities;
         }
     }
