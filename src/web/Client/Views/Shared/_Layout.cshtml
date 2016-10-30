@@ -1,0 +1,193 @@
+﻿@{
+    string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+    string rf = HttpContext.Current.Request.QueryString["rf"];
+    if (string.IsNullOrEmpty(rf))
+    {
+        rf = Yojowa.StopByStop.Utils.CookieUtils.ReadCookie("rf");
+    }
+    if (string.IsNullOrEmpty(rf))
+    {
+        rf = "";
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en-US" class="sbs-web">
+<head>
+    @* See: http://searchenginewatch.com/sew/how-to/2067564/how-to-use-html-meta-tags *@
+    <title>@(ViewBag.Title) - Stop by Stop</title>
+
+    <meta name="description" content="@(ViewBag.Description)" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="msvalidate.01" content="C5252CA292217904D2AE105CDB814ABB" />
+    <meta property="og:url" content="@currentUrl" />
+    <meta property="og:title" content="@(ViewBag.Title)" />
+    <meta property="og:description" content="@(ViewBag.Description)" />
+    <meta property="og:site_name" content="Stop by Stop" />
+    <meta property="og:image" content="https://www.stopbystop.com/Client/Content/v1/images/main_image2.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:height" content="763" />
+    <meta property="og:image:width" content="1540" />
+    <meta property="fb:app_id" content="1385725698401226" />
+    <meta name="google-site-verification" content="4YnVgJsYaWa9b1baICDoWWcaU7bGTFe7zq7Nm8nNBaw" />
+    @*<meta http-equiv="X-UA-Compatible" content="IE=edge"> *@
+
+    <link rel="shortcut icon" type="image/x-icon" href="@RenderHelper.GetCDNUrl("/client/content/v1/images/favicon.ico")" />
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+
+
+    @System.Web.Optimization.Styles.Render("~/client/content/sbscssbundle")
+
+    <script type="text/javascript">
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : "";
+        };
+
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
+        }({
+            instrumentationKey: '@(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey)'
+        });
+
+        window.appInsights = appInsights;
+
+        appInsights.queue.push(function () {
+            appInsights.context.addTelemetryInitializer(function (envelope) {
+                var telemetryItem = envelope.data.baseData;
+                telemetryItem.properties = telemetryItem.properties || {};
+                telemetryItem.properties["rf"] = getQueryString("rf") || "@rf";
+            });
+        });
+
+
+        appInsights.trackPageView("@(ViewBag.PageName)", location.toString());
+        appInsights.trackEvent("PageStartLoad" + "@(ViewBag.TelemetryPageName)");
+        window.setTimeout(function () {
+            appInsights.trackEvent("PageNonBounce" + "@(ViewBag.TelemetryPageName)");
+        }, 3000);
+    </script>
+
+    @if (System.Configuration.ConfigurationManager.AppSettings["envtype"] == "production")
+    {
+        @* GA script *@
+        <script type="text/javascript">
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-16049949-5', 'auto');
+            ga('require', 'linkid');
+            ga('send', 'pageview');
+
+        </script>
+    }
+
+
+</head>
+<body class="sbs" style="opacity:0.0;">
+    <!-- TODO: why do we need jqm-home on all pages? -->
+    <div data-role="page" class="jqm-demos jqm-home @ViewBag.PageName">
+        <div data-role="header" data-position="fixed" class="jqm-header ui-header ui-bar-inherit ui-header-fixed slidedown" data-tap-toggle="false">
+            <div class="main_inner">
+                <h2>
+                    <a data-ajax="false" href="@Href("~/")" target="_top"><img src="@RenderHelper.GetCDNUrl("/client/Content/v1/images/logo2.png")" alt="StopByStop" /></a>
+                    <!-- Navigation Panel -->
+                    <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
+                        <ul class="menu-list jqm-list ui-alt-icon ui-nodisc-icon">
+                            <li data-filtertext="demos homepage" data-icon="home">
+                                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "navbar-brand" })
+                            </li>
+                            <li><a data-ajax="false" class="navbar-brand ui-btn ui-btn-icon-right ui-icon-carat-r" href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </h2>
+                <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                @RenderSection("HeaderButtons", false)
+            </div>
+        </div><!-- /header -->
+        <div role="main" class="ui-content jqm-content">
+            @RenderBody()
+        </div><!-- /content -->
+
+
+        @RenderSection("AboveFooter", false)
+
+
+        <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+
+            <div style="position:absolute;top:3px;left:15px;">
+                <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top"><img style="height:50px;" src="@RenderHelper.GetCDNUrl("/client/Content/v1/images/svg/feedback.svg")" /></a>
+            </div>
+            <div class="social_icons">
+                @Html.Partial("~/Client/Views/Shared/_SocialButtons.cshtml")
+            </div>
+            <div class="copyright"><span>Design By <span style="font-weight:bold;color:#ffffff;text-decoration:none;"><a href="https://www.eighty3.co.uk" target="_blank">Eighty<span style="color:#DA7B15">3</span></a></span></div>
+        </div><!-- /footer -->
+    </div>
+
+    @RenderSection("Pages", false)
+    <script type="text/javascript">
+        var BASE_URL = '@Url.Content("~/")';
+        var CDN_ROOT = '@RenderHelper.GetCDNRoot()';
+    </script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    @if (ViewBag.RenderGMap != null && ViewBag.RenderGMap)
+    {
+        <script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&key=AIzaSyBGmJnNIEAYGMNNC9d9iCVG_NadImxt_O4"></script>
+    }
+    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+    @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
+    <script type="text/javascript">
+        StopByStop.Utils.pageInfo = { pageName: "@(ViewBag.PageName)", telemetryPageName: "@(ViewBag.TelemetryPageName)" || "@(ViewBag.PageName)" };
+        StopByStop.Init.initialize({ app: StopByStop.SBSApp.Web });
+        $("body").css({ opacity: "1.0" });
+    </script>
+    @RenderSection("Scripts", false)
+    @if (System.Configuration.ConfigurationManager.AppSettings["envtype"] == "production")
+    {
+        <script type="text/javascript">
+            window.isProduction = true;
+        </script>
+    }
+    @* Delay loading*@
+    <script type="text/javascript">
+        $(window).on("load", function () {
+            window.setTimeout(function () {
+                $("head").append('<link rel="stylesheet" type="text/css" href="@(System.Web.Optimization.Styles.Url("~/client/content/sbscssdelayedbundle"))" />');
+
+                @* FB script *@
+                if (window.isProduction) {
+                    window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: '1385725698401226',
+                            xfbml: true,
+                            version: 'v2.4'
+                        });
+                    };
+
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) { return; }
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/en_US/sdk.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                }
+
+
+            }, 100);
+        });
+    </script>
+
+
+</body>
+</html>

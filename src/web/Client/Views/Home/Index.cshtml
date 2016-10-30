@@ -1,0 +1,88 @@
+﻿@inherits SBSViewPage<Yojowa.StopByStop.Web.Models.HomeModel>
+@{
+    ViewBag.Title = "See best places to stop on the way to your destination";
+    ViewBag.Description = "Are you are travelling by car in the US and looking for best place to stop for food or gas? Check this out.";
+    ViewBag.PageName = "sbs-homePG";
+    ViewBag.TelemetryPageName = "Home";
+
+    /*
+    var currentLocation = Yojowa.StopByStop.Utils.LocationUtils.GetCurrentLocation();
+    var currentLocationFound = (currentLocation != null).ToString().ToLowerInvariant();
+    var currentLocationLat = currentLocation!= null? currentLocation.Lat : 0;
+    var currentLocationLon = currentLocation!= null? currentLocation.Lon : 0;
+    */
+}
+<div id="home_content">
+    <div class="main_inner">
+        <p class="main_title">with you every <span style="font-weight:300">stop</span> of the way</p>
+        <h1 class="sub_title">Are you traveling by car in the US and looking for best places to stop for food or gas?</h1>
+    </div>
+
+    <div class="page-content">
+        <div class="main_inner">
+            <p class="form_title">start by typing the city name</p>
+            <form class="ui-filterable">
+                <div class="input-wrapper">
+                    <label for="from" class="ui-hidden-accessible">Where are you coming from?</label>
+                    <input type="search" id="from" value="" placeholder="Where are you coming from?" autocomplete="off" />
+                    <ul id="from_autocomplete" data-defaults="true" class="autocomplete" data-role="listview" data-inset="true" style="display:none;">
+                        @*<li data-icon="false" class="myloc"><a href="#">Current location</a></li>*@
+                    </ul>
+                </div><!-- /demo-html -->
+
+                <div class="input-wrapper">
+                    <label for="to" class="ui-hidden-accessible">Where are you going?</label>
+                    <input type="search" id="to" value="" placeholder="Where are you going?" autocomplete="off" />
+                    <ul id="to_autocomplete" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
+                </div><!-- /demo-html -->
+
+                <div class="input-wrapper">
+                    @*<a href="#" class="ui-shadow ui-btn ui-corner-all ui-btn-inline view-trip">View my trip</a>*@
+                    <input type="button" class="buttonWrap button button-green contactSubmitButton view-trip ui-disabled" id="view_trip" value="View my trip" data-role="none" />
+                </div>
+            </form>
+
+
+            <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+                <h4>Recent destinations</h4>
+                <ul data-role="listview">
+                    @foreach (var route in Model.PopularRoutes)
+                    {
+                        <li>
+                            <a data-ajax="false" href="@Href("~/route/" + route.RouteId)">@(route.FromLocation.Place + " to " + route.ToLocation.Place)</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @*
+    <script type="text/javascript">
+        $(window).on('load', function(){
+            var currentLocationFound = @currentLocationFound;
+
+            var lat = @currentLocationLat;
+            var lon = @currentLocationLon;
+
+
+            if (!currentLocationFound ||
+                (lat > StopByStop.S_LAT_BOUNDARY &&
+                 lat < StopByStop.N_LAT_BOUNDARY &&
+                 lon > StopByStop.W_LON_BOUNDARY &&
+                 lon < StopByStop.E_LON_BOUNDARY))
+            {
+                //location supported
+            }
+            else
+            {
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.LocationOUTPopupDisplayed);
+                window.alert("At this time we only support US destinations. Stay tuned for full North America support!");
+            }
+        });
+    </script>
+    *@
+}
