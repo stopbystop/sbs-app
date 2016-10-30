@@ -10,7 +10,7 @@ Scripts/Init.js
 Scripts/stopbystop-interfaces.js
 Scripts/Telemetry.js
 Scripts/Utils.js
-Scripts/sbsbundle.*
+#Scripts/sbsbundle.*
 Scripts/InitUrls.js
 Scripts/test/RoutePlanViewModelTests.js
 node_modules
