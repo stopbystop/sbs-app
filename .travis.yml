@@ -1,3 +1,4 @@
+language: csharp
 install:
 - npm install
 - nuget restore ./src/StopByStop-web.sln
