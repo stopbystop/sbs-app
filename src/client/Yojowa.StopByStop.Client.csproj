@@ -103,6 +103,9 @@
     <None Include="package.json" />
     <None Include="tsconfig.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dummy.cs" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
