@@ -1,0 +1,29 @@
+[
+  {
+    "outputFileName": "content/sbsbundle.css",
+    "inputFiles": [
+      "content/BreadCrumb.css",
+      "content/rrssb.css",
+      "content/styles.css",
+      "content/styles_delayed.css"
+    ]
+  },
+  {
+    "outputFileName": "outscripts/sbsbundle.js",
+    "inputFiles": [
+      "scripts/jquery.easing.1.3.js",
+      "scripts/jquery.jBreadCrumb.1.1.js",
+      "scripts/rrssb.min.js",
+      "scripts/svg4everybody.js",
+      "scripts/extensions.js",
+      "scripts/stopbystop-kocustombindings.js",
+      "scripts/stopbystop.js"
+    ]
+  },
+  {
+    "outputFileName": "outscripts/webbundle.js",
+    "inputFiles": [
+      "compiledscripts/webbundle.js"
+    ]
+  }
+] 

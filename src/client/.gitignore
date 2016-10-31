@@ -1,0 +1,15 @@
+*.suo
+*.user
+bin
+obj
+packages
+*.js.map
+scripts/viewmodels/*js
+scripts/extensions.js
+scripts/Init.js
+scripts/stopbystop-interfaces.js
+scripts/Telemetry.js
+scripts/Utils.js
+scripts/InitUrls.js
+compiledscripts
+node_modules

@@ -1,7 +1,7 @@
 @inherits SBSViewPage<Yojowa.StopByStop.Web.Models.RouteModel>
 
 @{
-    Layout = "~/Client/Views/Shared/_NonHomeLayout.cshtml";
+    Layout = "~/client/Views/Shared/_NonHomeLayout.cshtml";
     var exitCount = Model.Route.RouteSegments.Sum(rs => rs.RouteJunctions.Length);
     ViewBag.Title = Model.Route.FromLocation.PlaceDescription + " to " + Model.Route.ToLocation.PlaceDescription;
     ViewBag.Description = string.Format("Traveling by car from {0} to {1} and looking for best place to stop for food or gas? This route is {2} miles and has {3} exits. Check this out. ",
