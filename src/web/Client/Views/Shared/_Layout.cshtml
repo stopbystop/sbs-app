@@ -26,7 +26,7 @@
     <meta property="og:title" content="@(ViewBag.Title)" />
     <meta property="og:description" content="@(ViewBag.Description)" />
     <meta property="og:site_name" content="Stop by Stop" />
-    <meta property="og:image" content="https://www.stopbystop.com/Client/Content/v1/images/main_image2.jpg" />
+    <meta property="og:image" content="https://www.stopbystop.com/client/content/v1/images/main_image2.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:height" content="763" />
     <meta property="og:image:width" content="1540" />
@@ -98,7 +98,7 @@
         <div data-role="header" data-position="fixed" class="jqm-header ui-header ui-bar-inherit ui-header-fixed slidedown" data-tap-toggle="false">
             <div class="main_inner">
                 <h2>
-                    <a data-ajax="false" href="@Href("~/")" target="_top"><img src="@RenderHelper.GetCDNUrl("/client/Content/v1/images/logo2.png")" alt="StopByStop" /></a>
+                    <a data-ajax="false" href="@Href("~/")" target="_top"><img src="@RenderHelper.GetCDNUrl("/client/content/v1/images/logo2.png")" alt="StopByStop" /></a>
                     <!-- Navigation Panel -->
                     <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
                         <ul class="menu-list jqm-list ui-alt-icon ui-nodisc-icon">
@@ -124,10 +124,10 @@
         <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
 
             <div style="position:absolute;top:3px;left:15px;">
-                <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top"><img style="height:50px;" src="@RenderHelper.GetCDNUrl("/client/Content/v1/images/svg/feedback.svg")" /></a>
+                <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top"><img style="height:50px;" src="@RenderHelper.GetCDNUrl("/client/content/v1/images/svg/feedback.svg")" /></a>
             </div>
             <div class="social_icons">
-                @Html.Partial("~/Client/Views/Shared/_SocialButtons.cshtml")
+                @Html.Partial("~/client/Views/Shared/_SocialButtons.cshtml")
             </div>
             <div class="copyright"><span>Design By <span style="font-weight:bold;color:#ffffff;text-decoration:none;"><a href="https://www.eighty3.co.uk" target="_blank">Eighty<span style="color:#DA7B15">3</span></a></span></div>
         </div><!-- /footer -->

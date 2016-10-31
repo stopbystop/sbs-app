@@ -1,7 +1,7 @@
 @inherits SBSViewPage<Yojowa.StopByStop.Web.Models.ExitModel>
 
 @{
-    Layout = "~/Client/Views/Shared/_NonHomeLayout.cshtml";
+    Layout = "~/client/Views/Shared/_NonHomeLayout.cshtml";
     ViewBag.Title = Model.RouteJunction.Junction.Name + " on the way from " + Model.FromLocation.PlaceDescription + " to " + Model.ToLocation.PlaceDescription;
     ViewBag.UITitle = Model.FromLocation.PlaceDescription + " to " + Model.ToLocation.PlaceDescription;
 
@@ -40,10 +40,10 @@
     </li>
 }
 
-@Html.Partial("~/Client/Views/Shared/_POITableAndMap.cshtml", poiTableAndMapModel)
+@Html.Partial("~/client/Views/Shared/_POITableAndMap.cshtml", poiTableAndMapModel)
 
 @section Scripts
 {
-    @Html.Partial("~/Client/Views/Shared/_POITableAndMap_SCRIPTS.cshtml", poiTableAndMapModel)
+    @Html.Partial("~/client/Views/Shared/_POITableAndMap_SCRIPTS.cshtml", poiTableAndMapModel)
 }
 

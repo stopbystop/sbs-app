@@ -178,58 +178,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\Content\BreadCrumb.css" />
-    <Content Include="Client\Content\sbsbundle.css" />
-    <Content Include="Client\Content\sbsbundle.min.css">
-      <DependentUpon>sbsbundle.css</DependentUpon>
-    </Content>
-    <Content Include="Client\Content\styles_delayed.css" />
-    <Content Include="Client\Content\v1\icons\add_to_route.png" />
-    <Content Include="Client\Content\v1\images\favicon.ico" />
-    <Content Include="Client\Content\v1\images\hex2.gif" />
-    <Content Include="Client\Content\v1\images\logo2.png" />
-    <Content Include="Client\Scripts\jquery.jBreadCrumb.1.1.js" />
+    <Content Include="client\content\BreadCrumb.css" />
+    <Content Include="client\content\rrssb.css" />
+    <Content Include="client\content\sbsbundle.css" />
+    <Content Include="client\content\sbsbundle.css.min.css" />
+    <Content Include="client\content\styles.css" />
+    <Content Include="client\content\styles_delayed.css" />
+    <Content Include="client\content\v1\icons\add_to_route.png" />
+    <Content Include="client\content\v1\icons\car.png" />
+    <Content Include="client\content\v1\icons\exit_map.png" />
+    <Content Include="client\content\v1\icons\food2.png" />
+    <Content Include="client\content\v1\icons\food_map2.png" />
+    <Content Include="client\content\v1\icons\gas.png" />
+    <Content Include="client\content\v1\icons\gas_map.png" />
+    <Content Include="client\content\v1\icons\go3.png" />
+    <Content Include="client\content\v1\icons\phone2.png" />
+    <Content Include="client\content\v1\images\favicon.ico" />
+    <Content Include="client\content\v1\images\hex2.gif" />
+    <Content Include="client\content\v1\images\logo2.png" />
+    <Content Include="client\content\v1\images\main_image2.jpg" />
+    <Content Include="client\content\v1\images\main_image_mobile2.jpg" />
+    <Content Include="client\content\v1\images\route_line.gif" />
+    <Content Include="client\content\v1\images\svg\feedback.svg" />
+    <Content Include="client\content\v1\images\svg\lines7.svg" />
+    <Content Include="client\content\v1\images\svg\magnifying-glass32.svg" />
+    <Content Include="client\content\v1\images\svg\sprites.svg" />
+    <Content Include="client\scripts\sbsbundle.js" />
+    <Content Include="client\scripts\webBundle.js" />
     <Content Include="Error.htm" />
-    <Content Include="Client\Content\v1\icons\car.png" />
-    <Content Include="Client\Content\v1\icons\exit_map.png" />
-    <Content Include="Client\Content\v1\icons\food2.png" />
-    <Content Include="Client\Content\v1\icons\food_map2.png" />
-    <Content Include="Client\Content\v1\icons\gas.png" />
-    <Content Include="Client\Content\v1\icons\gas_map.png" />
-    <Content Include="Client\Content\v1\icons\go3.png" />
-    <Content Include="Client\Content\v1\icons\phone2.png" />
-    <Content Include="Client\Content\v1\images\svg\feedback.svg" />
-    <Content Include="Client\Content\v1\images\svg\lines7.svg" />
-    <Content Include="Client\Content\v1\images\svg\magnifying-glass32.svg" />
-    <Content Include="Client\Content\v1\images\main_image2.jpg" />
-    <Content Include="Client\Content\v1\images\main_image_mobile2.jpg" />
-    <Content Include="Client\Content\v1\images\route_line.gif" />
-    <Content Include="Client\Content\rrssb.css" />
-    <Content Include="Client\Content\v1\images\svg\sprites.svg" />
-    <Content Include="Client\Content\styles.css" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="bundleconfig.json" />
     <Content Include="packages.config" />
-    <Content Include="Client\Scripts\rrssb.min.js" />
-    <Content Include="Client\Scripts\sbsbundle.js" />
-    <Content Include="Client\Scripts\sbsbundle.min.js">
-      <DependentUpon>sbsbundle.js</DependentUpon>
-    </Content>
-    <Content Include="Client\Scripts\stopbystop-kocustombindings.js" />
-    <Content Include="Client\Scripts\stopbystop.js" />
-    <Content Include="Client\Scripts\svg4everybody.js" />
-    <Content Include="Client\Scripts\Telemetry.js" />
     <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
-    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
-    <None Include="Scripts\jquery-2.2.3-vsdoc.js" />
-    <Content Include="Scripts\jquery-2.2.3.js" />
-    <Content Include="Scripts\jquery-2.2.3.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="sitemaps-2016-03-13\sitemap-1.xml" />
     <Content Include="sitemaps-2016-03-13\sitemap-10.xml" />
     <Content Include="sitemaps-2016-03-13\sitemap-11.xml" />
@@ -308,21 +291,20 @@
     <Compile Include="StopByStopService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Client\Views\web.config" />
-    <Content Include="Client\Views\_ViewStart.cshtml" />
-    <Content Include="Client\Views\Shared\_Layout.cshtml" />
-    <Content Include="Client\Views\Home\Index.cshtml" />
-    <Content Include="Client\Views\Route\Route.cshtml" />
-    <Content Include="Client\Views\Home\About.cshtml" />
-    <Content Include="Client\Views\Route\Exit.cshtml" />
-    <Content Include="Client\Views\Route\Poi.cshtml" />
-    <Content Include="Client\Views\Route\PoiGroup.cshtml" />
-    <Content Include="Client\Views\Shared\_SocialButtons.cshtml" />
-    <Content Include="Client\Views\Shared\_NonHomeLayout.cshtml" />
-    <Content Include="Client\Views\Shared\_POITableAndMap.cshtml" />
-    <Content Include="Client\Views\Shared\_POITableAndMap_SCRIPTS.cshtml" />
-    <Content Include="Client\Views\Test\All.cshtml" />
-    <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <Content Include="client\Views\web.config" />
+    <Content Include="client\Views\_ViewStart.cshtml" />
+    <Content Include="client\Views\Shared\_Layout.cshtml" />
+    <Content Include="client\Views\Home\Index.cshtml" />
+    <Content Include="client\Views\Route\Route.cshtml" />
+    <Content Include="client\Views\Home\About.cshtml" />
+    <Content Include="client\Views\Route\Exit.cshtml" />
+    <Content Include="client\Views\Route\Poi.cshtml" />
+    <Content Include="client\Views\Route\PoiGroup.cshtml" />
+    <Content Include="client\Views\Shared\_SocialButtons.cshtml" />
+    <Content Include="client\Views\Shared\_NonHomeLayout.cshtml" />
+    <Content Include="client\Views\Shared\_POITableAndMap.cshtml" />
+    <Content Include="client\Views\Shared\_POITableAndMap_SCRIPTS.cshtml" />
+    <Content Include="client\Views\Test\All.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -333,7 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Client\Views\Service\" />
+    <Folder Include="client\Views\Service\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
@@ -348,40 +330,6 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="Client\Scripts\extensions.ts" />
-    <TypeScriptCompile Include="Client\Scripts\Init.ts" />
-    <TypeScriptCompile Include="Client\Scripts\InitUrls.ts" />
-    <TypeScriptCompile Include="Client\Scripts\stopbystop-interfaces.ts" />
-    <TypeScriptCompile Include="Client\Scripts\Telemetry.ts" />
-    <TypeScriptCompile Include="Client\Scripts\test\RoutePlanViewModelTests.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\ai.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\google.maps.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\jquery.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\jquerymobile.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\qunit.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\Utils.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\FilterViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\AppViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\IAppViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\IStopPlace.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionAppViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionMapViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\JunctionViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\LocationViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiCategoryViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiImageViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiOnJunctionViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\PoiViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\ReviewGroupViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteJunctionViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\RoutePlanViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteSegmentViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteStopViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\RouteViewModel.ts" />
-    <TypeScriptCompile Include="Client\Scripts\tsdef\knockout-3.3.d.ts" />
-    <TypeScriptCompile Include="Client\Scripts\ViewModels\SideBarViewModel.ts" />
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -394,7 +342,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55952</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

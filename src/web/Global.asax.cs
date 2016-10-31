@@ -33,7 +33,7 @@ namespace Yojowa.StopByStop.Web
             var razorEngine = ViewEngines.Engines.OfType<RazorViewEngine>().First();
             razorEngine.ViewLocationFormats = new string[]
             {
-                "~/Client/Views/{1}/{0}.cshtml"
+                "~/client/Views/{1}/{0}.cshtml"
             };
 
             /*

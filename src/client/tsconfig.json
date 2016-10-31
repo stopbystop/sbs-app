@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "compileOnSave" :  true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "out": "./compiledscripts/webbundle.js",
+    "target": "es5"
+  },
+  "files": [
+    "./scripts/main.ts"
+  ]
+}
+/*
+        "out": "www/scripts/appBundle.js",
+*/
