@@ -235,8 +235,7 @@ Global
 		{CCEF4C42-6FB0-492C-8628-43C7163A6E82}.Release|Windows-x86.Build.0 = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Android.ActiveCfg = Debug|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Android.Build.0 = Debug|Any CPU
-		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Any CPU.ActiveCfg = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|iOS.ActiveCfg = Debug|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|iOS.Build.0 = Debug|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Debug|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
@@ -254,7 +253,6 @@ Global
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|Android.ActiveCfg = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|Android.Build.0 = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|Any CPU.Build.0 = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|iOS.ActiveCfg = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|iOS.Build.0 = Release|Any CPU
 		{839DB10A-D6C8-4512-92B8-585C17F83026}.Release|Windows Phone (Universal).ActiveCfg = Release|Any CPU

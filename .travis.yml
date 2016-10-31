@@ -1,2 +1,6 @@
-language: csharp
-solution: ./src/StopByStop-web.sln
+install:
+- npm install
+- nuget restore ./src/StopByStop-web.sln
+script:
+- npm run build
+- xbuild /p:Configuration=Release ./src/StopByStop-web.sln
