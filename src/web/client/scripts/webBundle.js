@@ -1154,7 +1154,7 @@ var StopByStop;
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="FilterViewModel.ts"/>
 /// <reference path="RouteStopViewModel.ts"/>
-/// <reference path="RoutePlanViewMOdel.ts"/>
+/// <reference path="RoutePlanViewModel.ts"/>
 "use strict";
 /// <reference path="../tsdef/jquery.d.ts"/>
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
