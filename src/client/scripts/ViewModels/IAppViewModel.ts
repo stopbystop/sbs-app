@@ -4,7 +4,7 @@
 
 /// <reference path="FilterViewModel.ts"/>
 /// <reference path="RouteStopViewModel.ts"/>
-/// <reference path="RoutePlanViewMOdel.ts"/>
+/// <reference path="RoutePlanViewModel.ts"/>
 
 "use strict";
 module StopByStop {
