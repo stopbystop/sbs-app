@@ -1,8 +1,12 @@
 version: 1.0.{build}
 before_build:
- nuget restore src\StopByStop-web.sln
- npm install
- npm run build
+- cmd: >-
+    nuget restore src\StopByStop-web.sln
+
+    npm install
+
+    npm run build
+     
 build:
- project: ./src/StopByStop-web.sln
+ project: ./src/StopByStop-web.sln      
  verbosity: minimal
