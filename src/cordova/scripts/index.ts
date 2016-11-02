@@ -3,9 +3,9 @@
 // To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints, 
 // and then run "window.location.reload()" in the JavaScript Console.
 
-/// <reference path="../../web/Client/Scripts/tsdef/ai.d.ts"/>
-/// <reference path="../../web/Client/Scripts/Init.ts"/>
-/// <reference path="../../web/Client/Scripts/Telemetry.ts"/>
+/// <reference path="../../client/Scripts/tsdef/ai.d.ts"/>
+/// <reference path="../../client/Scripts/Init.ts"/>
+/// <reference path="../../client/Scripts/Telemetry.ts"/>
 
 module StopByStop.Cordova {
     "use strict";

@@ -1,17 +1,18 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.Extensibility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using Yojowa.StopByStop.Utils;
-
-namespace Yojowa.StopByStop.Web
+﻿namespace Yojowa.StopByStop.Web
 {
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Configuration;
+    using System.Web.Http;
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+    using Yojowa.StopByStop.Utils;
+
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
@@ -23,6 +24,7 @@ namespace Yojowa.StopByStop.Web
             }
 #endif
 
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
             GlobalFilters.Filters.Add(new JsonHandlerAttribute());
 
             TelemetryConfiguration.Active.InstrumentationKey = WebConfigurationManager.AppSettings["aikey"];

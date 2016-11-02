@@ -1845,7 +1845,7 @@ var StopByStop;
             var initUrls = {};
             var imageBaseUrl = window["CDN_ROOT"] + "/client/content/v1/icons/";
             if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
-                window["BASE_URL"] = "http://localhost/stopbystopweb";
+                window["BASE_URL"] = "https://localhost:44100/stopbystopweb/";
                 imageBaseUrl = "images/";
             }
             Init.InitSettings.urls = new StopByStop.InitUrls(window["BASE_URL"], imageBaseUrl);

@@ -1,6 +1,7 @@
 ﻿
 namespace Yojowa.StopByStop.Web.Controllers
 {
+    using System.Web.Http.Cors;
     using System.Web.Mvc;
 
 
@@ -9,6 +10,7 @@ namespace Yojowa.StopByStop.Web.Controllers
     {
 
         [HttpGet]
+        [EnableCors("*", "*", "*", PreflightMaxAge = int.MaxValue)]
         [Route("place/{id}")]
         public JsonResult Index(string id)
         {
@@ -20,5 +22,5 @@ namespace Yojowa.StopByStop.Web.Controllers
             return Json(new GeoPlace[0], JsonRequestBehavior.AllowGet);
         }
 
-	}
+    }
 }

@@ -30,7 +30,7 @@ module StopByStop {
             var imageBaseUrl = window["CDN_ROOT"] + "/client/content/v1/icons/";
 
             if (Init.InitSettings.app === SBSApp.Cordova) {
-                window["BASE_URL"] = "http://localhost/stopbystopweb";
+                window["BASE_URL"] = "https://localhost:44100/stopbystopweb/";
                 imageBaseUrl = "images/";
             }
 
