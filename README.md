@@ -22,3 +22,6 @@ Never submit to master branch directly. Propose your changes in one of two ways
 * If you have permissions to create branches in the repository, submit the changes into your branch and then open a pull request, from your branch to master
 * If you don't have permissions to create branches in the repository, fork the repository into your repository, open a branch off master, submit the changes into that branch, then open a pull request from your fork
 
+## Test pass isues opened last week
+[query](https://github.com/stopbystop/sbs-app/issues?utf8=%E2%9C%93&q=is%3Aissue%20scenario%20created%3A%3E2016-10-26)
+
