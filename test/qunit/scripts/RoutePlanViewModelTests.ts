@@ -1,10 +1,13 @@
-﻿/// <reference path="../../../src/web/Client/Scripts/tsdef/qunit.d.ts"/>
-/// <reference path="../../../src/web/Client/Scripts/tsdef/jquery.d.ts"/>
-/// <reference path="../../../src/web/Client/Scripts/tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../../../src/web/Client/Scripts/tsdef/google.maps.d.ts"/>
+﻿/// <reference path="../../../src/client/scripts/tsdef/qunit.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/jquery.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/knockout-3.3.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/google.maps.d.ts"/>
 
-/// <reference path="../../../src/web/Client/Scripts/stopbystop-interfaces.ts"/>
-/// <reference path="../../../src/web/Client/Scripts/ViewModels/IStopPlace.ts"/>
+/// <reference path="../../../src/client/scripts/stopbystop-interfaces.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/IAppViewModel.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/IStopPlace.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/RoutePlanViewModel.ts"/>
+/// <reference path="../../../src/client/scripts/Init.ts"/>
 
 "use strict";
 module StopByStop {

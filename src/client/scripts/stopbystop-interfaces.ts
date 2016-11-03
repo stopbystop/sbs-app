@@ -21,6 +21,8 @@ module StopByStop {
     }
 
     export interface IInitSettings {
+        baseDataUrl: string;
+        baseImageUrl: string;
         app: SBSApp;
         routeId?: string;
         routePromise?: JQueryPromise<IRoute>;

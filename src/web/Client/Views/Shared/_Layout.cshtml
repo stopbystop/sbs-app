@@ -148,7 +148,7 @@
     @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
     <script type="text/javascript">
         StopByStop.Utils.pageInfo = { pageName: "@(ViewBag.PageName)", telemetryPageName: "@(ViewBag.TelemetryPageName)" || "@(ViewBag.PageName)" };
-        StopByStop.Init.initialize({ app: StopByStop.SBSApp.Web });
+        StopByStop.Init.initialize({ app: StopByStop.SBSApp.Web, baseDataUrl: BASE_URL, baseImageUrl: window["CDN_ROOT"] + "/client/content/v1/icons/" });
         $("body").css({ opacity: "1.0" });
     </script>
     @RenderSection("Scripts", false)

@@ -25,23 +25,11 @@ module StopByStop {
         public static initialize(settings: IInitSettings): void {
 
             Init.InitSettings = settings;
-
-            var initUrls = <IInitUrls>{};
-            var imageBaseUrl = window["CDN_ROOT"] + "/client/content/v1/icons/";
-
-            if (Init.InitSettings.app === SBSApp.Cordova) {
-                window["BASE_URL"] = "https://localhost:44100/stopbystopweb/";
-                imageBaseUrl = "images/";
-            }
-
-            Init.InitSettings.urls = new InitUrls(window["BASE_URL"], imageBaseUrl);
+            Init.InitSettings.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable<AppViewModel>(new AppViewModel(null));
 
             (<any>ko).options.deferUpdates = true;
             Init.enableUAMatch();
-
-
-
 
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {

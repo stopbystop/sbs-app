@@ -1842,13 +1842,7 @@ var StopByStop;
         Init.initialize = function (settings) {
             var _this = this;
             Init.InitSettings = settings;
-            var initUrls = {};
-            var imageBaseUrl = window["CDN_ROOT"] + "/client/content/v1/icons/";
-            if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
-                window["BASE_URL"] = "https://localhost:44100/stopbystopweb/";
-                imageBaseUrl = "images/";
-            }
-            Init.InitSettings.urls = new StopByStop.InitUrls(window["BASE_URL"], imageBaseUrl);
+            Init.InitSettings.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable(new StopByStop.AppViewModel(null));
             ko.options.deferUpdates = true;
             Init.enableUAMatch();

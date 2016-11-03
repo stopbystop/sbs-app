@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "compileOnSave" :  true,
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "out": "./compiledscripts/testbundle.js",
+    "target": "es5"
+  },
+  "files": [
+    "./scripts/main.ts"
+  ]
+}
+

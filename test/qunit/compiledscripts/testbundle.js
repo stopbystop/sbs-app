@@ -3,18 +3,23 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+/// <reference path="tsdef/jquery.d.ts"/>
 "use strict";
-String.prototype.f = function () {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
-    }
-    var s = this, i = args.length;
-    while (i--) {
-        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), args[i]);
-    }
-    return s;
-};
+var StopByStop;
+(function (StopByStop) {
+    (function (SBSApp) {
+        SBSApp[SBSApp["Web"] = 0] = "Web";
+        SBSApp[SBSApp["Cordova"] = 1] = "Cordova";
+    })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
+    var SBSApp = StopByStop.SBSApp;
+    ;
+    (function (PoiType) {
+        PoiType[PoiType["General"] = 0] = "General";
+        PoiType[PoiType["Gas"] = 1] = "Gas";
+        PoiType[PoiType["Food"] = 2] = "Food";
+    })(StopByStop.PoiType || (StopByStop.PoiType = {}));
+    var PoiType = StopByStop.PoiType;
+})(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
 /// <reference path="tsdef/ai.d.ts"/>
@@ -136,137 +141,6 @@ var StopByStop;
         return Telemetry;
     }());
     StopByStop.Telemetry = Telemetry;
-})(StopByStop || (StopByStop = {}));
-/// <reference path="tsdef/jquery.d.ts"/>
-/// <reference path="tsdef/knockout-3.3.d.ts"/>
-var StopByStop;
-(function (StopByStop) {
-    StopByStop.PAGENAME_HOME = "sbs-homePG";
-    StopByStop.PAGENAME_Route = "route-page";
-    StopByStop.PAGENAME_POIGroup = "poigroup-page";
-    StopByStop.PAGENAME_Exit = "exit-page";
-    StopByStop.PAGENAME_About = "about-page";
-    StopByStop.N_LAT_BOUNDARY = 50.00;
-    StopByStop.S_LAT_BOUNDARY = 25.00;
-    StopByStop.W_LON_BOUNDARY = -125.00;
-    StopByStop.E_LON_BOUNDARY = -66.00;
-    StopByStop.ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
-    var Utils = (function () {
-        function Utils() {
-        }
-        Utils.getMileString = function (distance) {
-            if (distance < 0.1) {
-                return "<0.1mi";
-            }
-            return distance.toString() + "mi";
-        };
-        Utils.getTimeString = function (time, msOffset) {
-            if (msOffset === void 0) { msOffset = 0; }
-            time = new Date(time.getTime() + msOffset);
-            return Utils.formatTime(time);
-        };
-        Utils.formatTime = function (date) {
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var minutesString = minutes.toString();
-            var ampm = hours >= 12 ? "pm" : "am";
-            hours = hours % 12;
-            if (hours === 0) {
-                hours = 12;
-            }
-            if (minutes < 10) {
-                minutesString = "0" + minutesString;
-            }
-            return hours.toString() + ":" + minutesString + " " + ampm;
-        };
-        Utils.hasAnyOwnProperties = function (obj) {
-            for (var prop in obj) {
-                if (obj.hasOwnProperty(prop)) {
-                    return true;
-                }
-            }
-            return false;
-        };
-        Utils.runOnce = function (func) {
-            var ran = false;
-            var memo;
-            return function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
-                }
-                if (!ran) {
-                    ran = true;
-                    memo = func.apply(this, arguments);
-                }
-                return memo;
-            };
-        };
-        ;
-        Utils.pageInfo = null;
-        // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
-        Utils.observeDOM = (function () {
-            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
-            return function (obj, callback) {
-                if (MutationObserver) {
-                    // define a new observer
-                    var obs = new MutationObserver(function (mutations, observer) {
-                        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
-                            callback();
-                    });
-                    // have the observer observe foo for changes in children
-                    obs.observe(obj, { childList: true, subtree: true });
-                }
-                else if (eventListenerSupported) {
-                    obj.addEventListener('DOMNodeInserted', callback, false);
-                    obj.addEventListener('DOMNodeRemoved', callback, false);
-                }
-            };
-        })();
-        return Utils;
-    }());
-    StopByStop.Utils = Utils;
-})(StopByStop || (StopByStop = {}));
-/// <reference path="tsdef/jquery.d.ts"/>
-"use strict";
-var StopByStop;
-(function (StopByStop) {
-    (function (SBSApp) {
-        SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["Cordova"] = 1] = "Cordova";
-    })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
-    var SBSApp = StopByStop.SBSApp;
-    ;
-    (function (PoiType) {
-        PoiType[PoiType["General"] = 0] = "General";
-        PoiType[PoiType["Gas"] = 1] = "Gas";
-        PoiType[PoiType["Food"] = 2] = "Food";
-    })(StopByStop.PoiType || (StopByStop.PoiType = {}));
-    var PoiType = StopByStop.PoiType;
-})(StopByStop || (StopByStop = {}));
-/// <reference path="stopbystop-interfaces.ts"/>
-var StopByStop;
-(function (StopByStop) {
-    var InitUrls = (function () {
-        function InitUrls(baseUrl, baseImageUrl) {
-            if (typeof baseUrl !== "string") {
-                baseUrl = "/";
-            }
-            else if (!/\/$/.test(baseUrl)) {
-                baseUrl += "/";
-            }
-            this.MapExitIconUrl = baseImageUrl + "exit_map.png";
-            this.MapFoodIconUrl = baseImageUrl + "food_map2.png";
-            this.MapGasIconUrl = baseImageUrl + "gas_map.png";
-            this.BaseUrl = baseUrl;
-            this.RouteUrl = baseUrl + "route/";
-            this.PlacesUrl = baseUrl + "place/";
-            this.RouteDataUrl = baseUrl + "routedata/";
-            this.PoiUrl = baseUrl + "poi/";
-        }
-        return InitUrls;
-    }());
-    StopByStop.InitUrls = InitUrls;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
@@ -515,6 +389,96 @@ var StopByStop;
         return FilterViewModel;
     }());
     StopByStop.FilterViewModel = FilterViewModel;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="tsdef/jquery.d.ts"/>
+/// <reference path="tsdef/knockout-3.3.d.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    StopByStop.PAGENAME_HOME = "sbs-homePG";
+    StopByStop.PAGENAME_Route = "route-page";
+    StopByStop.PAGENAME_POIGroup = "poigroup-page";
+    StopByStop.PAGENAME_Exit = "exit-page";
+    StopByStop.PAGENAME_About = "about-page";
+    StopByStop.N_LAT_BOUNDARY = 50.00;
+    StopByStop.S_LAT_BOUNDARY = 25.00;
+    StopByStop.W_LON_BOUNDARY = -125.00;
+    StopByStop.E_LON_BOUNDARY = -66.00;
+    StopByStop.ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
+    var Utils = (function () {
+        function Utils() {
+        }
+        Utils.getMileString = function (distance) {
+            if (distance < 0.1) {
+                return "<0.1mi";
+            }
+            return distance.toString() + "mi";
+        };
+        Utils.getTimeString = function (time, msOffset) {
+            if (msOffset === void 0) { msOffset = 0; }
+            time = new Date(time.getTime() + msOffset);
+            return Utils.formatTime(time);
+        };
+        Utils.formatTime = function (date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var minutesString = minutes.toString();
+            var ampm = hours >= 12 ? "pm" : "am";
+            hours = hours % 12;
+            if (hours === 0) {
+                hours = 12;
+            }
+            if (minutes < 10) {
+                minutesString = "0" + minutesString;
+            }
+            return hours.toString() + ":" + minutesString + " " + ampm;
+        };
+        Utils.hasAnyOwnProperties = function (obj) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        Utils.runOnce = function (func) {
+            var ran = false;
+            var memo;
+            return function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                if (!ran) {
+                    ran = true;
+                    memo = func.apply(this, arguments);
+                }
+                return memo;
+            };
+        };
+        ;
+        Utils.pageInfo = null;
+        // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+        Utils.observeDOM = (function () {
+            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
+            return function (obj, callback) {
+                if (MutationObserver) {
+                    // define a new observer
+                    var obs = new MutationObserver(function (mutations, observer) {
+                        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
+                            callback();
+                    });
+                    // have the observer observe foo for changes in children
+                    obs.observe(obj, { childList: true, subtree: true });
+                }
+                else if (eventListenerSupported) {
+                    obj.addEventListener('DOMNodeInserted', callback, false);
+                    obj.addEventListener('DOMNodeRemoved', callback, false);
+                }
+            };
+        })();
+        return Utils;
+    }());
+    StopByStop.Utils = Utils;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
@@ -1166,8 +1130,32 @@ var StopByStop;
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="FilterViewModel.ts"/>
 /// <reference path="RouteStopViewModel.ts"/>
-/// <reference path="RoutePlanViewMOdel.ts"/>
+/// <reference path="RoutePlanViewModel.ts"/>
 "use strict";
+/// <reference path="stopbystop-interfaces.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    var InitUrls = (function () {
+        function InitUrls(baseUrl, baseImageUrl) {
+            if (typeof baseUrl !== "string") {
+                baseUrl = "/";
+            }
+            else if (!/\/$/.test(baseUrl)) {
+                baseUrl += "/";
+            }
+            this.MapExitIconUrl = baseImageUrl + "exit_map.png";
+            this.MapFoodIconUrl = baseImageUrl + "food_map2.png";
+            this.MapGasIconUrl = baseImageUrl + "gas_map.png";
+            this.BaseUrl = baseUrl;
+            this.RouteUrl = baseUrl + "route/";
+            this.PlacesUrl = baseUrl + "place/";
+            this.RouteDataUrl = baseUrl + "routedata/";
+            this.PoiUrl = baseUrl + "poi/";
+        }
+        return InitUrls;
+    }());
+    StopByStop.InitUrls = InitUrls;
+})(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/jquery.d.ts"/>
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
@@ -1637,6 +1625,18 @@ var StopByStop;
     }());
     StopByStop.AppViewModel = AppViewModel;
 })(StopByStop || (StopByStop = {}));
+"use strict";
+String.prototype.f = function () {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i - 0] = arguments[_i];
+    }
+    var s = this, i = args.length;
+    while (i--) {
+        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), args[i]);
+    }
+    return s;
+};
 /// <reference path="../tsdef/jquery.d.ts"/>
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../tsdef/google.maps.d.ts"/>
@@ -1842,13 +1842,7 @@ var StopByStop;
         Init.initialize = function (settings) {
             var _this = this;
             Init.InitSettings = settings;
-            var initUrls = {};
-            var imageBaseUrl = window["CDN_ROOT"] + "/client/content/v1/icons/";
-            if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
-                window["BASE_URL"] = "http://localhost/stopbystopweb";
-                imageBaseUrl = "images/";
-            }
-            Init.InitSettings.urls = new StopByStop.InitUrls(window["BASE_URL"], imageBaseUrl);
+            Init.InitSettings.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable(new StopByStop.AppViewModel(null));
             ko.options.deferUpdates = true;
             Init.enableUAMatch();
@@ -2217,4 +2211,133 @@ var StopByStop;
     }());
     StopByStop.Init = Init;
 })(StopByStop || (StopByStop = {}));
-//# sourceMappingURL=appBundle1.js.map
+/// <reference path="../../../src/client/scripts/tsdef/qunit.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/jquery.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/knockout-3.3.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/google.maps.d.ts"/>
+/// <reference path="../../../src/client/scripts/stopbystop-interfaces.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/IAppViewModel.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/IStopPlace.ts"/>
+/// <reference path="../../../src/client/scripts/ViewModels/RoutePlanViewModel.ts"/>
+/// <reference path="../../../src/client/scripts/Init.ts"/>
+"use strict";
+var StopByStop;
+(function (StopByStop) {
+    var TestStorage = (function () {
+        function TestStorage() {
+            this._obj = {};
+            this.length = 0;
+        }
+        TestStorage.prototype.clear = function () {
+            this._obj = {};
+        };
+        TestStorage.prototype.getItem = function (key) {
+            return this._obj[key];
+        };
+        TestStorage.prototype.key = function (index) {
+            throw "not implemented";
+        };
+        TestStorage.prototype.removeItem = function (key) {
+            delete this._obj[key];
+        };
+        TestStorage.prototype.setItem = function (key, data) {
+            this._obj[key] = data;
+        };
+        TestStorage.prototype.getData = function (key) {
+            return this._obj[key];
+        };
+        return TestStorage;
+    }());
+    StopByStop.TestStorage = TestStorage;
+})(StopByStop || (StopByStop = {}));
+;
+QUnit.test("RoutePlanViewModel: constructor test", function (assert) {
+    var myStorage = new StopByStop.TestStorage();
+    var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{}}}");
+});
+QUnit.test("RoutePlanViewModel: add stop test", function (assert) {
+    var myStorage = new StopByStop.TestStorage();
+    var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    assert.equal(routePlanViewModel.stops().length, 0);
+    var poiOnJunctionViewModel = {
+        id: "id1",
+        name: "name",
+        dfe: 1,
+        dtefrs: 100,
+        duration: 5,
+        exitId: "exitid",
+        lat: 42,
+        lon: -170,
+        type: StopByStop.PoiType.Food
+    };
+    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    assert.ok(routeStopViewModel);
+    assert.equal(routePlanViewModel.stops().length, 1);
+    assert.equal(routePlanViewModel.stops()[0].stopDuration(), 5);
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+});
+QUnit.test("RoutePlanViewModel: change stop duration time test", function (assert) {
+    var myStorage = new StopByStop.TestStorage();
+    var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    var poiOnJunctionViewModel = {
+        id: "id1",
+        name: "name",
+        dfe: 1,
+        dtefrs: 100,
+        duration: 5,
+        exitId: "exitid",
+        lat: 42,
+        lon: -170,
+        type: StopByStop.PoiType.Food
+    };
+    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    routeStopViewModel.add5MinutesToDuration();
+    assert.equal(routePlanViewModel.stops()[0].stopDurationHours(), "00");
+    assert.equal(routePlanViewModel.stops()[0].stopDurationMinutes(), "10");
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":10,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+    routeStopViewModel.subtract5MinutesFromDuration();
+    assert.equal(routePlanViewModel.stops()[0].stopDurationHours(), "00");
+    assert.equal(routePlanViewModel.stops()[0].stopDurationMinutes(), "05");
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+});
+QUnit.test("RoutePlanViewModel: remove stop test", function (assert) {
+    var myStorage = new StopByStop.TestStorage();
+    var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    var poiOnJunctionViewModel = {
+        id: "id1",
+        name: "name",
+        dfe: 1,
+        dtefrs: 100,
+        duration: 5,
+        exitId: "exitid",
+        lat: 42,
+        lon: -170,
+        type: StopByStop.PoiType.Food
+    };
+    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    assert.equal(routePlanViewModel.stops().length, 1);
+    routePlanViewModel.removeStop(routeStopViewModel);
+    assert.equal(routePlanViewModel.stops().length, 0);
+});
+QUnit.test("RoutePlanViewModel: restore stop data from storage test", function (assert) {
+    var myStorage = new StopByStop.TestStorage();
+    var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    var poiOnJunctionViewModel = {
+        id: "id1",
+        name: "name",
+        dfe: 1,
+        dtefrs: 100,
+        duration: 5,
+        exitId: "exitid",
+        lat: 42,
+        lon: -170,
+        type: StopByStop.PoiType.Food
+    };
+    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    assert.equal(routePlanViewModel.stops().length, 1);
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+});
+/// <reference path="RoutePlanViewModelTests.ts" /> 
+//# sourceMappingURL=testbundle.js.map
