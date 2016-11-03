@@ -52,7 +52,7 @@ module StopByStop.Cordova {
     $.support.cors = true;       
 
     StopByStop.Init.initialize({
-        app: SBSApp.Cordova,
+        app: SBSApp.SPA,
         baseDataUrl: "https://localhost:44100/stopbystopweb/",
         baseImageUrl: "images/"
     });

@@ -14,11 +14,6 @@
 module StopByStop {
 
     export class Init {
-
-        //private static _app: IAppViewModel;
-        //private static _route: RouteViewModel;
-        //private static _junction: RouteJunctionViewModel;
-
         private static _app: KnockoutObservable<AppViewModel>;
         private static _initDone: boolean = false;
 
@@ -35,7 +30,7 @@ module StopByStop {
             $(document).on("pageinit", ".jqm-demos", (event) => {
                 var page = $(this);
 
-                if (Init.InitSettings.app === SBSApp.Cordova) {
+                if (Init.InitSettings.app === SBSApp.SPA) {
                     Init.initSPA();
                 }
 
@@ -210,7 +205,7 @@ module StopByStop {
                             Init.loadRoute(Init.InitSettings.routeId);
                             $.mobile.pageContainer.pagecontainer(
                                 "change",
-                                "#route?" + startlocation.i + '-to-' + endlocation.i);
+                                "#route", {dataUrl: "#route|" + startlocation.i + '-to-' + endlocation.i});
                         }
                     }
                 });

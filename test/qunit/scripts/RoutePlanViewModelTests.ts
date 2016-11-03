@@ -45,15 +45,25 @@ module StopByStop {
     }
 };
 
+QUnit.begin(()=>
+{
+    StopByStop.Utils.pageInfo = {
+                        pageName: "TestPageName",
+                        telemetryPageName: "TestPageName"
+                    };
+});
+
 QUnit.test("RoutePlanViewModel: constructor test", (assert) => {
     var myStorage = new StopByStop.TestStorage();
     var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
     assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{}}}");
 });
 
 QUnit.test("RoutePlanViewModel: add stop test", (assert) => {
     var myStorage = new StopByStop.TestStorage();
     var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
     assert.equal(routePlanViewModel.stops().length, 0);
     var poiOnJunctionViewModel: StopByStop.IStopPlace = {
         id: "id1",
@@ -68,15 +78,18 @@ QUnit.test("RoutePlanViewModel: add stop test", (assert) => {
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
     assert.ok(routeStopViewModel);
+    
+    routePlanViewModel.addStopToRoute(routeStopViewModel);
     assert.equal(routePlanViewModel.stops().length, 1);
     assert.equal(routePlanViewModel.stops()[0].stopDuration(), 5);
     assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),
-        "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+        "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
 });
 
 QUnit.test("RoutePlanViewModel: change stop duration time test", (assert) => {
     var myStorage = new StopByStop.TestStorage();
     var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
     var poiOnJunctionViewModel: StopByStop.IStopPlace = {
         id: "id1",
         name: "name",
@@ -89,23 +102,23 @@ QUnit.test("RoutePlanViewModel: change stop duration time test", (assert) => {
         type: StopByStop.PoiType.Food
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
-
+    routePlanViewModel.addStopToRoute(routeStopViewModel);
     routeStopViewModel.add5MinutesToDuration();
     assert.equal(routePlanViewModel.stops()[0].stopDurationHours(), "00");
     assert.equal(routePlanViewModel.stops()[0].stopDurationMinutes(), "10");
     assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),
-        "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":10,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
-
+        "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
     routeStopViewModel.subtract5MinutesFromDuration();
     assert.equal(routePlanViewModel.stops()[0].stopDurationHours(), "00");
     assert.equal(routePlanViewModel.stops()[0].stopDurationMinutes(), "05");
-    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),
-        "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),      	
+         "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
 });
 
 QUnit.test("RoutePlanViewModel: remove stop test", (assert) => {
     var myStorage = new StopByStop.TestStorage();
     var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
     var poiOnJunctionViewModel: StopByStop.IStopPlace = {
         id: "id1",
         name: "name",
@@ -118,6 +131,7 @@ QUnit.test("RoutePlanViewModel: remove stop test", (assert) => {
         type: StopByStop.PoiType.Food
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    routePlanViewModel.addStopToRoute(routeStopViewModel);
     assert.equal(routePlanViewModel.stops().length, 1);
 
     routePlanViewModel.removeStop(routeStopViewModel);
@@ -127,6 +141,7 @@ QUnit.test("RoutePlanViewModel: remove stop test", (assert) => {
 QUnit.test("RoutePlanViewModel: restore stop data from storage test", (assert) => {
     var myStorage = new StopByStop.TestStorage();
     var routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
     var poiOnJunctionViewModel: StopByStop.IStopPlace = {
         id: "id1",
         name: "name",
@@ -138,10 +153,12 @@ QUnit.test("RoutePlanViewModel: restore stop data from storage test", (assert) =
         lon: -170,
         type: StopByStop.PoiType.Food
     };
-    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
-   
+
     routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
+    routePlanViewModel.loadStopsFromStorage();
+    var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
+    routePlanViewModel.addStopToRoute(routeStopViewModel);
     assert.equal(routePlanViewModel.stops().length, 1);
     assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),
-        "{\"testrouteid\":{\"stops\":{\"id1\":{\"id\":\"id1\",\"name\":\"name\",\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"lat\":42,\"lon\":-170}}}}");
+        "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
 });

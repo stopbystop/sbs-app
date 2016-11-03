@@ -221,7 +221,7 @@ var StopByStop;
 (function (StopByStop) {
     (function (SBSApp) {
         SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["Cordova"] = 1] = "Cordova";
+        SBSApp[SBSApp["SPA"] = 1] = "SPA";
     })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
     var SBSApp = StopByStop.SBSApp;
     ;
@@ -1849,7 +1849,7 @@ var StopByStop;
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", function (event) {
                 var page = $(_this);
-                if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
+                if (Init.InitSettings.app === StopByStop.SBSApp.SPA) {
                     Init.initSPA();
                 }
                 /* For Web app initialize menu programmatically*/
@@ -1991,7 +1991,7 @@ var StopByStop;
                         else {
                             Init.InitSettings.routeId = startlocation.i + '-to-' + endlocation.i;
                             Init.loadRoute(Init.InitSettings.routeId);
-                            $.mobile.pageContainer.pagecontainer("change", "#route?" + startlocation.i + '-to-' + endlocation.i);
+                            $.mobile.pageContainer.pagecontainer("change", "#route", { dataUrl: "#route|" + startlocation.i + '-to-' + endlocation.i });
                         }
                     }
                 });
@@ -2256,7 +2256,7 @@ var StopByStop;
         $.mobile.allowCrossDomainPages = true;
         $.support.cors = true;
         StopByStop.Init.initialize({
-            app: StopByStop.SBSApp.Cordova,
+            app: StopByStop.SBSApp.SPA,
             baseDataUrl: "https://localhost:44100/stopbystopweb/",
             baseImageUrl: "images/"
         });

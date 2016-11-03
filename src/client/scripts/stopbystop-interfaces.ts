@@ -6,7 +6,7 @@ module StopByStop {
 
     export enum SBSApp {
         Web = 0,
-        Cordova = 1
+        SPA = 1
     }
 
     export interface IInitUrls {

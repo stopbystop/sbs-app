@@ -9,7 +9,7 @@ var StopByStop;
 (function (StopByStop) {
     (function (SBSApp) {
         SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["Cordova"] = 1] = "Cordova";
+        SBSApp[SBSApp["SPA"] = 1] = "SPA";
     })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
     var SBSApp = StopByStop.SBSApp;
     ;
@@ -1849,7 +1849,7 @@ var StopByStop;
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", function (event) {
                 var page = $(_this);
-                if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
+                if (Init.InitSettings.app === StopByStop.SBSApp.SPA) {
                     Init.initSPA();
                 }
                 /* For Web app initialize menu programmatically*/
