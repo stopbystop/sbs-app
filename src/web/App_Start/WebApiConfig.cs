@@ -6,7 +6,8 @@
     {
         public static void Register(HttpConfiguration config)
         {
-            config.EnableCors();
+            // enabling in web.config instead
+            // config.EnableCors();
         }
     }
 }

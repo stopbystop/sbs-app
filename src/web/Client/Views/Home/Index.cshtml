@@ -49,7 +49,7 @@
                     @foreach (var route in Model.PopularRoutes)
                     {
                         <li>
-                            <a data-ajax="false" href="@Href("~/route/" + route.RouteId)">@(route.FromLocation.Place + " to " + route.ToLocation.Place)</a>
+                            <a data-ajax="false" href="@Href("~/route/" + route.RouteId)">@(route.FromLocation.PlaceDescription + " to " + route.ToLocation.PlaceDescription)</a>
                         </li>
                     }
                 </ul>

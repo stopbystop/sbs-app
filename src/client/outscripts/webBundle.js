@@ -1991,7 +1991,7 @@ var StopByStop;
                         else {
                             Init.InitSettings.routeId = startlocation.i + '-to-' + endlocation.i;
                             Init.loadRoute(Init.InitSettings.routeId);
-                            $.mobile.pageContainer.pagecontainer("change", "#route?" + startlocation.i + '-to-' + endlocation.i);
+                            $.mobile.pageContainer.pagecontainer("change", "#route", { dataUrl: "#route|" + startlocation.i + '-to-' + endlocation.i });
                         }
                     }
                 });

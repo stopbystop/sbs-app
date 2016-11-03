@@ -2257,7 +2257,7 @@ var StopByStop;
         $.support.cors = true;
         StopByStop.Init.initialize({
             app: StopByStop.SBSApp.SPA,
-            baseDataUrl: "https://localhost:44100/stopbystopweb/",
+            baseDataUrl: "https://www.stopbystop.com/",
             baseImageUrl: "images/"
         });
         window.onload = function () {

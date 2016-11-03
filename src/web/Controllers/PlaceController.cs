@@ -10,7 +10,6 @@ namespace Yojowa.StopByStop.Web.Controllers
     {
 
         [HttpGet]
-        [EnableCors("*", "*", "*", PreflightMaxAge = int.MaxValue)]
         [Route("place/{id}")]
         public JsonResult Index(string id)
         {
