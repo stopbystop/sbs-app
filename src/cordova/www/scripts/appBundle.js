@@ -420,7 +420,7 @@ var StopByStop;
             this.filteredFoodCount = ko.observable(1);
             this.filteredGasStationCount = ko.observable(1);
             // load filters for cache for Web App
-            // TBD Cordova
+            // TBD SPA
             if (StopByStop.Init.InitSettings.app === StopByStop.SBSApp.Web) {
                 this.filterCacheManager = new FilterCacheManager(this);
             }
@@ -2257,7 +2257,7 @@ var StopByStop;
         $.support.cors = true;
         StopByStop.Init.initialize({
             app: StopByStop.SBSApp.SPA,
-            baseDataUrl: "https://www.stopbystop.com/",
+            baseDataUrl: "https://localhost:44100/stopbystopweb/",
             baseImageUrl: "images/"
         });
         window.onload = function () {

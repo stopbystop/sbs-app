@@ -195,6 +195,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="client\content\BreadCrumb.css" />
+    <Content Include="client\content\city_images\brooklyn-united-states.jpg" />
+    <Content Include="client\content\city_images\chicago-il-united-states.jpg" />
+    <Content Include="client\content\city_images\cleveland-oh-united-states.jpg" />
+    <Content Include="client\content\city_images\columbus-oh-united-states.jpg" />
+    <Content Include="client\content\city_images\greensboro-nc-united-states.jpg" />
+    <Content Include="client\content\city_images\Indianapolis-in-united-states.jpg" />
+    <Content Include="client\content\city_images\madison-wi-united-states.jpg" />
+    <Content Include="client\content\city_images\manhattan-ny-united-states.jpg" />
+    <Content Include="client\content\city_images\st.louis-mo-united-states.jpg" />
     <Content Include="client\content\rrssb.css" />
     <Content Include="client\content\sbsbundle.css" />
     <Content Include="client\content\sbsbundle.css.min.css" />
@@ -228,6 +237,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="packages.config" />
+    <EmbeddedResource Include="nearbyplaces.json" />
     <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
     <Content Include="sitemaps-2016-03-13\sitemap-1.xml" />
     <Content Include="sitemaps-2016-03-13\sitemap-10.xml" />
@@ -283,7 +293,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="ConfigurableAdaptiveSamplingTelemetryProcessor.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\PoiController.cs" />
@@ -303,6 +312,7 @@
     <Compile Include="NoCacheAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderHelper.cs" />
+    <Compile Include="RequestOriginTelemetryInitializer.cs" />
     <Compile Include="SBSParameterToDimensionInitializer.cs" />
     <Compile Include="SBSViewPage.cs" />
     <Compile Include="StopByStopService.cs" />

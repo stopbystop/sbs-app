@@ -306,7 +306,7 @@ var StopByStop;
             this.filteredFoodCount = ko.observable(1);
             this.filteredGasStationCount = ko.observable(1);
             // load filters for cache for Web App
-            // TBD Cordova
+            // TBD SPA
             if (StopByStop.Init.InitSettings.app === StopByStop.SBSApp.Web) {
                 this.filterCacheManager = new FilterCacheManager(this);
             }

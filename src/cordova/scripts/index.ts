@@ -53,7 +53,7 @@ module StopByStop.Cordova {
 
     StopByStop.Init.initialize({
         app: SBSApp.SPA,
-        baseDataUrl: "https://www.stopbystop.com/",
+        baseDataUrl: "https://localhost:44100/stopbystopweb/",
         baseImageUrl: "images/"
     });
 

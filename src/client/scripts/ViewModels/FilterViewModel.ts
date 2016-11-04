@@ -183,7 +183,7 @@ module StopByStop {
             this.filteredGasStationCount = ko.observable(1);
 
             // load filters for cache for Web App
-            // TBD Cordova
+            // TBD SPA
             if (Init.InitSettings.app === SBSApp.Web) {
                 this.filterCacheManager = new FilterCacheManager(this);
             }
