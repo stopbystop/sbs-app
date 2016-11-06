@@ -13,11 +13,6 @@ module StopByStop {
     export const E_LON_BOUNDARY = -66.00;
     export const ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
 
-    export interface IPageInfo {
-        pageName: string;
-        telemetryPageName: string;
-    }
-
     export class Utils {
         public static pageInfo: IPageInfo = null;
         public static getMileString(distance: number): string {

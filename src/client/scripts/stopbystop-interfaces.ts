@@ -197,4 +197,18 @@ module StopByStop {
         /** top level food poi categories */
         tfcat: string[];
     }
+
+    export interface IPageInfo {
+        /** page name **/
+        pageName: string;
+        /** telemetry page name **/
+        telemetryPageName: string;
+    }
+
+    export interface INavigationLocation {
+        /** route id **/
+        routeId: string;
+        /** exit id **/
+        exitId: string;
+    }
 }

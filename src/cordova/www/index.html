@@ -200,12 +200,13 @@
                             </div>
 
                             <div data-bind="foreach: filter.foodCategoriesEnablement">
-                                <input type="checkbox" data-bind="attr:{id:'cb1'+category.sbsid, name:'cb1'+category.sbsid},jqmchecked: visible" data-mini="true">
-                                <label data-bind="attr:{for:'cb1'+category.sbsid}">
-                                    <span data-bind="text:category.name"></span>
-                                    <span style="float:right;" data-bind="text:count"></span>
-                                </label>
-
+                                <div data-bind="visible:count() > 0">
+                                    <input type="checkbox" data-bind="attr:{id:'cb2'+category.sbsid, name:'cb2'+category.sbsid},jqmchecked: visible" data-mini="true">
+                                    <label data-bind="attr:{for:'cb2'+category.sbsid}">
+                                        <span data-bind="text:category.name"></span>
+                                        <span style="float:right;" data-bind="text:count"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div style="margin:0 35px 0 0">
@@ -331,12 +332,13 @@
                             </div>
 
                             <div data-bind="foreach: filter.foodCategoriesEnablement">
-                                <input type="checkbox" data-bind="attr:{id:'cb2'+category.sbsid, name:'cb2'+category.sbsid},jqmchecked: visible" data-mini="true">
-                                <label data-bind="attr:{for:'cb2'+category.sbsid}">
-                                    <span data-bind="text:category.name"></span>
-                                    <span style="float:right;" data-bind="text:count"></span>
-                                </label>
-
+                                <div data-bind="visible:count() > 0">
+                                    <input type="checkbox" data-bind="attr:{id:'cb2'+category.sbsid, name:'cb2'+category.sbsid},jqmchecked: visible" data-mini="true">
+                                    <label data-bind="attr:{for:'cb2'+category.sbsid}">
+                                        <span data-bind="text:category.name"></span>
+                                        <span style="float:right;" data-bind="text:count"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div style="margin:0 35px 0 0">

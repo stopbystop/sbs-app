@@ -336,7 +336,7 @@ var StopByStop;
                     }
                 });
             }
-            $.each(filterViewModel.foodCategoriesEnablement, function (indexInArray, valueOfElement) {
+            $.each(filterViewModel.foodCategoriesEnablement(), function (indexInArray, valueOfElement) {
                 var category = valueOfElement;
                 if (_this.data.drc.indexOf(valueOfElement.category.sbsid) > -1) {
                     category.visible(false);
@@ -376,7 +376,7 @@ var StopByStop;
             this.preserveShowAllSettings = preserveShowAllSettings;
             this.showGasStations = ko.observable(true);
             this.showRestaurants = ko.observable(true);
-            this.foodCategoriesEnablement = [];
+            this.foodCategoriesEnablement = ko.observableArray([]);
             foodPoiCategoryOccurrences.sort(function (a, b) { return b.c - a.c; });
             for (var i = 0; i < foodPoiCategoryOccurrences.length; i++) {
                 var categoryOccurrence = foodPoiCategoryOccurrences[i];
@@ -426,15 +426,11 @@ var StopByStop;
             }
             var self = this;
             this.selectAllFoodCategories = function () {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(true);
-                }
+                $.each(_this.foodCategoriesEnablement(), function (i, item) { return item.visible(true); });
                 _this.allRestaurantCategoriesSelected(true);
             };
             this.unselectAllFoodCategories = function () {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(false);
-                }
+                $.each(_this.foodCategoriesEnablement(), function (i, item) { return item.visible(false); });
                 _this.allRestaurantCategoriesSelected(false);
             };
             this.updateFilteredCounts();
@@ -470,9 +466,11 @@ var StopByStop;
             }
         };
         FilterViewModel.prototype.updateFilteredCounts = function () {
+            var _this = this;
             var fCount = 0;
             var gsCount = 0;
             var distance = parseInt(this.maxDistanceFromJunction());
+            $.each(this.foodCategoriesEnablement(), function (i, item) { return item.tempCount = 0; });
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -480,6 +478,11 @@ var StopByStop;
                     if (poiOnJunction.dfj <= distance) {
                         if (poiOnJunction.p.pt === StopByStop.PoiType.Food) {
                             fCount++;
+                            $.each(poiOnJunction.p.c, function (i, categoryId) {
+                                if (_this.foodCategoriesEnablementLookup[categoryId]) {
+                                    _this.foodCategoriesEnablementLookup[categoryId].tempCount++;
+                                }
+                            });
                         }
                         else if (poiOnJunction.p.pt === StopByStop.PoiType.Gas) {
                             gsCount++;
@@ -487,6 +490,10 @@ var StopByStop;
                     }
                 }
             }
+            $.each(this.foodCategoriesEnablement(), function (i, item) {
+                item.count(item.tempCount);
+            });
+            this.foodCategoriesEnablement.sort(function (a, b) { return b.count() - a.count(); });
             this.filteredFoodCount(fCount);
             this.filteredGasStationCount(gsCount);
         };
@@ -494,7 +501,8 @@ var StopByStop;
         FilterViewModel.prototype.createCategoryEnablement = function (categoryOccurrence) {
             var categoryEnablement = {
                 category: new StopByStop.PoiCategoryViewModel(categoryOccurrence.cat),
-                count: categoryOccurrence.c,
+                count: ko.observable(categoryOccurrence.c),
+                tempCount: 0,
                 visible: ko.observable(true)
             };
             return categoryEnablement;
@@ -1991,7 +1999,7 @@ var StopByStop;
                         else {
                             Init.InitSettings.routeId = startlocation.i + '-to-' + endlocation.i;
                             Init.loadRoute(Init.InitSettings.routeId);
-                            $.mobile.pageContainer.pagecontainer("change", "#route", { dataUrl: "#route|" + startlocation.i + '-to-' + endlocation.i });
+                            $.mobile.pageContainer.pagecontainer("change", "#route", { dataUrl: "#route&id=" + startlocation.i + '-to-' + endlocation.i });
                         }
                     }
                 });

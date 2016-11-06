@@ -205,7 +205,7 @@ module StopByStop {
                             Init.loadRoute(Init.InitSettings.routeId);
                             $.mobile.pageContainer.pagecontainer(
                                 "change",
-                                "#route", {dataUrl: "#route|" + startlocation.i + '-to-' + endlocation.i});
+                                "#route", {dataUrl: "#route&id=" + startlocation.i + '-to-' + endlocation.i});
                         }
                     }
                 });

@@ -9,8 +9,9 @@
 module StopByStop {
     interface ICategoryEnablement {
         category: PoiCategoryViewModel;
-        count: number;
-        visible: KnockoutObservable<boolean>
+        count: KnockoutObservable<number>;
+        visible: KnockoutObservable<boolean>;
+        tempCount: number;
     };
 
     class FilterCacheManager {
@@ -78,7 +79,7 @@ module StopByStop {
                 });
             }
 
-            $.each(filterViewModel.foodCategoriesEnablement, (indexInArray: number, valueOfElement: ICategoryEnablement) => {
+            $.each(filterViewModel.foodCategoriesEnablement(), (indexInArray: number, valueOfElement: ICategoryEnablement) => {
                 var category = valueOfElement;
                 if (this.data.drc.indexOf(valueOfElement.category.sbsid) > -1) {
                     category.visible(false);
@@ -127,7 +128,8 @@ module StopByStop {
             this.showRestaurants = ko.observable(true);
 
 
-            this.foodCategoriesEnablement = [];
+            this.foodCategoriesEnablement = ko.observableArray([]);
+            
 
             foodPoiCategoryOccurrences.sort((a, b) => b.c - a.c);
             for (var i = 0; i < foodPoiCategoryOccurrences.length; i++) {
@@ -191,19 +193,13 @@ module StopByStop {
 
             var self = this;
 
-            this.selectAllFoodCategories = () => {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(true);
-                }
-
+            this.selectAllFoodCategories = () => {               
+                $.each(this.foodCategoriesEnablement(), (i, item) => item.visible(true));
                 this.allRestaurantCategoriesSelected(true);
             };
 
             this.unselectAllFoodCategories = () => {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(false);
-                }
-
+                $.each(this.foodCategoriesEnablement(), (i, item) => item.visible(false));
                 this.allRestaurantCategoriesSelected(false);
             };
 
@@ -214,7 +210,7 @@ module StopByStop {
 
         public showGasStations: KnockoutObservable<boolean>;
         public showRestaurants: KnockoutObservable<boolean>;
-        public foodCategoriesEnablement: ICategoryEnablement[];
+        public foodCategoriesEnablement: KnockoutObservableArray<ICategoryEnablement>;
         public maxDistanceFromJunction: KnockoutObservable<string>;
 
         public maxDistanceFromJunctionIs1: KnockoutObservable<boolean>;
@@ -265,6 +261,8 @@ module StopByStop {
             var gsCount: number = 0;
             var distance = parseInt(this.maxDistanceFromJunction());
 
+            $.each(this.foodCategoriesEnablement(), (i, item) => item.tempCount = 0);
+
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -272,12 +270,26 @@ module StopByStop {
                     if (poiOnJunction.dfj <= distance) {
                         if (poiOnJunction.p.pt === PoiType.Food) {
                             fCount++;
+                            $.each(poiOnJunction.p.c, (i, categoryId) => {
+                                if (this.foodCategoriesEnablementLookup[categoryId]) {
+                                    this.foodCategoriesEnablementLookup[categoryId].tempCount++;
+                                }
+                            });
+
+
                         } else if (poiOnJunction.p.pt === PoiType.Gas) {
                             gsCount++;
                         }
                     }
                 }
             }
+
+            $.each(this.foodCategoriesEnablement(), (i, item) => {
+                
+                item.count(item.tempCount);
+            });
+
+            this.foodCategoriesEnablement.sort((a, b) => b.count() - a.count());
 
             this.filteredFoodCount(fCount);
             this.filteredGasStationCount(gsCount);
@@ -288,7 +300,8 @@ module StopByStop {
             var categoryEnablement: ICategoryEnablement =
                 {
                     category: new PoiCategoryViewModel(categoryOccurrence.cat),
-                    count: categoryOccurrence.c,
+                    count: ko.observable(categoryOccurrence.c),
+                    tempCount:0,
                     visible: ko.observable(true)
                 };
             return categoryEnablement;
