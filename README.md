@@ -20,7 +20,7 @@ This is the repository for StopByStop.com and Device applicatication UI
 ## Working in sbs-app repo
 Never submit to master branch directly. Propose your changes in one of two ways
 * If you have permissions to create branches in the repository, submit the changes into your branch and then open a pull request, from your branch to master
-* If you don't have permissions to create branches in the repository, fork the repository into your repository, open a branch off master, submit the changes into that branch, then open a pull request from your fork
+* If you don't have permissions to create branches in the repository, fork the repository into your repository, open a branch off master, submit the changes into that branch, then open a pull request from your fork. [This is a good reference](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
 
 ## MVC and SPA UI   
 The project has two UI modes: MVC (classic navigation model) and SPA (single page app mode). MVC is what is running in production. SPA is currently under development, the entry point is src/cordova/www/index.html.   
