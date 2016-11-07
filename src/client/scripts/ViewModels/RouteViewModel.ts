@@ -23,7 +23,7 @@ module StopByStop {
         public roadLineHeight: KnockoutObservable<number> = ko.observable(0);
 
 
-        constructor(route: IRoute, app: IAppViewModel, filter: FilterViewModel, initSettings: IInitSettings, routeInitializationComplete: () => void) {
+        constructor(route: IRoute, app: IAppViewModel, filter: FilterViewModel, initSettings: IAppState, routeInitializationComplete: () => void) {
             this._route = route;
             this._app = app;
             this._routeInitializationComplete = routeInitializationComplete;

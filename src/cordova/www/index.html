@@ -129,19 +129,19 @@
                                                         <span class="time_to_junction_marker" data-bind="text: etaString"></span>
                                                     </div>
                                                     <div id="exit_marker">
-                                                        <a href="#" class="junction" data-bind="attr:{href: '#exit?osmid=osm-'+$data.junction.osmid}">
+                                                        <a href="#" class="junction" data-bind="click: StopByStop.Utils.spaPageNavigate.bind(null,StopByStop.SBSPage.exit,$root.route.routeId,$data.junction.osmid)">
                                                             <div class="junction-name" data-bind="html: junction.ref, attr: {title:junction.name}"></div>
                                                         </a>
                                                     </div>
                                                     <div class="pois">
-                                                        <a data-bind="visible:visibleGasPois().length > 0, attr:{href: '#exit?osmid=osm-'+$data.junction.osmid+'&poitype=gas'}"
+                                                        <a data-bind="visible:visibleGasPois().length > 0, click: StopByStop.Utils.spaPageNavigate.bind(null,StopByStop.SBSPage.exit,$root.route.routeId,$data.junction.osmid,StopByStop.PoiType.Gas)"
                                                            class="poi gas" data-type="servicestations">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: gasPoiCountString"></div>
                                                                 <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
                                                             </div>
                                                         </a>
-                                                        <a data-bind="visible:visibleFoodPois().length > 0, attr:{href: '#exit?osmid=osm-'+$data.junction.osmid+'&poitype=food'}"
+                                                        <a data-bind="visible:visibleFoodPois().length > 0, click: StopByStop.Utils.spaPageNavigate.bind(null, StopByStop.SBSPage.exit,$root.route.routeId,$data.junction.osmid,StopByStop.PoiType.Food)"
                                                            class="poi food" data-type="restaurants">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: foodPoiCountString"></div>

@@ -12,7 +12,7 @@ module StopByStop {
    
         private _route: IRoute;
 
-        constructor(route: IRoute, initSettings: IInitSettings = null) {
+        constructor(route: IRoute, initSettings: IAppState = null) {
             if (route) {
                 this._route = route;
                 var rjs: IRouteJunction[] = [];

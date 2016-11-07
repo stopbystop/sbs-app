@@ -1,4 +1,5 @@
 /// <reference path="stopbystop-interfaces.ts"/>
+/// <reference path="AppState.ts"/>
 /// <reference path="InitUrls.ts"/>
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>

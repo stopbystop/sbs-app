@@ -47,7 +47,7 @@ module StopByStop {
 
 QUnit.begin(()=>
 {
-    StopByStop.Utils.pageInfo = {
+    StopByStop.AppState.current.pageInfo = {
                         pageName: "TestPageName",
                         telemetryPageName: "TestPageName"
                     };

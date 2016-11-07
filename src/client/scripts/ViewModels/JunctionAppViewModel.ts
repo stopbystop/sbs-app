@@ -27,7 +27,7 @@ module StopByStop {
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
 
-                $.ajax(Init.InitSettings.urls.PoiUrl + latStr + "," + lonStr)
+                $.ajax(AppState.current.urls.PoiUrl + latStr + "," + lonStr)
                     .done((data: IPoi[]) => {
 
                         for (var i = 0; i < data.length; i++) {
@@ -75,7 +75,7 @@ module StopByStop {
         };
 
         public initMap(mapDiv: Element, mapContainerDiv: Element) {
-            this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, Init.InitSettings.urls);
+            this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
         }
     }
 
@@ -119,7 +119,7 @@ module StopByStop {
                 this.routeJunction.applyFilter(this.filter);
             });
 
-            this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, Init.InitSettings.urls);
+            this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
             this._poiLocations = LocationViewModel.getGridLocations(routeJunction.j.l);
             this.loadFullPoiData();
         }

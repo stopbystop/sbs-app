@@ -104,7 +104,7 @@ module StopByStop {
                 this.stops.push(this._stopDictionary[place.id]);   
 
                 // add to stop collection bound to UI
-                if (Utils.pageInfo.pageName === "route-page") {
+                if (AppState.current.pageInfo.pageName === "route-page") {
                     var routeJunctionViewModel = this.junctionMap[place.exitId];
                     if (routeJunctionViewModel) {
                         routeJunctionViewModel.stops.push(routeStopViewModel);

@@ -20,14 +20,13 @@ module StopByStop {
         MapGasIconUrl: string;
     }
 
-    export interface IInitSettings {
+    export interface IAppState {
         baseDataUrl: string;
         baseImageUrl: string;
         app: SBSApp;
-        routeId?: string;
-        routePromise?: JQueryPromise<IRoute>;
         urls?: IInitUrls;
-
+        pageInfo?: IPageInfo;
+        navigationLocation?: ISBSNavigationLocation;
     }
 
     export interface ILocation {
@@ -198,6 +197,13 @@ module StopByStop {
         tfcat: string[];
     }
 
+    export enum SBSPage {
+        home = 0,
+        route = 1,
+        exit = 2,
+        about = 3
+    }
+
     export interface IPageInfo {
         /** page name **/
         pageName: string;
@@ -205,10 +211,14 @@ module StopByStop {
         telemetryPageName: string;
     }
 
-    export interface INavigationLocation {
+    export interface ISBSNavigationLocation {
+        /** page **/
+        page: SBSPage,
         /** route id **/
-        routeId: string;
+        routeId?: string;
         /** exit id **/
-        exitId: string;
+        exitId?: string;
+        /** POI type **/
+        poiType?: PoiType;
     }
 }

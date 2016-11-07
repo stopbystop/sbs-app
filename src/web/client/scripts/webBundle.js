@@ -9,7 +9,7 @@ var StopByStop;
 (function (StopByStop) {
     (function (SBSApp) {
         SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["Cordova"] = 1] = "Cordova";
+        SBSApp[SBSApp["SPA"] = 1] = "SPA";
     })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
     var SBSApp = StopByStop.SBSApp;
     ;
@@ -19,30 +19,13 @@ var StopByStop;
         PoiType[PoiType["Food"] = 2] = "Food";
     })(StopByStop.PoiType || (StopByStop.PoiType = {}));
     var PoiType = StopByStop.PoiType;
-})(StopByStop || (StopByStop = {}));
-/// <reference path="stopbystop-interfaces.ts"/>
-var StopByStop;
-(function (StopByStop) {
-    var InitUrls = (function () {
-        function InitUrls(baseUrl, baseImageUrl) {
-            if (typeof baseUrl !== "string") {
-                baseUrl = "/";
-            }
-            else if (!/\/$/.test(baseUrl)) {
-                baseUrl += "/";
-            }
-            this.MapExitIconUrl = baseImageUrl + "exit_map.png";
-            this.MapFoodIconUrl = baseImageUrl + "food_map2.png";
-            this.MapGasIconUrl = baseImageUrl + "gas_map.png";
-            this.BaseUrl = baseUrl;
-            this.RouteUrl = baseUrl + "route/";
-            this.PlacesUrl = baseUrl + "place/";
-            this.RouteDataUrl = baseUrl + "routedata/";
-            this.PoiUrl = baseUrl + "poi/";
-        }
-        return InitUrls;
-    }());
-    StopByStop.InitUrls = InitUrls;
+    (function (SBSPage) {
+        SBSPage[SBSPage["home"] = 0] = "home";
+        SBSPage[SBSPage["route"] = 1] = "route";
+        SBSPage[SBSPage["exit"] = 2] = "exit";
+        SBSPage[SBSPage["about"] = 3] = "about";
+    })(StopByStop.SBSPage || (StopByStop.SBSPage = {}));
+    var SBSPage = StopByStop.SBSPage;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
@@ -143,7 +126,7 @@ var StopByStop;
         };
         Telemetry.getAIProperties = function (telemetryProperties) {
             var aiProps = {};
-            aiProps[TelemetryProperty[TelemetryProperty.PageName]] = StopByStop.Utils.pageInfo.telemetryPageName;
+            aiProps[TelemetryProperty[TelemetryProperty.PageName]] = StopByStop.AppState.current.pageInfo.telemetryPageName;
             if (telemetryProperties) {
                 $.each(telemetryProperties, function (i, v) { aiProps[TelemetryProperty[v.k]] = v.v; });
             }
@@ -183,6 +166,53 @@ var StopByStop;
     var Utils = (function () {
         function Utils() {
         }
+        Utils.parseUrlForNavigationLocation = function (url) {
+            url = url.toLowerCase();
+            var navigationLocation = { page: StopByStop.SBSPage.home, poiType: StopByStop.PoiType.General };
+            var hashIndex = url.indexOf("#");
+            var queryStringPart = null;
+            if (hashIndex >= 0) {
+                var indexOfPageNameEnd = url.indexOf("&", hashIndex) - 1;
+                if (indexOfPageNameEnd < 0) {
+                    indexOfPageNameEnd = url.length - 1;
+                }
+                else {
+                    queryStringPart = url.substr(indexOfPageNameEnd + 1);
+                }
+                var pageName = url.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
+                if (StopByStop.SBSPage[pageName]) {
+                    navigationLocation.page = StopByStop.SBSPage[pageName];
+                }
+                if (queryStringPart) {
+                    var queryStringParameterPairs = queryStringPart.split("&");
+                    for (var i = 0; i < queryStringParameterPairs.length; i++) {
+                        var qsParts = queryStringParameterPairs[i].split("=");
+                        if (qsParts.length === 2) {
+                            var parameter = qsParts[0];
+                            var val = qsParts[1];
+                            switch (parameter) {
+                                case "routeid":
+                                    navigationLocation.routeId = val;
+                                    break;
+                                case "exitid":
+                                    navigationLocation.exitId = val;
+                                    break;
+                                case "poitype":
+                                    navigationLocation.poiType = StopByStop.PoiType.General;
+                                    if (val === "food") {
+                                        navigationLocation.poiType = StopByStop.PoiType.Food;
+                                    }
+                                    else if (val === "gas") {
+                                        navigationLocation.poiType = StopByStop.PoiType.Gas;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return navigationLocation;
+        };
         Utils.getMileString = function (distance) {
             if (distance < 0.1) {
                 return "<0.1mi";
@@ -232,7 +262,6 @@ var StopByStop;
             };
         };
         ;
-        Utils.pageInfo = null;
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         Utils.observeDOM = (function () {
             var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
@@ -255,6 +284,46 @@ var StopByStop;
         return Utils;
     }());
     StopByStop.Utils = Utils;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="tsdef/jquery.d.ts"/>
+/// <reference path="tsdef/jquerymobile.d.ts"/>
+/// <reference path="tsdef/knockout-3.3.d.ts"/>
+/// <reference path="Telemetry.ts"/>
+/// <reference path="Utils.ts"/>
+/// <reference path="stopbystop-interfaces.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    var AppState = (function () {
+        function AppState() {
+        }
+        AppState.current = null;
+        return AppState;
+    }());
+    StopByStop.AppState = AppState;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="stopbystop-interfaces.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    var InitUrls = (function () {
+        function InitUrls(baseUrl, baseImageUrl) {
+            if (typeof baseUrl !== "string") {
+                baseUrl = "/";
+            }
+            else if (!/\/$/.test(baseUrl)) {
+                baseUrl += "/";
+            }
+            this.MapExitIconUrl = baseImageUrl + "exit_map.png";
+            this.MapFoodIconUrl = baseImageUrl + "food_map2.png";
+            this.MapGasIconUrl = baseImageUrl + "gas_map.png";
+            this.BaseUrl = baseUrl;
+            this.RouteUrl = baseUrl + "route/";
+            this.PlacesUrl = baseUrl + "place/";
+            this.RouteDataUrl = baseUrl + "routedata/";
+            this.PoiUrl = baseUrl + "poi/";
+        }
+        return InitUrls;
+    }());
+    StopByStop.InitUrls = InitUrls;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
@@ -324,19 +393,19 @@ var StopByStop;
                 filterViewModel.showGasStations.subscribe(function (newValue) {
                     _this.data.g = newValue;
                     _this.saveData();
-                    if (StopByStop.Utils.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
+                    if (StopByStop.AppState.current.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
                         StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterShowGasStationsChanged, [{ k: StopByStop.TelemetryProperty.FilterVisibility, v: newValue.toString() }]);
                     }
                 });
                 filterViewModel.showRestaurants.subscribe(function (newValue) {
                     _this.data.r = newValue;
                     _this.saveData();
-                    if (StopByStop.Utils.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
+                    if (StopByStop.AppState.current.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
                         StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterShowRestaurantsChanged, [{ k: StopByStop.TelemetryProperty.FilterVisibility, v: newValue.toString() }]);
                     }
                 });
             }
-            $.each(filterViewModel.foodCategoriesEnablement, function (indexInArray, valueOfElement) {
+            $.each(filterViewModel.foodCategoriesEnablement(), function (indexInArray, valueOfElement) {
                 var category = valueOfElement;
                 if (_this.data.drc.indexOf(valueOfElement.category.sbsid) > -1) {
                     category.visible(false);
@@ -376,7 +445,7 @@ var StopByStop;
             this.preserveShowAllSettings = preserveShowAllSettings;
             this.showGasStations = ko.observable(true);
             this.showRestaurants = ko.observable(true);
-            this.foodCategoriesEnablement = [];
+            this.foodCategoriesEnablement = ko.observableArray([]);
             foodPoiCategoryOccurrences.sort(function (a, b) { return b.c - a.c; });
             for (var i = 0; i < foodPoiCategoryOccurrences.length; i++) {
                 var categoryOccurrence = foodPoiCategoryOccurrences[i];
@@ -420,21 +489,17 @@ var StopByStop;
             this.filteredFoodCount = ko.observable(1);
             this.filteredGasStationCount = ko.observable(1);
             // load filters for cache for Web App
-            // TBD Cordova
-            if (StopByStop.Init.InitSettings.app === StopByStop.SBSApp.Web) {
+            // TBD SPA
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
                 this.filterCacheManager = new FilterCacheManager(this);
             }
             var self = this;
             this.selectAllFoodCategories = function () {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(true);
-                }
+                $.each(_this.foodCategoriesEnablement(), function (i, item) { return item.visible(true); });
                 _this.allRestaurantCategoriesSelected(true);
             };
             this.unselectAllFoodCategories = function () {
-                for (var i = 0; i < self.foodCategoriesEnablement.length; i++) {
-                    self.foodCategoriesEnablement[i].visible(false);
-                }
+                $.each(_this.foodCategoriesEnablement(), function (i, item) { return item.visible(false); });
                 _this.allRestaurantCategoriesSelected(false);
             };
             this.updateFilteredCounts();
@@ -470,9 +535,11 @@ var StopByStop;
             }
         };
         FilterViewModel.prototype.updateFilteredCounts = function () {
+            var _this = this;
             var fCount = 0;
             var gsCount = 0;
             var distance = parseInt(this.maxDistanceFromJunction());
+            $.each(this.foodCategoriesEnablement(), function (i, item) { return item.tempCount = 0; });
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -480,6 +547,11 @@ var StopByStop;
                     if (poiOnJunction.dfj <= distance) {
                         if (poiOnJunction.p.pt === StopByStop.PoiType.Food) {
                             fCount++;
+                            $.each(poiOnJunction.p.c, function (i, categoryId) {
+                                if (_this.foodCategoriesEnablementLookup[categoryId]) {
+                                    _this.foodCategoriesEnablementLookup[categoryId].tempCount++;
+                                }
+                            });
                         }
                         else if (poiOnJunction.p.pt === StopByStop.PoiType.Gas) {
                             gsCount++;
@@ -487,6 +559,10 @@ var StopByStop;
                     }
                 }
             }
+            $.each(this.foodCategoriesEnablement(), function (i, item) {
+                item.count(item.tempCount);
+            });
+            this.foodCategoriesEnablement.sort(function (a, b) { return b.count() - a.count(); });
             this.filteredFoodCount(fCount);
             this.filteredGasStationCount(gsCount);
         };
@@ -494,7 +570,8 @@ var StopByStop;
         FilterViewModel.prototype.createCategoryEnablement = function (categoryOccurrence) {
             var categoryEnablement = {
                 category: new StopByStop.PoiCategoryViewModel(categoryOccurrence.cat),
-                count: categoryOccurrence.c,
+                count: ko.observable(categoryOccurrence.c),
+                tempCount: 0,
                 visible: ko.observable(true)
             };
             return categoryEnablement;
@@ -1064,7 +1141,7 @@ var StopByStop;
             if (!alreadyAdded) {
                 this.stops.push(this._stopDictionary[place.id]);
                 // add to stop collection bound to UI
-                if (StopByStop.Utils.pageInfo.pageName === "route-page") {
+                if (StopByStop.AppState.current.pageInfo.pageName === "route-page") {
                     var routeJunctionViewModel = this.junctionMap[place.exitId];
                     if (routeJunctionViewModel) {
                         routeJunctionViewModel.stops.push(routeStopViewModel);
@@ -1748,7 +1825,7 @@ var StopByStop;
                 var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
-                $.ajax(StopByStop.Init.InitSettings.urls.PoiUrl + latStr + "," + lonStr)
+                $.ajax(StopByStop.AppState.current.urls.PoiUrl + latStr + "," + lonStr)
                     .done(function (data) {
                     for (var i = 0; i < data.length; i++) {
                         var p = data[i];
@@ -1787,7 +1864,7 @@ var StopByStop;
         }
         ;
         JunctionSPAAppViewModel.prototype.initMap = function (mapDiv, mapContainerDiv) {
-            this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.Init.InitSettings.urls);
+            this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.AppState.current.urls);
         };
         return JunctionSPAAppViewModel;
     }(JunctionAppBaseViewModel));
@@ -1815,7 +1892,7 @@ var StopByStop;
             ko.computed(function () { return ko.toJS(_this.filter); }).subscribe(function () {
                 _this.routeJunction.applyFilter(_this.filter);
             });
-            this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.Init.InitSettings.urls);
+            this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.AppState.current.urls);
             this._poiLocations = StopByStop.LocationViewModel.getGridLocations(routeJunction.j.l);
             this.loadFullPoiData();
         }
@@ -1826,6 +1903,7 @@ var StopByStop;
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
+/// <reference path="AppState.ts" />
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>
 /// <reference path="stopbystop-interfaces.ts"/>
@@ -1841,19 +1919,19 @@ var StopByStop;
         }
         Init.initialize = function (settings) {
             var _this = this;
-            Init.InitSettings = settings;
-            Init.InitSettings.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
+            StopByStop.AppState.current = settings;
+            StopByStop.AppState.current.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable(new StopByStop.AppViewModel(null));
             ko.options.deferUpdates = true;
             Init.enableUAMatch();
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", function (event) {
                 var page = $(_this);
-                if (Init.InitSettings.app === StopByStop.SBSApp.Cordova) {
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.SPA) {
                     Init.initSPA();
                 }
                 /* For Web app initialize menu programmatically*/
-                if (Init.InitSettings.app === StopByStop.SBSApp.Web) {
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
                     $(".jqm-navmenu-panel ul").listview();
                     $(".jqm-navmenu-link").on("click", function () {
                         page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)").panel().panel("open");
@@ -1924,7 +2002,7 @@ var StopByStop;
                         $wrapper.append("<div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div>");
                         //$ul.listview("refresh");
                         $.ajax({
-                            url: Init.InitSettings.urls.PlacesUrl + value,
+                            url: StopByStop.AppState.current.urls.PlacesUrl + value,
                             dataType: 'json',
                             method: 'GET',
                             success: function (data) {
@@ -1982,16 +2060,15 @@ var StopByStop;
                     var startlocation = $from.data('place');
                     var endlocation = $to.data('place');
                     if (startlocation != undefined && endlocation != undefined) {
-                        if (Init.InitSettings.app === StopByStop.SBSApp.Web) {
-                            var url = Init.InitSettings.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
+                        if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                            var url = StopByStop.AppState.current.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
                             $("#view_trip").addClass("ui-disabled");
                             /* navigate without using AJAX navigation */
                             window.location.assign(url);
                         }
                         else {
-                            Init.InitSettings.routeId = startlocation.i + '-to-' + endlocation.i;
-                            Init.loadRoute(Init.InitSettings.routeId);
-                            $.mobile.pageContainer.pagecontainer("change", "#route?" + startlocation.i + '-to-' + endlocation.i);
+                            // Init.loadRoute(Init.InitSettings.routeId);
+                            $.mobile.pageContainer.pagecontainer("change", "#route", { dataUrl: "#route&routeid=" + startlocation.i + '-to-' + endlocation.i });
                         }
                     }
                 });
@@ -2023,13 +2100,13 @@ var StopByStop;
             /* end of poi group page initialization */
         };
         Init.loadRoute = function (routeId) {
-            Init.InitSettings.routePromise = $.ajax({
-                url: Init.InitSettings.urls.RouteDataUrl + routeId,
+            /* Init.InitSettings.routePromise =*/ $.ajax({
+                url: StopByStop.AppState.current.urls.RouteDataUrl + routeId,
                 dataType: 'json',
                 method: 'GET',
                 success: function (data) {
                     var route = data;
-                    var app = new StopByStop.AppViewModel(route, Init.InitSettings);
+                    var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current);
                     Init._app(app);
                 }
             });
@@ -2048,7 +2125,7 @@ var StopByStop;
                 beforeshow: function (event, ui) {
                     pageBeforeShowTime = new Date().getTime();
                     var pageIdSelector = "#" + ui.toPage.attr("id");
-                    StopByStop.Utils.pageInfo = {
+                    StopByStop.AppState.current.pageInfo = {
                         pageName: ui.toPage.data("page-name"),
                         telemetryPageName: ui.toPage.data("telemetry-page-name"),
                     };
@@ -2068,7 +2145,7 @@ var StopByStop;
                         paddingTop: "51px",
                         paddingBottom: "50px"
                     });
-                    if (StopByStop.Utils.pageInfo.pageName === "exit-page") {
+                    if (StopByStop.AppState.current.pageInfo.pageName === "exit-page") {
                         var exitOsmIdWithPoiType = Init.getOsmIdFromExitPageNavigationEvent(event);
                         var selectedRouteJunction = Init._app().routePlan.junctionMap[exitOsmIdWithPoiType.osmid];
                         var poiType = exitOsmIdWithPoiType.poiType;
@@ -2081,7 +2158,7 @@ var StopByStop;
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
                     $("#sbsheader").removeClass("ui-fixed-hidden");
-                    switch (StopByStop.Utils.pageInfo.pageName) {
+                    switch (StopByStop.AppState.current.pageInfo.pageName) {
                         case "exit-page":
                             $(".filter-btn").show();
                             // to ensure the switch between map and list view is initialized
@@ -2097,9 +2174,9 @@ var StopByStop;
                             break;
                     }
                     // this triggers initialization of radio buttons
-                    if (StopByStop.Utils.pageInfo.pageName === "exit-page") {
+                    if (StopByStop.AppState.current.pageInfo.pageName === "exit-page") {
                     }
-                    StopByStop.Telemetry.trackPageView(StopByStop.Utils.pageInfo.telemetryPageName, "#" + StopByStop.Utils.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
+                    StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
         };
@@ -2196,7 +2273,7 @@ var StopByStop;
             /* END OF UA_MATCH */
         };
         Init.openFilterPopup = function () {
-            var fd = $("." + StopByStop.Utils.pageInfo.pageName + " .filter-dlg");
+            var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filter-dlg");
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");
@@ -2212,6 +2289,7 @@ var StopByStop;
     StopByStop.Init = Init;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="stopbystop-interfaces.ts"/>
+/// <reference path="AppState.ts"/>
 /// <reference path="InitUrls.ts"/>
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>

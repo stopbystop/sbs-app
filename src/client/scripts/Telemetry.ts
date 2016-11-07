@@ -113,7 +113,7 @@ module StopByStop {
         private static getAIProperties(telemetryProperties: [{ k: TelemetryProperty, v: string }]): { [name: string]: string; } {
             var aiProps: { [name: string]: string; } = {
             };
-            aiProps[TelemetryProperty[TelemetryProperty.PageName]] = Utils.pageInfo.telemetryPageName;
+            aiProps[TelemetryProperty[TelemetryProperty.PageName]] = AppState.current.pageInfo.telemetryPageName;
             if (telemetryProperties) {
                 $.each(telemetryProperties, (i, v) => { aiProps[TelemetryProperty[v.k]] = v.v; });
             }

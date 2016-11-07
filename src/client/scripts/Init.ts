@@ -1,6 +1,7 @@
 ﻿/// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
+/// <reference path="AppState.ts" />
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>
 /// <reference path="stopbystop-interfaces.ts"/>
@@ -15,12 +16,12 @@ module StopByStop {
 
     export class Init {
         private static _app: KnockoutObservable<AppViewModel>;
+        private static _currentRouteId: string;
         private static _initDone: boolean = false;
 
-        public static initialize(settings: IInitSettings): void {
-
-            Init.InitSettings = settings;
-            Init.InitSettings.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
+        public static initialize(settings: IAppState): void {
+            AppState.current = settings;
+            AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable<AppViewModel>(new AppViewModel(null));
 
             (<any>ko).options.deferUpdates = true;
@@ -30,13 +31,13 @@ module StopByStop {
             $(document).on("pageinit", ".jqm-demos", (event) => {
                 var page = $(this);
 
-                if (Init.InitSettings.app === SBSApp.SPA) {
+                if (AppState.current.app === SBSApp.SPA) {
                     Init.initSPA();
                 }
 
 
                 /* For Web app initialize menu programmatically*/
-                if (Init.InitSettings.app === SBSApp.Web) {
+                if (AppState.current.app === SBSApp.Web) {
                     $(".jqm-navmenu-panel ul").listview();
                     $(".jqm-navmenu-link").on("click", () => {
                         (<any>page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)")).panel().panel("open");
@@ -125,7 +126,7 @@ module StopByStop {
 
 
                         $.ajax({
-                            url: Init.InitSettings.urls.PlacesUrl + value,
+                            url: AppState.current.urls.PlacesUrl + value,
                             dataType: 'json',
                             method: 'GET',
                             success: function (data) {
@@ -195,17 +196,13 @@ module StopByStop {
                     var startlocation = $from.data('place');
                     var endlocation = $to.data('place');
                     if (startlocation != undefined && endlocation != undefined) {
-                        if (Init.InitSettings.app === SBSApp.Web) {
-                            var url = Init.InitSettings.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
+                        if (AppState.current.app === SBSApp.Web) {
+                            var url = AppState.current.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
                             $("#view_trip").addClass("ui-disabled");
                             /* navigate without using AJAX navigation */
                             window.location.assign(url);
                         } else {
-                            Init.InitSettings.routeId = startlocation.i + '-to-' + endlocation.i;
-                            Init.loadRoute(Init.InitSettings.routeId);
-                            $.mobile.pageContainer.pagecontainer(
-                                "change",
-                                "#route", {dataUrl: "#route&id=" + startlocation.i + '-to-' + endlocation.i});
+                            Utils.spaPageNavigate(SBSPage.route, startlocation.i + '-to-' + endlocation.i);
                         }
                     }
                 });
@@ -244,20 +241,33 @@ module StopByStop {
             /* end of poi group page initialization */
         }
 
-        private static loadRoute(routeId: string): void {
-
-            Init.InitSettings.routePromise = $.ajax({
-                url: Init.InitSettings.urls.RouteDataUrl + routeId,
+        private static loadRoute(routeId: string): JQueryPromise<any> {
+            return $.ajax({
+                url: AppState.current.urls.RouteDataUrl + routeId,
                 dataType: 'json',
                 method: 'GET',
                 success: function (data) {
                     var route = <IRoute>data;
-                    var app = new AppViewModel(route, Init.InitSettings);
+                    var app = new AppViewModel(route, AppState.current);
                     Init._app(app);
 
                 }
             });
+        }
 
+        private static completeExitPageInit(): void {
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
+            var poiType = AppState.current.navigationLocation.poiType;
+
+            var appViewModel = Init._app();
+
+            var junctionAppViewModel = new JunctionSPAAppViewModel(
+                selectedRouteJunction,
+                appViewModel.filter,
+                appViewModel.routePlan,
+                poiType);
+
+            appViewModel.selectedJunction(junctionAppViewModel);
         }
 
         private static initSPA(): void {
@@ -280,7 +290,8 @@ module StopByStop {
                 beforeshow: function (event, ui) {
                     pageBeforeShowTime = new Date().getTime();
                     var pageIdSelector: string = "#" + ui.toPage.attr("id");
-                    Utils.pageInfo = {
+
+                    AppState.current.pageInfo = {
                         pageName: ui.toPage.data("page-name"),
                         telemetryPageName: ui.toPage.data("telemetry-page-name"),
                     };
@@ -308,33 +319,37 @@ module StopByStop {
                             paddingBottom: "50px"
                         });
 
-                    if (Utils.pageInfo.pageName === "exit-page") {
-                        var exitOsmIdWithPoiType = Init.getOsmIdFromExitPageNavigationEvent(event);
-                        var selectedRouteJunction = Init._app().routePlan.junctionMap[exitOsmIdWithPoiType.osmid];
-                        var poiType = exitOsmIdWithPoiType.poiType;
 
-                        var appViewModel = Init._app();
+                    var sbsNavigationLocation = Utils.parseUrlForNavigationLocation(location.hash);
+                    AppState.current.navigationLocation = sbsNavigationLocation;
 
-                        var junctionAppViewModel = new JunctionSPAAppViewModel(
-                            selectedRouteJunction,
-                            appViewModel.filter,
-                            appViewModel.routePlan,
-                            poiType);
-
-                        appViewModel.selectedJunction(junctionAppViewModel);
+                    switch (AppState.current.navigationLocation.page) {
+                        case SBSPage.route:
+                        case SBSPage.exit:
+                            if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
+                                Init._currentRouteId = AppState.current.navigationLocation.routeId;
+                                Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
+                                    if (AppState.current.navigationLocation.page === SBSPage.exit) {
+                                        Init.completeExitPageInit();
+                                    }
+                                });
+                            } else {
+                                if (AppState.current.navigationLocation.page === SBSPage.exit) {
+                                    Init.completeExitPageInit();
+                                }
+                            }
+                            break;
                     }
 
                 },
                 show: function (event, ui) {
-              
+
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
                     $("#sbsheader").removeClass("ui-fixed-hidden");
 
-                   
-
-                    switch (Utils.pageInfo.pageName) {
-                        case "exit-page":                            
+                    switch (AppState.current.pageInfo.pageName) {
+                        case "exit-page":
                             $(".filter-btn").show();
 
                             // to ensure the switch between map and list view is initialized
@@ -343,7 +358,7 @@ module StopByStop {
                             Init.wireupPOIGroup();
                             Init.initJunctionMap(<JunctionSPAAppViewModel>Init._app().selectedJunction());
                             break;
-                        case "route-page":                           
+                        case "route-page":
                             $(".filter-btn").show();
                             break;
                         default:
@@ -351,15 +366,9 @@ module StopByStop {
                             break;
                     }
 
-                    // this triggers initialization of radio buttons
-                    if (Utils.pageInfo.pageName === "exit-page") {
-
-
-                    }
-
                     Telemetry.trackPageView(
-                        Utils.pageInfo.telemetryPageName,
-                        "#" + Utils.pageInfo.pageName,
+                        AppState.current.pageInfo.telemetryPageName,
+                        "#" + AppState.current.pageInfo.pageName,
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
@@ -372,36 +381,6 @@ module StopByStop {
                 junctionAppViewModel.initMap(mapElement, mapContainerElement);
             } else {
                 window.setTimeout(() => Init.initJunctionMap(junctionAppViewModel), 200);
-            }
-        }
-
-        private static getOsmIdFromExitPageNavigationEvent(event: any): { osmid: string, poiType: PoiType } {
-            const osmIdSelector = "#exit?osmid=osm-";
-            const poiTypeSelector = "&poitype=";
-
-            var uri = event.target.baseURI;
-            var osmidWithPoiType = uri.substr(uri.indexOf(osmIdSelector) + osmIdSelector.length);
-
-            if (osmidWithPoiType.indexOf(poiTypeSelector) > -1) {
-                var poiType = PoiType.General;
-                var poiTypeString = osmidWithPoiType.substr(poiTypeSelector);
-                if (poiTypeString.toLowerCase() === "gas") {
-                    poiType = PoiType.Gas;
-                }
-                else if (poiTypeString.toLowerCase() === "food") {
-                    poiType == PoiType.Food;
-                }
-
-                return {
-                    osmid: osmidWithPoiType.substr(0, osmidWithPoiType.indexOf(poiTypeSelector)),
-                    poiType: poiType
-                };
-            }
-            else {
-                return {
-                    osmid: osmidWithPoiType,
-                    poiType: PoiType.General
-                };
             }
         }
 
@@ -471,11 +450,8 @@ module StopByStop {
             /* END OF UA_MATCH */
         }
 
-        /** TODO: make private **/
-        public static InitSettings: IInitSettings;
-
-        public static openFilterPopup(): void {            
-            var fd = $("." + Utils.pageInfo.pageName + " .filter-dlg")
+        public static openFilterPopup(): void {
+            var fd = $("." + AppState.current.pageInfo.pageName + " .filter-dlg")
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");

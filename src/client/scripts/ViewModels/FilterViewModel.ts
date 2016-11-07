@@ -63,7 +63,7 @@ module StopByStop {
                 filterViewModel.showGasStations.subscribe((newValue: boolean) => {
                     this.data.g = newValue;
                     this.saveData();
-                    if (Utils.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
+                    if (AppState.current.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
                         Telemetry.trackEvent(TelemetryEvent.FilterShowGasStationsChanged, [{ k: TelemetryProperty.FilterVisibility, v: newValue.toString() }]);
                     }
                 });
@@ -73,7 +73,7 @@ module StopByStop {
                     this.data.r = newValue;
                     this.saveData();
 
-                    if (Utils.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
+                    if (AppState.current.pageInfo.pageName !== StopByStop.PAGENAME_POIGroup) {
                         Telemetry.trackEvent(TelemetryEvent.FilterShowRestaurantsChanged, [{ k: TelemetryProperty.FilterVisibility, v: newValue.toString() }]);
                     }
                 });
@@ -186,7 +186,7 @@ module StopByStop {
 
             // load filters for cache for Web App
             // TBD SPA
-            if (Init.InitSettings.app === SBSApp.Web) {
+            if (AppState.current.app === SBSApp.Web) {
                 this.filterCacheManager = new FilterCacheManager(this);
             }
 

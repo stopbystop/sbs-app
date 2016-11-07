@@ -81,7 +81,7 @@ module StopByStop {
 
 
 
-        constructor(routePlan: RoutePlanViewModel, routeViewModel: RouteViewModel, initSettings: IInitSettings) {
+        constructor(routePlan: RoutePlanViewModel, routeViewModel: RouteViewModel, initSettings: IAppState) {
             this.stops = ko.observableArray<SideBarStopViewModel>([]);
             this._routePlanViewModel = routePlan;
             this._routeViewModel = routeViewModel;
