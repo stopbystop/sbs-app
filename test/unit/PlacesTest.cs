@@ -37,5 +37,14 @@ namespace Yojowa.StopByStop.UnitTests
         {
             PlacesLoader.CreateTable();
         }
+
+        /// <summary>
+        /// Verifies the table is created without errors
+        /// </summary>
+        [TestMethod]
+        public void VerifyCleanAndReloadDbWithoutErrors()
+        {
+            PlacesLoader.CleanAndReloadDb();
+        }
     }
 }
