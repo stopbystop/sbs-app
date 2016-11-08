@@ -1004,6 +1004,7 @@ var StopByStop;
 /// <reference path="JunctionViewModel.ts"/>
 /// <reference path="FilterViewModel.ts"/>
 /// <reference path="../Utils.ts"/>
+/// <reference path="../AppState.ts"/>
 "use strict";
 var StopByStop;
 (function (StopByStop) {
@@ -1081,6 +1082,15 @@ var StopByStop;
             this.closestGasPoiDistance(this.visibleGasPois().length > 0 ? StopByStop.Utils.getMileString(this.visibleGasPois()[0].dfe) : "");
             this.gasPoiCountString(this.visibleGasPois().length > 9 ? "9+" : this.visibleGasPois().length.toString());
             this.foodPoiCountString(this.visibleFoodPois().length > 9 ? "9+" : this.visibleFoodPois().length.toString());
+        };
+        RouteJunctionViewModel.prototype.navigateToExitPage = function () {
+            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.exit, StopByStop.AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
+        };
+        RouteJunctionViewModel.prototype.navigateToExitFoodPage = function () {
+            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.exit, StopByStop.AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), StopByStop.PoiType.Food);
+        };
+        RouteJunctionViewModel.prototype.navigateToExitGasPage = function () {
+            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.exit, StopByStop.AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), StopByStop.PoiType.Gas);
         };
         return RouteJunctionViewModel;
     }());

@@ -4,6 +4,7 @@
 /// <reference path="JunctionViewModel.ts"/>
 /// <reference path="FilterViewModel.ts"/>
 /// <reference path="../Utils.ts"/>
+/// <reference path="../AppState.ts"/>
 
 "use strict";
 module StopByStop {
@@ -116,5 +117,21 @@ module StopByStop {
             this.gasPoiCountString(this.visibleGasPois().length > 9 ? "9+" : this.visibleGasPois().length.toString());
             this.foodPoiCountString(this.visibleFoodPois().length > 9 ? "9+" : this.visibleFoodPois().length.toString());
         }
+
+        public navigateToExitPage(): void {
+            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
+        }
+
+        public navigateToExitFoodPage(): void {
+            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), PoiType.Food);
+        }
+
+
+        public navigateToExitGasPage(): void {
+            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), PoiType.Gas);
+        }
+
+
+
     }
 }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
