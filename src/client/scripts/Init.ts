@@ -283,6 +283,33 @@ module StopByStop {
                 Init._initDone = true;
             }
 
+            var scheduledUnknownChange = false;
+            (<any>$(window)).hashchange(() => {
+                if (!scheduledUnknownChange) {
+                    scheduledUnknownChange = true;
+                    window.setTimeout(() => {
+                        if (!window["knownHashChange"]) {
+                            var newHash = location.hash;
+                            var oldPage = AppState.current.navigationLocation.page;
+
+                            Utils.updateNavigationLocation(newHash, AppState.current.navigationLocation);
+                            if (oldPage !== AppState.current.navigationLocation.page) {
+                                Utils.spaPageNavigate(
+                                    AppState.current.navigationLocation.page,
+                                    AppState.current.navigationLocation.routeId,
+                                    AppState.current.navigationLocation.exitId,
+                                    AppState.current.navigationLocation.poiType,
+                                    false);
+
+                            }
+                        }
+
+                        window["knownHashChange"] = false;
+                        scheduledUnknownChange = false;
+                    }, 100);
+                }
+            });
+
             var pageBeforeShowTime: number;
 
             $.mobile.pageContainer.pagecontainer({
@@ -320,8 +347,22 @@ module StopByStop {
                         });
 
 
-                    var sbsNavigationLocation = Utils.parseUrlForNavigationLocation(location.hash);
-                    AppState.current.navigationLocation = sbsNavigationLocation;
+
+                },
+                show: function (event, ui) {
+
+
+                    if (!AppState.current.navigationLocation) {
+                        AppState.current.navigationLocation = { page: SBSPage.home };
+                    }
+
+                    Utils.updateNavigationLocation(location.hash, AppState.current.navigationLocation);
+                    var updatedHash = Utils.getHashFromNavigationLocation(AppState.current.navigationLocation);
+
+                    if (location.hash !== updatedHash) {
+                        window["knownHashChange"] = true;
+                        location.replace(updatedHash);
+                    }
 
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
@@ -341,8 +382,6 @@ module StopByStop {
                             break;
                     }
 
-                },
-                show: function (event, ui) {
 
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}

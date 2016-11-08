@@ -15,53 +15,82 @@ module StopByStop {
     export const ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
 
     export class Utils {
-        public static parseUrlForNavigationLocation(url: string): ISBSNavigationLocation {
-            url = url.toLowerCase();
-            var navigationLocation: ISBSNavigationLocation = { page: SBSPage.home, poiType: PoiType.General };
-            var hashIndex = url.indexOf("#");
-            var queryStringPart:string = null;
+        public static updateNavigationLocation(hash: string, navigationLocation: ISBSNavigationLocation): void {
+            if (!hash) {
+                hash = "#home";
+            }
+            hash = hash.toLowerCase();
+            var hashIndex = hash.indexOf("#");
+            var queryStringPart: string = null;
+
+            if (hashIndex < 0) {
+                hash = "#home";
+                hashIndex = 0;
+            }
+
             if (hashIndex >= 0) {
-                var indexOfPageNameEnd = url.indexOf("&", hashIndex) - 1;
+                var indexOfPageNameEnd = hash.indexOf("&", hashIndex) - 1;
                 if (indexOfPageNameEnd < 0) {
-                    indexOfPageNameEnd = url.length - 1;
-                }else{
-                    queryStringPart = url.substr(indexOfPageNameEnd+1);
+                    indexOfPageNameEnd = hash.length - 1;
+                } else {
+                    queryStringPart = hash.substr(indexOfPageNameEnd + 1);
                 }
-                var pageName = url.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
-                if (SBSPage[pageName]) {
+                var pageName = hash.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
+                if (SBSPage[pageName] !== undefined) {
                     navigationLocation.page = SBSPage[pageName];
                 }
 
-                if (queryStringPart){
-                    var queryStringParameterPairs:string[] = queryStringPart.split("&");
-                    for (var i=0; i< queryStringParameterPairs.length; i++){
-                      var qsParts = queryStringParameterPairs[i].split("=");
-                      if (qsParts.length === 2){
-                          var parameter = qsParts[0];
-                          var val = qsParts[1];
-                          switch (parameter){
-                              case "routeid":
-                                 navigationLocation.routeId = val;
-                                 break;
-                              case "exitid":
-                                navigationLocation.exitId = val;
-                                break;
-                              case "poitype":
-                                navigationLocation.poiType = PoiType.General;
-                                if (val === "food"){
-                                    navigationLocation.poiType = PoiType.Food;
-                                }else if (val === "gas"){
-                                    navigationLocation.poiType = PoiType.Gas;
-                                }
-                                break;
-                          }
-                      }
+                if (queryStringPart) {
+                    var queryStringParameterPairs: string[] = queryStringPart.split("&");
+                    for (var i = 0; i < queryStringParameterPairs.length; i++) {
+                        var qsParts = queryStringParameterPairs[i].split("=");
+                        if (qsParts.length === 2) {
+                            var parameter = qsParts[0];
+                            var val = qsParts[1];
+                            switch (parameter) {
+                                case "routeid":
+                                    navigationLocation.routeId = val;
+                                    break;
+                                case "exitid":
+                                    navigationLocation.exitId = val;
+                                    break;
+                                case "poitype":
+                                    navigationLocation.poiType = PoiType.General;
+                                    if (val === "food") {
+                                        navigationLocation.poiType = PoiType.Food;
+                                    } else if (val === "gas") {
+                                        navigationLocation.poiType = PoiType.Gas;
+                                    }
+                                    break;
+                            }
+                        }
                     }
-
                 }
             }
+        }
 
-            return navigationLocation;
+        public static getHashFromNavigationLocation(navigationLocation: ISBSNavigationLocation): string {
+            var loc = "#";
+
+            if (SBSPage[navigationLocation.page]) {
+                loc += SBSPage[navigationLocation.page];
+            } else {
+                loc += "home";
+            }
+
+            if (navigationLocation.routeId) {
+                loc += ("&routeid=" + navigationLocation.routeId);
+            }
+
+            if (navigationLocation.exitId && navigationLocation.page === SBSPage.exit) {
+                loc += ("&exitid=" + navigationLocation.exitId);
+            }
+
+            if (navigationLocation.poiType && navigationLocation.page === SBSPage.exit && PoiType[navigationLocation.poiType]) {
+                loc += ("&poitype=" + PoiType[navigationLocation.poiType]);
+            }
+
+            return loc.toLowerCase();
         }
 
         public static getMileString(distance: number): string {
@@ -137,7 +166,7 @@ module StopByStop {
             };
         };
 
-        public static spaPageNavigate(page: SBSPage, routeId?: string, exitId?: string, poiType?: PoiType): void {
+        public static spaPageNavigate(page: SBSPage, routeId?: string, exitId?: string, poiType?: PoiType, changeHash: boolean = true): void {
             var pageId = "#home";
             switch (page) {
                 case SBSPage.about:
@@ -162,9 +191,10 @@ module StopByStop {
                 dataUrl += "&poitype=" + PoiType[poiType].toLowerCase();
             }
 
+            window["knownHashChange"] = true;
             $.mobile.pageContainer.pagecontainer(
                 "change",
-                pageId, { dataUrl: dataUrl });
+                pageId, { dataUrl: dataUrl, changeHash: changeHash });
         }
     }
 }

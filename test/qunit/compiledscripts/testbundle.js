@@ -423,21 +423,27 @@ var StopByStop;
     var Utils = (function () {
         function Utils() {
         }
-        Utils.parseUrlForNavigationLocation = function (url) {
-            url = url.toLowerCase();
-            var navigationLocation = { page: StopByStop.SBSPage.home, poiType: StopByStop.PoiType.General };
-            var hashIndex = url.indexOf("#");
+        Utils.updateNavigationLocation = function (hash, navigationLocation) {
+            if (!hash) {
+                hash = "#home";
+            }
+            hash = hash.toLowerCase();
+            var hashIndex = hash.indexOf("#");
             var queryStringPart = null;
+            if (hashIndex < 0) {
+                hash = "#home";
+                hashIndex = 0;
+            }
             if (hashIndex >= 0) {
-                var indexOfPageNameEnd = url.indexOf("&", hashIndex) - 1;
+                var indexOfPageNameEnd = hash.indexOf("&", hashIndex) - 1;
                 if (indexOfPageNameEnd < 0) {
-                    indexOfPageNameEnd = url.length - 1;
+                    indexOfPageNameEnd = hash.length - 1;
                 }
                 else {
-                    queryStringPart = url.substr(indexOfPageNameEnd + 1);
+                    queryStringPart = hash.substr(indexOfPageNameEnd + 1);
                 }
-                var pageName = url.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
-                if (StopByStop.SBSPage[pageName]) {
+                var pageName = hash.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
+                if (StopByStop.SBSPage[pageName] !== undefined) {
                     navigationLocation.page = StopByStop.SBSPage[pageName];
                 }
                 if (queryStringPart) {
@@ -468,7 +474,25 @@ var StopByStop;
                     }
                 }
             }
-            return navigationLocation;
+        };
+        Utils.getHashFromNavigationLocation = function (navigationLocation) {
+            var loc = "#";
+            if (StopByStop.SBSPage[navigationLocation.page]) {
+                loc += StopByStop.SBSPage[navigationLocation.page];
+            }
+            else {
+                loc += "home";
+            }
+            if (navigationLocation.routeId) {
+                loc += ("&routeid=" + navigationLocation.routeId);
+            }
+            if (navigationLocation.exitId && navigationLocation.page === StopByStop.SBSPage.exit) {
+                loc += ("&exitid=" + navigationLocation.exitId);
+            }
+            if (navigationLocation.poiType && navigationLocation.page === StopByStop.SBSPage.exit && StopByStop.PoiType[navigationLocation.poiType]) {
+                loc += ("&poitype=" + StopByStop.PoiType[navigationLocation.poiType]);
+            }
+            return loc.toLowerCase();
         };
         Utils.getMileString = function (distance) {
             if (distance < 0.1) {
@@ -542,6 +566,7 @@ var StopByStop;
             if (poiType) {
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
+            window["knownHashChange"] = true;
             $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl });
         };
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
@@ -2166,6 +2191,24 @@ var StopByStop;
                 $(".filter-btn").click(function () { return Init.openFilterPopup(); });
                 Init._initDone = true;
             }
+            var scheduledUnknownChange = false;
+            $(window).hashchange(function () {
+                if (!scheduledUnknownChange) {
+                    scheduledUnknownChange = true;
+                    window.setTimeout(function () {
+                        if (!window["knownHashChange"]) {
+                            var newHash = location.hash;
+                            var oldPage = StopByStop.AppState.current.navigationLocation.page;
+                            StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
+                            if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
+                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType);
+                            }
+                        }
+                        window["knownHashChange"] = false;
+                        scheduledUnknownChange = false;
+                    }, 100);
+                }
+            });
             var pageBeforeShowTime;
             $.mobile.pageContainer.pagecontainer({
                 beforeshow: function (event, ui) {
@@ -2191,8 +2234,17 @@ var StopByStop;
                         paddingTop: "51px",
                         paddingBottom: "50px"
                     });
-                    var sbsNavigationLocation = StopByStop.Utils.parseUrlForNavigationLocation(location.hash);
-                    StopByStop.AppState.current.navigationLocation = sbsNavigationLocation;
+                },
+                show: function (event, ui) {
+                    if (!StopByStop.AppState.current.navigationLocation) {
+                        StopByStop.AppState.current.navigationLocation = { page: StopByStop.SBSPage.home };
+                    }
+                    StopByStop.Utils.updateNavigationLocation(location.hash, StopByStop.AppState.current.navigationLocation);
+                    var updatedHash = StopByStop.Utils.getHashFromNavigationLocation(StopByStop.AppState.current.navigationLocation);
+                    if (location.hash !== updatedHash) {
+                        window["knownHashChange"] = true;
+                        location.replace(updatedHash);
+                    }
                     switch (StopByStop.AppState.current.navigationLocation.page) {
                         case StopByStop.SBSPage.route:
                         case StopByStop.SBSPage.exit:
@@ -2211,8 +2263,6 @@ var StopByStop;
                             }
                             break;
                     }
-                },
-                show: function (event, ui) {
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
                     $("#sbsheader").removeClass("ui-fixed-hidden");
@@ -2477,13 +2527,20 @@ var StopByStop;
         };
     });
     QUnit.test("Utils: ParseUrlForNavigationLocation test", function (assert) {
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page#route").page, StopByStop.SBSPage.route);
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit").page, StopByStop.SBSPage.exit);
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page").page, StopByStop.SBSPage.home);
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page#route&routeId=route1").routeId, "route1");
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit&routeId=route1&exitId=exit1").exitId, "exit1");
-        assert.equal(StopByStop.Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit&routeId=route1&exitId=exit1&poiType=gas").poiType, StopByStop.PoiType.Gas);
+        updateAndVerifyNavigationLocation(assert, "#route", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.route });
+        updateAndVerifyNavigationLocation(assert, "#route&routeId=route1", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.route, routeId: "route1" });
+        updateAndVerifyNavigationLocation(assert, "https://hostname.com/page", { page: StopByStop.SBSPage.route, routeId: "route1" }, { page: StopByStop.SBSPage.home, routeId: "route1" });
+        updateAndVerifyNavigationLocation(assert, "#exit&routeId=route1&exitId=exit1&poiType=gas", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.Gas });
+        updateAndVerifyNavigationLocation(assert, "#exit&routeId=route1&exitId=exit1&poiType=factory", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.General });
     });
+    QUnit.test("Utils: GetHashFromNavigationLocation test", function (assert) {
+        assert.equal(StopByStop.Utils.getHashFromNavigationLocation({ page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.Gas }), "#exit&routeid=route1&exitid=exit1&poitype=gas");
+        assert.equal(StopByStop.Utils.getHashFromNavigationLocation({ page: StopByStop.SBSPage.route, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.Gas }), "#route&routeid=route1");
+    });
+    function updateAndVerifyNavigationLocation(assert, hash, inputLocation, expectedLocation) {
+        StopByStop.Utils.updateNavigationLocation(hash, inputLocation);
+        assert.deepEqual(inputLocation, expectedLocation);
+    }
 })(StopByStop || (StopByStop = {}));
 /// <reference path="RoutePlanViewModelTests.ts" />
 /// <reference path="UtilsTests.ts" /> 

@@ -18,13 +18,23 @@ QUnit.begin(()=>
 });
 
 QUnit.test("Utils: ParseUrlForNavigationLocation test", (assert) => {
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page#route").page, SBSPage.route);
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit").page, SBSPage.exit);
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page").page, SBSPage.home);
-
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page#route&routeId=route1").routeId, "route1");
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit&routeId=route1&exitId=exit1").exitId, "exit1");
-  assert.equal(Utils.parseUrlForNavigationLocation("https://hostname.com/page#exit&routeId=route1&exitId=exit1&poiType=gas").poiType, PoiType.Gas);
+  updateAndVerifyNavigationLocation(assert,"#route", {page:SBSPage.home}, {page:SBSPage.route});
+  updateAndVerifyNavigationLocation(assert,"#route&routeId=route1", {page:SBSPage.home}, {page:SBSPage.route, routeId:"route1"});
+  updateAndVerifyNavigationLocation(assert,"https://hostname.com/page", {page:SBSPage.route, routeId:"route1"}, {page:SBSPage.home, routeId:"route1"});
+  updateAndVerifyNavigationLocation(assert,"#exit&routeId=route1&exitId=exit1&poiType=gas", {page:SBSPage.home}, {page:SBSPage.exit, routeId:"route1", exitId:"exit1", poiType:PoiType.Gas});
+  updateAndVerifyNavigationLocation(assert,"#exit&routeId=route1&exitId=exit1&poiType=factory", {page:SBSPage.home}, {page:SBSPage.exit, routeId:"route1", exitId:"exit1", poiType:PoiType.General});
 });
 
+QUnit.test("Utils: GetHashFromNavigationLocation test", (assert) => {
+  assert.equal(Utils.getHashFromNavigationLocation({page:SBSPage.exit, routeId:"route1", exitId:"exit1", poiType:PoiType.Gas}), "#exit&routeid=route1&exitid=exit1&poitype=gas");
+  assert.equal(Utils.getHashFromNavigationLocation({page:SBSPage.route, routeId:"route1", exitId:"exit1", poiType:PoiType.Gas}), "#route&routeid=route1");
+});
+
+function updateAndVerifyNavigationLocation(assert:QUnitAssert, hash:string, inputLocation:ISBSNavigationLocation, expectedLocation:ISBSNavigationLocation):void
+{
+  Utils.updateNavigationLocation(hash, inputLocation);
+  assert.deepEqual(inputLocation, expectedLocation);
 }
+
+}
+

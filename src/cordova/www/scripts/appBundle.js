@@ -143,21 +143,27 @@ var StopByStop;
     var Utils = (function () {
         function Utils() {
         }
-        Utils.parseUrlForNavigationLocation = function (url) {
-            url = url.toLowerCase();
-            var navigationLocation = { page: StopByStop.SBSPage.home, poiType: StopByStop.PoiType.General };
-            var hashIndex = url.indexOf("#");
+        Utils.updateNavigationLocation = function (hash, navigationLocation) {
+            if (!hash) {
+                hash = "#home";
+            }
+            hash = hash.toLowerCase();
+            var hashIndex = hash.indexOf("#");
             var queryStringPart = null;
+            if (hashIndex < 0) {
+                hash = "#home";
+                hashIndex = 0;
+            }
             if (hashIndex >= 0) {
-                var indexOfPageNameEnd = url.indexOf("&", hashIndex) - 1;
+                var indexOfPageNameEnd = hash.indexOf("&", hashIndex) - 1;
                 if (indexOfPageNameEnd < 0) {
-                    indexOfPageNameEnd = url.length - 1;
+                    indexOfPageNameEnd = hash.length - 1;
                 }
                 else {
-                    queryStringPart = url.substr(indexOfPageNameEnd + 1);
+                    queryStringPart = hash.substr(indexOfPageNameEnd + 1);
                 }
-                var pageName = url.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
-                if (StopByStop.SBSPage[pageName]) {
+                var pageName = hash.substr(hashIndex + 1, indexOfPageNameEnd - hashIndex);
+                if (StopByStop.SBSPage[pageName] !== undefined) {
                     navigationLocation.page = StopByStop.SBSPage[pageName];
                 }
                 if (queryStringPart) {
@@ -188,7 +194,25 @@ var StopByStop;
                     }
                 }
             }
-            return navigationLocation;
+        };
+        Utils.getHashFromNavigationLocation = function (navigationLocation) {
+            var loc = "#";
+            if (StopByStop.SBSPage[navigationLocation.page]) {
+                loc += StopByStop.SBSPage[navigationLocation.page];
+            }
+            else {
+                loc += "home";
+            }
+            if (navigationLocation.routeId) {
+                loc += ("&routeid=" + navigationLocation.routeId);
+            }
+            if (navigationLocation.exitId && navigationLocation.page === StopByStop.SBSPage.exit) {
+                loc += ("&exitid=" + navigationLocation.exitId);
+            }
+            if (navigationLocation.poiType && navigationLocation.page === StopByStop.SBSPage.exit && StopByStop.PoiType[navigationLocation.poiType]) {
+                loc += ("&poitype=" + StopByStop.PoiType[navigationLocation.poiType]);
+            }
+            return loc.toLowerCase();
         };
         Utils.getMileString = function (distance) {
             if (distance < 0.1) {
@@ -239,7 +263,8 @@ var StopByStop;
             };
         };
         ;
-        Utils.spaPageNavigate = function (page, routeId, exitId, poiType) {
+        Utils.spaPageNavigate = function (page, routeId, exitId, poiType, changeHash) {
+            if (changeHash === void 0) { changeHash = true; }
             var pageId = "#home";
             switch (page) {
                 case StopByStop.SBSPage.about:
@@ -262,7 +287,8 @@ var StopByStop;
             if (poiType) {
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
-            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl });
+            window["knownHashChange"] = true;
+            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash });
         };
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         Utils.observeDOM = (function () {
@@ -2166,6 +2192,24 @@ var StopByStop;
                 $(".filter-btn").click(function () { return Init.openFilterPopup(); });
                 Init._initDone = true;
             }
+            var scheduledUnknownChange = false;
+            $(window).hashchange(function () {
+                if (!scheduledUnknownChange) {
+                    scheduledUnknownChange = true;
+                    window.setTimeout(function () {
+                        if (!window["knownHashChange"]) {
+                            var newHash = location.hash;
+                            var oldPage = StopByStop.AppState.current.navigationLocation.page;
+                            StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
+                            if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
+                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
+                            }
+                        }
+                        window["knownHashChange"] = false;
+                        scheduledUnknownChange = false;
+                    }, 100);
+                }
+            });
             var pageBeforeShowTime;
             $.mobile.pageContainer.pagecontainer({
                 beforeshow: function (event, ui) {
@@ -2191,8 +2235,17 @@ var StopByStop;
                         paddingTop: "51px",
                         paddingBottom: "50px"
                     });
-                    var sbsNavigationLocation = StopByStop.Utils.parseUrlForNavigationLocation(location.hash);
-                    StopByStop.AppState.current.navigationLocation = sbsNavigationLocation;
+                },
+                show: function (event, ui) {
+                    if (!StopByStop.AppState.current.navigationLocation) {
+                        StopByStop.AppState.current.navigationLocation = { page: StopByStop.SBSPage.home };
+                    }
+                    StopByStop.Utils.updateNavigationLocation(location.hash, StopByStop.AppState.current.navigationLocation);
+                    var updatedHash = StopByStop.Utils.getHashFromNavigationLocation(StopByStop.AppState.current.navigationLocation);
+                    if (location.hash !== updatedHash) {
+                        window["knownHashChange"] = true;
+                        location.replace(updatedHash);
+                    }
                     switch (StopByStop.AppState.current.navigationLocation.page) {
                         case StopByStop.SBSPage.route:
                         case StopByStop.SBSPage.exit:
@@ -2211,8 +2264,6 @@ var StopByStop;
                             }
                             break;
                     }
-                },
-                show: function (event, ui) {
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
                     $("#sbsheader").removeClass("ui-fixed-hidden");
