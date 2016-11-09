@@ -17,6 +17,8 @@ namespace Yojowa.StopByStop.Places
     /// </summary>
     public class PlacesLoader
     {
+        //feature2 commit test
+
         /// <summary>
         /// The POSTGRESQL DB connection string 
         /// </summary>
