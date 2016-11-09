@@ -55,6 +55,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="LocationUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SegmentUtil.cs" />
     <Compile Include="SqlUtil.cs" />
     <Compile Include="StringCompressor.cs" />
   </ItemGroup>

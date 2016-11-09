@@ -39,5 +39,47 @@ namespace Yojowa.StopByStop.Utils
             if (bucket != null && count > 0)
                 yield return bucket.Take(count);
         }
+
+        public static double DistanceTo(this Location baseCoordinates, Location targetCoordinates)
+        {
+            return DistanceTo(baseCoordinates, targetCoordinates, UnitOfLength.Kilometers);
+        }
+
+        public static double DistanceTo(this Location baseCoordinates, Location targetCoordinates, UnitOfLength unitOfLength)
+        {
+            var baseRad = Math.PI * baseCoordinates.Lat / 180;
+            var targetRad = Math.PI * targetCoordinates.Lat / 180;
+            var theta = baseCoordinates.Lon - targetCoordinates.Lon;
+            var thetaRad = Math.PI * theta / 180;
+
+            double dist =
+                Math.Sin(baseRad) * Math.Sin(targetRad) + Math.Cos(baseRad) *
+                Math.Cos(targetRad) * Math.Cos(thetaRad);
+            dist = Math.Acos(dist);
+
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+
+            return unitOfLength.ConvertFromMiles(dist);
+        }
+    }
+
+    public class UnitOfLength
+    {
+        public static UnitOfLength Kilometers = new UnitOfLength(1.609344);
+        public static UnitOfLength NauticalMiles = new UnitOfLength(0.8684);
+        public static UnitOfLength Miles = new UnitOfLength(1);
+
+        private readonly double _fromMilesFactor;
+
+        private UnitOfLength(double fromMilesFactor)
+        {
+            _fromMilesFactor = fromMilesFactor;
+        }
+
+        public double ConvertFromMiles(double input)
+        {
+            return input * _fromMilesFactor;
+        }
     }
 }

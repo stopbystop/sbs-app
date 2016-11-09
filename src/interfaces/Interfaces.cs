@@ -214,6 +214,12 @@
         [JsonProperty("n")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Invariant lowered case.
+        /// </summary>
+        [JsonIgnore]
+        public string NameLowered { get; set; }
+
         [JsonProperty("l")]
         public Location Location { get; set; }  
 

@@ -349,6 +349,10 @@
       <Project>{a7df5262-9fe9-4191-bb94-9e7b36db0563}</Project>
       <Name>Yojowa.StopByStop.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\places\Yojowa.StopByStop.Places\Yojowa.StopByStop.Places.csproj">
+      <Project>{ccef4c42-6fb0-492c-8628-43c7163a6e82}</Project>
+      <Name>Yojowa.StopByStop.Places</Name>
+    </ProjectReference>
     <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj">
       <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
       <Name>Yojowa.StopByStop.Utils</Name>

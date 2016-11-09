@@ -7,6 +7,7 @@
 namespace Yojowa.StopByStop.Places
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Text;
     using Npgsql;
@@ -17,8 +18,6 @@ namespace Yojowa.StopByStop.Places
     /// </summary>
     public class PlacesLoader
     {
-        //feature2 commit test
-
         /// <summary>
         /// The POSTGRESQL DB connection string 
         /// </summary>
@@ -92,8 +91,8 @@ namespace Yojowa.StopByStop.Places
                                 string name = parts[0];
                                 string description = string.Format("{0}, {1}, United States", parts[0], parts[4]);
                                 string cityId = string.Format("{0}-{1}-United-States", parts[0], parts[4]).Replace(" ", "-").ToLowerInvariant();
-                                double lat = double.Parse(parts[1]);
-                                double lon = double.Parse(parts[2]);
+                                double lat = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                                double lon = double.Parse(parts[2], CultureInfo.InvariantCulture);
                                 long population = long.Parse(parts[5]);
 
                                 if (!insertedCityIds.Contains(cityId))
