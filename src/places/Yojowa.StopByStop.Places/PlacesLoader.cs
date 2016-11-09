@@ -8,7 +8,9 @@ namespace Yojowa.StopByStop.Places
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using Npgsql;
+    using Utils;
 
     /// <summary>
     /// Loads geo places. All DB communication should be done through this class
@@ -25,26 +27,39 @@ namespace Yojowa.StopByStop.Places
         /// </summary>
         public static void CleanAndReloadDb()
         {
-            List<GeoPlace> cities = GetGeoPlacesFromEmbeddedFile();
+            List<GeoPlace> geoList = GetGeoPlacesFromEmbeddedFile();
 
-            // TODO: remove db if exists
-            // TODO: create db and indexes
-            // TOOD: insert cities into db
-        }
-
-        /// <summary>
-        /// Creates the table.
-        /// </summary>
-        internal static void CreateTable()
-        {
-            // TODO: remove this method
             using (var conn = new NpgsqlConnection(PGConnection))
             {
                 conn.Open();
-                string createDbQuery = "DROP TABLE IF EXISTS cities_test;CREATE TABLE cities_test(lat numeric(9,6) NOT NULL,start_lon numeric(9,6) NOT NULL)WITH (OIDS = FALSE);DROP TABLE IF EXISTS cities_test";
-                using (NpgsqlCommand command = new NpgsqlCommand(createDbQuery, conn))
+
+                // Re-create table
+                string createTableQuery = "DROP TABLE IF EXISTS cities;CREATE TABLE cities(id varchar(250) NOT NULL,shortname varchar(250) NOT NULL,name varchar(250) NOT NULL,lat numeric(9, 6) NOT NULL,lng numeric(9, 6) NOT NULL,population bigint NOT NULL)WITH(OIDS = FALSE);";
+                using (NpgsqlCommand command = new NpgsqlCommand(createTableQuery, conn))
                 {
                     command.ExecuteNonQuery();
+                }
+
+                // populate table
+                int batchSize = 50;
+
+                foreach (IEnumerable<GeoPlace> geoBatch in geoList.Batch(batchSize))
+                {
+                    // Prepare batch command
+                    // 1 command length can be about 400-450
+                    StringBuilder sb = new StringBuilder(batchSize * 500);
+
+                    foreach (GeoPlace geo in geoBatch)
+                    {
+                        sb.AppendFormat("insert into cities(id, shortname, name, lat, lng, population) values('{0}','{1}','{2}',{3},{4},{5});", SqlUtil.EscapeString(geo.ID), SqlUtil.EscapeString(geo.ShortName), SqlUtil.EscapeString(geo.Name), geo.Location.Lat, geo.Location.Lon, geo.Population);
+                    }
+
+                    string cmdText = sb.ToString();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand(cmdText, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
         }

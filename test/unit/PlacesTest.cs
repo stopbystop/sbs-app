@@ -9,6 +9,8 @@ namespace Yojowa.StopByStop.UnitTests
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Places;
+    using System.Collections.Generic;
+    using Npgsql;
 
     /// <summary>
     /// Places test
@@ -30,12 +32,48 @@ namespace Yojowa.StopByStop.UnitTests
         }
 
         /// <summary>
-        /// Verifies the table is created without errors
+        /// Verifies the table records
         /// </summary>
         [TestMethod]
-        public void VerifyTableCreationWithoutErrors()
+        public void VerifyCitiesTableRecords()
         {
-            PlacesLoader.CreateTable();
+            var places = PlacesLoader.GetGeoPlacesFromEmbeddedFile();
+
+            List<GeoPlace> AllGeo = new List<GeoPlace>();
+
+            using (var conn = new NpgsqlConnection(PlacesLoader.PGConnection))
+            {
+                conn.Open();
+
+                string selectQuery = "SELECT id,shortname,name,lat,lng,population FROM cities order by name asc";
+
+                using (NpgsqlCommand command = new NpgsqlCommand(selectQuery, conn))
+                {
+                    var dr = command.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        GeoPlace place = new GeoPlace();
+                        place.ID = dr.GetString(0);
+                        place.ShortName = dr.GetString(1);
+                        place.Name = dr.GetString(2);
+
+                        place.Location = new Location();
+                        place.Location.Lat = dr.GetDouble(3);
+                        place.Location.Lon = dr.GetDouble(4);
+                        place.Population = dr.GetInt64(5);
+
+                        AllGeo.Add(place);
+                    }
+                }
+            }
+
+            foreach (var place in places)
+            {
+                var exists = AllGeo.Where(x => x.ID == place.ID).Any();
+
+                Assert.AreEqual<bool>(true, exists);
+            }
         }
     }
 }
