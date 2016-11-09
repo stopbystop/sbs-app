@@ -287,7 +287,8 @@ var StopByStop;
             };
         };
         ;
-        Utils.spaPageNavigate = function (page, routeId, exitId, poiType) {
+        Utils.spaPageNavigate = function (page, routeId, exitId, poiType, changeHash) {
+            if (changeHash === void 0) { changeHash = true; }
             var pageId = "#home";
             switch (page) {
                 case StopByStop.SBSPage.about:
@@ -311,7 +312,7 @@ var StopByStop;
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
             window["knownHashChange"] = true;
-            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl });
+            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash });
         };
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         Utils.observeDOM = (function () {
@@ -379,6 +380,142 @@ var StopByStop;
         return InitUrls;
     }());
     StopByStop.InitUrls = InitUrls;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="tsdef/jquery.d.ts"/>
+/// <reference path="tsdef/jquerymobile.d.ts"/>
+/// <reference path="tsdef/knockout-3.3.d.ts"/>
+/// <reference path="AppState.ts" />
+/// <reference path="Telemetry.ts"/>
+/// <reference path="Utils.ts"/>
+/// <reference path="stopbystop-interfaces.ts"/>
+/// <reference path="InitUrls.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    var InitHome = (function () {
+        function InitHome() {
+        }
+        InitHome.wireup = function () {
+            var currentLocationString = "Current location";
+            // populate from with 'current location'
+            var currentLocationData = null;
+            var setCurrentLocation = function () {
+                if (navigator && navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var srcLat = position.coords.latitude;
+                        var srcLon = position.coords.longitude;
+                        if (srcLat > StopByStop.S_LAT_BOUNDARY && srcLat < StopByStop.N_LAT_BOUNDARY && srcLon > StopByStop.W_LON_BOUNDARY && srcLon < StopByStop.E_LON_BOUNDARY) {
+                            currentLocationData = { n: currentLocationString, i: srcLat.toFixed(5) + "," + srcLon.toFixed(5) };
+                            $("#from").val(currentLocationString);
+                            $("#from").data({ place: currentLocationData });
+                            StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.LocationIN);
+                        }
+                        else {
+                            StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.LocationOUT);
+                        }
+                    }, function (positionError) {
+                        var positionErrorReason = "UNAVAILABLE";
+                        switch (positionError.code) {
+                            case positionError.PERMISSION_DENIED:
+                                positionErrorReason = "PERMISSION_DENIED";
+                                break;
+                            case positionError.POSITION_UNAVAILABLE:
+                                positionErrorReason = "POSITION_UNAVAILABLE";
+                                break;
+                            case positionError.TIMEOUT:
+                                positionErrorReason = "TIMEOUT";
+                                break;
+                        }
+                        StopByStop.Telemetry.trackError(new Error("getCurrentPositionErrorHomePage-" + positionErrorReason));
+                    }, {
+                        maximumAge: 60000,
+                        timeout: 5000,
+                        enableHighAccuracy: true,
+                    });
+                }
+            };
+            setCurrentLocation();
+            $(".input-wrapper input").on("keyup", function (e, data) {
+                var $wrapper = $(this).closest('.input-wrapper');
+                var that = this;
+                var $ul = $wrapper.find('ul'), $input = $(this), value = $input.val();
+                if (value) {
+                    $wrapper.append("<div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div>");
+                    $.ajax({
+                        url: StopByStop.AppState.current.urls.PlacesUrl + value,
+                        dataType: 'json',
+                        method: 'GET',
+                        success: function (data) {
+                            $wrapper.find('.ui-loader').remove();
+                            $ul.empty();
+                            var otherDropDown = $(that).attr('id') === 'from' ? $('#to') : $('#from');
+                            var otherDropDownSelectedID = null;
+                            if (otherDropDown.data('place')) {
+                                otherDropDownSelectedID = otherDropDown.data('place').i;
+                            }
+                            if ($(that).attr('id') === 'from' && currentLocationData) {
+                                var $li = $('<li data-icon="false"><a href="#">' + currentLocationString + '</a></li>');
+                                $li.data('place', currentLocationData);
+                                $ul.append($li);
+                            }
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].i !== otherDropDownSelectedID) {
+                                    var $li = $('<li data-icon="false"><a href="#">' + data[i].n + '</a></li>');
+                                    $li.data('place', data[i]);
+                                    $ul.append($li);
+                                }
+                            }
+                            $ul.listview("refresh");
+                            $ul.trigger("updatelayout");
+                        }
+                    });
+                }
+            });
+            $(".autocomplete").on('click', 'li', function (event) {
+                var $input = $(this).closest('div').find('input');
+                var place = $(this).data('place');
+                if (place) {
+                    $input.val(place.n).data('place', place);
+                    $(this).closest('ul').empty();
+                    if ($("#from").data('place') && $("#to").data('place')) {
+                        $("#view_trip").removeClass("ui-disabled");
+                    }
+                }
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.CityDropdownClick);
+            });
+            $('.input-wrapper input').on('focus', function (event) {
+                var that = $(this);
+                window.setTimeout(function () {
+                    that.select();
+                }, 100);
+                var $wrapper = $(this).closest('.input-wrapper');
+                $wrapper.find('ul').show();
+                $wrapper.find('.input-tip').hide();
+            });
+            $('.view-trip').on('click', function (event) {
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.ViewTripButtonClick, null, null, true);
+                var $from = $('#from');
+                var $to = $('#to');
+                var startlocation = $from.data('place');
+                var endlocation = $to.data('place');
+                if (startlocation != undefined && endlocation != undefined) {
+                    if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                        var url = StopByStop.AppState.current.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
+                        $("#view_trip").addClass("ui-disabled");
+                        /* navigate without using AJAX navigation */
+                        window.location.assign(url);
+                    }
+                    else {
+                        StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, startlocation.i + '-to-' + endlocation.i);
+                    }
+                }
+            });
+            if ($("#from").data('place') && $("#to").data('place')) {
+                $("#view_trip").removeClass("ui-disabled");
+            }
+        };
+        return InitHome;
+    }());
+    StopByStop.InitHome = InitHome;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
@@ -1973,6 +2110,7 @@ var StopByStop;
 /// <reference path="Utils.ts"/>
 /// <reference path="stopbystop-interfaces.ts"/>
 /// <reference path="InitUrls.ts"/>
+/// <reference path="InitHome.ts"/>
 /// <reference path="ViewModels/IAppViewModel.ts" />
 /// <reference path="ViewModels/AppViewModel.ts" />
 /// <reference path="ViewModels/RouteViewModel.ts" />
@@ -2017,128 +2155,7 @@ var StopByStop;
             /* end of common initialiazation for all pages */
             /* home page initialization */
             $(document).on("pageinit", ".sbs-homePG", function (event) {
-                var currentLocationString = "Current location";
-                // populate from with 'current location'
-                var currentLocationData = null;
-                var setCurrentLocation = function () {
-                    if (navigator && navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                            var srcLat = position.coords.latitude;
-                            var srcLon = position.coords.longitude;
-                            if (srcLat > StopByStop.S_LAT_BOUNDARY && srcLat < StopByStop.N_LAT_BOUNDARY && srcLon > StopByStop.W_LON_BOUNDARY && srcLon < StopByStop.E_LON_BOUNDARY) {
-                                currentLocationData = { n: currentLocationString, i: srcLat.toFixed(5) + "," + srcLon.toFixed(5) };
-                                $("#from").val(currentLocationString);
-                                $("#from").data({ place: currentLocationData });
-                                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.LocationIN);
-                            }
-                            else {
-                                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.LocationOUT);
-                            }
-                        }, function (positionError) {
-                            var positionErrorReason = "UNAVAILABLE";
-                            switch (positionError.code) {
-                                case positionError.PERMISSION_DENIED:
-                                    positionErrorReason = "PERMISSION_DENIED";
-                                    break;
-                                case positionError.POSITION_UNAVAILABLE:
-                                    positionErrorReason = "POSITION_UNAVAILABLE";
-                                    break;
-                                case positionError.TIMEOUT:
-                                    positionErrorReason = "TIMEOUT";
-                                    break;
-                            }
-                            StopByStop.Telemetry.trackError(new Error("getCurrentPositionErrorHomePage-" + positionErrorReason));
-                        }, {
-                            maximumAge: 60000,
-                            timeout: 5000,
-                            enableHighAccuracy: true,
-                        });
-                    }
-                };
-                setCurrentLocation();
-                $(".input-wrapper input").on("keyup", function (e, data) {
-                    var $wrapper = $(this).closest('.input-wrapper');
-                    var that = this;
-                    var $ul = $wrapper.find('ul'), $input = $(this), value = $input.val();
-                    //html = "";
-                    //$ul.html("");
-                    if (value) {
-                        //$.mobile.loading('show');
-                        $wrapper.append("<div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div>");
-                        //$ul.listview("refresh");
-                        $.ajax({
-                            url: StopByStop.AppState.current.urls.PlacesUrl + value,
-                            dataType: 'json',
-                            method: 'GET',
-                            success: function (data) {
-                                $wrapper.find('.ui-loader').remove();
-                                //$.mobile.loading('hide');
-                                $ul.empty();
-                                var otherDropDown = $(that).attr('id') === 'from' ? $('#to') : $('#from');
-                                var otherDropDownSelectedID = null;
-                                if (otherDropDown.data('place')) {
-                                    otherDropDownSelectedID = otherDropDown.data('place').i;
-                                }
-                                if ($(that).attr('id') === 'from' && currentLocationData) {
-                                    var $li = $('<li data-icon="false"><a href="#">' + currentLocationString + '</a></li>');
-                                    $li.data('place', currentLocationData);
-                                    $ul.append($li);
-                                }
-                                for (var i = 0; i < data.length; i++) {
-                                    if (data[i].i !== otherDropDownSelectedID) {
-                                        var $li = $('<li data-icon="false"><a href="#">' + data[i].n + '</a></li>');
-                                        $li.data('place', data[i]);
-                                        $ul.append($li);
-                                    }
-                                }
-                                $ul.listview("refresh");
-                                $ul.trigger("updatelayout");
-                            }
-                        });
-                    }
-                });
-                $(".autocomplete").on('click', 'li', function (event) {
-                    var $input = $(this).closest('div').find('input');
-                    var place = $(this).data('place');
-                    if (place) {
-                        $input.val(place.n).data('place', place);
-                        $(this).closest('ul').empty();
-                        if ($("#from").data('place') && $("#to").data('place')) {
-                            $("#view_trip").removeClass("ui-disabled");
-                        }
-                    }
-                    StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.CityDropdownClick);
-                });
-                $('.input-wrapper input').on('focus', function (event) {
-                    var that = $(this);
-                    window.setTimeout(function () {
-                        that.select();
-                    }, 100);
-                    var $wrapper = $(this).closest('.input-wrapper');
-                    $wrapper.find('ul').show();
-                    $wrapper.find('.input-tip').hide();
-                });
-                $('.view-trip').on('click', function (event) {
-                    StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.ViewTripButtonClick, null, null, true);
-                    var $from = $('#from');
-                    var $to = $('#to');
-                    var startlocation = $from.data('place');
-                    var endlocation = $to.data('place');
-                    if (startlocation != undefined && endlocation != undefined) {
-                        if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                            var url = StopByStop.AppState.current.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
-                            $("#view_trip").addClass("ui-disabled");
-                            /* navigate without using AJAX navigation */
-                            window.location.assign(url);
-                        }
-                        else {
-                            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, startlocation.i + '-to-' + endlocation.i);
-                        }
-                    }
-                });
-                if ($("#from").data('place') && $("#to").data('place')) {
-                    $("#view_trip").removeClass("ui-disabled");
-                }
+                StopByStop.InitHome.wireup();
             });
             /* end of home page initialization */
             /* route page initialization */
@@ -2201,7 +2218,7 @@ var StopByStop;
                             var oldPage = StopByStop.AppState.current.navigationLocation.page;
                             StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
                             if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
-                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType);
+                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
                             }
                         }
                         window["knownHashChange"] = false;
@@ -2372,6 +2389,7 @@ var StopByStop;
 /// <reference path="InitUrls.ts"/>
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>
+/// <reference path="InitHome.ts"/>
 /// <reference path="Init.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
 /// <reference path="ViewModels/IStopPlace.ts"/>

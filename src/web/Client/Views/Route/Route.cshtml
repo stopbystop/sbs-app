@@ -126,7 +126,7 @@
 {
     <script type="text/javascript">
         var routeData = @Html.Raw(RenderHelper.ToJSON(Model.Route));
-        ko.applyBindings(new StopByStop.AppViewModel(routeData, StopByStop.Init.InitSettings));
+        ko.applyBindings(new StopByStop.AppViewModel(routeData, StopByStop.AppState.current));
     </script>
 }
 

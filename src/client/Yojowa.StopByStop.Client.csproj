@@ -28,6 +28,7 @@
     <TypeScriptCompile Include="scripts\AppState.ts" />
     <TypeScriptCompile Include="scripts\extensions.ts" />
     <TypeScriptCompile Include="scripts\Init.ts" />
+    <TypeScriptCompile Include="scripts\InitHome.ts" />
     <TypeScriptCompile Include="scripts\InitUrls.ts" />
     <TypeScriptCompile Include="scripts\main.ts" />
     <TypeScriptCompile Include="scripts\stopbystop-interfaces.ts" />

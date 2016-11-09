@@ -3,6 +3,7 @@
 /// <reference path="InitUrls.ts"/>
 /// <reference path="Telemetry.ts"/>
 /// <reference path="Utils.ts"/>
+/// <reference path="InitHome.ts"/>
 /// <reference path="Init.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
 /// <reference path="ViewModels/IStopPlace.ts"/>

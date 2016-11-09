@@ -11,5 +11,7 @@ scripts/stopbystop-interfaces.js
 scripts/Telemetry.js
 scripts/Utils.js
 scripts/InitUrls.js
+scripts/AppState.js
+scripts/InitHome.js
 compiledscripts
 node_modules
