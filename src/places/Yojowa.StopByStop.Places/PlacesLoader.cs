@@ -34,16 +34,7 @@ namespace Yojowa.StopByStop.Places
                 conn.Open();
 
                 // Re-create table
-                string createTableQuery = @"DROP TABLE IF EXISTS tng_cities_test;
-                                                    CREATE TABLE tng_cities_test
-                                                    (
-                                                        id varchar(250) NOT NULL,
-                                                        shortname varchar(250) NOT NULL,
-                                                        name varchar(250) NOT NULL,
-                                                        lat numeric(9, 6) NOT NULL,
-                                                        lng numeric(9, 6) NOT NULL,
-                                                        population bigserial NOT NULL
-                                                    )WITH(OIDS = FALSE); ";
+                string createTableQuery = "DROP TABLE IF EXISTS cities;CREATE TABLE cities(id varchar(250) NOT NULL,shortname varchar(250) NOT NULL,name varchar(250) NOT NULL,lat numeric(9, 6) NOT NULL,lng numeric(9, 6) NOT NULL,population bigint NOT NULL)WITH(OIDS = FALSE);";
                 using (NpgsqlCommand command = new NpgsqlCommand(createTableQuery, conn))
                 {
                     command.ExecuteNonQuery();
@@ -60,7 +51,7 @@ namespace Yojowa.StopByStop.Places
 
                     foreach (GeoPlace geo in geoBatch)
                     {
-                        sb.AppendFormat("insert into tng_cities_test(id, shortname, name, lat, lng, population) values('{0}','{1}','{2}',{3},{4},{5});", SqlUtil.EscapeString(geo.ID), SqlUtil.EscapeString(geo.ShortName), SqlUtil.EscapeString(geo.Name), geo.Location.Lat, geo.Location.Lon, geo.Population);
+                        sb.AppendFormat("insert into cities(id, shortname, name, lat, lng, population) values('{0}','{1}','{2}',{3},{4},{5});", SqlUtil.EscapeString(geo.ID), SqlUtil.EscapeString(geo.ShortName), SqlUtil.EscapeString(geo.Name), geo.Location.Lat, geo.Location.Lon, geo.Population);
                     }
 
                     string cmdText = sb.ToString();
@@ -69,23 +60,6 @@ namespace Yojowa.StopByStop.Places
                     {
                         command.ExecuteNonQuery();
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates the table.
-        /// </summary>
-        internal static void CreateTable()
-        {
-            // TODO: remove this method
-            using (var conn = new NpgsqlConnection(PGConnection))
-            {
-                conn.Open();
-                string createDbQuery = "DROP TABLE IF EXISTS cities_test;CREATE TABLE cities_test(lat numeric(9,6) NOT NULL,start_lon numeric(9,6) NOT NULL)WITH (OIDS = FALSE);DROP TABLE IF EXISTS cities_test";
-                using (NpgsqlCommand command = new NpgsqlCommand(createDbQuery, conn))
-                {
-                    command.ExecuteNonQuery();
                 }
             }
         }
