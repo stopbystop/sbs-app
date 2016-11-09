@@ -3,6 +3,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.Serialization;
     using System.Text;
@@ -215,7 +216,7 @@
         public string Name { get; set; }
 
         [JsonProperty("l")]
-        public Location Location { get; set; }  
+        public Location Location { get; set; }
 
         [JsonProperty("p")]
         public long Population { get; set; }
@@ -365,7 +366,7 @@
 
     public class PoisWithAreaDiagnostics
     {
-        [JsonProperty(PropertyName ="p")]
+        [JsonProperty(PropertyName = "p")]
         public Poi[] Pois { get; set; }
 
         [JsonProperty(PropertyName = "a")]

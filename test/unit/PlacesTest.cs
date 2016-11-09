@@ -6,11 +6,11 @@
 
 namespace Yojowa.StopByStop.UnitTests
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Places;
-    using System.Collections.Generic;
     using Npgsql;
+    using Places;
 
     /// <summary>
     /// Places test
@@ -27,7 +27,7 @@ namespace Yojowa.StopByStop.UnitTests
             var places = PlacesLoader.GetGeoPlacesFromEmbeddedFile().OrderByDescending(gp => gp.Population).ToArray();
 
             Assert.AreEqual<string>("New York City", places.First().ShortName);
-            Assert.AreEqual<string>("40.7--74.0", places.First().Location.ShortKey);
+            Assert.AreEqual<string>("4071427,0--7400597,0", places.First().Location.ShortKey);
             Assert.AreEqual<string>("St Marys", places.Last().ShortName);
         }
 
@@ -39,7 +39,7 @@ namespace Yojowa.StopByStop.UnitTests
         {
             var places = PlacesLoader.GetGeoPlacesFromEmbeddedFile();
 
-            List<GeoPlace> AllGeo = new List<GeoPlace>();
+            List<GeoPlace> allGeo = new List<GeoPlace>();
 
             using (var conn = new NpgsqlConnection(PlacesLoader.PGConnection))
             {
@@ -63,14 +63,14 @@ namespace Yojowa.StopByStop.UnitTests
                         place.Location.Lon = dr.GetDouble(4);
                         place.Population = dr.GetInt64(5);
 
-                        AllGeo.Add(place);
+                        allGeo.Add(place);
                     }
                 }
             }
 
             foreach (var place in places)
             {
-                var exists = AllGeo.Where(x => x.ID == place.ID).Any();
+                var exists = allGeo.Where(x => x.ID == place.ID).Any();
 
                 Assert.AreEqual<bool>(true, exists);
             }
