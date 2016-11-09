@@ -4,30 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 /// <reference path="tsdef/jquery.d.ts"/>
-"use strict";
-var StopByStop;
-(function (StopByStop) {
-    (function (SBSApp) {
-        SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["SPA"] = 1] = "SPA";
-    })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
-    var SBSApp = StopByStop.SBSApp;
-    ;
-    (function (PoiType) {
-        PoiType[PoiType["General"] = 0] = "General";
-        PoiType[PoiType["Gas"] = 1] = "Gas";
-        PoiType[PoiType["Food"] = 2] = "Food";
-    })(StopByStop.PoiType || (StopByStop.PoiType = {}));
-    var PoiType = StopByStop.PoiType;
-    (function (SBSPage) {
-        SBSPage[SBSPage["home"] = 0] = "home";
-        SBSPage[SBSPage["route"] = 1] = "route";
-        SBSPage[SBSPage["exit"] = 2] = "exit";
-        SBSPage[SBSPage["about"] = 3] = "about";
-    })(StopByStop.SBSPage || (StopByStop.SBSPage = {}));
-    var SBSPage = StopByStop.SBSPage;
-})(StopByStop || (StopByStop = {}));
-/// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
 /// <reference path="tsdef/ai.d.ts"/>
 var StopByStop;
@@ -336,6 +312,30 @@ var StopByStop;
         return Utils;
     }());
     StopByStop.Utils = Utils;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="tsdef/jquery.d.ts"/>
+"use strict";
+var StopByStop;
+(function (StopByStop) {
+    (function (SBSApp) {
+        SBSApp[SBSApp["Web"] = 0] = "Web";
+        SBSApp[SBSApp["SPA"] = 1] = "SPA";
+    })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
+    var SBSApp = StopByStop.SBSApp;
+    ;
+    (function (PoiType) {
+        PoiType[PoiType["General"] = 0] = "General";
+        PoiType[PoiType["Gas"] = 1] = "Gas";
+        PoiType[PoiType["Food"] = 2] = "Food";
+    })(StopByStop.PoiType || (StopByStop.PoiType = {}));
+    var PoiType = StopByStop.PoiType;
+    (function (SBSPage) {
+        SBSPage[SBSPage["home"] = 0] = "home";
+        SBSPage[SBSPage["route"] = 1] = "route";
+        SBSPage[SBSPage["exit"] = 2] = "exit";
+        SBSPage[SBSPage["about"] = 3] = "about";
+    })(StopByStop.SBSPage || (StopByStop.SBSPage = {}));
+    var SBSPage = StopByStop.SBSPage;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
@@ -2384,30 +2384,58 @@ var StopByStop;
     }());
     StopByStop.Init = Init;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="stopbystop-interfaces.ts"/>
-/// <reference path="AppState.ts"/>
-/// <reference path="InitUrls.ts"/>
-/// <reference path="Telemetry.ts"/>
-/// <reference path="Utils.ts"/>
-/// <reference path="InitHome.ts"/>
-/// <reference path="Init.ts"/>
-/// <reference path="ViewModels/LocationViewModel.ts"/>
-/// <reference path="ViewModels/IStopPlace.ts"/>
-/// <reference path="ViewModels/PoiCategoryViewModel.ts"/>
-/// <reference path="ViewModels/FilterViewModel.ts"/>
-/// <reference path="ViewModels/PoiImageViewModel.ts"/>
-/// <reference path="ViewModels/ReviewGroupViewModel.ts"/>
-/// <reference path="ViewModels/PoiViewModel.ts"/>
-/// <reference path="ViewModels/PoiOnJunctionViewModel.ts"/>
-/// <reference path="ViewModels/RouteStopViewModel.ts"/>
-/// <reference path="ViewModels/RoutePlanViewModel.ts"/>
-/// <reference path="ViewModels/JunctionViewModel.ts"/>
-/// <reference path="ViewModels/RouteJunctionViewModel.ts"/>
-/// <reference path="ViewModels/RouteSegmentViewModel.ts"/>
-/// <reference path="ViewModels/RouteViewModel.ts"/>
-/// <reference path="ViewModels/IAppViewModel.ts"/>
-/// <reference path="ViewModels/AppViewModel.ts"/>
-/// <reference path="ViewModels/JunctionMapViewModel.ts"/>
-/// <reference path="ViewModels/JunctionAppViewModel.ts"/>
-/// <reference path="ViewModels/SideBarViewModel.ts"/> 
-//# sourceMappingURL=webbundle.js.map
+// For an introduction to the Blank template, see the following documentation:
+// http://go.microsoft.com/fwlink/?LinkID=397705
+// To debug code on page load in Ripple or on Android devices/emulators: launch your app, set breakpoints, 
+// and then run "window.location.reload()" in the JavaScript Console.
+/// <reference path="../../client/scripts/tsdef/ai.d.ts"/>
+/// <reference path="../../client/scripts/Init.ts"/>
+/// <reference path="../../client/scripts/Telemetry.ts"/>
+var StopByStop;
+(function (StopByStop) {
+    var Cordova;
+    (function (Cordova) {
+        "use strict";
+        var Application;
+        (function (Application) {
+            function initialize() {
+                document.addEventListener('deviceready', onDeviceReady, false);
+            }
+            Application.initialize = initialize;
+            function onDeviceReady() {
+                console.log("in onDeviceReady");
+                // FastClick lib: https://github.com/ftlabs/fastclick
+                var attachFastClick = window["Origami"].fastclick;
+                attachFastClick(document.body);
+                // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
+                var viewPortScale = 1 / window.devicePixelRatio;
+                $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
+            }
+            function onPause() {
+                // TODO: This application has been suspended. Save application state here.
+            }
+            function onResume() {
+                // TODO: This application has been reactivated. Restore application state here.
+            }
+        })(Application = Cordova.Application || (Cordova.Application = {}));
+        var snippet = {
+            config: {
+                instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"
+            }
+        };
+        var init = new Microsoft.ApplicationInsights.Initialization(snippet);
+        StopByStop.Telemetry._appInsights = init.loadAppInsights();
+        $.mobile.ajaxEnabled = true;
+        $.mobile.allowCrossDomainPages = true;
+        $.support.cors = true;
+        StopByStop.Init.initialize({
+            app: StopByStop.SBSApp.SPA,
+            baseDataUrl: "https://www.stopbystop.com/",
+            baseImageUrl: "images/"
+        });
+        window.onload = function () {
+            Application.initialize();
+        };
+    })(Cordova = StopByStop.Cordova || (StopByStop.Cordova = {}));
+})(StopByStop || (StopByStop = {}));
+//# sourceMappingURL=appBundle.js.map

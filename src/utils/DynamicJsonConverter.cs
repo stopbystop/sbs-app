@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
+﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>11/09/2016</date>
 
 namespace Yojowa.StopByStop.Utils
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Dynamic;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Script.Serialization;
+
     // Original Source: http://www.drowningintechnicaldebt.com/ShawnWeisfeld/archive/2010/08/22/using-c-4.0-and-dynamic-to-parse-json.aspx
     // Original Source: http://stackoverflow.com/a/3806407
     public sealed class DynamicJsonConverter : JavaScriptConverter

@@ -1,13 +1,15 @@
-﻿
+﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>11/09/2016</date>
+
 namespace Yojowa.StopByStop.Utils
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.IO.Compression;
-    using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
 
 
     public static class StringCompressor

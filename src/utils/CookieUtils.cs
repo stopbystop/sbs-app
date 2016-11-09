@@ -1,12 +1,13 @@
-﻿
+﻿// <copyright file="CookieUtils.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>11/09/2016</date>
 
 namespace Yojowa.StopByStop.Utils
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Web;
 
     public static class CookieUtils

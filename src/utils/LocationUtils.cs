@@ -1,14 +1,17 @@
-﻿using Microsoft.ApplicationInsights;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>11/09/2016</date>
 
 namespace Yojowa.StopByStop.Utils
 {
+    using Microsoft.ApplicationInsights;
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+
     public static class LocationUtils
     {
         public const double Grain = 0.1;
