@@ -4,3 +4,4 @@ bin
 packages
 node_modules
 *.suo
+StyleCop.Cache
