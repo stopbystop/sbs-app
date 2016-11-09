@@ -1,4 +1,4 @@
-﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+﻿// <copyright file="StringCompressor.cs" company="Yojowa, LLC">
 // Copyright (c) 2016 All Rights Reserved
 // </copyright>
 // <author>Alex Bulankou</author>
@@ -11,7 +11,9 @@ namespace Yojowa.StopByStop.Utils
     using System.IO.Compression;
     using System.Text;
 
-
+    /// <summary>
+    /// String compressor
+    /// </summary>
     public static class StringCompressor
     {
         /// <summary>

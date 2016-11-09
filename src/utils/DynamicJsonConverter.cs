@@ -1,4 +1,4 @@
-﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+﻿// <copyright file="DynamicJsonConverter.cs" company="Yojowa, LLC">
 // Copyright (c) 2016 All Rights Reserved
 // </copyright>
 // <author>Alex Bulankou</author>
@@ -15,8 +15,14 @@ namespace Yojowa.StopByStop.Utils
     using System.Text;
     using System.Web.Script.Serialization;
 
-    // Original Source: http://www.drowningintechnicaldebt.com/ShawnWeisfeld/archive/2010/08/22/using-c-4.0-and-dynamic-to-parse-json.aspx
-    // Original Source: http://stackoverflow.com/a/3806407
+    /// <summary>
+    /// Dynamic JSON converter
+    /// </summary>
+    /// <remarks>
+    /// Original Source: http://www.drowningintechnicaldebt.com/ShawnWeisfeld/archive/2010/08/22/using-c-4.0-and-dynamic-to-parse-json.aspx
+    /// Original Source: http://stackoverflow.com/a/3806407  
+    /// </remarks>
+    /// <seealso cref="System.Web.Script.Serialization.JavaScriptConverter" />
     public sealed class DynamicJsonConverter : JavaScriptConverter
     {
         public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)

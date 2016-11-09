@@ -1,4 +1,4 @@
-﻿// <copyright file="LocationTests.cs" company="Yojowa, LLC">
+﻿// <copyright file="LocationUtils.cs" company="Yojowa, LLC">
 // Copyright (c) 2016 All Rights Reserved
 // </copyright>
 // <author>Alex Bulankou</author>
@@ -12,6 +12,9 @@ namespace Yojowa.StopByStop.Utils
     using System.Collections.Generic;
     using System.Net;
 
+    /// <summary>
+    /// Location utils
+    /// </summary>
     public static class LocationUtils
     {
         public const double Grain = 0.1;
@@ -146,13 +149,9 @@ namespace Yojowa.StopByStop.Utils
                     ip = ip.Substring(0, ip.IndexOf(":"));
                 }
 
-                //telemetryClient.TrackTrace(string.Format("IP is {0} when GetIPAddress completes", ip));
-
                 string url = "http://ip-api.com/json/" + ip.ToString();
                 WebClient client = new WebClient();
                 string jsonstring = client.DownloadString(url);
-
-                //telemetryClient.TrackTrace(string.Format("Location JSON string is {0}", jsonstring));
 
                 dynamic dynObj = JsonConvert.DeserializeObject(jsonstring);
                 if (dynObj.lat == null)

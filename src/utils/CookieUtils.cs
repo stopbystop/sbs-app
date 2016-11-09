@@ -10,6 +10,9 @@ namespace Yojowa.StopByStop.Utils
     using System.Linq;
     using System.Web;
 
+    /// <summary>
+    /// Cookie utils
+    /// </summary>
     public static class CookieUtils
     {
         public static void WriteCookie(string name, string value)
