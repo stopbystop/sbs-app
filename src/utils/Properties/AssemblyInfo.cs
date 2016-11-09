@@ -1,4 +1,10 @@
-﻿using System.Reflection;
+﻿// <copyright file="AssemblyInfo.cs" company="Yojowa, LLC">
+// Copyright (c) 2016 All Rights Reserved
+// </copyright>
+// <author>Alex Bulankou</author>
+// <date>11/09/2016</date>
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

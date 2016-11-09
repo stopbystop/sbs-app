@@ -6,19 +6,27 @@
 
 namespace Yojowa.StopByStop.Utils
 {
-    using Microsoft.ApplicationInsights;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using Microsoft.ApplicationInsights;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Location utils
     /// </summary>
     public static class LocationUtils
     {
+        /// <summary>
+        /// The grain
+        /// </summary>
         public const double Grain = 0.1;
 
+        /// <summary>
+        /// Gets the north-west locations for center location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns>List of locations</returns>
         public static IEnumerable<Location> GetNWLocationsForCenterLocation(Location location)
         {
             var mainLocation = new Location()
@@ -43,7 +51,6 @@ namespace Yojowa.StopByStop.Utils
 
             // w location
             yield return new Location(mainLocation.Lat, mainLocation.Lon - Grain);
-
 
             /*
             //nn ww location
@@ -76,26 +83,11 @@ namespace Yojowa.StopByStop.Utils
             */
         }
 
-        private static double RoundToNLat(double lat)
-        {
-            var roundedLat = Math.Round(lat, 1);
-            if (roundedLat < lat)
-            {
-                roundedLat += 0.1;
-            }
-            return roundedLat;
-        }
-
-        private static double RoundToWLon(double lon)
-        {
-            var roundedLon = Math.Round(lon, 1);
-            if (roundedLon > lon)
-            {
-                roundedLon -= 0.1;
-            }
-            return roundedLon;
-        }
-
+        /// <summary>
+        /// Creates the custom location.
+        /// </summary>
+        /// <param name="locationString">The location string.</param>
+        /// <returns>Custom location</returns>
         public static Location CreateCustomLocation(string locationString)
         {
             if (!string.IsNullOrEmpty(locationString) && locationString.Contains(","))
@@ -119,12 +111,15 @@ namespace Yojowa.StopByStop.Utils
             return null;
         }
 
+        /// <summary>
+        /// Gets the IP address.
+        /// </summary>
+        /// <returns>IP address string</returns>
         public static string GetIPAddress()
         {
-            //TelemetryClient telemetryClient = new TelemetryClient();
             System.Web.HttpContext context = System.Web.HttpContext.Current;
             string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            //telemetryClient.TrackTrace(string.Format("IP is {0} from HTTP_X_FORWARDED_FOR header", ipAddress));
+
             if (!string.IsNullOrEmpty(ipAddress))
             {
                 string[] addresses = ipAddress.Split(',');
@@ -137,11 +132,14 @@ namespace Yojowa.StopByStop.Utils
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
+        /// <summary>
+        /// Gets the current location.
+        /// </summary>
+        /// <returns>Current location</returns>
         public static Location GetCurrentLocation()
         {
             try
             {
-                // TelemetryClient telemetryClient = new TelemetryClient();
                 string ip = GetIPAddress();
 
                 if (ip.IndexOf(":") > -1)
@@ -167,6 +165,38 @@ namespace Yojowa.StopByStop.Utils
                 telemetryClient.TrackException(ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Rounds to northern latitude coordinate
+        /// </summary>
+        /// <param name="lat">The latitude.</param>
+        /// <returns>Rounded value</returns>
+        private static double RoundToNLat(double lat)
+        {
+            var roundedLat = Math.Round(lat, 1);
+            if (roundedLat < lat)
+            {
+                roundedLat += 0.1;
+            }
+
+            return roundedLat;
+        }
+
+        /// <summary>
+        /// Rounds to west longitude.
+        /// </summary>
+        /// <param name="lon">The longitude.</param>
+        /// <returns>Rounded value</returns>
+        private static double RoundToWLon(double lon)
+        {
+            var roundedLon = Math.Round(lon, 1);
+            if (roundedLon > lon)
+            {
+                roundedLon -= 0.1;
+            }
+
+            return roundedLon;
         }
     }
 }

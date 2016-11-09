@@ -15,6 +15,11 @@ namespace Yojowa.StopByStop.Utils
     /// </summary>
     public static class CookieUtils
     {
+        /// <summary>
+        /// Writes the cookie.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="value">The value.</param>
         public static void WriteCookie(string name, string value)
         {
             var cookie = new HttpCookie(name, value);
@@ -22,6 +27,11 @@ namespace Yojowa.StopByStop.Utils
             HttpContext.Current.Response.Cookies.Set(cookie);
         }
 
+        /// <summary>
+        /// Reads the cookie.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>Cookie value</returns>
         public static string ReadCookie(string name)
         {
             if (HttpContext.Current.Response.Cookies.AllKeys.Contains(name))

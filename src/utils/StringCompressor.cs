@@ -20,14 +20,14 @@ namespace Yojowa.StopByStop.Utils
         /// Compresses the string.
         /// </summary>
         /// <param name="text">The text.</param>
-        /// <returns></returns>
+        /// <returns>Compressed text</returns>
         public static string CompressString(string text)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(text);
             var memoryStream = new MemoryStream();
-            using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
+            using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
             {
-                gZipStream.Write(buffer, 0, buffer.Length);
+                gzipStream.Write(buffer, 0, buffer.Length);
             }
 
             memoryStream.Position = 0;
@@ -35,31 +35,31 @@ namespace Yojowa.StopByStop.Utils
             var compressedData = new byte[memoryStream.Length];
             memoryStream.Read(compressedData, 0, compressedData.Length);
 
-            var gZipBuffer = new byte[compressedData.Length + 4];
-            Buffer.BlockCopy(compressedData, 0, gZipBuffer, 4, compressedData.Length);
-            Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gZipBuffer, 0, 4);
-            return Convert.ToBase64String(gZipBuffer);
+            var gzipBuffer = new byte[compressedData.Length + 4];
+            Buffer.BlockCopy(compressedData, 0, gzipBuffer, 4, compressedData.Length);
+            Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzipBuffer, 0, 4);
+            return Convert.ToBase64String(gzipBuffer);
         }
 
         /// <summary>
         /// Decompresses the string.
         /// </summary>
         /// <param name="compressedText">The compressed text.</param>
-        /// <returns></returns>
+        /// <returns>Decompressed text</returns>
         public static string DecompressString(string compressedText)
         {
-            byte[] gZipBuffer = Convert.FromBase64String(compressedText);
+            byte[] gzipBuffer = Convert.FromBase64String(compressedText);
             using (var memoryStream = new MemoryStream())
             {
-                int dataLength = BitConverter.ToInt32(gZipBuffer, 0);
-                memoryStream.Write(gZipBuffer, 4, gZipBuffer.Length - 4);
+                int dataLength = BitConverter.ToInt32(gzipBuffer, 0);
+                memoryStream.Write(gzipBuffer, 4, gzipBuffer.Length - 4);
 
                 var buffer = new byte[dataLength];
 
                 memoryStream.Position = 0;
-                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
+                using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
                 {
-                    gZipStream.Read(buffer, 0, buffer.Length);
+                    gzipStream.Read(buffer, 0, buffer.Length);
                 }
 
                 return Encoding.UTF8.GetString(buffer);
