@@ -9,14 +9,14 @@ namespace Yojowa.StopByStop.Utils
     public class SegmentUtil
     {
         /// <summary>
-        /// used while segmenting world. must be positive
+        /// Segment Width. used while segmenting world. must be positive
         /// </summary>
-        private const double LngIncrement = 10;
+        private const double LngIncrement = 1;
 
         /// <summary>
-        /// used while segmenting world. must be positive
+        /// Segment Height. used while segmenting world. must be positive
         /// </summary>
-        private const double LatDecrement = 10;
+        private const double LatDecrement = 1;
 
         /// <summary>
         /// Get the 1 degree of long distance in miles for the given LAT. LAT is the key
@@ -68,7 +68,7 @@ namespace Yojowa.StopByStop.Utils
                     if (segment.ContainsPoint(geo.Location))
                         segment.Geos.Add(geo);
                 }
-            }
+            }            
 
             //remove segments that have no geo
             for (int i = allWorldSegments.Count - 1; i >= 0; i--)

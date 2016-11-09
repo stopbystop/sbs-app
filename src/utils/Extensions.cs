@@ -47,6 +47,12 @@ namespace Yojowa.StopByStop.Utils
 
         public static double DistanceTo(this Location baseCoordinates, Location targetCoordinates, UnitOfLength unitOfLength)
         {
+            if (baseCoordinates.Lat == targetCoordinates.Lat && 
+                baseCoordinates.Lon == targetCoordinates.Lon)
+            {   //if not check this. NAN will be returned.
+                return 0;
+            }
+
             var baseRad = Math.PI * baseCoordinates.Lat / 180;
             var targetRad = Math.PI * targetCoordinates.Lat / 180;
             var theta = baseCoordinates.Lon - targetCoordinates.Lon;

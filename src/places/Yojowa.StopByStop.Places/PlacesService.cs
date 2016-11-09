@@ -134,6 +134,16 @@ namespace Yojowa.StopByStop.Places
         /// <returns>List of geo places</returns>
         public GeoPlace[] FindPlacesInArea(Location center, double radiusInMiles)
         {
+            if (center == null)
+            {
+                throw new ArgumentNullException("center");
+            }
+
+            if (radiusInMiles <= 0)
+            {
+                throw new ArgumentOutOfRangeException("radius must be positive.");
+            }
+
             return AllSegments.GetGeosForSearch(center, radiusInMiles)
                                .Where(x => x.Location.DistanceTo(center, UnitOfLength.Miles) <= radiusInMiles)
                                .OrderBy(x => x.Location.DistanceTo(center, UnitOfLength.Miles)).ToArray();

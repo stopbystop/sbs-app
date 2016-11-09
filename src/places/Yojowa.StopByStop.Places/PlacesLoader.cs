@@ -52,7 +52,7 @@ namespace Yojowa.StopByStop.Places
 
                     foreach (GeoPlace geo in geoBatch)
                     {
-                        sb.AppendFormat("insert into cities(id, shortname, name, lat, lng, population) values('{0}','{1}','{2}',{3},{4},{5});", SqlUtil.EscapeString(geo.ID), SqlUtil.EscapeString(geo.ShortName), SqlUtil.EscapeString(geo.Name), geo.Location.Lat, geo.Location.Lon, geo.Population);
+                        sb.AppendFormat("insert into cities(id, shortname, name, lat, lng, population) values('{0}','{1}','{2}',{3},{4},{5});", SqlUtil.EscapeString(geo.ID), SqlUtil.EscapeString(geo.ShortName), SqlUtil.EscapeString(geo.Name), geo.Location.Lat.ToString(CultureInfo.InvariantCulture), geo.Location.Lon.ToString(CultureInfo.InvariantCulture), geo.Population.ToString(CultureInfo.InvariantCulture));
                     }
 
                     string cmdText = sb.ToString();
