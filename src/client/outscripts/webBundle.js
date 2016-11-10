@@ -2323,8 +2323,7 @@ var StopByStop;
                 else {
                     $(".poi-table").hide();
                     $(".poi-map").show();
-                    //TODO: refactor this to not expose map object globally
-                    window["map"].setZoom(13);
+
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.POIGroupSwitchMap);
                 }
             });

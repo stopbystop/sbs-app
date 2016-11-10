@@ -78,13 +78,13 @@ module StopByStop {
 
             /* exit page initialization */
             $(document).on("pageinit", ".exit-page", function (event) {
-                Init.wireupPOIGroup();
+
             });
             /* end of exit page initialization */
 
             /* poi group page initialization */
             $(document).on("pageinit", ".poigroup-page", function (event) {
-                Init.wireupPOIGroup();
+
                 var poiGroupInitialized = false;
                 $(document).scroll(function () {
                     if (!poiGroupInitialized) {
@@ -143,7 +143,7 @@ module StopByStop {
                 if (!scheduledUnknownChange) {
                     scheduledUnknownChange = true;
                     window.setTimeout(() => {
-                        if (!window["knownHashChange"]) {
+                        if (!AppState.current.knownHashChangeInProgress) {
                             var newHash = location.hash;
                             var oldPage = AppState.current.navigationLocation.page;
 
@@ -159,7 +159,6 @@ module StopByStop {
                             }
                         }
 
-                        window["knownHashChange"] = false;
                         scheduledUnknownChange = false;
                     }, 100);
                 }
@@ -215,7 +214,7 @@ module StopByStop {
                     var updatedHash = Utils.getHashFromNavigationLocation(AppState.current.navigationLocation);
 
                     if (location.hash !== updatedHash) {
-                        window["knownHashChange"] = true;
+                        AppState.current.knownHashChangeInProgress = true;
                         location.replace(updatedHash);
                     }
 
@@ -224,6 +223,8 @@ module StopByStop {
                         case SBSPage.exit:
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
+
+                                Init._app(new AppViewModel(null));
                                 Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
@@ -245,12 +246,15 @@ module StopByStop {
                     switch (AppState.current.pageInfo.pageName) {
                         case "exit-page":
                             $(".filter-btn").show();
+                            Init.initJunctionMapWhenReady(<JunctionSPAAppViewModel>Init._app().selectedJunction()).then((jmmv) => {
+                                // to ensure the switch between map and list view is initialized
+                                $(".view-mode-switch").controlgroup();
+                                $(".view-mode-switch").trigger("create");
+                                Init.wireupPOIGroup(jmmv);
 
-                            // to ensure the switch between map and list view is initialized
-                            $("#exit").trigger("create");
+                            })
 
-                            Init.wireupPOIGroup();
-                            Init.initJunctionMap(<JunctionSPAAppViewModel>Init._app().selectedJunction());
+
                             break;
                         case "route-page":
                             $(".filter-btn").show();
@@ -268,17 +272,25 @@ module StopByStop {
             });
         }
 
-        private static initJunctionMap(junctionAppViewModel: JunctionSPAAppViewModel) {
+        private static initJunctionMapWhenReady(junctionAppViewModel: JunctionSPAAppViewModel): JQueryPromise<JunctionMapViewModel> {
+            var dfd = jQuery.Deferred();
             var mapElement = $("#map")[0];
             var mapContainerElement = $(".poi-map")[0];
+
             if (mapElement && mapContainerElement) {
-                junctionAppViewModel.initMap(mapElement, mapContainerElement);
+               var junctionMapViewModel = junctionAppViewModel.initMap(mapElement, mapContainerElement);
+               dfd.resolve(junctionMapViewModel);
             } else {
-                window.setTimeout(() => Init.initJunctionMap(junctionAppViewModel), 200);
+                window.setTimeout(() => {
+                    Init.initJunctionMapWhenReady(junctionAppViewModel)
+                        .then((jmvm) => dfd.resolve(jmvm));
+                }, 50);
             }
+
+            return dfd.promise();
         }
 
-        private static wireupPOIGroup(): void {
+        private static wireupPOIGroup(jmvm: JunctionMapViewModel): void {
             $(".view-mode-switch").on("change", function () {
                 var modeVal = $(".view-mode-switch :radio:checked").val();
                 if (modeVal === "list") {
@@ -289,8 +301,7 @@ module StopByStop {
                 else {
                     $(".poi-table").hide();
                     $(".poi-map").show();
-                    //TODO: refactor this to not expose map object globally
-                    window["map"].setZoom(13);
+                    jmvm.initMapDiv();
                     Telemetry.trackEvent(TelemetryEvent.POIGroupSwitchMap);
                 }
             });

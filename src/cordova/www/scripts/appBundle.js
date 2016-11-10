@@ -176,6 +176,7 @@ var StopByStop;
                             switch (parameter) {
                                 case "routeid":
                                     navigationLocation.routeId = val;
+                                    navigationLocation.poiType = undefined;
                                     break;
                                 case "exitid":
                                     navigationLocation.exitId = val;
@@ -287,7 +288,7 @@ var StopByStop;
             if (poiType) {
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
-            window["knownHashChange"] = true;
+            StopByStop.AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash });
         };
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
@@ -1927,20 +1928,29 @@ var StopByStop;
     var JunctionMapViewModel = (function () {
         function JunctionMapViewModel(mapDiv, mapContainerDiv, junction, urls) {
             var _this = this;
+            this.mapDivInitialized = false;
             this.junction = junction;
             this.mapDiv = mapDiv;
             this.mapContainerDiv = mapContainerDiv;
             this.urls = urls;
-            if (this.mapDiv && this.mapContainerDiv) {
-                window.setTimeout(function () {
-                    $(_this.mapDiv).css({ 'height': $(_this.mapDiv).width() + 'px' });
-                    _this.onMapReady();
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                if (this.mapDiv && this.mapContainerDiv) {
                     window.setTimeout(function () {
-                        $(_this.mapContainerDiv).hide();
-                    }, 500);
-                }, 300);
+                        _this.initMapDiv();
+                        window.setTimeout(function () {
+                            $(_this.mapContainerDiv).hide();
+                        }, 500);
+                    }, 300);
+                }
             }
         }
+        JunctionMapViewModel.prototype.initMapDiv = function () {
+            if (!this.mapDivInitialized) {
+                $(this.mapDiv).css({ 'height': $(this.mapDiv).width() + 'px' });
+                this.onMapReady();
+                this.mapDivInitialized = true;
+            }
+        };
         JunctionMapViewModel.prototype.onMapReady = function () {
             var junctionPoint = new google.maps.LatLng(this.junction.junction.location.lat, this.junction.junction.location.lon);
             this.map = new google.maps.Map(this.mapDiv, {
@@ -1953,7 +1963,6 @@ var StopByStop;
                 map: this.map,
                 icon: this.urls.MapExitIconUrl
             });
-            window["map"] = this.map;
             this.createPois();
         };
         ;
@@ -2067,6 +2076,7 @@ var StopByStop;
         ;
         JunctionSPAAppViewModel.prototype.initMap = function (mapDiv, mapContainerDiv) {
             this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.AppState.current.urls);
+            return this.junctionMapViewModel;
         };
         return JunctionSPAAppViewModel;
     }(JunctionAppBaseViewModel));
@@ -2164,12 +2174,10 @@ var StopByStop;
             /* end of route page initialization */
             /* exit page initialization */
             $(document).on("pageinit", ".exit-page", function (event) {
-                Init.wireupPOIGroup();
             });
             /* end of exit page initialization */
             /* poi group page initialization */
             $(document).on("pageinit", ".poigroup-page", function (event) {
-                Init.wireupPOIGroup();
                 var poiGroupInitialized = false;
                 $(document).scroll(function () {
                     if (!poiGroupInitialized) {
@@ -2213,7 +2221,7 @@ var StopByStop;
                 if (!scheduledUnknownChange) {
                     scheduledUnknownChange = true;
                     window.setTimeout(function () {
-                        if (!window["knownHashChange"]) {
+                        if (!StopByStop.AppState.current.knownHashChangeInProgress) {
                             var newHash = location.hash;
                             var oldPage = StopByStop.AppState.current.navigationLocation.page;
                             StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
@@ -2221,7 +2229,6 @@ var StopByStop;
                                 StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
                             }
                         }
-                        window["knownHashChange"] = false;
                         scheduledUnknownChange = false;
                     }, 100);
                 }
@@ -2259,7 +2266,7 @@ var StopByStop;
                     StopByStop.Utils.updateNavigationLocation(location.hash, StopByStop.AppState.current.navigationLocation);
                     var updatedHash = StopByStop.Utils.getHashFromNavigationLocation(StopByStop.AppState.current.navigationLocation);
                     if (location.hash !== updatedHash) {
-                        window["knownHashChange"] = true;
+                        StopByStop.AppState.current.knownHashChangeInProgress = true;
                         location.replace(updatedHash);
                     }
                     switch (StopByStop.AppState.current.navigationLocation.page) {
@@ -2267,6 +2274,7 @@ var StopByStop;
                         case StopByStop.SBSPage.exit:
                             if (Init._currentRouteId !== StopByStop.AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = StopByStop.AppState.current.navigationLocation.routeId;
+                                Init._app(new StopByStop.AppViewModel(null));
                                 Init.loadRoute(StopByStop.AppState.current.navigationLocation.routeId).done(function () {
                                     if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                         Init.completeExitPageInit();
@@ -2286,10 +2294,12 @@ var StopByStop;
                     switch (StopByStop.AppState.current.pageInfo.pageName) {
                         case "exit-page":
                             $(".filter-btn").show();
-                            // to ensure the switch between map and list view is initialized
-                            $("#exit").trigger("create");
-                            Init.wireupPOIGroup();
-                            Init.initJunctionMap(Init._app().selectedJunction());
+                            Init.initJunctionMapWhenReady(Init._app().selectedJunction()).then(function (jmmv) {
+                                // to ensure the switch between map and list view is initialized
+                                $(".view-mode-switch").controlgroup();
+                                $(".view-mode-switch").trigger("create");
+                                Init.wireupPOIGroup(jmmv);
+                            });
                             break;
                         case "route-page":
                             $(".filter-btn").show();
@@ -2302,17 +2312,23 @@ var StopByStop;
                 }
             });
         };
-        Init.initJunctionMap = function (junctionAppViewModel) {
+        Init.initJunctionMapWhenReady = function (junctionAppViewModel) {
+            var dfd = jQuery.Deferred();
             var mapElement = $("#map")[0];
             var mapContainerElement = $(".poi-map")[0];
             if (mapElement && mapContainerElement) {
-                junctionAppViewModel.initMap(mapElement, mapContainerElement);
+                var junctionMapViewModel = junctionAppViewModel.initMap(mapElement, mapContainerElement);
+                dfd.resolve(junctionMapViewModel);
             }
             else {
-                window.setTimeout(function () { return Init.initJunctionMap(junctionAppViewModel); }, 200);
+                window.setTimeout(function () {
+                    Init.initJunctionMapWhenReady(junctionAppViewModel)
+                        .then(function (jmvm) { return dfd.resolve(jmvm); });
+                }, 50);
             }
+            return dfd.promise();
         };
-        Init.wireupPOIGroup = function () {
+        Init.wireupPOIGroup = function (jmvm) {
             $(".view-mode-switch").on("change", function () {
                 var modeVal = $(".view-mode-switch :radio:checked").val();
                 if (modeVal === "list") {
@@ -2323,8 +2339,7 @@ var StopByStop;
                 else {
                     $(".poi-table").hide();
                     $(".poi-map").show();
-                    //TODO: refactor this to not expose map object globally
-                    window["map"].setZoom(13);
+                    jmvm.initMapDiv();
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.POIGroupSwitchMap);
                 }
             });

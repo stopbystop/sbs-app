@@ -117,7 +117,13 @@
                                     <div class="route_line" data-bind="foreach: route.routeSegments">
                                         <div class="segment" data-bind="style: {height: height, lineHeight:height}">
                                             <div class="segment-name">
-                                                <span class="highway-name" data-bind="text: highwayNameText, attr: {title:highwayNameText}"></span>
+
+                                                <span class="segment-instructions">
+                                                    <span data-bind="html: instructions, attr: {title: instructionsTip}"></span>
+                                                </span>
+                                                <span class="highway-name">
+                                                    <span data-bind="text: highwayNameText, attr: {title:highwayNameText}"></span>
+                                                </span>
                                                 <div class="segment-distance">
                                                     <span class="distance_marker" data-bind="text: distanceText"></span>
                                                 </div>
@@ -134,14 +140,14 @@
                                                         </a>
                                                     </div>
                                                     <div class="pois">
-                                                        <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitGasPage"
+                                                        <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitPage"
                                                            class="poi gas" data-type="servicestations">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: gasPoiCountString"></div>
                                                                 <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
                                                             </div>
                                                         </a>
-                                                        <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitFoodPage"
+                                                        <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitPage"
                                                            class="poi food" data-type="restaurants">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: foodPoiCountString"></div>

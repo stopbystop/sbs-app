@@ -13,6 +13,7 @@ module StopByStop {
         private poiInfoWindow: google.maps.InfoWindow;
         private map: google.maps.Map;
         private urls: IInitUrls;
+        private mapDivInitialized: boolean = false;
 
         constructor(mapDiv: Element, mapContainerDiv: Element, junction: RouteJunctionViewModel, urls: IInitUrls) {
 
@@ -21,18 +22,24 @@ module StopByStop {
             this.mapContainerDiv = mapContainerDiv;
             this.urls = urls;
 
-            if (this.mapDiv && this.mapContainerDiv) {
-                window.setTimeout(() => {
-                    $(this.mapDiv).css({ 'height': $(this.mapDiv).width() + 'px' });
-
-                    this.onMapReady();
-
+            if (AppState.current.app === SBSApp.Web) {
+                if (this.mapDiv && this.mapContainerDiv) {
                     window.setTimeout(() => {
-                        $(this.mapContainerDiv).hide();
-                    }, 500);
-                }, 300);
-            }
+                        this.initMapDiv();
+                        window.setTimeout(() => {
+                            $(this.mapContainerDiv).hide();
+                        }, 500);
+                    }, 300);
+                }
+            } 
+        }
 
+        public initMapDiv(): void {
+            if (!this.mapDivInitialized) {
+                $(this.mapDiv).css({ 'height': $(this.mapDiv).width() + 'px' });
+                this.onMapReady();
+                this.mapDivInitialized = true;
+            }
         }
 
         private onMapReady(): void {
@@ -50,7 +57,6 @@ module StopByStop {
                 icon: this.urls.MapExitIconUrl
             });
 
-            window["map"] = this.map;
             this.createPois();
         };
 

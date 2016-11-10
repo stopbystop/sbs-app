@@ -27,6 +27,7 @@ module StopByStop {
         urls?: IInitUrls;
         pageInfo?: IPageInfo;
         navigationLocation?: ISBSNavigationLocation;
+        knownHashChangeInProgress?: boolean;
     }
 
     export interface ILocation {

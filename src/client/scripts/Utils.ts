@@ -50,6 +50,7 @@ module StopByStop {
                             switch (parameter) {
                                 case "routeid":
                                     navigationLocation.routeId = val;
+                                    navigationLocation.poiType = undefined;
                                     break;
                                 case "exitid":
                                     navigationLocation.exitId = val;
@@ -191,7 +192,7 @@ module StopByStop {
                 dataUrl += "&poitype=" + PoiType[poiType].toLowerCase();
             }
 
-            window["knownHashChange"] = true;
+            AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer(
                 "change",
                 pageId, { dataUrl: dataUrl, changeHash: changeHash });

@@ -74,8 +74,9 @@ module StopByStop {
             
         };
 
-        public initMap(mapDiv: Element, mapContainerDiv: Element) {
+        public initMap(mapDiv: Element, mapContainerDiv: Element): JunctionMapViewModel {
             this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
+            return this.junctionMapViewModel;
         }
     }
 
