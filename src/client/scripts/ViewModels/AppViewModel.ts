@@ -9,10 +9,10 @@
 module StopByStop {
     export class AppViewModel implements IAppViewModel {
 
-   
+
         private _route: IRoute;
 
-        constructor(route: IRoute, initSettings: IAppState = null) {
+        constructor(route: IRoute, initSettings: IAppState = null, routeInitializationComplete: () => void = null) {
             if (route) {
                 this._route = route;
                 var rjs: IRouteJunction[] = [];
@@ -24,6 +24,9 @@ module StopByStop {
 
                 this.route = new RouteViewModel(this._route, this, this.filter, initSettings, () => {
                     this.routePlan.loadStopsFromStorage();
+                    if (routeInitializationComplete) {
+                        routeInitializationComplete();
+                    }
                 });
 
 

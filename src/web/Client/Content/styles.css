@@ -237,8 +237,8 @@ input {
     font-size: 14px;
     overflow-y: hidden;
     margin-bottom: -11px;
-    text-transform:none;
-    font-variant:small-caps;
+    text-transform: none;
+    font-variant: small-caps;
     background-color: #333;
 }
 
@@ -506,16 +506,35 @@ ui-btn.poi-table-cell-link {
     font-size: 1.2em;
 }
 
-.poi_details {
+.poi-details {
     float: left;
     overflow: hidden;
     width: 60%;
 }
 
-.poi_placename {
+.poi-placename {
     overflow: hidden;
     width: 65%;
     text-overflow: ellipsis;
+    padding-left: 1.5em;
+    background-repeat: no-repeat;
+    background-size: 1.4em;
+}
+
+.poi-placename-food {
+    background-image: url('v1/icons/food2.png');
+}
+
+.sbs-cdb .poi-placename-food {
+    background-image: url('../images/food2.png');
+}
+
+.poi-placename-gas {
+    background-image: url('v1/icons/gas.png');
+}
+
+.sbs-cdb .poi-placename-gas {
+    background-image: url('../images/gas.png');
 }
 
 @media (min-width: 35em) {
@@ -524,7 +543,7 @@ ui-btn.poi-table-cell-link {
     }
 }
 
-.poi_details {
+.poi-details {
     float: left;
     overflow: hidden;
     width: 65%;
@@ -532,7 +551,7 @@ ui-btn.poi-table-cell-link {
 }
 
 @media (min-width: 35em) {
-    .poi_details {
+    .poi-details {
         float: left;
         overflow: hidden;
         width: 75%;

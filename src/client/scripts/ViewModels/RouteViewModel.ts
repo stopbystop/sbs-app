@@ -24,7 +24,7 @@ module StopByStop {
 
 
         constructor(route: IRoute, app: IAppViewModel, filter: FilterViewModel, initSettings: IAppState, routeInitializationComplete: () => void) {
-            this._route = route;
+            this._route = this.route = route;
             this._app = app;
             this._routeInitializationComplete = routeInitializationComplete;
             this._filter = filter;
@@ -100,7 +100,7 @@ module StopByStop {
 
 
 
-
+        public route: IRoute;
         public fromLocation: LocationViewModel;
         public toLocation: LocationViewModel;
         public currentLocation: KnockoutObservable<LocationViewModel>;

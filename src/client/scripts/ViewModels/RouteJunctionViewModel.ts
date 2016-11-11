@@ -13,7 +13,7 @@ module StopByStop {
         private _obj: IRouteJunction;
 
         constructor(obj: IRouteJunction, routeStartTime: Date, app: IAppViewModel) {
-            this._obj = obj;
+            this._obj = this.routeJunction = obj;
             this.distanceFromRouteStartText = ko.observable(Utils.getMileString(this._obj.dfrs));
 
 
@@ -54,7 +54,7 @@ module StopByStop {
                 return new Date(this.eta().getTime() + totalDetourTime * 1000);
             });
         }
-
+        public routeJunction: IRouteJunction;
         public distanceFromRouteStartText: KnockoutObservable<string>;
         public junction: JunctionViewModel;
         public visible: KnockoutObservable<boolean>;
