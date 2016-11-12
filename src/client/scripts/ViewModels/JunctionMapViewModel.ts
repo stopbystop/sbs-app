@@ -94,7 +94,7 @@ module StopByStop {
                         });
                         poiMarker["iw"] = gmapsInfoWindow;
 
-
+                        
                         poi.poi.isYInfoLoading.subscribe(() => {
                             ko.cleanNode($("#poiPopupTemplate")[0]);
                             ko.applyBindings(poi, $("#poiPopupTemplate")[0]);

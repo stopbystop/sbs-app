@@ -1386,6 +1386,7 @@ var StopByStop;
                 transition: "slidedown",
                 corners: true
             });
+            $("#stopSettingsDialog").trigger("create");
             $("#stopSettingsDialog").popup("open");
         };
         RoutePlanViewModel.prototype.navigate = function () {
@@ -1882,6 +1883,7 @@ var StopByStop;
             this.route = null;
             // initialize filter to an empty object, so that it doesn't require IFs which would require delayed jqm initialization
             this.filter = {};
+            this.routePlan = null;
             this.selectedJunction = ko.observable(null);
             if (route) {
                 this._route = route;
@@ -2281,7 +2283,6 @@ var StopByStop;
                     if (StopByStop.SBSPage[StopByStop.AppState.current.navigationLocation.page] !== pageBeingLoaded) {
                         StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
                         navigationAbandoned = true;
-                        return;
                     }
                     $("#sbsheader")
                         .prependTo(pageIdSelector)

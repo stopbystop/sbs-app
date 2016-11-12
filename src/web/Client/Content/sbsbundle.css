@@ -626,6 +626,11 @@ ui-btn.poi-table-cell-link {
     background-size: 1.4em;
 }
 
+.poi-popup .poi-placename {
+    padding-left: 1.2em;
+    background-size: 1.2em;
+}
+
 .poi-placename-food {
     background-image: url('v1/icons/food2.png');
 }

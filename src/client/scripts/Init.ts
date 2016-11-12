@@ -221,7 +221,7 @@ module StopByStop {
                             false);
 
                         navigationAbandoned = true;
-                        return;
+                        
                     }
 
                    

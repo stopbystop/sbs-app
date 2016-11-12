@@ -226,7 +226,7 @@
         </div>
         <!-- end of route page-->
         <!-- exit page-->
-        <div data-bind="if:route" id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
+        <div id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
             <div role="main" class="ui-content jqm-content">
                 <div class="page-content-inner">
                     <div class="breadCrumbHolder module">
@@ -235,7 +235,7 @@
                                 <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                                     <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
                                 </li>
-                                <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                                     <a itemprop="item" href="#route">
                                         <span itemprop="name" data-bind="text:route.title"></span>
                                     </a>
@@ -257,7 +257,7 @@
                                         <label for="view-mode-radio-choice-22">Map view</label>
                                     </fieldset>
 
-                                  <!-- start food POI list-->
+                                    <!-- start food POI list-->
                                     <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
                                         <div class="poi-table-row">
                                             <div class="poi-table-cell poi-details-cell">
@@ -294,7 +294,6 @@
                                         </div> <!-- /poi-table-row -->
                                     </div> <!-- /poi-table -->
                                     <!-- end food POI list-->
-
                                     <!-- start gas POI list-->
                                     <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleGasPois">
                                         <div class="poi-table-row">
@@ -304,7 +303,7 @@
                                                    style="text-align:left;"
                                                    data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
                                                     <div class="poi-placename poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
-                                                  
+
                                                     <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
                                                     <img src="images/add_to_route.png" class="poi-table-cell-go" alt="Add to route" />
                                                 </a>
@@ -331,7 +330,7 @@
                                     </div> <!-- /poi-table -->
                                     <!-- end gas POI list-->
 
-                                
+
                                     <div class="poi-map">
                                         <div id="map" style="width:100%;clear:both"></div>
                                     </div> <!-- poi-map -->
@@ -341,8 +340,7 @@
                     </div> <!-- /breadCrumbHolder module -->
                 </div>  <!-- /page-content-inner -->
             </div>  <!-- /main -->
-            <!--<div data-bind="template:{name:'filter-template'}"></div>-->
-
+            <!-- filter dialog start-->
             <div data-bind="if:selectedJunction" data-role="popup" class="ui-content filter-dlg">
                 <div data-role="header">
                     <h2>Set filters</h2>
@@ -392,7 +390,66 @@
                     </div>
                 </div>
             </div>
+            <!-- filter dialog end-->
+            <!-- stop settings dialog start-->
+            <div data-bind="if:routePlan" data-role="popup" id="stopSettingsDialog" class="ui-content">
+                <div data-bind="with:routePlan.editedStop">
+                    <div data-role="header">
+                        <h2 style="margin:0 5%;" data-bind="html:name"></h2>
+                    </div>
+                    <div role="main" style="padding:5px;background-color:#fff;">
+                        <div class="containing-element">
+                            <p style="text-align:center;">How long would you like to stop there?</p>
+                            <div style="display:table;">
+                                <div style="display:table-row">
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
+                                    </div>
 
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                              data-bind="text:stopDurationHours"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                            hr
+                                        </div>
+                                    </div>
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                              data-bind="text:stopDurationMinutes"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                            min
+                                        </div>
+                                    </div>
+
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="plus"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a href="#"
+                                   class="ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
+                                    <span style="display:inline-block;margin-top:10px;">
+                                        Add to<br />route
+                                    </span>
+
+                                </a>
+                                <a data-bind="click:navigate" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
+                                    <span>Navigate<br />there<br />now</span>
+                                </a>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div>
+                                <a href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- stop settings dialog end-->
         </div>  <!-- /exit-page -->
         <!-- end of exit page-->
         <!-- about page-->
@@ -458,11 +515,7 @@
 
 
         </div> <!-- / display:none-->
-        <!-- filter dialog popup-->
-        <script type="text/html" id="filter-template">
-            <!--TODO: here-->
-        </script>
-        <!-- / filter dialog popup-->
+
 
 
         <script type="text/html" id="sidebar-template">
@@ -499,6 +552,43 @@
         </script>
     </div>
 
+    <div style="display:none">
+        <div id="poiPopupTemplate">
+            <div class='poi-popup' style='width:185px;height:105px;overflow:auto; position:relative;'>
+                <div class='poi-table-cell poi-details-cell' style='position:absolute;width:175px;max-width:180px;height:40px;padding:0;'>
+
+                    <a href="#" onclick="showPoiOptionsForMapPopup();" data-rel="popup" data-transition="slidedown" data-position-to="origin"
+                       class='ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn'
+                       style='text-align:left;padding:1px;line-height:0.8em;text-align:center;font-size:1.2em;'>
+
+                        <div data-bind="css:'poi-placename poi-placename-'+StopByStop.PoiType[poi.poiType].toLowerCase()" class='poi-placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'>
+                            <span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span>
+                        </div>
+                        <div class='poi-details' style='font-size:0.6em;' data-bind="html:poi.description"></div>
+                        <div class='poi-details' style='font-size:0.6em;text-align:center;' data-bind="html:distanceFromJunctionText"></div>
+                        <img src='images/add_to_route.png' class='poi-table-cell-go' style='height:40px;' alt='Add to route' />
+                    </a>
+                </div><br />
+                <div class='poi-table-cell poi-yelp-cell' style='position:absolute; top:50px;width:120px;height:40px;padding:0;'>
+                    <a href='#' data-bind="attr:{href:poi.yUrl}" class='ui-btn ui-corner-all poi-table-cell-link yelp-link' style='padding:1px;' target='_blank'>
+                        <div style='float:left;margin-left:10px;'><img class='review-provider-icon' src='https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png' alt='Yelp' /></div>
+                        <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
+                        <div data-bind="visible: !poi.isYInfoLoading()">
+                            <div class='rating-small poi-rating' style='clear:none;top:7px;'>
+                                <i data-bind="css:'star-img '+poi.yStarClass()"></i>
+                            </div>
+                        </div>
+                        <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
+                    </a>
+                </div>
+                <div class='poi-table-cell poi-phone-cell call-icon' style='position:absolute;top:50px;left:125px;width:50px;height:40px;padding:0;'>
+                    <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class='ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title' style='padding:1px;' target='_blank'>
+                        <img style='height:40px;width:40px;' src='images/phone2.png' class='poi-phone' alt='Call' />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

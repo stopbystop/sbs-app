@@ -156,6 +156,7 @@ module StopByStop {
                 corners: true
             });
 
+            $("#stopSettingsDialog").trigger("create");
             $("#stopSettingsDialog").popup("open");
         }
 

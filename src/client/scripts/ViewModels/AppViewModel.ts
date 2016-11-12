@@ -41,7 +41,7 @@ module StopByStop {
 
         // initialize filter to an empty object, so that it doesn't require IFs which would require delayed jqm initialization
         public filter: FilterViewModel = <FilterViewModel>{};
-        public routePlan: RoutePlanViewModel;
+        public routePlan: RoutePlanViewModel = null;
         public selectedJunction: KnockoutObservable<JunctionAppBaseViewModel> = ko.observable(null);
 
         public initSideBar(): void {
