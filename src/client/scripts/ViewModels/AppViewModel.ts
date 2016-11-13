@@ -23,7 +23,11 @@ module StopByStop {
                 this.routePlan = new RoutePlanViewModel(this._route.rid, this._route.d, new LocationViewModel(route.tl));
 
                 this.route = new RouteViewModel(this._route, this, this.filter, initSettings, () => {
-                    this.routePlan.loadStopsFromStorage();
+
+                    if (initSettings.app === SBSApp.Web) {
+                        this.routePlan.loadStopsFromStorage();
+                    }
+
                     if (routeInitializationComplete) {
                         routeInitializationComplete();
                     }

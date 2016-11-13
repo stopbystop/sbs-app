@@ -1264,6 +1264,7 @@ var StopByStop;
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="../Utils.ts"/>
 /// <reference path="../Telemetry.ts"/>
+/// <reference path="../AppState.ts"/>
 /// <reference path="RouteStopViewModel.ts"/>
 /// <reference path="RouteJunctionViewModel.ts"/>
 "use strict";
@@ -1281,7 +1282,7 @@ var StopByStop;
             this._storage = storageOverride || window.sessionStorage;
             this._routeId = routeId;
             this.stops = ko.observableArray([]);
-            this.editedStop = ko.observable();
+            this.editedStop = ko.observable(null);
             this._stopDictionary = {};
             this._destination = destination;
         }
@@ -1329,6 +1330,17 @@ var StopByStop;
             var stop = this._stopDictionary[sbsid];
             return stop;
         };
+        RoutePlanViewModel.prototype.addEditedStopToRoute = function () {
+            this.addStopToRoute(this.editedStop());
+            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, StopByStop.AppState.current.navigationLocation.routeId);
+        };
+        RoutePlanViewModel.prototype.removeEditedStop = function () {
+            this.removeStop(this.editedStop());
+            this.closeStopSettings();
+        };
+        RoutePlanViewModel.prototype.navigateToEditedStop = function () {
+            this.editedStop().navigate();
+        };
         RoutePlanViewModel.prototype.addStopToRoute = function (routeStopViewModel, reloadFromCache) {
             var _this = this;
             if (reloadFromCache === void 0) { reloadFromCache = false; }
@@ -1353,15 +1365,17 @@ var StopByStop;
                         alert("Couldn't find routeJunctionViewModel");
                     }
                 }
-                // update storage item for persistence
-                place.duration = routeStopViewModel.stopDuration();
-                this._storageItem[this._routeId].stops[place.id] = place;
-                // subscribe for duration updates
-                routeStopViewModel.stopDuration.subscribe(function (newValue) {
-                    _this._storageItem[_this._routeId].stops[place.id].duration = newValue;
-                    _this.saveRouteToStorage();
-                });
-                this.saveRouteToStorage();
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    // update storage item for persistence
+                    place.duration = routeStopViewModel.stopDuration();
+                    this._storageItem[this._routeId].stops[place.id] = place;
+                    // subscribe for duration updates
+                    routeStopViewModel.stopDuration.subscribe(function (newValue) {
+                        _this._storageItem[_this._routeId].stops[place.id].duration = newValue;
+                        _this.saveRouteToStorage();
+                    });
+                    this.saveRouteToStorage();
+                }
             }
         };
         RoutePlanViewModel.prototype.removeStop = function (stop) {
@@ -1375,19 +1389,31 @@ var StopByStop;
                     routeJunctionViewModel.stops.remove(stop);
                 }
                 delete this._stopDictionary[sbsid];
-                delete this._storageItem[this._routeId].stops[sbsid];
-                this.saveRouteToStorage();
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    delete this._storageItem[this._routeId].stops[sbsid];
+                    this.saveRouteToStorage();
+                }
             }
         };
         RoutePlanViewModel.prototype.showStopSettings = function (plannedStop) {
             StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.ShowStopSettingsPopup);
             this.editedStop(plannedStop);
-            $("#stopSettingsDialog").popup({
+            var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
+                $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
+                $("#stopSettingsDialog");
+            stopSettingsDialog.popup({
                 transition: "slidedown",
                 corners: true
             });
-            $("#stopSettingsDialog").trigger("create");
-            $("#stopSettingsDialog").popup("open");
+            ko.tasks.runEarly();
+            stopSettingsDialog.trigger("create");
+            stopSettingsDialog.popup("open");
+        };
+        RoutePlanViewModel.prototype.closeStopSettings = function () {
+            var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
+                $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
+                $("#stopSettingsDialog");
+            stopSettingsDialog.popup("close");
         };
         RoutePlanViewModel.prototype.navigate = function () {
             var _this = this;
@@ -1424,7 +1450,9 @@ var StopByStop;
         };
         ;
         RoutePlanViewModel.prototype.saveRouteToStorage = function () {
-            this._storage.setItem(StopByStop.ROUTE_PLAN_STORAGE_KEY, JSON.stringify(this._storageItem));
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                this._storage.setItem(StopByStop.ROUTE_PLAN_STORAGE_KEY, JSON.stringify(this._storageItem));
+            }
         };
         return RoutePlanViewModel;
     }());
@@ -1892,7 +1920,9 @@ var StopByStop;
                 this.filter = new StopByStop.FilterViewModel(route.rid, rjs, route.fcat, route.tfcat);
                 this.routePlan = new StopByStop.RoutePlanViewModel(this._route.rid, this._route.d, new StopByStop.LocationViewModel(route.tl));
                 this.route = new StopByStop.RouteViewModel(this._route, this, this.filter, initSettings, function () {
-                    _this.routePlan.loadStopsFromStorage();
+                    if (initSettings.app === StopByStop.SBSApp.Web) {
+                        _this.routePlan.loadStopsFromStorage();
+                    }
                     if (routeInitializationComplete) {
                         routeInitializationComplete();
                     }

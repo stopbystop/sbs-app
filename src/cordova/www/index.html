@@ -130,7 +130,7 @@
                                             </div>
 
                                             <div data-bind="foreach: routeVisibleJunctions">
-                                                <div class="junction-wrapper" data-bind="style: {top:top},attr:{sbsid:junction.sbsid}">
+                                                <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
                                                     <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
                                                         <span class="time_to_junction_marker" data-bind="text: etaString"></span>
                                                     </div>
@@ -171,8 +171,8 @@
                 </div>
             </div>
 
-            <!-- <div data-bind="template:{name:'    -template'}"></div>-->
-
+          
+            <!-- filder dialog start-->
             <div data-role="popup" class="ui-content filter-dlg">
                 <div data-role="header">
                     <h2>Set filters</h2>
@@ -221,7 +221,67 @@
                     </div>
                 </div>
             </div>
+            <!-- filter dialog end-->
 
+            <!-- stop settings dialog start-->
+            <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
+                <div data-bind="with:routePlan">
+                    <div data-role="header">
+                        <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
+                    </div>
+                    <div role="main" style="padding:5px;background-color:#fff;">
+                        <div class="containing-element">
+                            <p style="text-align:center;">How long would you like to stop there?</p>
+                            <div data-bind="with:editedStop" style="display:table;">
+                                <div style="display:table-row">
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
+                                    </div>
+
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                              data-bind="text:stopDurationHours"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                            hr
+                                        </div>
+                                    </div>
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                              data-bind="text:stopDurationMinutes"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                            min
+                                        </div>
+                                    </div>
+
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="plus"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <a data-bind="click:addEditedStopToRoute" href="#"
+                                   class="ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
+                                    <span style="display:inline-block;margin-top:10px;">
+                                        Add to<br />route
+                                    </span>
+
+                                </a>
+                                <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
+                                    <span>Navigate<br />there<br />now</span>
+                                </a>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div>
+                                <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">Remove this stop</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- stop settings dialog end-->
 
         </div>
         <!-- end of route page-->
@@ -392,15 +452,15 @@
             </div>
             <!-- filter dialog end-->
             <!-- stop settings dialog start-->
-            <div data-bind="if:routePlan" data-role="popup" id="stopSettingsDialog" class="ui-content">
-                <div data-bind="with:routePlan.editedStop">
+            <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
+                <div data-bind="with:routePlan">
                     <div data-role="header">
-                        <h2 style="margin:0 5%;" data-bind="html:name"></h2>
+                        <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
                     </div>
                     <div role="main" style="padding:5px;background-color:#fff;">
                         <div class="containing-element">
                             <p style="text-align:center;">How long would you like to stop there?</p>
-                            <div style="display:table;">
+                            <div data-bind="with:editedStop" style="display:table;">
                                 <div style="display:table-row">
                                     <div style="display:table-cell">
                                         <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
@@ -427,14 +487,14 @@
                                 </div>
                             </div>
                             <div>
-                                <a href="#"
+                                <a data-bind="click:addEditedStopToRoute" href="#"
                                    class="ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
                                     <span style="display:inline-block;margin-top:10px;">
                                         Add to<br />route
                                     </span>
 
                                 </a>
-                                <a data-bind="click:navigate" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
+                                <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
                                    style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
                                     <span>Navigate<br />there<br />now</span>
                                 </a>
@@ -443,7 +503,7 @@
 
                             </div>
                             <div>
-                                <a href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
+                                <a data-bind="click:removeEditedStop"  href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
                             </div>
                         </div>
                     </div>
