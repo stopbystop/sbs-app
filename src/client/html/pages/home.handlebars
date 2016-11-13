@@ -1,0 +1,53 @@
+﻿ <!-- home page-->
+<div data-role="page" class="jqm-demos jqm-home sbs-homePG" id="home" data-page-name="sbs-homePG" data-telemetry-page-name="Home">
+    <div role="main" class="ui-content jqm-content">
+        <div id="home_content">
+            <div class="main_inner">
+                <p class="main_title">with you every <span style="font-weight:300">stop</span> of the way</p>
+                <h1 class="sub_title">Are you traveling by car in the US and looking for best places to stop for food or gas?</h1>
+            </div>
+            <div class="page-content">
+                <div class="main_inner">
+                    <p class="form_title">start by typing the city name</p>
+                    <form class="ui-filterable">
+                        <div class="input-wrapper">
+                            <label for="from" class="ui-hidden-accessible">Where are you coming from?</label>
+                            <input type="search" id="from" value="" placeholder="Where are you coming from?" autocomplete="off" />
+                            <ul id="from_autocomplete" data-defaults="true" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
+                        </div><!-- /demo-html -->
+
+                        <div class="input-wrapper">
+                            <label for="to" class="ui-hidden-accessible">Where are you going?</label>
+                            <input type="search" id="to" value="" placeholder="Where are you going?" autocomplete="off" />
+                            <ul id="to_autocomplete" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
+                        </div><!-- /demo-html -->
+
+                        <div class="input-wrapper">
+                            <input type="button" class="buttonWrap button button-green contactSubmitButton view-trip ui-disabled"
+                                   id="view_trip" data-role="none" value="View my trip" />
+                        </div>
+                    </form>
+
+
+                    <!-- recent destinations-->
+                    <!--
+                        <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
+                            <h4>Recent destinations</h4>
+                            <ul data-role="listview">
+
+                                 <li>
+                                     <a data-ajax="false" href="@Href(" ~/route/" + route.RouteId)">@(route.FromLocation.Place + " to " + route.ToLocation.Place)</a>
+                                 </li>
+                                 }
+
+                        </ul>
+                    </div>
+                    -->
+                    <!-- end of recent destinations-->
+
+                </div>
+            </div>
+        </div>
+    </div><!-- /content -->
+</div>
+<!-- end of home page-->

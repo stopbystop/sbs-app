@@ -100,6 +100,11 @@ var StopByStop;
                 Telemetry.logFatal(ex);
             }
         };
+        Telemetry.logToConsole = function (message) {
+            if (window.console) {
+                window.console.log(message);
+            }
+        };
         Telemetry.getAIProperties = function (telemetryProperties) {
             var aiProps = {};
             aiProps[TelemetryProperty[TelemetryProperty.PageName]] = StopByStop.AppState.current.pageInfo.telemetryPageName;
@@ -116,8 +121,16 @@ var StopByStop;
             return aiMeasurements;
         };
         Telemetry.logFatal = function (message) {
+            Telemetry.logErrorToConsole("ERROR-TO-TELEMETRY:" + message);
+        };
+        Telemetry.logErrorToConsole = function (err) {
             if (window.console && window.console.error) {
-                window.console.error("ERROR-TO-TELEMETRY:" + message);
+                if (err.message) {
+                    window.console.error(err.message);
+                }
+                else {
+                    window.console.error(err);
+                }
             }
         };
         Telemetry._appInsights = window["appInsights"];
@@ -1355,17 +1368,25 @@ var StopByStop;
             });
             if (!alreadyAdded) {
                 this.stops.push(this._stopDictionary[place.id]);
-                // add to stop collection bound to UI
-                if (StopByStop.AppState.current.pageInfo.pageName === "route-page") {
-                    var routeJunctionViewModel = this.junctionMap[place.exitId];
-                    if (routeJunctionViewModel) {
-                        routeJunctionViewModel.stops.push(routeStopViewModel);
-                    }
-                    else {
-                        alert("Couldn't find routeJunctionViewModel");
-                    }
+                var routeJunctionViewModel = this.junctionMap[place.exitId];
+                if (routeJunctionViewModel) {
+                    routeJunctionViewModel.stops.push(routeStopViewModel);
+                }
+                else {
+                    StopByStop.Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);
                 }
                 if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    // legacy path: we'll remove it completely, once fully migrated to SPA mode
+                    // add to stop collection bound to UI
+                    if (StopByStop.AppState.current.pageInfo.pageName === "route-page") {
+                        var routeJunctionViewModel = this.junctionMap[place.exitId];
+                        if (routeJunctionViewModel) {
+                            routeJunctionViewModel.stops.push(routeStopViewModel);
+                        }
+                        else {
+                            alert("Couldn't find routeJunctionViewModel");
+                        }
+                    }
                     // update storage item for persistence
                     place.duration = routeStopViewModel.stopDuration();
                     this._storageItem[this._routeId].stops[place.id] = place;
@@ -1735,14 +1756,15 @@ var StopByStop;
                     /* available height is slightly smaller because we don't want POI to overlap with ETA time */
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
-                    var distanceToExitInPixels = (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top /
+                    /* 1.15 is a magic contant to adjust stops on the sidebar */
+                    var distanceToExitInPixels = (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                         this._routeViewModel.roadLineHeight());
-                    /* this 5 is another magic constant - to help fix bug 128: Sidebar - POI on the side bar is covering the time at destination*/
-                    sideBarStopViewModel.top((distanceToExitInPixels + 5).toString() + "px");
+                    sideBarStopViewModel.top((distanceToExitInPixels).toString() + "px");
                     sideBarStopViewModel.left((-28 + currentIndexOnThisExit * 8).toString() + "px"); /* 28 is another magic constant */
                     this.stops.push(sideBarStopViewModel);
                 }
             }
+            StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
             sbvm._headerHeight = $(".ui-header").outerHeight();
@@ -1828,14 +1850,20 @@ var StopByStop;
             var _this = this;
             var junctionElements = $(roadLineElement).find(".junction-wrapper");
             var junctionCount = junctionElements.length;
-            if (junctionCount != this._junctionElementCount) {
+            var lastJunctionTop = "";
+            var newRoadLineHeight = $(this.boundElement()).height();
+            // recalculate positions if roadline height changes or if junction count changes
+            // no point recalculating if roadLineHeight is 0
+            if (newRoadLineHeight !== 0 && (junctionCount !== this._junctionElementCount || this.roadLineHeight() !== newRoadLineHeight)) {
+                this.roadLineHeight(newRoadLineHeight);
                 this._junctionElementCount = junctionCount;
                 this.routeJunctionElementLookup = {};
                 junctionElements.each(function (index, elem) {
+                    lastJunctionTop = $(roadLineElement).offset().top.toString();
                     _this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
+                StopByStop.Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
             }
-            this.roadLineHeight($(this.boundElement()).height());
         };
         RouteViewModel.prototype.applyFilter = function (filter) {
             $.each(this.routeSegments(), function (indexInArray, valueOfElement) { return valueOfElement.applyFilter(filter); });
@@ -2281,6 +2309,7 @@ var StopByStop;
             });
         };
         Init.initSPA = function () {
+            var _this = this;
             /* apply root bindings for Cordova app */
             var sbsRootNode = $("#sbsRoot")[0];
             ko.applyBindings(Init._app, sbsRootNode);
@@ -2349,7 +2378,10 @@ var StopByStop;
                                 });
                             }
                             else {
-                                if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
+                                if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.route) {
+                                    _this._app().route.recalcRoadLine($(".route")[0]);
+                                }
+                                else if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
                             }

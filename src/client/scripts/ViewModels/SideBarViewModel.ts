@@ -239,20 +239,22 @@ module StopByStop {
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
 
+                    /* 1.15 is a magic contant to adjust stops on the sidebar */
                     var distanceToExitInPixels =
-                        (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top /
+                        (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                             this._routeViewModel.roadLineHeight());
 
-                    /* this 5 is another magic constant - to help fix bug 128: Sidebar - POI on the side bar is covering the time at destination*/
-                    sideBarStopViewModel.top((distanceToExitInPixels + 5).toString() + "px");
+                    sideBarStopViewModel.top((distanceToExitInPixels).toString() + "px");
 
 
 
                     sideBarStopViewModel.left((-28 + currentIndexOnThisExit * 8).toString() + "px"); /* 28 is another magic constant */
                     this.stops.push(sideBarStopViewModel);
                 }
-            }
 
+               
+            }
+            Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         }
 
         private static recalculateSideBarPosition(sbvm: SideBarViewModel): void {

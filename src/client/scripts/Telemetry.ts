@@ -110,6 +110,12 @@ module StopByStop {
             }
         }
 
+        public static logToConsole(message: string) {
+            if (window.console) {
+                window.console.log(message);
+            }
+        }
+
         private static getAIProperties(telemetryProperties: [{ k: TelemetryProperty, v: string }]): { [name: string]: string; } {
             var aiProps: { [name: string]: string; } = {
             };
@@ -129,8 +135,17 @@ module StopByStop {
         }
 
         private static logFatal(message: any) {
+            Telemetry.logErrorToConsole("ERROR-TO-TELEMETRY:" + message);
+        }
+
+       
+        private static logErrorToConsole(err: any) {
             if (window.console && window.console.error) {
-                window.console.error("ERROR-TO-TELEMETRY:" + message);
+                if (err.message) {
+                    window.console.error(err.message);
+                } else {
+                    window.console.error(err);
+                }
             }
         }
     }

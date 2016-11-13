@@ -1,0 +1,200 @@
+﻿<!-- route page-->
+<div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
+    <div role="main" class="ui-content jqm-content">
+        <div class="page-content-inner">
+            <div class="breadCrumbHolder module">
+                <div id="breadCrumb0" class="breadCrumb module">
+                    <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+                <div class="main_inner" data-bind="if:route">
+                    <h1 data-bind="text:route.title"></h1>
+                    <h2 data-bind="text:route.shortDescription" class="description_title"></h2>
+
+
+                    <!-- route -->
+                    <div class="ui-filterable route-wrapper">
+                        <div class="route" data-bind="element:route.boundElement">
+                            <div class="route_line" data-bind="foreach: route.routeSegments">
+                                <div class="segment" data-bind="style: {height: height, lineHeight:height}">
+                                    <div class="segment-name">
+
+                                        <span class="segment-instructions">
+                                            <span data-bind="html: instructions, attr: {title: instructionsTip}"></span>
+                                        </span>
+                                        <span class="highway-name">
+                                            <span data-bind="text: highwayNameText, attr: {title:highwayNameText}"></span>
+                                        </span>
+                                        <div class="segment-distance">
+                                            <span class="distance_marker" data-bind="text: distanceText"></span>
+                                        </div>
+                                    </div>
+
+                                    <div data-bind="foreach: routeVisibleJunctions">
+                                        <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
+                                            <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
+                                                <span class="time_to_junction_marker" data-bind="text: etaString"></span>
+                                            </div>
+                                            <div id="exit_marker">
+                                                <a href="#" class="junction" data-bind="click: navigateToExitPage">
+                                                    <div class="junction-name" data-bind="html: junction.ref, attr: {title:junction.name}"></div>
+                                                </a>
+                                            </div>
+                                            <div class="pois">
+                                                <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitPage"
+                                                   class="poi gas" data-type="servicestations">
+                                                    <div style="position:relative">
+                                                        <div class="poi-count" data-bind="html: gasPoiCountString"></div>
+                                                        <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
+                                                    </div>
+                                                </a>
+                                                <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitPage"
+                                                   class="poi food" data-type="restaurants">
+                                                    <div style="position:relative">
+                                                        <div class="poi-count" data-bind="html: foodPoiCountString"></div>
+                                                        <div class="poi-distance-label" data-bind="html: closestFoodPoiDistance"></div>
+                                                    </div>
+                                                </a>
+                                                <div class="clear"></div>
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- sidebar -->
+                    <div style="padding-left:10px;" data-bind="template:{name:'sidebar-template', if:route.sideBar, afterRender:initSideBar.bind($data)}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- let's go button-->
+    <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container" style="width:100%;padding:0 5px 0px;position:absolute;width:100%; background-color:#fff;">
+        <a href="#" class="ui-btn ui-btn-inline ui-corner-all"
+           data-bind="click:function(){routePlan.navigate();return false;}"
+           style="width:55%;margin:0 auto;display:block;background-color:#5bb12f;color:#fff;font-size:1.3em;text-transform:uppercase;padding:12px;box-shadow:1px 1px 4px #606060;"
+           data-rel="back">Let's go</a>
+    </div>
+
+    <!-- filder dialog start-->
+    <div data-role="popup" class="ui-content filter-dlg">
+        <div data-role="header">
+            <h2>Set filters</h2>
+        </div>
+        <div role="main" style="padding:5px;background-color:#fff;">
+            <div class="containing-element">
+                <label style="text-align:center">How far from exits would you like to see places? (miles)</label>
+                <fieldset data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                    <label><input type="checkbox" name="rddist" value="1" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs1" />1</label>
+                    <label><input type="checkbox" name="rddist" value="2" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs2" />2</label>
+                    <label><input type="checkbox" name="rddist" value="3" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs3" />3</label>
+                    <label><input type="checkbox" name="rddist" value="4" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs4" />4</label>
+                    <label><input type="checkbox" name="rddist" value="5" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs5" />5</label>
+                </fieldset>
+
+                <label>
+                    <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:filter.showGasStations" name="showGasStationsCheckBox" />
+                    <span>Show gas stations</span>
+                    <span style="float:right;" data-bind="text:filter.filteredGasStationCount"></span>
+                </label>
+                <label>
+                    <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:filter.showRestaurants" name="showRestaurantsCheckBox" />
+                    <span>Show restaurants</span>
+                    <span style="float:right;" data-bind="text:filter.filteredFoodCount"></span>
+                </label>
+
+                <div data-bind="visible:filter.showRestaurants" id="restSelection" style="max-height:150px;overflow-y:scroll;padding:0 15px;  ">
+                    <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                        <a data-bind="click: filter.selectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">All</a>
+                        <a data-bind="click: filter.unselectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">None</a>
+                    </div>
+
+                    <div data-bind="foreach: filter.foodCategoriesEnablement">
+                        <div data-bind="visible:count() > 0">
+                            <input type="checkbox" data-bind="attr:{id:'cb2'+category.sbsid, name:'cb2'+category.sbsid},jqmchecked: visible" data-mini="true">
+                            <label data-bind="attr:{for:'cb2'+category.sbsid}">
+                                <span data-bind="text:category.name"></span>
+                                <span style="float:right;" data-bind="text:count"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin:0 35px 0 0">
+                    <a href="#" class="ui-btn ui-btn-inline ui-corner-all" style="width:100%;background-color:#73c5e1;color:#fff;" data-rel="back">OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- filter dialog end-->
+    <!-- stop settings dialog start-->
+    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
+        <div data-bind="with:routePlan">
+            <div data-role="header">
+                <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
+            </div>
+            <div role="main" style="padding:5px;background-color:#fff;">
+                <div class="containing-element">
+                    <p style="text-align:center;">How long would you like to stop there?</p>
+                    <div data-bind="with:editedStop" style="display:table;">
+                        <div style="display:table-row">
+                            <div style="display:table-cell">
+                                <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
+                            </div>
+
+                            <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                      data-bind="text:stopDurationHours"></span>
+                                <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                    hr
+                                </div>
+                            </div>
+                            <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                      data-bind="text:stopDurationMinutes"></span>
+                                <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                    min
+                                </div>
+                            </div>
+
+                            <div style="display:table-cell">
+                                <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="plus"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a data-bind="click:addEditedStopToRoute" href="#"
+                           class="ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
+                            <span style="display:inline-block;margin-top:10px;">
+                                Keep this<br />stop
+                            </span>
+
+                        </a>
+                        <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
+                           style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
+                            <span>Navigate<br />there<br />now</span>
+                        </a>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div>
+                        <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">Remove this stop</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- stop settings dialog end-->
+
+</div>
+<!-- end of route page-->

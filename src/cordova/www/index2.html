@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="sbs-cdb">
 <head>
     <meta charset="utf-8" />
@@ -10,35 +10,25 @@
     <link href="css/jquery.mobile.icons-1.4.5.min.css" rel="stylesheet" />
     <link href="css/jquery.mobile.inline-png-1.4.5.min.css" rel="stylesheet" />
     <link href="css/jquery.mobile.inline-svg-1.4.5.min.css" rel="stylesheet" />
-
     <link href="css/index.css" rel="stylesheet" />
     <!-- TODO: change to min.css-->
     <link href="css/sbsbundle.css" rel="stylesheet" />
-
-
-
     <script src="scripts/jquery.1.11.3.min.js"></script>
     <script src="scripts/knockout.3.4.0.min.js"></script>
     <script src="cordova.js"></script>
     <script src="scripts/fastclick.min.js"></script>
     <script src="scripts/platformOverrides.js"></script>
-
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
-
     <script src="scripts/ai_1.0.2_min.js"></script>
-
     <!-- TODO: change to min.js-->
     <script src="scripts/sbsbundle.js"></script>
     <script src="scripts/appBundle.js"></script>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
-
     <title>Yojowa.StopByStop.Cordova</title>
-
 </head>
 <body class="sbs">
     <div id="sbsRoot">
-        <!-- home page-->
+        ﻿ <!-- home page-->
         <div data-role="page" class="jqm-demos jqm-home sbs-homePG" id="home" data-page-name="sbs-homePG" data-telemetry-page-name="Home">
             <div role="main" class="ui-content jqm-content">
                 <div id="home_content">
@@ -55,43 +45,42 @@
                                     <input type="search" id="from" value="" placeholder="Where are you coming from?" autocomplete="off" />
                                     <ul id="from_autocomplete" data-defaults="true" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
                                 </div><!-- /demo-html -->
-
+        
                                 <div class="input-wrapper">
                                     <label for="to" class="ui-hidden-accessible">Where are you going?</label>
                                     <input type="search" id="to" value="" placeholder="Where are you going?" autocomplete="off" />
                                     <ul id="to_autocomplete" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
                                 </div><!-- /demo-html -->
-
+        
                                 <div class="input-wrapper">
                                     <input type="button" class="buttonWrap button button-green contactSubmitButton view-trip ui-disabled"
                                            id="view_trip" data-role="none" value="View my trip" />
                                 </div>
                             </form>
-
-
+        
+        
                             <!-- recent destinations-->
                             <!--
                                 <div data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u">
                                     <h4>Recent destinations</h4>
                                     <ul data-role="listview">
-
+        
                                          <li>
                                              <a data-ajax="false" href="@Href(" ~/route/" + route.RouteId)">@(route.FromLocation.Place + " to " + route.ToLocation.Place)</a>
                                          </li>
                                          }
-
+        
                                 </ul>
                             </div>
                             -->
                             <!-- end of recent destinations-->
-
+        
                         </div>
                     </div>
                 </div>
             </div><!-- /content -->
         </div>
-        <!-- end of home page-->
-        <!-- route page-->
+        <!-- end of home page-->        ﻿<!-- route page-->
         <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
             <div role="main" class="ui-content jqm-content">
                 <div class="page-content-inner">
@@ -101,23 +90,23 @@
                                 <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                                     <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
                                 </li>
-
-
+        
+        
                             </ul>
                         </div>
-
+        
                         <div class="main_inner" data-bind="if:route">
                             <h1 data-bind="text:route.title"></h1>
                             <h2 data-bind="text:route.shortDescription" class="description_title"></h2>
-
-
+        
+        
                             <!-- route -->
                             <div class="ui-filterable route-wrapper">
                                 <div class="route" data-bind="element:route.boundElement">
                                     <div class="route_line" data-bind="foreach: route.routeSegments">
                                         <div class="segment" data-bind="style: {height: height, lineHeight:height}">
                                             <div class="segment-name">
-
+        
                                                 <span class="segment-instructions">
                                                     <span data-bind="html: instructions, attr: {title: instructionsTip}"></span>
                                                 </span>
@@ -128,7 +117,7 @@
                                                     <span class="distance_marker" data-bind="text: distanceText"></span>
                                                 </div>
                                             </div>
-
+        
                                             <div data-bind="foreach: routeVisibleJunctions">
                                                 <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
                                                     <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
@@ -163,14 +152,14 @@
                                     </div>
                                 </div>
                             </div>
-
+        
                             <!-- sidebar -->
                             <div style="padding-left:10px;" data-bind="template:{name:'sidebar-template', if:route.sideBar, afterRender:initSideBar.bind($data)}"></div>
                         </div>
                     </div>
                 </div>
             </div>
-
+        
             <!-- let's go button-->
             <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container" style="width:100%;padding:0 5px 0px;position:absolute;width:100%; background-color:#fff;">
                 <a href="#" class="ui-btn ui-btn-inline ui-corner-all"
@@ -178,7 +167,7 @@
                    style="width:55%;margin:0 auto;display:block;background-color:#5bb12f;color:#fff;font-size:1.3em;text-transform:uppercase;padding:12px;box-shadow:1px 1px 4px #606060;"
                    data-rel="back">Let's go</a>
             </div>
-
+        
             <!-- filder dialog start-->
             <div data-role="popup" class="ui-content filter-dlg">
                 <div data-role="header">
@@ -194,7 +183,7 @@
                             <label><input type="checkbox" name="rddist" value="4" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs4" />4</label>
                             <label><input type="checkbox" name="rddist" value="5" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs5" />5</label>
                         </fieldset>
-
+        
                         <label>
                             <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:filter.showGasStations" name="showGasStationsCheckBox" />
                             <span>Show gas stations</span>
@@ -205,13 +194,13 @@
                             <span>Show restaurants</span>
                             <span style="float:right;" data-bind="text:filter.filteredFoodCount"></span>
                         </label>
-
+        
                         <div data-bind="visible:filter.showRestaurants" id="restSelection" style="max-height:150px;overflow-y:scroll;padding:0 15px;  ">
                             <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
                                 <a data-bind="click: filter.selectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">All</a>
                                 <a data-bind="click: filter.unselectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">None</a>
                             </div>
-
+        
                             <div data-bind="foreach: filter.foodCategoriesEnablement">
                                 <div data-bind="visible:count() > 0">
                                     <input type="checkbox" data-bind="attr:{id:'cb2'+category.sbsid, name:'cb2'+category.sbsid},jqmchecked: visible" data-mini="true">
@@ -243,7 +232,7 @@
                                     <div style="display:table-cell">
                                         <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
                                     </div>
-
+        
                                     <div style="display:table-cell;vertical-align:middle;position:relative;">
                                         <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
                                               data-bind="text:stopDurationHours"></span>
@@ -258,7 +247,7 @@
                                             min
                                         </div>
                                     </div>
-
+        
                                     <div style="display:table-cell">
                                         <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="plus"></a>
                                     </div>
@@ -270,7 +259,7 @@
                                     <span style="display:inline-block;margin-top:10px;">
                                         Keep this<br />stop
                                     </span>
-
+        
                                 </a>
                                 <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
                                    style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
@@ -278,7 +267,7 @@
                                 </a>
                             </div>
                             <div>
-
+        
                             </div>
                             <div>
                                 <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">Remove this stop</a>
@@ -288,10 +277,9 @@
                 </div>
             </div>
             <!-- stop settings dialog end-->
-
+        
         </div>
-        <!-- end of route page-->
-        <!-- exit page-->
+        <!-- end of route page-->        ﻿ <!-- exit page-->
         <div id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
             <div role="main" class="ui-content jqm-content">
                 <div class="page-content-inner">
@@ -308,21 +296,21 @@
                                 </li>
                             </ul>
                         </div>
-
+        
                         <div data-bind="if:selectedJunction">
                             <div class="main_inner">
                                 <h1 data-bind="text:route.title"></h1>
                                 <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.description"></h2>
-
+        
                                 <div class="pois-list">
                                     <fieldset class="view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
                                         <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
                                         <label for="view-mode-radio-choice-21">List view</label>
-
+        
                                         <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-22" value="map" />
                                         <label for="view-mode-radio-choice-22">Map view</label>
                                     </fieldset>
-
+        
                                     <!-- start food POI list-->
                                     <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
                                         <div class="poi-table-row">
@@ -343,7 +331,7 @@
                                                 <a href="#" data-bind="attr:{href:poi.yUrl}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
                                                     <div><img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png" alt="Yelp" /></div>
                                                     <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
-
+        
                                                     <div data-bind="visible: !poi.isYInfoLoading()">
                                                         <div class="rating-small poi-rating">
                                                             <i data-bind="css:'star-img '+poi.yStarClass()"></i>
@@ -369,7 +357,7 @@
                                                    style="text-align:left;"
                                                    data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
                                                     <div class="poi-placename poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
-
+        
                                                     <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
                                                     <img src="images/add_to_route.png" class="poi-table-cell-go" alt="Add to route" />
                                                 </a>
@@ -378,7 +366,7 @@
                                                 <a href="#" data-bind="attr:{href:poi.yUrl}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
                                                     <div><img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png" alt="Yelp" /></div>
                                                     <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
-
+        
                                                     <div data-bind="visible: !poi.isYInfoLoading()">
                                                         <div class="rating-small poi-rating">
                                                             <i data-bind="css:'star-img '+poi.yStarClass()"></i>
@@ -395,8 +383,8 @@
                                         </div> <!-- /poi-table-row -->
                                     </div> <!-- /poi-table -->
                                     <!-- end gas POI list-->
-
-
+        
+        
                                     <div class="poi-map">
                                         <div id="map" style="width:100%;clear:both"></div>
                                     </div> <!-- poi-map -->
@@ -421,7 +409,7 @@
                             <label><input type="checkbox" name="rddist" value="4" data-bind="jqmchecked:selectedJunction().filter.maxDistanceFromJunctionIs4" />4</label>
                             <label><input type="checkbox" name="rddist" value="5" data-bind="jqmchecked:selectedJunction().filter.maxDistanceFromJunctionIs5" />5</label>
                         </fieldset>
-
+        
                         <label>
                             <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:selectedJunction().filter.showGasStations" name="showGasStationsCheckBox" />
                             <span>Show gas stations</span>
@@ -432,13 +420,13 @@
                             <span>Show restaurants</span>
                             <span style="float:right;" data-bind="text:selectedJunction().filter.filteredFoodCount"></span>
                         </label>
-
+        
                         <div data-bind="visible:selectedJunction().filter.showRestaurants" id="restSelection" style="max-height:150px;overflow-y:scroll;padding:0 15px;  ">
                             <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
                                 <a data-bind="click: selectedJunction().filter.selectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">All</a>
                                 <a data-bind="click: selectedJunction().filter.unselectAllFoodCategories" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">None</a>
                             </div>
-
+        
                             <!-- NOTE: make sure cb3 is different from cb2 above-->
                             <div data-bind="foreach: selectedJunction().filter.foodCategoriesEnablement">
                                 <div data-bind="visible:count() > 0">
@@ -471,7 +459,7 @@
                                     <div style="display:table-cell">
                                         <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
                                     </div>
-
+        
                                     <div style="display:table-cell;vertical-align:middle;position:relative;">
                                         <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
                                               data-bind="text:stopDurationHours"></span>
@@ -486,7 +474,7 @@
                                             min
                                         </div>
                                     </div>
-
+        
                                     <div style="display:table-cell">
                                         <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="plus"></a>
                                     </div>
@@ -498,7 +486,7 @@
                                     <span style="display:inline-block;margin-top:10px;">
                                         Add to<br />route
                                     </span>
-
+        
                                 </a>
                                 <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
                                    style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
@@ -506,7 +494,7 @@
                                 </a>
                             </div>
                             <div>
-
+        
                             </div>
                             <div>
                                 <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
@@ -517,16 +505,11 @@
             </div>
             <!-- stop settings dialog end-->
         </div>  <!-- /exit-page -->
-        <!-- end of exit page-->
-        <!-- about page-->
+        <!-- end of exit page-->        ﻿<!-- about page-->
         <div id="about" data-role="page" class="jqm-demos about-page" data-page-name="about-page" data-telemetry-page-name="About">
         </div>
-        <!-- end of about page -->
-
-        <div style="display:none">
-
-            <!-- header -->
-            <div id="sbsheader" data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+        <!-- end of about page -->        <div style="display:none">
+            ﻿<div id="sbsheader" data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
                 <div class="main_inner">
                     <h2>
                         <a href="#home">
@@ -537,10 +520,7 @@
                        class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
                     <a href="#" class="filter-btn ui-btn ui-corner-all ui-btn-right">Filters</a>
                 </div>
-            </div>
-            <!-- /header -->
-            <!-- Navigation Panel -->
-            <div id="menupanel" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+            </div>            ﻿<div id="menupanel" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul id="menupanel-list" data-role="listview">
                     <li data-icon="home">
                         <a href="#home" data-rel="close">Home</a>
@@ -548,15 +528,12 @@
                     <li data-icon="about">
                         <a href="#about" data-rel="close">About</a>
                     </li>
-
+            
                     <li>
                         <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
                     </li>
                 </ul>
-            </div>
-            <!-- /Navigation panel-->
-            <!-- footer-->
-            <div id="sbsfooter" data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+            </div>            ﻿<div id="sbsfooter" data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
                 <div style="position:absolute;top:3px;left:15px;">
                     <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
                         <img style="height:50px;" src="images/feedback.svg" />
@@ -575,58 +552,48 @@
                         </span>
                     </span>
                 </div>
-            </div>
-            <!-- /footer -->
-
-
-
-        </div> <!-- / display:none-->
-
-
-
-        <script type="text/html" id="sidebar-template">
-            <div id="sidebar" data-bind="style:{height:route.sideBar.sideBarHeight()+'px',position:route.sideBar.sideBarPosition,top:route.sideBar.sideBarTop,bottom:route.sideBar.sideBarBottom}">
-                <div class="sidebar-label sidebar-top">
-                    <div class="sidebar_text" data-bind="html:route.fromLocation.placeDescription">
-                    </div>
-                    <div class="route-start">
-                        <span data-bind="text:route.startTimeString"></span>
-                    </div>
-                </div>
-
-                <div id="sidebar-inner" data-bind="style:{height:route.sideBar.sideBarInnerHeight()+'px', top:route.sideBar.sideBarInnerTop()+'px'}">
-                    <div data-bind="foreach: route.sideBar.stops">
-                        <div class="sidebar-stop" data-bind="css:'poi ui-link '+ poiTypeClass+' sidebar-stop', style:{top:top,left:left}, click:click">
-                            <div class="sidebar-stop-time">
-                                <span data-bind="text:stop.name"></span>
-                                <br />
-                                <span data-bind="text:stop.etaString"></span>
+            </div>        </div>
+        ﻿<script type="text/html" id="sidebar-template">
+                    <div id="sidebar" data-bind="style:{height:route.sideBar.sideBarHeight()+'px',position:route.sideBar.sideBarPosition,top:route.sideBar.sideBarTop,bottom:route.sideBar.sideBarBottom}">
+                        <div class="sidebar-label sidebar-top">
+                            <div class="sidebar_text" data-bind="html:route.fromLocation.placeDescription">
+                            </div>
+                            <div class="route-start">
+                                <span data-bind="text:route.startTimeString"></span>
                             </div>
                         </div>
+        
+                        <div id="sidebar-inner" data-bind="style:{height:route.sideBar.sideBarInnerHeight()+'px', top:route.sideBar.sideBarInnerTop()+'px'}">
+                            <div data-bind="foreach: route.sideBar.stops">
+                                <div class="sidebar-stop" data-bind="css:'poi ui-link '+ poiTypeClass+' sidebar-stop', style:{top:top,left:left}, click:click">
+                                    <div class="sidebar-stop-time">
+                                        <span data-bind="text:stop.name"></span>
+                                        <br />
+                                        <span data-bind="text:stop.etaString"></span>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div id="sidebar-thumb" data-bind="style:{top:route.sideBar.sideBarThumbTop, backgroundColor:route.sideBar.isDraggingThumb()? '#EB65A0':'#FFF'}"></div>
+                        </div>
+        
+                        <div class="sidebar-label sidebar-bottom">
+                            <div class="route-eta">
+                                <span data-bind="text:route.etaString"></span>
+                            </div>
+                            <div class="sidebar_text" data-bind="html:route.toLocation.placeDescription"></div>
+                        </div>
                     </div>
-
-                    <div id="sidebar-thumb" data-bind="style:{top:route.sideBar.sideBarThumbTop, backgroundColor:route.sideBar.isDraggingThumb()? '#EB65A0':'#FFF'}"></div>
-                </div>
-
-                <div class="sidebar-label sidebar-bottom">
-                    <div class="route-eta">
-                        <span data-bind="text:route.etaString"></span>
-                    </div>
-                    <div class="sidebar_text" data-bind="html:route.toLocation.placeDescription"></div>
-                </div>
-            </div>
-        </script>
-    </div>
-
+                </script>    </div>
     <div style="display:none">
-        <div id="poiPopupTemplate">
+        ﻿<div id="poiPopupTemplate">
             <div class='poi-popup' style='width:185px;height:105px;overflow:auto; position:relative;'>
                 <div class='poi-table-cell poi-details-cell' style='position:absolute;width:175px;max-width:180px;height:40px;padding:0;'>
-
+        
                     <a href="#" onclick="showPoiOptionsForMapPopup();" data-rel="popup" data-transition="slidedown" data-position-to="origin"
                        class='ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn'
                        style='text-align:left;padding:1px;line-height:0.8em;text-align:center;font-size:1.2em;'>
-
+        
                         <div data-bind="css:'poi-placename poi-placename-'+StopByStop.PoiType[poi.poiType].toLowerCase()" class='poi-placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'>
                             <span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span>
                         </div>
@@ -655,6 +622,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

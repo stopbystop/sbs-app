@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html class="sbs-cdb">
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1" id="viewport" />
+    <meta http-equiv="Content-Security-Policy" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.icons-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.inline-png-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.inline-svg-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+    <!-- TODO: change to min.css-->
+    <link href="css/sbsbundle.css" rel="stylesheet" />
+    <script src="scripts/jquery.1.11.3.min.js"></script>
+    <script src="scripts/knockout.3.4.0.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="scripts/fastclick.min.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script src="scripts/ai_1.0.2_min.js"></script>
+    <!-- TODO: change to min.js-->
+    <script src="scripts/sbsbundle.js"></script>
+    <script src="scripts/appBundle.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
+    <title>Yojowa.StopByStop.Cordova</title>
+</head>
+<body class="sbs">
+    <div id="sbsRoot">
+        {{>home}}
+        {{>route}}
+        {{>exit}}
+        {{>about}}
+        <div style="display:none">
+            {{>header}}
+            {{>navpanel}}
+            {{>footer}}
+        </div>
+        {{>sidebar}}
+    </div>
+    <div style="display:none">
+        {{>mappoipopup}}
+    </div>
+</body>
+</html>

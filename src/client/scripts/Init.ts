@@ -221,10 +221,10 @@ module StopByStop {
                             false);
 
                         navigationAbandoned = true;
-                        
+
                     }
 
-                   
+
                     (<any>$("#sbsheader")
                         .prependTo(pageIdSelector))
                         .toolbar({ position: "fixed" });
@@ -259,18 +259,24 @@ module StopByStop {
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
-                            $(".filter-btn").show();     
+                            $(".filter-btn").show();
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
 
                                 Init._app(new AppViewModel(null));
+
                                 Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
                                     }
                                 });
                             } else {
-                                if (AppState.current.navigationLocation.page === SBSPage.exit) {
+
+                                if (AppState.current.navigationLocation.page === SBSPage.route) {
+
+                                    this._app().route.recalcRoadLine($(".route")[0]);
+
+                                } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
                             }

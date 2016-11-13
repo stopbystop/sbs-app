@@ -82,20 +82,30 @@ module StopByStop {
 
        
 
-        private recalcRoadLine(roadLineElement: Element): void {
+        public recalcRoadLine(roadLineElement: Element): void {
+           
+
             var junctionElements = $(roadLineElement).find(".junction-wrapper");
             var junctionCount = junctionElements.length;
+            var lastJunctionTop = "";
+            var newRoadLineHeight = $(this.boundElement()).height();
 
-            if (junctionCount != this._junctionElementCount) {
+
+            // recalculate positions if roadline height changes or if junction count changes
+            // no point recalculating if roadLineHeight is 0
+            if (newRoadLineHeight !== 0 && (junctionCount !== this._junctionElementCount || this.roadLineHeight() !== newRoadLineHeight)) {
+                this.roadLineHeight(newRoadLineHeight);     
                 this._junctionElementCount = junctionCount;
 
                 this.routeJunctionElementLookup = {};
+                
                 junctionElements.each((index: number, elem: Element) => {
+                    lastJunctionTop = $(roadLineElement).offset().top.toString();
                     this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
-            }
 
-            this.roadLineHeight($(this.boundElement()).height());
+                Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
+            }        
         }
 
 

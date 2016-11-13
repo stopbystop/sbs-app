@@ -119,21 +119,28 @@ module StopByStop {
 
             if (!alreadyAdded) {
                 this.stops.push(this._stopDictionary[place.id]);   
+                var routeJunctionViewModel = this.junctionMap[place.exitId];
 
-                // add to stop collection bound to UI
-                if (AppState.current.pageInfo.pageName === "route-page") {
-                    var routeJunctionViewModel = this.junctionMap[place.exitId];
-                    if (routeJunctionViewModel) {
-                        routeJunctionViewModel.stops.push(routeStopViewModel);
-                    }
-                    else {
-                        alert("Couldn't find routeJunctionViewModel");
-                    }
+                if (routeJunctionViewModel) {
+                    routeJunctionViewModel.stops.push(routeStopViewModel);
+                } else {
+                    Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);                      
                 }
 
-               
-
+                              
                 if (AppState.current.app === SBSApp.Web) {
+                    // legacy path: we'll remove it completely, once fully migrated to SPA mode
+                    // add to stop collection bound to UI
+                    if (AppState.current.pageInfo.pageName === "route-page") {
+                        var routeJunctionViewModel = this.junctionMap[place.exitId];
+                        if (routeJunctionViewModel) {
+                            routeJunctionViewModel.stops.push(routeStopViewModel);
+                        }
+                        else {
+                            alert("Couldn't find routeJunctionViewModel");
+                        }
+                    }
+
                     // update storage item for persistence
                     place.duration = routeStopViewModel.stopDuration();
 
