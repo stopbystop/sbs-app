@@ -37,7 +37,7 @@ gulp.task('html:cordova', function () {
 
     return gulp.src('html/cordova.handlebars')
         .pipe(handlebars(templateData, options))
-        .pipe(rename('index2.html'))
+        .pipe(rename('index.html'))
         .pipe(gulp.dest('../cordova/www'));
 });
 

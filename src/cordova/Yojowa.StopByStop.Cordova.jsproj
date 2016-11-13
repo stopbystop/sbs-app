@@ -68,6 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4a0dddb5-7a95-4fbf-97cc-616d07737a77}" />
+    <ProjectReference Include="..\client\Yojowa.StopByStop.Client.csproj">
+      <Project>{839db10a-d6c8-4512-92b8-585c17f83026}</Project>
+      <Name>Yojowa.StopByStop.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>5f0bcf59-332e-4f7b-99c4-11c9c86bf25d</ProjectGuid>

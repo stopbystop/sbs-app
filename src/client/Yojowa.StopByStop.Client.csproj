@@ -158,7 +158,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Target Name="AfterBuild">
     <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.0.6\tools\tsc.exe" />
-    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js min" />
+    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js default" />
     <Exec Command="..\copybundles.cmd" />
   </Target>
 </Project>
