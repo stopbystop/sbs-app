@@ -258,8 +258,15 @@ module StopByStop {
         }
 
         private static recalculateSideBarPosition(sbvm: SideBarViewModel): void {
-            sbvm._headerHeight = $(".ui-header").outerHeight();
-            sbvm._footerHeight = $(".ui-footer").outerHeight();
+            if (AppState.current.app === SBSApp.Web) {
+                sbvm._headerHeight = $(".ui-header").outerHeight();
+                sbvm._footerHeight = $(".ui-footer").outerHeight();
+            } else {
+                // we have multiple copies of header and footer on SPA app
+                sbvm._headerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                sbvm._footerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+            }
+
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
 
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();

@@ -1773,8 +1773,15 @@ var StopByStop;
             StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
-            sbvm._headerHeight = $(".ui-header").outerHeight();
-            sbvm._footerHeight = $(".ui-footer").outerHeight();
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                sbvm._headerHeight = $(".ui-header").outerHeight();
+                sbvm._footerHeight = $(".ui-footer").outerHeight();
+            }
+            else {
+                // we have multiple copies of header and footer on SPA app
+                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+            }
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
