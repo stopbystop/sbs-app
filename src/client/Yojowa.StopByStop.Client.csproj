@@ -112,7 +112,6 @@
     <Content Include="html\pages\route.handlebars" />
     <Content Include="html\partials\navpanel.handlebars" />
     <Content Include="html\partials\footer.handlebars" />
-    <None Include="package.json" />
     <None Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
