@@ -4,4 +4,4 @@ install:
 - nuget restore ./src/StopByStop-web.sln
 script:
 - npm run build
-- xbuild /p:Configuration=Release ./src/StopByStop-web.sln
+- xbuild /p:Configuration=Release /p:SkipClientAfterBuild=true ./src/StopByStop-web.sln
