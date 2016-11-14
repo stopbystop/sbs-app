@@ -2555,9 +2555,14 @@ var StopByStop;
             Application.initialize = initialize;
             function onDeviceReady() {
                 console.log("in onDeviceReady");
-                // FastClick lib: https://github.com/ftlabs/fastclick
-                var attachFastClick = window["Origami"].fastclick;
-                attachFastClick(document.body);
+                //console.log(device.platform);
+
+                if (window.device && device.platform !== "windows") {
+                    // FastClick lib: https://github.com/ftlabs/fastclick
+                    var attachFastClick = window["Origami"].fastclick;
+                    attachFastClick(document.body);
+                }
+
                 // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
                 var viewPortScale = 1 / window.devicePixelRatio;
                 $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');

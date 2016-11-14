@@ -18,6 +18,7 @@ module StopByStop.Cordova {
 
         function onDeviceReady() {
             console.log("in onDeviceReady");
+            //console.log(device.platform);
             // FastClick lib: https://github.com/ftlabs/fastclick
             var attachFastClick = window["Origami"].fastclick;
             attachFastClick(document.body);
