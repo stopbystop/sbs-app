@@ -227,10 +227,13 @@ module StopByStop {
                             myDivs.push(InitHome.createDiv(divIndex));
                             $("#Images").append(myDivs[divIndex]);
                             $("#"+divId).on('click', function() {
-                                $("#to").val($(this).html());
+                                if ( $(this).children().length == 0 ) {
+                                    // This is to avoid populating when it already has an image element
+                                    $("#to").val($(this).html());
+                                }
                              });
                             var imageElement = document.createElement('img');
-                            imageElement.src = 'https://www.stopbystop.com/client/content/city_images/images/'+result[divIndex].i+'.jpg';
+                            imageElement.src = 'https://www.stopbystop.com/client/content/city_images/'+result[divIndex].i+'.jpg';
                             //imageElement.style.backgroundColor = '#73C5E1';
                             imageElement.id = imageId;
                             imageElement.style.width='90px';
