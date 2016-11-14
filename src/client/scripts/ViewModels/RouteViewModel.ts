@@ -24,7 +24,7 @@ module StopByStop {
 
 
         constructor(route: IRoute, app: IAppViewModel, filter: FilterViewModel, initSettings: IAppState, routeInitializationComplete: () => void) {
-            this._route = route;
+            this._route = this.route = route;
             this._app = app;
             this._routeInitializationComplete = routeInitializationComplete;
             this._filter = filter;
@@ -42,6 +42,11 @@ module StopByStop {
             this.etaString = ko.observable(Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
+
+            if (this.fromLocation.placeDescription.indexOf("Start location (") === 0) {
+                this.fromLocation.placeDescription = "Your location";
+            }
+
             this.title = this.fromLocation.placeDescription + " to " + this.toLocation.placeDescription;
 
             var exitCount = 0;
@@ -82,25 +87,35 @@ module StopByStop {
 
        
 
-        private recalcRoadLine(roadLineElement: Element): void {
+        public recalcRoadLine(roadLineElement: Element): void {
+           
+
             var junctionElements = $(roadLineElement).find(".junction-wrapper");
             var junctionCount = junctionElements.length;
+            var lastJunctionTop = "";
+            var newRoadLineHeight = $(this.boundElement()).height();
 
-            if (junctionCount != this._junctionElementCount) {
+
+            // recalculate positions if roadline height changes or if junction count changes
+            // no point recalculating if roadLineHeight is 0
+            if (newRoadLineHeight !== 0 && (junctionCount !== this._junctionElementCount || this.roadLineHeight() !== newRoadLineHeight)) {
+                this.roadLineHeight(newRoadLineHeight);     
                 this._junctionElementCount = junctionCount;
 
                 this.routeJunctionElementLookup = {};
+                
                 junctionElements.each((index: number, elem: Element) => {
+                    lastJunctionTop = $(roadLineElement).offset().top.toString();
                     this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
-            }
 
-            this.roadLineHeight($(this.boundElement()).height());
+                Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
+            }        
         }
 
 
 
-
+        public route: IRoute;
         public fromLocation: LocationViewModel;
         public toLocation: LocationViewModel;
         public currentLocation: KnockoutObservable<LocationViewModel>;

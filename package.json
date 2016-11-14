@@ -9,9 +9,11 @@
   "devDependencies": {
     "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-compile-handlebars": "^0.6.1",
     "gulp-concat": "^2.6.0",
     "gulp-cssmin": "^0.1.7",
     "gulp-htmlmin": "^3.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.0",
     "merge-stream": "^1.0.0",
     "openssl": "^1.1.0",
@@ -20,7 +22,7 @@
   "scripts": {
     "build": "cd ./src/client && tsc -p . && gulp && cd ../cordova/scripts && tsc -p . && cd ../../../test/qunit && tsc -p .",
     "build-web": "cd ./src/client && tsc -p . && gulp",
-    "build-cordova":"cd ./src/cordova/scripts && tsc -p .",
+    "build-cordova": "cd ./src/cordova/scripts && tsc -p . && cd ../../client && gulp",
     "build-test": "cd ./test/qunit && tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

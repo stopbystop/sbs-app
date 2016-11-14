@@ -46,16 +46,23 @@ module StopByStop {
 
     export class JunctionSPAAppViewModel extends JunctionAppBaseViewModel {
         constructor(
+            route: IRoute,
             routeJunctionViewModel: RouteJunctionViewModel,
             filter: FilterViewModel,
             routePlan: RoutePlanViewModel,
             poiTypeToShow: PoiType = PoiType.General
         ) {
             super();
-            this.filter = filter;
+            // TODO: here
+          
             this.routePlan = routePlan;
             this.routeJunction = routeJunctionViewModel;
-
+            this.filter = new FilterViewModel(
+                filter.routeId, 
+                [this.routeJunction.routeJunction],
+                route.fcat,
+                route.tfcat,
+                false);
             
             var junctionLocationViewModel = this.routeJunction.junction.location;
 
@@ -71,6 +78,12 @@ module StopByStop {
             }
 
             this.loadFullPoiData();
+
+            this.routeJunction.applyFilter(this.filter);
+
+            ko.computed(() => ko.toJS(this.filter)).subscribe(() => {
+                this.routeJunction.applyFilter(this.filter);
+            });
             
         };
 

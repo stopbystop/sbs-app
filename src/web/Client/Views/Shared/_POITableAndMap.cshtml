@@ -10,7 +10,7 @@
     </fieldset>
 
 
-    @helper RenderPoiInList(bool showCategories)
+    @helper RenderPoiInList(bool showCategories, Yojowa.StopByStop.PoiType poiType)
     {
     <div class="poi-table-row">
         <div class="poi-table-cell poi-details-cell">
@@ -19,16 +19,23 @@
                style="text-align:left;"
                data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
 
-                <div class="poi_placename" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
+                @if (poiType == Yojowa.StopByStop.PoiType.Food)
+                {
+                <div class="poi-placename poi-placename-food" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
+                }
+                else if (poiType == Yojowa.StopByStop.PoiType.Gas)
+                {
+                    <div class="poi-placename poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
+                }
 
                 @if (showCategories)
                 {
-                    <div class="poi_details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
+                    <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
                         <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
                     </div>
                 }
 
-                <div class="poi_details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
+                <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
                 <img src="@RenderHelper.GetCDNUrl("/client/content/v1/icons/add_to_route.png")" class="poi-table-cell-go" alt="Add to route" />
             </a>
         </div>
@@ -54,10 +61,10 @@
 }
 
     <div class="poi-table" data-bind="foreach: routeJunction.visibleFoodPois">
-        @RenderPoiInList(true)
+        @RenderPoiInList(true, Yojowa.StopByStop.PoiType.Food)
     </div>
     <div class="poi-table" data-bind="foreach: routeJunction.visibleGasPois">
-        @RenderPoiInList(false)
+        @RenderPoiInList(false, Yojowa.StopByStop.PoiType.Gas)
     </div>
     <div class="poi-map">
         <div id="map" style="width:100%;clear:both"></div>
@@ -73,9 +80,9 @@
                    class='ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn'
                    style='text-align:left;padding:1px;line-height:0.8em;text-align:center;font-size:1.2em;'>
 
-                    <div class='poi_placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'><span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span></div>
-                    <div class='poi_details' style='font-size:0.6em;' data-bind="html:poi.description"></div>
-                    <div class='poi_details' style='font-size:0.6em;text-align:center;' data-bind="html:distanceFromJunctionText"></div>
+                    <div class='poi-placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'><span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span></div>
+                    <div class='poi-details' style='font-size:0.6em;' data-bind="html:poi.description"></div>
+                    <div class='poi-details' style='font-size:0.6em;text-align:center;' data-bind="html:distanceFromJunctionText"></div>
                     <img src='@RenderHelper.GetCDNUrl("/client/content/v1/icons/add_to_route.png")' class='poi-table-cell-go' style='height:40px;' alt='Add to route' />
                 </a>
             </div><br />

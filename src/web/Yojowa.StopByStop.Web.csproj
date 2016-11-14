@@ -345,6 +345,10 @@
     <Folder Include="client\Views\Service\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\client\Yojowa.StopByStop.Client.csproj">
+      <Project>{839db10a-d6c8-4512-92b8-585c17f83026}</Project>
+      <Name>Yojowa.StopByStop.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
       <Project>{a7df5262-9fe9-4191-bb94-9e7b36db0563}</Project>
       <Name>Yojowa.StopByStop.Interfaces</Name>

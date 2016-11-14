@@ -18,7 +18,7 @@ module StopByStop {
     export class Init {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
-        private static _initDone: boolean = false;
+        private static _initSPAOnce = Utils.runOnce(Init.initSPA);
 
         public static initialize(settings: IAppState): void {
             AppState.current = settings;
@@ -28,12 +28,14 @@ module StopByStop {
             (<any>ko).options.deferUpdates = true;
             Init.enableUAMatch();
 
+
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {
                 var page = $(this);
 
+
                 if (AppState.current.app === SBSApp.SPA) {
-                    Init.initSPA();
+                    Init._initSPAOnce();
                 }
 
 
@@ -94,50 +96,8 @@ module StopByStop {
                 });
             });
             /* end of poi group page initialization */
-        }
 
-        private static loadRoute(routeId: string): JQueryPromise<any> {
-            return $.ajax({
-                url: AppState.current.urls.RouteDataUrl + routeId,
-                dataType: 'json',
-                method: 'GET',
-                success: function (data) {
-                    var route = <IRoute>data;
-                    var app = new AppViewModel(route, AppState.current);
-                    Init._app(app);
-
-                }
-            });
-        }
-
-        private static completeExitPageInit(): void {
-            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
-            var poiType = AppState.current.navigationLocation.poiType;
-
-            var appViewModel = Init._app();
-
-            var junctionAppViewModel = new JunctionSPAAppViewModel(
-                selectedRouteJunction,
-                appViewModel.filter,
-                appViewModel.routePlan,
-                poiType);
-
-            appViewModel.selectedJunction(junctionAppViewModel);
-        }
-
-        private static initSPA(): void {
-
-            if (!Init._initDone) {
-                /* apply root bindings for Cordova app */
-                var sbsRootNode = $("#sbsRoot")[0];
-                ko.applyBindings(Init._app, sbsRootNode);
-
-                /* initialize UI */
-                $(".filter-btn").click(() => Init.openFilterPopup());
-
-                Init._initDone = true;
-            }
-
+            /* handle unknown hash change */
             var scheduledUnknownChange = false;
             (<any>$(window)).hashchange(() => {
                 if (!scheduledUnknownChange) {
@@ -159,24 +119,123 @@ module StopByStop {
                             }
                         }
 
+                        AppState.current.knownHashChangeInProgress = false;
                         scheduledUnknownChange = false;
                     }, 100);
                 }
             });
 
+            /* trigger initial hash change */
+            (<any>$(window)).hashchange();
+        }
+
+        private static loadRoute(routeId: string): JQueryPromise<any> {
+            var deferred = $.Deferred();
+
+            $.ajax({
+                url: AppState.current.urls.RouteDataUrl + routeId,
+                dataType: 'json',
+                method: 'GET',
+                success: function (data) {
+                    var route = <IRoute>data;
+                    var app = new AppViewModel(route, AppState.current, () => {
+                        deferred.resolve();
+                    });
+                    Init._app(app);
+                }
+            });
+
+            return deferred.promise();
+        }
+
+        private static completeExitPageInit(): void {
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
+            var poiType = AppState.current.navigationLocation.poiType;
+
+            var appViewModel = Init._app();
+
+            var junctionAppViewModel = new JunctionSPAAppViewModel(
+                appViewModel.route.route,
+                selectedRouteJunction,
+                appViewModel.filter,
+                appViewModel.routePlan,
+                poiType);
+
+            appViewModel.selectedJunction(junctionAppViewModel);
+
+            Init.initJunctionMapWhenReady(junctionAppViewModel).then((jmmv) => {
+                // to ensure the switch between map and list view is initialized
+                $(".view-mode-switch").controlgroup();
+                $(".view-mode-switch").trigger("create");
+                Init.wireupPOIGroup(jmmv);
+
+            })
+
+            Init._app().url(location.toString());
+            Init._app().title(junctionAppViewModel.routeJunction.title);
+            document.title = Init._app().title();
+        }
+
+        private static initSPA(): void {
+            /* apply root bindings for Cordova app */
+            var sbsRootNode = $("#sbsRoot")[0];
+            ko.applyBindings(Init._app, sbsRootNode);
+            /* initialize UI */
+            $(".filter-btn").click(() => Init.openFilterPopup());
+            $(".jqm-navmenu-link").click(() => Init.openNavigationMenu());
+
+            /* initialize page navigation events */
             var pageBeforeShowTime: number;
+            var navigationAbandoned = false;
 
             $.mobile.pageContainer.pagecontainer({
-
-                beforeshow: function (event, ui) {
+                beforeshow: (event, ui) => {
+                    navigationAbandoned = false;
                     pageBeforeShowTime = new Date().getTime();
-                    var pageIdSelector: string = "#" + ui.toPage.attr("id");
+                    var pageBeingLoaded = ui.toPage.attr("id");
+
+                    var pageIdSelector: string = "#" + pageBeingLoaded;
+
+
+                    if (!AppState.current.navigationLocation) {
+                        AppState.current.navigationLocation = { page: SBSPage.home };
+                    }
+
+                    Utils.updateNavigationLocation(location.hash, AppState.current.navigationLocation);
+                    var updatedHash = Utils.getHashFromNavigationLocation(AppState.current.navigationLocation);
+
+                    if (location.hash !== updatedHash) {
+                        AppState.current.knownHashChangeInProgress = true;
+                        location.replace(updatedHash);
+                    }
 
                     AppState.current.pageInfo = {
                         pageName: ui.toPage.data("page-name"),
                         telemetryPageName: ui.toPage.data("telemetry-page-name"),
                     };
 
+
+                    // are we loading correct page?
+                    var pageBeingLoaded = ui.toPage[0].id;
+                    if (SBSPage[AppState.current.navigationLocation.page] !== pageBeingLoaded) {
+                        Utils.spaPageNavigate(
+                            AppState.current.navigationLocation.page,
+                            AppState.current.navigationLocation.routeId,
+                            AppState.current.navigationLocation.exitId,
+                            AppState.current.navigationLocation.poiType,
+                            false);
+
+                        navigationAbandoned = true;
+                    }
+
+
+                    <any>$(pageIdSelector).css(
+                        {
+                            paddingTop: "51px",
+                            paddingBottom: "50px"
+                        });
+
+                    /*
                     (<any>$("#sbsheader")
                         .prependTo(pageIdSelector))
                         .toolbar({ position: "fixed" });
@@ -200,69 +259,52 @@ module StopByStop {
                             paddingBottom: "50px"
                         });
 
-
+                    */
 
                 },
-                show: function (event, ui) {
-
-
-                    if (!AppState.current.navigationLocation) {
-                        AppState.current.navigationLocation = { page: SBSPage.home };
+                show: (event, ui) => {
+                    if (navigationAbandoned) {
+                        return;
                     }
 
-                    Utils.updateNavigationLocation(location.hash, AppState.current.navigationLocation);
-                    var updatedHash = Utils.getHashFromNavigationLocation(AppState.current.navigationLocation);
-
-                    if (location.hash !== updatedHash) {
-                        AppState.current.knownHashChangeInProgress = true;
-                        location.replace(updatedHash);
-                    }
-
+                    
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
+                            $(".filter-btn").show();
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
 
                                 Init._app(new AppViewModel(null));
+
                                 Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
                                     }
                                 });
                             } else {
-                                if (AppState.current.navigationLocation.page === SBSPage.exit) {
+                                this._app().url(location.toString());
+                                if (AppState.current.navigationLocation.page === SBSPage.route) {
+
+                                    this._app().route.recalcRoadLine($(".route")[0]);
+                                    this._app().title(this._app().route.shortDescription);
+                                    
+                                } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
+
+                               
                             }
+                            break;
+                        default:
+                            $(".filter-btn").hide();
                             break;
                     }
 
 
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
-                    $("#sbsheader").removeClass("ui-fixed-hidden");
-
-                    switch (AppState.current.pageInfo.pageName) {
-                        case "exit-page":
-                            $(".filter-btn").show();
-                            Init.initJunctionMapWhenReady(<JunctionSPAAppViewModel>Init._app().selectedJunction()).then((jmmv) => {
-                                // to ensure the switch between map and list view is initialized
-                                $(".view-mode-switch").controlgroup();
-                                $(".view-mode-switch").trigger("create");
-                                Init.wireupPOIGroup(jmmv);
-
-                            })
-
-
-                            break;
-                        case "route-page":
-                            $(".filter-btn").show();
-                            break;
-                        default:
-                            $(".filter-btn").hide();
-                            break;
-                    }
+                    // $("#sbsheader").removeClass("ui-fixed-hidden");
 
                     Telemetry.trackPageView(
                         AppState.current.pageInfo.telemetryPageName,
@@ -278,8 +320,8 @@ module StopByStop {
             var mapContainerElement = $(".poi-map")[0];
 
             if (mapElement && mapContainerElement) {
-               var junctionMapViewModel = junctionAppViewModel.initMap(mapElement, mapContainerElement);
-               dfd.resolve(junctionMapViewModel);
+                var junctionMapViewModel = junctionAppViewModel.initMap(mapElement, mapContainerElement);
+                dfd.resolve(junctionMapViewModel);
             } else {
                 window.setTimeout(() => {
                     Init.initJunctionMapWhenReady(junctionAppViewModel)
@@ -353,6 +395,15 @@ module StopByStop {
             jQuery["browser"] = browser;
 
             /* END OF UA_MATCH */
+        }
+
+        public static openNavigationMenu(): void {
+            var fd = $("." + AppState.current.pageInfo.pageName + " .nav-menu")
+            if (fd.length > 0) {
+                (<any>fd).panel();
+                fd.trigger("create");
+                (<any>fd).panel("open");
+            }
         }
 
         public static openFilterPopup(): void {

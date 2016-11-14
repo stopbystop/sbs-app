@@ -1,0 +1,35 @@
+﻿<div id="poiPopupTemplate">
+    <div class='poi-popup' style='width:185px;height:105px;overflow:auto; position:relative;'>
+        <div class='poi-table-cell poi-details-cell' style='position:absolute;width:175px;max-width:180px;height:40px;padding:0;'>
+
+            <a href="#" onclick="showPoiOptionsForMapPopup();" data-rel="popup" data-transition="slidedown" data-position-to="origin"
+               class='ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn'
+               style='text-align:left;padding:1px;line-height:0.8em;text-align:center;font-size:1.2em;'>
+
+                <div data-bind="css:'poi-placename poi-placename-'+StopByStop.PoiType[poi.poiType].toLowerCase()" class='poi-placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'>
+                    <span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span>
+                </div>
+                <div class='poi-details' style='font-size:0.6em;' data-bind="html:poi.description"></div>
+                <div class='poi-details' style='font-size:0.6em;text-align:center;' data-bind="html:distanceFromJunctionText"></div>
+                <img src='images/add_to_route.png' class='poi-table-cell-go' style='height:40px;' alt='Add to route' />
+            </a>
+        </div><br />
+        <div class='poi-table-cell poi-yelp-cell' style='position:absolute; top:50px;width:120px;height:40px;padding:0;'>
+            <a href='#' data-bind="attr:{href:poi.yUrl}" class='ui-btn ui-corner-all poi-table-cell-link yelp-link' style='padding:1px;' target='_blank'>
+                <div style='float:left;margin-left:10px;'><img class='review-provider-icon' src='https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png' alt='Yelp' /></div>
+                <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
+                <div data-bind="visible: !poi.isYInfoLoading()">
+                    <div class='rating-small poi-rating' style='clear:none;top:7px;'>
+                        <i data-bind="css:'star-img '+poi.yStarClass()"></i>
+                    </div>
+                </div>
+                <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
+            </a>
+        </div>
+        <div class='poi-table-cell poi-phone-cell call-icon' style='position:absolute;top:50px;left:125px;width:50px;height:40px;padding:0;'>
+            <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class='ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title' style='padding:1px;' target='_blank'>
+                <img style='height:40px;width:40px;' src='images/phone2.png' class='poi-phone' alt='Call' />
+            </a>
+        </div>
+    </div>
+</div>

@@ -7,13 +7,39 @@ var gulp = require("gulp"),
     uglify = require("gulp-uglify"),
     merge = require("merge-stream"),
     del = require("del"),
+    handlebars = require('gulp-compile-handlebars'),
+    rename = require('gulp-rename'),
     bundleconfig = require("./bundleconfig.json"); // make sure bundleconfig.json doesn't contain any comments
 
 gulp.task("min", ["concat:js", "concat:css", "min:js", "min:css", "min:html"]);
 gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
-gulp.task("default", ["min"]);
+gulp.task("default", ["min", "html:cordova"]);
+
+
+gulp.task('html:cordova', function () {
+    var templateData = {
+    },
+    options = {
+        ignorePartials: true,
+        partials: {
+        },
+        batch: ['./html/partials', './html/pages'],
+        helpers: {
+            capitals: function (str) {
+                return str.toUpperCase();
+            }
+        }
+    }
+
+    return gulp.src('html/cordova.handlebars')
+        .pipe(handlebars(templateData, options))
+        .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts:["text/html"]}))
+        .pipe(rename('index.html'))
+        .pipe(gulp.dest('./../cordova/www'));
+});
+
 
 gulp.task("minWebBundle:js", function () {
     return gulp.src(["OutScripts/webBundle.js"])

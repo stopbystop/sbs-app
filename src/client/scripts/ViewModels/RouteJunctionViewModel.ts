@@ -13,7 +13,7 @@ module StopByStop {
         private _obj: IRouteJunction;
 
         constructor(obj: IRouteJunction, routeStartTime: Date, app: IAppViewModel) {
-            this._obj = obj;
+            this._obj = this.routeJunction = obj;
             this.distanceFromRouteStartText = ko.observable(Utils.getMileString(this._obj.dfrs));
 
 
@@ -34,6 +34,13 @@ module StopByStop {
             this.eta = ko.observable(this.etaWithoutStops);
             this.hasStops = ko.computed(() => this.stops().length > 0);
 
+            if ((<AppViewModel>app).title && (<AppViewModel>app).title()) {
+                var routeTitle = (<AppViewModel>app).title();
+                routeTitle = (routeTitle.substr(0, 1).toLowerCase() + routeTitle.substr(1));
+                this.title = this.junction.name + " on the way from " + routeTitle;
+            }
+
+            // TODO: fix this
             this.description = ko.computed(() => this.junction.name +
                 ". " + this.gasPoiCountString() + " gas stations, " +
                 this.foodPoiCountString() + " restaurants within 5 mile travel distance.");
@@ -54,11 +61,12 @@ module StopByStop {
                 return new Date(this.eta().getTime() + totalDetourTime * 1000);
             });
         }
-
+        public routeJunction: IRouteJunction;
         public distanceFromRouteStartText: KnockoutObservable<string>;
         public junction: JunctionViewModel;
         public visible: KnockoutObservable<boolean>;
         public top: KnockoutObservable<string>;
+        public title: string;
 
         public visibleGasPois: KnockoutObservableArray<PoiOnJunctionViewModel>;
         public visibleFoodPois: KnockoutObservableArray<PoiOnJunctionViewModel>;

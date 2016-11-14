@@ -88,6 +88,11 @@
     <Content Include="content\v1\images\svg\magnifying-glass32.svg" />
     <Content Include="content\v1\images\svg\sprites.svg" />
     <None Include="gulpfile.js" />
+    <None Include="html\cordova.handlebars" />
+    <Content Include="html\pages\about.handlebars" />
+    <None Include="html\pages\exit.handlebars" />
+    <None Include="html\partials\mappoipopup.handlebars" />
+    <None Include="html\partials\sidebar.handlebars" />
     <Content Include="outscripts\sbsbundle.js" />
     <Content Include="outscripts\sbsbundle.js.min.js" />
     <Content Include="outscripts\webBundle.js" />
@@ -102,7 +107,11 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="bundleconfig.json" />
-    <None Include="package.json" />
+    <Content Include="html\partials\header.handlebars" />
+    <Content Include="html\pages\home.handlebars" />
+    <Content Include="html\pages\route.handlebars" />
+    <Content Include="html\partials\navpanel.handlebars" />
+    <Content Include="html\partials\footer.handlebars" />
     <None Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
@@ -148,7 +157,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Target Name="AfterBuild">
     <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.0.6\tools\tsc.exe" />
-    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js min" />
+    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js default" />
     <Exec Command="..\copybundles.cmd" />
   </Target>
 </Project>

@@ -195,7 +195,7 @@ module StopByStop {
             AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer(
                 "change",
-                pageId, { dataUrl: dataUrl, changeHash: changeHash });
+                pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide" });
         }
     }
 }
