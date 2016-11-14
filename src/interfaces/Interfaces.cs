@@ -3,10 +3,6 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Web.Script.Serialization;
 
     public enum PoiDataKind
@@ -15,8 +11,6 @@
         Live,
         Backup
     }
-
-
 
     public interface IBEStore
     {
@@ -106,11 +100,13 @@
         Location GetLocationFromPlaceId(string placeId);
 
         /// <summary>
-        /// Gets places by partial match
+        /// Gets places matching the input prefix
         /// </summary>
-        /// <param name="text">Text typed by user</param>
+        /// <param name="text">Text that user entered</param>
         /// <param name="maxItems">Max number of items to return</param>
-        /// <returns>Places to matching the input (not case sensitive), sorted by population in reverse order (starting from most populous)</returns>
+        /// <returns>
+        /// Places matching the input prefix (not case sensitive), sorted by population in reverse order (starting from most populous)
+        /// </returns>
         GeoPlace[] FindPlacesByPartialMatch(string name, int maxItems);
 
         /// <summary>
