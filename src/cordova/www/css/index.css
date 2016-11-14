@@ -1,5 +1,47 @@
-﻿body {
-    -webkit-touch-callout: none;
-    -webkit-text-size-adjust: none;
-    -webkit-user-select: none;
-}
+    body {
+        -webkit-touch-callout: none;
+        -webkit-text-size-adjust: none;
+        -webkit-user-select: none;
+    }
+
+   .imageholder 
+        { 
+        display: inline-block;
+        /* crops images */
+        overflow: hidden;
+        /*width: 160px;
+        height: 90px;*/
+        width: 20%;
+        height: 11.2%;
+        /* makes abs positioned images stay inside container */
+        position: relative;
+        border: 3px solid #000000;
+        margin: 25px 25px 25px 25px;
+    }
+    
+    .imagetransition {
+        /*width:  90px;
+        height: 90px;
+        margin: 5px;
+        backgroundColor:#73C5E1;*/
+        
+        position: relative;
+        -webkit-animation: mymove 3s; 
+        -webkit-animation-iteration-count: 3; 
+        animation: mymove 3s;
+        animation-iteration-count: infinite;
+    }
+    
+    @-webkit-keyframes mymove {
+        from {top: 0px;}
+        to {top: 10px;}
+    }
+    
+    @keyframes mymove {
+        from {top: 0px;}
+        to {top: 10px;}
+    }
+    
+    to {
+        bottom: 100px;
+    }
