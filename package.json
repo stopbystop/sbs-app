@@ -22,7 +22,7 @@
   "scripts": {
     "build": "cd ./src/client && tsc -p . && gulp && cd ../cordova/scripts && tsc -p . && cd ../../../test/qunit && tsc -p .",
     "build-web": "cd ./src/client && tsc -p . && gulp",
-    "build-cordova": "cd ./src/cordova/scripts && tsc -p .",
+    "build-cordova": "cd ./src/cordova/scripts && tsc -p . && cd ../../client && gulp",
     "build-test": "cd ./test/qunit && tsc -p .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

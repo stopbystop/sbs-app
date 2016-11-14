@@ -13,6 +13,7 @@ module StopByStop {
         private _route: IRoute;
 
         constructor(route: IRoute, initSettings: IAppState = null, routeInitializationComplete: () => void = null) {
+            this.url(location.toString());
             if (route) {
                 this._route = route;
                 var rjs: IRouteJunction[] = [];
@@ -37,12 +38,17 @@ module StopByStop {
                 ko.computed(() => ko.toJS(this.filter)).subscribe(() => {
                     this.route.applyFilter(this.filter);
                 });
+                this.title(this.route.title + " - Stop by Stop");
+            } else {
+                this.title("See best places to stop on the way to your destination - Stop by Stop");
             }
 
+            window.document.title = this.title();
         }
 
         public route: RouteViewModel = null;
-
+        public url: KnockoutObservable<string> = ko.observable("");
+        public title: KnockoutObservable<string> = ko.observable("");
         // initialize filter to an empty object, so that it doesn't require IFs which would require delayed jqm initialization
         public filter: FilterViewModel = <FilterViewModel>{};
         public routePlan: RoutePlanViewModel = null;

@@ -170,6 +170,10 @@ module StopByStop {
                 Init.wireupPOIGroup(jmmv);
 
             })
+
+            Init._app().url(location.toString());
+            Init._app().title(junctionAppViewModel.routeJunction.title);
+            document.title = Init._app().title();
         }
 
         private static initSPA(): void {
@@ -178,6 +182,7 @@ module StopByStop {
             ko.applyBindings(Init._app, sbsRootNode);
             /* initialize UI */
             $(".filter-btn").click(() => Init.openFilterPopup());
+            $(".jqm-navmenu-link").click(() => Init.openNavigationMenu());
 
             /* initialize page navigation events */
             var pageBeforeShowTime: number;
@@ -221,10 +226,16 @@ module StopByStop {
                             false);
 
                         navigationAbandoned = true;
-
                     }
 
 
+                    <any>$(pageIdSelector).css(
+                        {
+                            paddingTop: "51px",
+                            paddingBottom: "50px"
+                        });
+
+                    /*
                     (<any>$("#sbsheader")
                         .prependTo(pageIdSelector))
                         .toolbar({ position: "fixed" });
@@ -248,7 +259,7 @@ module StopByStop {
                             paddingBottom: "50px"
                         });
 
-
+                    */
 
                 },
                 show: (event, ui) => {
@@ -256,6 +267,7 @@ module StopByStop {
                         return;
                     }
 
+                    
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
@@ -271,14 +283,17 @@ module StopByStop {
                                     }
                                 });
                             } else {
-
+                                this._app().url(location.toString());
                                 if (AppState.current.navigationLocation.page === SBSPage.route) {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
-
+                                    this._app().title(this._app().route.shortDescription);
+                                    
                                 } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
+
+                               
                             }
                             break;
                         default:
@@ -289,7 +304,7 @@ module StopByStop {
 
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
-                    $("#sbsheader").removeClass("ui-fixed-hidden");
+                    // $("#sbsheader").removeClass("ui-fixed-hidden");
 
                     Telemetry.trackPageView(
                         AppState.current.pageInfo.telemetryPageName,
@@ -380,6 +395,15 @@ module StopByStop {
             jQuery["browser"] = browser;
 
             /* END OF UA_MATCH */
+        }
+
+        public static openNavigationMenu(): void {
+            var fd = $("." + AppState.current.pageInfo.pageName + " .nav-menu")
+            if (fd.length > 0) {
+                (<any>fd).panel();
+                fd.trigger("create");
+                (<any>fd).panel("open");
+            }
         }
 
         public static openFilterPopup(): void {

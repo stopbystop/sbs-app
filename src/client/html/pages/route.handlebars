@@ -1,5 +1,6 @@
 ﻿<!-- route page-->
 <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
+    {{>header}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
             <div class="breadCrumbHolder module">
@@ -78,15 +79,7 @@
         </div>
     </div>
 
-    <!-- let's go button-->
-    <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container" style="width:100%;padding:0 5px 0px;position:absolute;width:100%; background-color:#fff;">
-        <a href="#" class="ui-btn ui-btn-inline ui-corner-all"
-           data-bind="click:function(){routePlan.navigate();return false;}"
-           style="width:55%;margin:0 auto;display:block;background-color:#5bb12f;color:#fff;font-size:1.3em;text-transform:uppercase;padding:12px;box-shadow:1px 1px 4px #606060;"
-           data-rel="back">Let's go</a>
-    </div>
-
-    <!-- filder dialog start-->
+    <!-- filter dialog start-->
     <div data-role="popup" class="ui-content filter-dlg">
         <div data-role="header">
             <h2>Set filters</h2>
@@ -136,6 +129,7 @@
         </div>
     </div>
     <!-- filter dialog end-->
+
     <!-- stop settings dialog start-->
     <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
         <div data-bind="with:routePlan">
@@ -196,5 +190,7 @@
     </div>
     <!-- stop settings dialog end-->
 
+    {{>navpanel}}
+    {{>footer renderLetsGoButton=true }}
 </div>
 <!-- end of route page-->

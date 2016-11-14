@@ -20,12 +20,10 @@ gulp.task("default", ["min","html:cordova"]);
 
 gulp.task('html:cordova', function () {
     var templateData = {
-        firstName: 'Kaanon'
     },
     options = {
-        ignorePartials: true, //ignores the unknown footer2 partial in the handlebars template, defaults to false 
+        ignorePartials: true, 
         partials: {
-            footer: '<footer>the end</footer>'
         },
         batch: ['./html/partials','./html/pages'],
         helpers: {
@@ -38,7 +36,7 @@ gulp.task('html:cordova', function () {
     return gulp.src('html/cordova.handlebars')
         .pipe(handlebars(templateData, options))
         .pipe(rename('index.html'))
-        .pipe(gulp.dest('../cordova/www'));
+        .pipe(gulp.dest('./../cordova/www'));
 });
 
 

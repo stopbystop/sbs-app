@@ -42,6 +42,11 @@ module StopByStop {
             this.etaString = ko.observable(Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
+
+            if (this.fromLocation.placeDescription.indexOf("Start location (") === 0) {
+                this.fromLocation.placeDescription = "Your location";
+            }
+
             this.title = this.fromLocation.placeDescription + " to " + this.toLocation.placeDescription;
 
             var exitCount = 0;

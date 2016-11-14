@@ -1202,6 +1202,12 @@ var StopByStop;
             this.etaWithoutStops = new Date(routeStartTime.getTime() + this._obj.tfrs * 1000);
             this.eta = ko.observable(this.etaWithoutStops);
             this.hasStops = ko.computed(function () { return _this.stops().length > 0; });
+            if (app.title && app.title()) {
+                var routeTitle = app.title();
+                routeTitle = (routeTitle.substr(0, 1).toLowerCase() + routeTitle.substr(1));
+                this.title = this.junction.name + " on the way from " + routeTitle;
+            }
+            // TODO: fix this
             this.description = ko.computed(function () { return _this.junction.name +
                 ". " + _this.gasPoiCountString() + " gas stations, " +
                 _this.foodPoiCountString() + " restaurants within 5 mile travel distance."; });
@@ -1819,6 +1825,9 @@ var StopByStop;
             this.etaString = ko.observable(StopByStop.Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
+            if (this.fromLocation.placeDescription.indexOf("Start location (") === 0) {
+                this.fromLocation.placeDescription = "Your location";
+            }
             this.title = this.fromLocation.placeDescription + " to " + this.toLocation.placeDescription;
             var exitCount = 0;
             $.each(route.s, function (i, v) { return exitCount += v.j.length; });
@@ -1937,10 +1946,13 @@ var StopByStop;
             if (initSettings === void 0) { initSettings = null; }
             if (routeInitializationComplete === void 0) { routeInitializationComplete = null; }
             this.route = null;
+            this.url = ko.observable("");
+            this.title = ko.observable("");
             // initialize filter to an empty object, so that it doesn't require IFs which would require delayed jqm initialization
             this.filter = {};
             this.routePlan = null;
             this.selectedJunction = ko.observable(null);
+            this.url(location.toString());
             if (route) {
                 this._route = route;
                 var rjs = [];
@@ -1958,7 +1970,12 @@ var StopByStop;
                 ko.computed(function () { return ko.toJS(_this.filter); }).subscribe(function () {
                     _this.route.applyFilter(_this.filter);
                 });
+                this.title(this.route.title + " - Stop by Stop");
             }
+            else {
+                this.title("See best places to stop on the way to your destination - Stop by Stop");
+            }
+            window.document.title = this.title();
         }
         AppViewModel.prototype.initSideBar = function () {
             if (this.route && this.route.sideBar) {
@@ -2307,6 +2324,9 @@ var StopByStop;
                 $(".view-mode-switch").trigger("create");
                 Init.wireupPOIGroup(jmmv);
             });
+            Init._app().url(location.toString());
+            Init._app().title(junctionAppViewModel.routeJunction.title);
+            document.title = Init._app().title();
         };
         Init.initSPA = function () {
             var _this = this;
@@ -2315,6 +2335,7 @@ var StopByStop;
             ko.applyBindings(Init._app, sbsRootNode);
             /* initialize UI */
             $(".filter-btn").click(function () { return Init.openFilterPopup(); });
+            $(".jqm-navmenu-link").click(function () { return Init.openNavigationMenu(); });
             /* initialize page navigation events */
             var pageBeforeShowTime;
             var navigationAbandoned = false;
@@ -2343,22 +2364,35 @@ var StopByStop;
                         StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
                         navigationAbandoned = true;
                     }
-                    $("#sbsheader")
-                        .prependTo(pageIdSelector)
-                        .toolbar({ position: "fixed" });
-                    $("#menupanel")
-                        .appendTo(pageIdSelector)
-                        .panel();
-                    $("#menupanel-list").listview();
-                    $("#menupanel-list>li a").removeClass("ui-btn-active");
-                    $("#sbsfooter")
-                        .appendTo(pageIdSelector)
-                        .toolbar({ position: "fixed" });
-                    $.mobile.resetActivePageHeight();
                     $(pageIdSelector).css({
                         paddingTop: "51px",
                         paddingBottom: "50px"
                     });
+                    /*
+                    (<any>$("#sbsheader")
+                        .prependTo(pageIdSelector))
+                        .toolbar({ position: "fixed" });
+
+                    (<any>$("#menupanel")
+                        .appendTo(pageIdSelector))
+                        .panel();
+
+                    $("#menupanel-list").listview();
+                    $("#menupanel-list>li a").removeClass("ui-btn-active");
+
+                    (<any>$("#sbsfooter")
+                        .appendTo(pageIdSelector))
+                        .toolbar({ position: "fixed" });
+
+                    (<any>$.mobile).resetActivePageHeight();
+
+                    <any>$(pageIdSelector).css(
+                        {
+                            paddingTop: "51px",
+                            paddingBottom: "50px"
+                        });
+
+                    */
                 },
                 show: function (event, ui) {
                     if (navigationAbandoned) {
@@ -2378,8 +2412,10 @@ var StopByStop;
                                 });
                             }
                             else {
+                                _this._app().url(location.toString());
                                 if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.route) {
                                     _this._app().route.recalcRoadLine($(".route")[0]);
+                                    _this._app().title(_this._app().route.shortDescription);
                                 }
                                 else if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                     Init.completeExitPageInit();
@@ -2392,7 +2428,7 @@ var StopByStop;
                     }
                     // this is a hack. But I am not sure why this class is added despite the fact that
                     // sbsheader is added with {position:fixed}
-                    $("#sbsheader").removeClass("ui-fixed-hidden");
+                    // $("#sbsheader").removeClass("ui-fixed-hidden");
                     StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
@@ -2468,6 +2504,14 @@ var StopByStop;
             jQuery["browser"] = browser;
             /* END OF UA_MATCH */
         };
+        Init.openNavigationMenu = function () {
+            var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .nav-menu");
+            if (fd.length > 0) {
+                fd.panel();
+                fd.trigger("create");
+                fd.panel("open");
+            }
+        };
         Init.openFilterPopup = function () {
             var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filter-dlg");
             if (fd.length > 0) {
@@ -2531,7 +2575,8 @@ var StopByStop;
         StopByStop.Init.initialize({
             app: StopByStop.SBSApp.SPA,
             baseDataUrl: "https://www.stopbystop.com/",
-            baseImageUrl: "images/"
+            baseImageUrl: "images/",
+            navigationLocation: { page: StopByStop.SBSPage.home }
         });
         window.onload = function () {
             Application.initialize();

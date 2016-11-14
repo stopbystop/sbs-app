@@ -54,7 +54,8 @@ module StopByStop.Cordova {
     StopByStop.Init.initialize({
         app: SBSApp.SPA,
         baseDataUrl: "https://www.stopbystop.com/",
-        baseImageUrl: "images/"
+        baseImageUrl: "images/",
+        navigationLocation: { page: SBSPage.home }
     });
 
     window.onload = function () {
