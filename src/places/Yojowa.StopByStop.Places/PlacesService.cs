@@ -15,12 +15,12 @@ namespace Yojowa.StopByStop.Places
     public class PlacesService : IPlacesService
     {
         /// <summary>
-        /// Gets places by partial match
+        /// Gets places matching the input prefix
         /// </summary>
         /// <param name="text">Text that user entered</param>
         /// <param name="maxItems">Max number of items to return</param>
         /// <returns>
-        /// Places to matching the input (not case sensitive), sorted by population in reverse order (starting from most populous)
+        /// Places matching the input prefix (not case sensitive), sorted by population in reverse order (starting from most populous)
         /// </returns>
         public GeoPlace[] FindPlacesByPartialMatch(string text, int maxItems)
         {

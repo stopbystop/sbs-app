@@ -326,7 +326,7 @@ var StopByStop;
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
             StopByStop.AppState.current.knownHashChangeInProgress = true;
-            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash });
+            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide" });
         };
         // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         Utils.observeDOM = (function () {
