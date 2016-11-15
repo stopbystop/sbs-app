@@ -10,11 +10,133 @@
 module StopByStop {
 
     export class InitHome {
+ 
+        //The functionality below pulls the image url based on lat long
+        //And populates the images inside a div
+        //If an image is not available, it is shown as a blank div
+        public static addImagesDynamically(prevPlace,currentLocationString) {
+            //$('#to').on('click', function (event) {
+            if (AppState.current.app != SBSApp.Web) {    
+                var place = $('#from').data('place');
+                
+                if(place===null){
+                    return true;
+                }
+                
+                if(prevPlace!=null && prevPlace.n===place.n){
+                    
+                    // Dont proceed further as the same place is being selected
+                    return true;
+                }
+
+                // Continue with the processing if the previous place doesnt match with the current returned place
+                prevPlace =  place;
+                //Remove any div contents from the previous population before adding new divs
+                $("#Images").empty();
+
+                var placesNearbyUrl = "";
+                
+                //If the place returned is the current location, the processing should be different, 
+                //should be picked up from place.i
+                if(place.n===currentLocationString)
+                {
+                    var modifiedCurrentLocation = place.i.replace(",", "/");
+                    placesNearbyUrl= 'https://www.stopbystop.com/placesnearby/'+modifiedCurrentLocation;
+                }
+                else
+                {
+                    placesNearbyUrl= 'https://www.stopbystop.com/placesnearby/'+place.l.a+'/'+place.l.o;
+                }
+                
+                $.ajax({
+                    url : placesNearbyUrl,
+                    dataType: 'json',
+                    method: 'GET',
+                    success : function(result) 
+                    {
+
+                        var imageDiv = $("#Images"), 
+                        myDivs = [],
+                        divIndex = 0,
+                        numOfDivs = result.length;
+                        
+                        if(numOfDivs>10 && window.screen.width>480)
+                        {
+                            numOfDivs=10; //Restrict results to 10 for a desktop screen
+                        }
+                        
+                        if(numOfDivs>6 && window.screen.width<480)
+                        {
+                            numOfDivs=6; //Restrict results to 6 for a mobile screen
+                        }                        
+
+                        for (divIndex; divIndex < numOfDivs; divIndex += 1)
+                        {
+                            var  divId="appendedImagediv"+divIndex;
+                            var  imageId = "appendedImageId"+divIndex;
+                            myDivs.push(InitHome.createDiv(divIndex,result[divIndex]));
+                            
+                            $(myDivs[divIndex]).data('place',result[divIndex]);
+                            $("#Images").append(myDivs[divIndex]);
+                            $(myDivs[divIndex]).on('click', function() {
+                                //if ( $(this).children().length == 0 ) {
+                                    // This is to avoid populating when it already has an image element
+                                    $("#to").val($(this).data('place').n);
+                                    var placeData = { n: $(this).data('place').n, i: $(this).data('place').i };
+                                    $("#to").data('place',placeData);
+                                    $("#view_trip").removeClass("ui-disabled");
+                                //  }
+                             });
+                            var imageElement = document.createElement('img');
+                            imageElement.src = 'https://www.stopbystop.com/client/content/city_images/'+result[divIndex].i+'.jpg';
+                            //imageElement.style.backgroundColor = '#73C5E1';
+                            imageElement.id = imageId;
+                            imageElement.style.width='160px';
+                            imageElement.style.height='90px';
+                            imageElement.style.margin = '5px auto';
+                            imageElement.alt=result[divIndex].n;
+                            imageElement.className='imagetransition';
+                            imageElement.onload = function () {
+                            };
+                            imageElement.onerror = function () {
+                                // If the image is not available change the background color and hide the image
+                                $(this).parent('div').css( "background-color", "#73C5E1" );
+                                $(this).parent('div').css( "width", "160px" );
+                                $(this).parent('div').css( "height", "90px" );
+                                //$(this).parent('div').html(this.alt);
+                                $(this).hide();                                
+
+                            };
+                            imageElement.onclick = function() {
+                                $("#to").val($(this).parent('div').data('place').n);
+                                var placeData = { n: $(this).parent('div').data('place').n, i: $(this).parent('div').data('place').i };
+                                $("#to").data('place',placeData);
+                                $("#view_trip").removeClass("ui-disabled");
+                            }
+                            document.getElementById('appendedImagediv'+divIndex).appendChild(imageElement);
+                        }
+
+                    }
+                });
+            };
+            //});            
+        }
         
-        public static createDiv(divIndex) {
+        public static createDiv(divIndex,data) {
             var imageDiv = document.createElement("div");
             imageDiv.id='appendedImagediv'+divIndex;
             imageDiv.className="imageholder";
+            var innerDiv = document.createElement("div");
+            innerDiv.id = 'appendedInnerdiv' + divIndex;
+            innerDiv.className = "childdiv";
+            innerDiv.innerHTML = data.n;
+            imageDiv.appendChild(innerDiv); 
+            innerDiv.onclick = function() {
+                $("#to").val($(this).parent('div').data('place').n);
+                var placeData = { n: $(this).parent('div').data('place').n, i: $(this).parent('div').data('place').i };
+                $("#to").data('place',placeData);
+                $("#view_trip").removeClass("ui-disabled");
+            }                                
             return imageDiv;
         }
         
@@ -36,6 +158,11 @@ module StopByStop {
 
                                 $("#from").val(currentLocationString);
                                 $("#from").data({ place: currentLocationData });
+                                
+                                if($("#from").data('place'))
+                                {
+                                    InitHome.addImagesDynamically(prevPlace,currentLocationString);
+                                }
 
                                 Telemetry.trackEvent(TelemetryEvent.LocationIN);
                             }
@@ -120,6 +247,7 @@ module StopByStop {
 
                 var $input = $(this).closest('div').find('input');
                 var place = $(this).data('place');
+                
                 if (place) {
                     $input.val(place.n).data('place', place);
                     $(this).closest('ul').empty();
@@ -127,6 +255,8 @@ module StopByStop {
                     if ($("#from").data('place') && $("#to").data('place')) {
                         $("#view_trip").removeClass("ui-disabled");
                     }
+                    
+                    InitHome.addImagesDynamically(prevPlace,currentLocationString);
                 }
 
                 Telemetry.trackEvent(TelemetryEvent.CityDropdownClick);
@@ -171,97 +301,6 @@ module StopByStop {
                 $("#view_trip").removeClass("ui-disabled");
             }
             
-            //The functionality below pulls the image url based on lat long
-            //And populates the images inside a div
-            //If an image is not available, it is shown as a blank div
-            
-            $('#to').on('click', function (event) {
-                
-                var place = $('#from').data('place');
-                if(prevPlace!=null && prevPlace.n===place.n)
-                {
-                    // Dont proceed further as the same place is being selected
-                    return true;
-                }
-
-                // Continue with the processing if the previous place doesnt match with the current returned place
-                prevPlace =  place;
-                //Remove any div contents from the previous population before adding new divs
-                $("#Images").empty();
-
-                var placesNearbyUrl = "";
-                
-                //If the place returned is the current location, the processing should be different, 
-                //should be picked up from place.i
-                if(place.n===currentLocationString)
-                {
-                    var modifiedCurrentLocation = place.i.replace(",", "/");
-                    placesNearbyUrl= 'https://www.stopbystop.com/placesnearby/'+modifiedCurrentLocation;
-                }
-                else
-                {
-                    placesNearbyUrl= 'https://www.stopbystop.com/placesnearby/'+place.l.a+'/'+place.l.o;
-                }
-                
-                $.ajax({
-                    url : placesNearbyUrl,
-                    dataType: 'json',
-                    method: 'GET',
-                    success : function(result) 
-                    {
-
-                        var imageDiv = $("#Images"), 
-                        myDivs = [],
-                        divIndex = 0,
-                        numOfDivs = result.length;
-                        
-                        if(numOfDivs>10)
-                        {
-                            numOfDivs=10; //TODO - change the number of divs based on the device
-                        }
-
-                        for (divIndex; divIndex < numOfDivs; divIndex += 1)
-                        {
-                            var  divId="appendedImagediv"+divIndex;
-                            var  imageId = "appendedImageId"+divIndex;
-                            myDivs.push(InitHome.createDiv(divIndex));
-                            $("#Images").append(myDivs[divIndex]);
-                            $("#"+divId).on('click', function() {
-                                if ( $(this).children().length == 0 ) {
-                                    // This is to avoid populating when it already has an image element
-                                    $("#to").val($(this).html());
-                                }
-                             });
-                            var imageElement = document.createElement('img');
-                            imageElement.src = 'https://www.stopbystop.com/client/content/city_images/'+result[divIndex].i+'.jpg';
-                            //imageElement.style.backgroundColor = '#73C5E1';
-                            imageElement.id = imageId;
-                            imageElement.style.width='90px';
-                            imageElement.style.height='90px';
-                            imageElement.style.margin = '5px auto';
-                            imageElement.alt=result[divIndex].n;
-                            imageElement.className='imagetransition';
-                            imageElement.onload = function () {
-                            };
-                            imageElement.onerror = function () {
-                                // If the image is not available change the background color and hide the image
-                                $(this).parent('div').css( "background-color", "#73C5E1" );
-                                $(this).parent('div').css( "width", "160px" );
-                                $(this).parent('div').css( "height", "90px" );
-                                $(this).parent('div').html(this.alt);
-                                $(this).hide();                                
-
-                            };
-                            imageElement.onclick = function() {
-                                $("#to").val(this.alt);
-                            }
-                            document.getElementById('appendedImagediv'+divIndex).appendChild(imageElement);
-                        }
-
-                    }
-                });
-            });
-
-        }
+         }
     }
 }
