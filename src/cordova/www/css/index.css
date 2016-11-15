@@ -13,6 +13,9 @@
         bottom: 0;
         left: 0;
         z-index: 2;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
     }  
        
    .imageholder 
