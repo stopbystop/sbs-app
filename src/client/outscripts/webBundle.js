@@ -1428,6 +1428,15 @@ var StopByStop;
             var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
                 $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
                 $("#stopSettingsDialog");
+            stopSettingsDialog.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
+                var vCenter = ($(window).height() - stopSettingsDialog.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             stopSettingsDialog.popup({
                 transition: "slidedown",
                 corners: true
@@ -1627,6 +1636,18 @@ var StopByStop;
                 $(_this._routeContentSelector).bind("touchmove", function (e) {
                     _this.onTouchMove(e, e.originalEvent["touches"][0].pageY);
                 });
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    _this._headerHeight = $(".ui-header").outerHeight();
+                    _this._footerHeight = $(".ui-footer").outerHeight();
+                }
+                else {
+                    // we have multiple copies of header and footer on SPA app
+                    _this._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                    _this._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+                }
+                _this.sideBarHeight($(window).height());
+                _this.sideBarInnerHeight($(window).height());
+                _this.sideBarInnerTop(50);
             });
             this._sideBarFirstScrollInit = StopByStop.Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
             this.sideBarHeight = ko.observable(0);
@@ -1771,15 +1792,6 @@ var StopByStop;
             StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                sbvm._headerHeight = $(".ui-header").outerHeight();
-                sbvm._footerHeight = $(".ui-footer").outerHeight();
-            }
-            else {
-                // we have multiple copies of header and footer on SPA app
-                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-            }
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
@@ -1876,7 +1888,6 @@ var StopByStop;
                     lastJunctionTop = $(roadLineElement).offset().top.toString();
                     _this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
-                StopByStop.Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
             }
         };
         RouteViewModel.prototype.applyFilter = function (filter) {
@@ -2519,6 +2530,15 @@ var StopByStop;
         };
         Init.openFilterPopup = function () {
             var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filter-dlg");
+            fd.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - fd.width()) / 2;
+                var vCenter = ($(window).height() - fd.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");
