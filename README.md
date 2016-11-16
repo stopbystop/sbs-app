@@ -32,7 +32,8 @@ You can build Typescript files with npm and you can also build the whole solutio
 To build run the following from repo root:  
 * `npm install`   
 * `npm run build`  
-* If you made changes to CSS and images you need to run this to copy bundled CSS to destination: `copybundles.cmd` from root
+* If you made changes to CSS and images you need to run this to copy bundled CSS to destination: `copybundles.cmd` from root  
+
 ### Running SPA version of the app
 To run you can use http-server. It is already installed into dev dependencies after you run `npm install`:  
 * Run `http-server -S`  from repo root   
