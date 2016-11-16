@@ -1428,6 +1428,15 @@ var StopByStop;
             var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
                 $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
                 $("#stopSettingsDialog");
+            stopSettingsDialog.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
+                var vCenter = ($(window).height() - stopSettingsDialog.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             stopSettingsDialog.popup({
                 transition: "slidedown",
                 corners: true
@@ -1627,6 +1636,18 @@ var StopByStop;
                 $(_this._routeContentSelector).bind("touchmove", function (e) {
                     _this.onTouchMove(e, e.originalEvent["touches"][0].pageY);
                 });
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    _this._headerHeight = $(".ui-header").outerHeight();
+                    _this._footerHeight = $(".ui-footer").outerHeight();
+                }
+                else {
+                    // we have multiple copies of header and footer on SPA app
+                    _this._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                    _this._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+                }
+                _this.sideBarHeight($(window).height());
+                _this.sideBarInnerHeight($(window).height());
+                _this.sideBarInnerTop(50);
             });
             this._sideBarFirstScrollInit = StopByStop.Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
             this.sideBarHeight = ko.observable(0);
@@ -1697,9 +1718,8 @@ var StopByStop;
             var routeOffsetTop = $(this._routeContentSelector).offset().top;
             if (documentScrollTop > routeOffsetTop) {
                 this.sideBarPosition("fixed");
-                // this.sideBarTop((this._headerHeight + 41).toString() + "px");
                 this.sideBarTop("");
-                this.sideBarBottom((this._footerHeight).toString() + "px");
+                this.sideBarBottom((this._footerHeight + 1).toString() + "px");
                 this._portionOfRouteScrolled = Math.min(1.0, (documentScrollTop - routeOffsetTop) /
                     ($(".route").innerHeight() - $(window).height() - this._footerHeight));
                 this.recalcThumbPosition();
@@ -1762,7 +1782,6 @@ var StopByStop;
                     /* available height is slightly smaller because we don't want POI to overlap with ETA time */
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
-                    /* 1.15 is a magic contant to adjust stops on the sidebar */
                     var distanceToExitInPixels = (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                         this._routeViewModel.roadLineHeight());
                     sideBarStopViewModel.top((distanceToExitInPixels).toString() + "px");
@@ -1773,15 +1792,6 @@ var StopByStop;
             StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                sbvm._headerHeight = $(".ui-header").outerHeight();
-                sbvm._footerHeight = $(".ui-footer").outerHeight();
-            }
-            else {
-                // we have multiple copies of header and footer on SPA app
-                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-            }
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
@@ -1878,7 +1888,6 @@ var StopByStop;
                     lastJunctionTop = $(roadLineElement).offset().top.toString();
                     _this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
-                StopByStop.Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
             }
         };
         RouteViewModel.prototype.applyFilter = function (filter) {
@@ -2521,6 +2530,15 @@ var StopByStop;
         };
         Init.openFilterPopup = function () {
             var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filter-dlg");
+            fd.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - fd.width()) / 2;
+                var vCenter = ($(window).height() - fd.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");
@@ -2556,13 +2574,9 @@ var StopByStop;
             function onDeviceReady() {
                 console.log("in onDeviceReady");
                 //console.log(device.platform);
-
-                if (window.device && device.platform !== "windows") {
-                    // FastClick lib: https://github.com/ftlabs/fastclick
-                    var attachFastClick = window["Origami"].fastclick;
-                    attachFastClick(document.body);
-                }
-
+                // FastClick lib: https://github.com/ftlabs/fastclick
+                var attachFastClick = window["Origami"].fastclick;
+                attachFastClick(document.body);
                 // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
                 var viewPortScale = 1 / window.devicePixelRatio;
                 $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');

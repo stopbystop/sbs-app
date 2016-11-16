@@ -91,6 +91,7 @@
     <None Include="html\cordova.handlebars" />
     <Content Include="html\pages\about.handlebars" />
     <None Include="html\pages\exit.handlebars" />
+    <Content Include="html\partials\filterButton.handlebars" />
     <None Include="html\partials\mappoipopup.handlebars" />
     <None Include="html\partials\sidebar.handlebars" />
     <Content Include="outscripts\sbsbundle.js" />

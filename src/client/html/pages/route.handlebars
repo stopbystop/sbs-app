@@ -3,14 +3,12 @@
     {{>header}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
-            <div class="breadCrumbHolder module">
-                <div id="breadCrumb0" class="breadCrumb module">
+            <div class="breadCrumbHolder module" >
+                <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
                     <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
                         </li>
-
-
                     </ul>
                 </div>
 
@@ -131,7 +129,7 @@
     <!-- filter dialog end-->
 
     <!-- stop settings dialog start-->
-    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
+    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup"  class="ui-content stop-settings-dialog">
         <div data-bind="with:routePlan">
             <div data-role="header">
                 <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
@@ -189,7 +187,7 @@
         </div>
     </div>
     <!-- stop settings dialog end-->
-
+    {{>filterButton}}
     {{>navpanel}}
     {{>footer renderLetsGoButton=true }}
 </div>
