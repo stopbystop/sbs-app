@@ -188,6 +188,17 @@ module StopByStop {
                 $("." + AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
                 $("#stopSettingsDialog");
 
+            stopSettingsDialog.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
+                var vCenter = ($(window).height() - stopSettingsDialog.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
+
+
             stopSettingsDialog.popup({
                 transition: "slidedown",
                 corners: true

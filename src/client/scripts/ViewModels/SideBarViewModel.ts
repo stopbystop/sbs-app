@@ -64,6 +64,20 @@ module StopByStop {
             $(this._routeContentSelector).bind("touchmove", (e) => {
                 this.onTouchMove(e, e.originalEvent["touches"][0].pageY);
             });
+
+
+            if (AppState.current.app === SBSApp.Web) {
+                this._headerHeight = $(".ui-header").outerHeight();
+                this._footerHeight = $(".ui-footer").outerHeight();
+            } else {
+                // we have multiple copies of header and footer on SPA app
+                this._headerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                this._footerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+            }
+
+            this.sideBarHeight($(window).height());
+            this.sideBarInnerHeight($(window).height());
+            this.sideBarInnerTop(50);
         });
 
         private _sideBarFirstScrollInit = Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
@@ -85,7 +99,7 @@ module StopByStop {
             this.stops = ko.observableArray<SideBarStopViewModel>([]);
             this._routePlanViewModel = routePlan;
             this._routeViewModel = routeViewModel;
-
+          
 
             $(document).scroll(() => {
 
@@ -154,10 +168,9 @@ module StopByStop {
 
             if (documentScrollTop > routeOffsetTop) {
                 this.sideBarPosition("fixed");
-                // this.sideBarTop((this._headerHeight + 41).toString() + "px");
 
                 this.sideBarTop("");
-                this.sideBarBottom((this._footerHeight).toString() + "px");
+                this.sideBarBottom((this._footerHeight + 1).toString() + "px");
 
                 this._portionOfRouteScrolled = Math.min(1.0, (documentScrollTop - routeOffsetTop) /
                     ($(".route").innerHeight() - $(window).height() - this._footerHeight));
@@ -188,6 +201,8 @@ module StopByStop {
 
             SideBarViewModel._recalcOnWindowResize = SideBarViewModel.recalculateSideBarPosition.bind(this);
             $(window).on("resize", SideBarViewModel._recalcOnWindowResize);
+
+
 
             this._routePlanViewModel.stops.subscribe(() => this.updateStopsOnSidebar());
             this._routeViewModel.roadLineHeight.subscribe(() => this.updateStopsOnSidebar());
@@ -239,7 +254,6 @@ module StopByStop {
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
 
-                    /* 1.15 is a magic contant to adjust stops on the sidebar */
                     var distanceToExitInPixels =
                         (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                             this._routeViewModel.roadLineHeight());
@@ -252,21 +266,12 @@ module StopByStop {
                     this.stops.push(sideBarStopViewModel);
                 }
 
-               
+
             }
             Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         }
 
         private static recalculateSideBarPosition(sbvm: SideBarViewModel): void {
-            if (AppState.current.app === SBSApp.Web) {
-                sbvm._headerHeight = $(".ui-header").outerHeight();
-                sbvm._footerHeight = $(".ui-footer").outerHeight();
-            } else {
-                // we have multiple copies of header and footer on SPA app
-                sbvm._headerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                sbvm._footerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-            }
-
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
 
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();

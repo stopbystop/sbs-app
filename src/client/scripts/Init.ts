@@ -184,6 +184,7 @@ module StopByStop {
             $(".filter-btn").click(() => Init.openFilterPopup());
             $(".jqm-navmenu-link").click(() => Init.openNavigationMenu());
 
+
             /* initialize page navigation events */
             var pageBeforeShowTime: number;
             var navigationAbandoned = false;
@@ -267,7 +268,7 @@ module StopByStop {
                         return;
                     }
 
-                    
+
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
@@ -288,12 +289,12 @@ module StopByStop {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
                                     this._app().title(this._app().route.shortDescription);
-                                    
+
                                 } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
 
-                               
+
                             }
                             break;
                         default:
@@ -408,6 +409,16 @@ module StopByStop {
 
         public static openFilterPopup(): void {
             var fd = $("." + AppState.current.pageInfo.pageName + " .filter-dlg")
+            fd.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - fd.width()) / 2;
+                var vCenter = ($(window).height() - fd.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
+
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");

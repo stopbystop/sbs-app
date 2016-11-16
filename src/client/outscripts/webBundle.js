@@ -1697,9 +1697,8 @@ var StopByStop;
             var routeOffsetTop = $(this._routeContentSelector).offset().top;
             if (documentScrollTop > routeOffsetTop) {
                 this.sideBarPosition("fixed");
-                // this.sideBarTop((this._headerHeight + 41).toString() + "px");
                 this.sideBarTop("");
-                this.sideBarBottom((this._footerHeight).toString() + "px");
+                this.sideBarBottom((this._footerHeight + 1).toString() + "px");
                 this._portionOfRouteScrolled = Math.min(1.0, (documentScrollTop - routeOffsetTop) /
                     ($(".route").innerHeight() - $(window).height() - this._footerHeight));
                 this.recalcThumbPosition();
@@ -1762,7 +1761,6 @@ var StopByStop;
                     /* available height is slightly smaller because we don't want POI to overlap with ETA time */
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
-                    /* 1.15 is a magic contant to adjust stops on the sidebar */
                     var distanceToExitInPixels = (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                         this._routeViewModel.roadLineHeight());
                     sideBarStopViewModel.top((distanceToExitInPixels).toString() + "px");
