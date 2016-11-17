@@ -47,20 +47,6 @@ module StopByStop {
                     });
                 }
 
-                // Initialize breadcrumb on applicable pages
-                jQuery(document).ready(() => {
-                    (<any>jQuery("#breadCrumb0")).jBreadCrumb();
-                })
-
-                // wire up click on the social button
-                $(".social-btn").click(() => {
-                    Telemetry.trackEvent(TelemetryEvent.SocialButtonClick);
-                });
-
-                $(".filter-btn").click(() => {
-                    Telemetry.trackEvent(TelemetryEvent.FilterButtonClick);
-                });
-
             });
             /* end of common initialiazation for all pages */
 
@@ -174,15 +160,29 @@ module StopByStop {
             Init._app().url(location.toString());
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
+            Init.animateFiltersTrigger();
         }
 
         private static initSPA(): void {
             /* apply root bindings for Cordova app */
             var sbsRootNode = $("#sbsRoot")[0];
             ko.applyBindings(Init._app, sbsRootNode);
-            /* initialize UI */
-            $(".filter-btn").click(() => Init.openFilterPopup());
             $(".jqm-navmenu-link").click(() => Init.openNavigationMenu());
+
+            // Initialize breadcrumb on applicable pages
+            jQuery(document).ready(() => {
+                (<any>jQuery("#breadCrumb0")).jBreadCrumb();
+            })
+
+            // wire up click on the social button
+            $(".social-btn").click(() => {
+                Telemetry.trackEvent(TelemetryEvent.SocialButtonClick);
+            });
+
+            $(".filters-trigger").click(() => {
+                Telemetry.trackEvent(TelemetryEvent.FilterButtonClick);
+                Init.openFilterPopup();
+            });
 
 
             /* initialize page navigation events */
@@ -236,31 +236,8 @@ module StopByStop {
                             paddingBottom: "50px"
                         });
 
-                    /*
-                    (<any>$("#sbsheader")
-                        .prependTo(pageIdSelector))
-                        .toolbar({ position: "fixed" });
-
-                    (<any>$("#menupanel")
-                        .appendTo(pageIdSelector))
-                        .panel();
-
-                    $("#menupanel-list").listview();
-                    $("#menupanel-list>li a").removeClass("ui-btn-active");
-
-                    (<any>$("#sbsfooter")
-                        .appendTo(pageIdSelector))
-                        .toolbar({ position: "fixed" });
-
-                    (<any>$.mobile).resetActivePageHeight();
-
-                    <any>$(pageIdSelector).css(
-                        {
-                            paddingTop: "51px",
-                            paddingBottom: "50px"
-                        });
-
-                    */
+                    var filtersContainer = $("." + AppState.current.pageInfo.pageName + " .filters-container");
+                    filtersContainer.css({ "width": "30px" });
 
                 },
                 show: (event, ui) => {
@@ -272,7 +249,6 @@ module StopByStop {
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
-                            $(".filter-btn").show();
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
 
@@ -281,6 +257,8 @@ module StopByStop {
                                 Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
+                                    } else {
+                                        Init.animateFiltersTrigger();
                                     }
                                 });
                             } else {
@@ -289,16 +267,14 @@ module StopByStop {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
                                     this._app().title(this._app().route.shortDescription);
+                                    Init.animateFiltersTrigger();
 
                                 } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                     Init.completeExitPageInit();
                                 }
-
-
                             }
                             break;
                         default:
-                            $(".filter-btn").hide();
                             break;
                     }
 
@@ -313,6 +289,14 @@ module StopByStop {
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+        }
+
+        private static animateFiltersTrigger() {
+            window.setTimeout(() => {
+                var filtersContainer = $("." + AppState.current.pageInfo.pageName + " .filters-container");
+                filtersContainer.css({ "width": "30px" });
+                filtersContainer.animate({ "width": "120px" }, "slow");
+            }, 50);
         }
 
         private static initJunctionMapWhenReady(junctionAppViewModel: JunctionSPAAppViewModel): JQueryPromise<JunctionMapViewModel> {
