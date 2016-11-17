@@ -268,7 +268,7 @@ module StopByStop {
 
 
             }
-            Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
+            // Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         }
 
         private static recalculateSideBarPosition(sbvm: SideBarViewModel): void {

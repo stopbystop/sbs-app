@@ -1789,15 +1789,15 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
 
 .route-description-metric {
     font-weight: 300;
-    font-family:Consolas;
-    background-color:#000;
+    font-family: Consolas;
+    background-color: #000;
     color: #5bb12f;
     font-size: 20px;
-    padding:0 3px;
+    padding: 0 3px;
 }
 
 .route-description-metric-label {
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 .ui-filterable.route-wrapper {
@@ -2196,8 +2196,34 @@ h1 {
         border-bottom: 22px solid transparent;
     }
 
-    .filters-trigger{
-        font-size:1em;
-        line-height:44px;
+    .filters-trigger {
+        font-size: 1em;
+        line-height: 44px;
     }
+}
+
+.letsgo-outer {
+    position: fixed;
+    width: 100%;
+    bottom: 65px;
+    z-index: 100;
+    height: 50px;
+}
+
+.letsgo-container {
+    width: 100%;
+    position: absolute;
+}
+
+.letsgo-container .letsgo-button {
+    width: 55%;
+    margin: 0 auto;
+    display: block;
+    background-color: #5bb12f !important;
+    color: #fff;
+    font-size: 2.59em;
+    text-transform: uppercase;
+    padding: 0px;
+    border-radius: 0;
+    font-weight: 300;
 }
