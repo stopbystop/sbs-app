@@ -234,6 +234,12 @@ var StopByStop;
             }
             return distance.toString() + "mi";
         };
+        Utils.getHours = function (seconds) {
+            return Math.floor(((seconds % 31536000) % 86400) / 3600);
+        };
+        Utils.getMinutes = function (seconds) {
+            return Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        };
         Utils.getTimeString = function (time, msOffset) {
             if (msOffset === void 0) { msOffset = 0; }
             time = new Date(time.getTime() + msOffset);
@@ -1840,6 +1846,8 @@ var StopByStop;
             this._routeStartTime = new Date();
             this.startTimeString = ko.observable(StopByStop.Utils.getTimeString(this._routeStartTime));
             this.etaString = ko.observable(StopByStop.Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
+            this.tripTimeHours = ko.observable(StopByStop.Utils.getHours(this._route.t));
+            this.tripTimeMinutes = ko.observable(StopByStop.Utils.getMinutes(this._route.t));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
             if (this.fromLocation.placeDescription.indexOf("Start location (") === 0) {
@@ -1942,6 +1950,8 @@ var StopByStop;
                 }
             }
             this.etaString(StopByStop.Utils.getTimeString(this._routeStartTime, this._route.t * 1000 + totalDelaysSoFarInMs));
+            this.tripTimeHours = ko.observable(StopByStop.Utils.getHours(this._route.t + totalDelaysSoFarInMs / 1000));
+            this.tripTimeMinutes = ko.observable(StopByStop.Utils.getMinutes(this._route.t + totalDelaysSoFarInMs / 1000));
         };
         return RouteViewModel;
     }());
@@ -2342,7 +2352,7 @@ var StopByStop;
             $(".jqm-navmenu-link").click(function () { return Init.openNavigationMenu(); });
             // Initialize breadcrumb on applicable pages
             jQuery(document).ready(function () {
-                jQuery("#breadCrumb0").jBreadCrumb();
+                jQuery(".breadCrumb").jBreadCrumb();
             });
             // wire up click on the social button
             $(".social-btn").click(function () {

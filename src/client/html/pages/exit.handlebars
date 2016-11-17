@@ -15,12 +15,23 @@
                             </a>
                         </li>
                     </ul>
+                    {{>filterButton}}
                 </div>
-
                 <div data-bind="if:selectedJunction">
                     <div class="main_inner">
-                        <h1 data-bind="text:route.title"></h1>
-                        <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.description"></h2>
+                        
+                        <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
+                        <div class="route-description2">
+                            <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
+                            <span class="route-description-metric-label">restaurant(s)</span>
+                            <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
+                            <span class="route-description-metric-label">gas station(s)</span>
+
+
+                            <span class="route-description-metric-label">within</span>
+                            <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
+                            <span class="route-description-metric-label">mile(s) from exit</span>
+                        </div>
 
                         <div class="pois-list">
                             <fieldset class="view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
@@ -224,7 +235,6 @@
         </div>
     </div>
     <!-- stop settings dialog end-->
-    {{>filterButton}}
     {{>navpanel}}
     {{>footer}}
 </div>  <!-- /exit-page -->
