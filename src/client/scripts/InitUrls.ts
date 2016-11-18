@@ -17,7 +17,8 @@ module StopByStop {
             this.PlacesUrl = baseUrl + "place/";
             this.RouteDataUrl = baseUrl + "routedata/";
             this.PoiUrl = baseUrl + "poi/";
-           
+            this.PlacesNearbyUrl = baseUrl + "placesnearby/";            
+            this.CityImagesUrl = baseUrl + "client/content/city_images/";            
         }
 
         public BaseUrl: string;
@@ -28,5 +29,7 @@ module StopByStop {
         public MapExitIconUrl: string;
         public MapFoodIconUrl: string;
         public MapGasIconUrl: string;
+        public PlacesNearbyUrl: string;
+        public CityImagesUrl: string;
     }
 }

@@ -18,6 +18,8 @@ module StopByStop {
         MapExitIconUrl: string;
         MapFoodIconUrl: string;
         MapGasIconUrl: string;
+        PlacesNearbyUrl: string;
+        CityImagesUrl: string;
     }
 
     export interface IAppState {
