@@ -1795,7 +1795,7 @@ var StopByStop;
                     this.stops.push(sideBarStopViewModel);
                 }
             }
-            StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
+            // Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
@@ -2313,19 +2313,33 @@ var StopByStop;
         };
         Init.loadRoute = function (routeId) {
             var deferred = $.Deferred();
-            $.ajax({
-                url: StopByStop.AppState.current.urls.RouteDataUrl + routeId,
-                dataType: 'json',
-                method: 'GET',
-                success: function (data) {
-                    var route = data;
-                    var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, function () {
-                        deferred.resolve();
-                    });
-                    Init._app(app);
-                }
-            });
+            if (Init._cachedRoutes[routeId]) {
+                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
+            }
+            else {
+                $.ajax({
+                    url: StopByStop.AppState.current.urls.RouteDataUrl + routeId,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        Init._cachedRoutes[routeId] = data;
+                        Init.onRouteDataLoaded(routeId, data, deferred);
+                    }
+                });
+            }
             return deferred.promise();
+        };
+        Init.onRouteDataLoaded = function (routeId, data, done) {
+            if (routeId === Init._currentRouteId) {
+                var route = data;
+                var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, function () {
+                    done.resolve();
+                });
+                Init._app(app);
+            }
+            else {
+                done.reject();
+            }
         };
         Init.completeExitPageInit = function () {
             var selectedRouteJunction = Init._app().routePlan.junctionMap[StopByStop.AppState.current.navigationLocation.exitId];
@@ -2407,7 +2421,8 @@ var StopByStop;
                             if (Init._currentRouteId !== StopByStop.AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = StopByStop.AppState.current.navigationLocation.routeId;
                                 Init._app(new StopByStop.AppViewModel(null));
-                                Init.loadRoute(StopByStop.AppState.current.navigationLocation.routeId).done(function () {
+                                Init._loadRoutePromise = Init.loadRoute(StopByStop.AppState.current.navigationLocation.routeId);
+                                Init._loadRoutePromise.done(function (callback) {
                                     if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                         Init.completeExitPageInit();
                                     }
@@ -2545,6 +2560,8 @@ var StopByStop;
             }
         };
         Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
+        Init._cachedRoutes = {};
+        Init._loadRoutePromise = null;
         return Init;
     }());
     StopByStop.Init = Init;

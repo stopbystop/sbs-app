@@ -19,6 +19,8 @@ module StopByStop {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
         private static _initSPAOnce = Utils.runOnce(Init.initSPA);
+        private static _cachedRoutes: { [id: string]: { data: any } } = {};
+        private static _loadRoutePromise: JQueryPromise<any> = null;
 
         public static initialize(settings: IAppState): void {
             AppState.current = settings;
@@ -118,20 +120,35 @@ module StopByStop {
         private static loadRoute(routeId: string): JQueryPromise<any> {
             var deferred = $.Deferred();
 
-            $.ajax({
-                url: AppState.current.urls.RouteDataUrl + routeId,
-                dataType: 'json',
-                method: 'GET',
-                success: function (data) {
-                    var route = <IRoute>data;
-                    var app = new AppViewModel(route, AppState.current, () => {
-                        deferred.resolve();
-                    });
-                    Init._app(app);
-                }
-            });
+            if (Init._cachedRoutes[routeId]) {
+                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
+            } else {
+                $.ajax({
+                    url: AppState.current.urls.RouteDataUrl + routeId,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: (data) => {
+                        Init._cachedRoutes[routeId] = data;
+                        Init.onRouteDataLoaded(routeId, data, deferred);
+                    }
+                });
+            }
 
             return deferred.promise();
+        }
+
+        private static onRouteDataLoaded(routeId: string, data: any, done: JQueryDeferred<any>): void {
+
+            if (routeId === Init._currentRouteId) {
+                var route = <IRoute>data;
+                var app = new AppViewModel(route, AppState.current, () => {
+                    done.resolve();
+                });
+
+                Init._app(app);
+            } else {
+                done.reject();
+            }
         }
 
         private static completeExitPageInit(): void {
@@ -254,7 +271,10 @@ module StopByStop {
 
                                 Init._app(new AppViewModel(null));
 
-                                Init.loadRoute(AppState.current.navigationLocation.routeId).done(() => {
+                                Init._loadRoutePromise = Init.loadRoute(AppState.current.navigationLocation.routeId);
+
+                                Init._loadRoutePromise.done((callback: JQueryPromiseCallback<any>) => {
+
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
                                     } else {

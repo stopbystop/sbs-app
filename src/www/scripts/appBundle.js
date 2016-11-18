@@ -234,6 +234,12 @@ var StopByStop;
             }
             return distance.toString() + "mi";
         };
+        Utils.getHours = function (seconds) {
+            return Math.floor(((seconds % 31536000) % 86400) / 3600);
+        };
+        Utils.getMinutes = function (seconds) {
+            return Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        };
         Utils.getTimeString = function (time, msOffset) {
             if (msOffset === void 0) { msOffset = 0; }
             time = new Date(time.getTime() + msOffset);
@@ -1428,6 +1434,15 @@ var StopByStop;
             var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
                 $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
                 $("#stopSettingsDialog");
+            stopSettingsDialog.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
+                var vCenter = ($(window).height() - stopSettingsDialog.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             stopSettingsDialog.popup({
                 transition: "slidedown",
                 corners: true
@@ -1627,6 +1642,18 @@ var StopByStop;
                 $(_this._routeContentSelector).bind("touchmove", function (e) {
                     _this.onTouchMove(e, e.originalEvent["touches"][0].pageY);
                 });
+                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                    _this._headerHeight = $(".ui-header").outerHeight();
+                    _this._footerHeight = $(".ui-footer").outerHeight();
+                }
+                else {
+                    // we have multiple copies of header and footer on SPA app
+                    _this._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                    _this._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+                }
+                _this.sideBarHeight($(window).height());
+                _this.sideBarInnerHeight($(window).height());
+                _this.sideBarInnerTop(50);
             });
             this._sideBarFirstScrollInit = StopByStop.Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
             this.sideBarHeight = ko.observable(0);
@@ -1697,9 +1724,8 @@ var StopByStop;
             var routeOffsetTop = $(this._routeContentSelector).offset().top;
             if (documentScrollTop > routeOffsetTop) {
                 this.sideBarPosition("fixed");
-                // this.sideBarTop((this._headerHeight + 41).toString() + "px");
                 this.sideBarTop("");
-                this.sideBarBottom((this._footerHeight).toString() + "px");
+                this.sideBarBottom((this._footerHeight + 1).toString() + "px");
                 this._portionOfRouteScrolled = Math.min(1.0, (documentScrollTop - routeOffsetTop) /
                     ($(".route").innerHeight() - $(window).height() - this._footerHeight));
                 this.recalcThumbPosition();
@@ -1762,7 +1788,6 @@ var StopByStop;
                     /* available height is slightly smaller because we don't want POI to overlap with ETA time */
                     /* this is to address Bug 126: Sidebar - location of chosen POIs on the sidebar */
                     var sideBarAvailableHeight = this.sideBarInnerHeight() - 32;
-                    /* 1.15 is a magic contant to adjust stops on the sidebar */
                     var distanceToExitInPixels = (sideBarAvailableHeight * this._routeViewModel.routeJunctionElementLookup[poiExitId].top * 1.15 /
                         this._routeViewModel.roadLineHeight());
                     sideBarStopViewModel.top((distanceToExitInPixels).toString() + "px");
@@ -1770,18 +1795,9 @@ var StopByStop;
                     this.stops.push(sideBarStopViewModel);
                 }
             }
-            StopByStop.Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
+            // Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                sbvm._headerHeight = $(".ui-header").outerHeight();
-                sbvm._footerHeight = $(".ui-footer").outerHeight();
-            }
-            else {
-                // we have multiple copies of header and footer on SPA app
-                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-            }
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
@@ -1830,6 +1846,8 @@ var StopByStop;
             this._routeStartTime = new Date();
             this.startTimeString = ko.observable(StopByStop.Utils.getTimeString(this._routeStartTime));
             this.etaString = ko.observable(StopByStop.Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
+            this.tripTimeHours = ko.observable(StopByStop.Utils.getHours(this._route.t));
+            this.tripTimeMinutes = ko.observable(StopByStop.Utils.getMinutes(this._route.t));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
             if (this.fromLocation.placeDescription.indexOf("Start location (") === 0) {
@@ -1878,7 +1896,6 @@ var StopByStop;
                     lastJunctionTop = $(roadLineElement).offset().top.toString();
                     _this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
-                StopByStop.Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
             }
         };
         RouteViewModel.prototype.applyFilter = function (filter) {
@@ -1933,6 +1950,8 @@ var StopByStop;
                 }
             }
             this.etaString(StopByStop.Utils.getTimeString(this._routeStartTime, this._route.t * 1000 + totalDelaysSoFarInMs));
+            this.tripTimeHours = ko.observable(StopByStop.Utils.getHours(this._route.t + totalDelaysSoFarInMs / 1000));
+            this.tripTimeMinutes = ko.observable(StopByStop.Utils.getMinutes(this._route.t + totalDelaysSoFarInMs / 1000));
         };
         return RouteViewModel;
     }());
@@ -2244,17 +2263,6 @@ var StopByStop;
                         page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)").panel().panel("open");
                     });
                 }
-                // Initialize breadcrumb on applicable pages
-                jQuery(document).ready(function () {
-                    jQuery("#breadCrumb0").jBreadCrumb();
-                });
-                // wire up click on the social button
-                $(".social-btn").click(function () {
-                    StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.SocialButtonClick);
-                });
-                $(".filter-btn").click(function () {
-                    StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterButtonClick);
-                });
             });
             /* end of common initialiazation for all pages */
             /* home page initialization */
@@ -2305,19 +2313,33 @@ var StopByStop;
         };
         Init.loadRoute = function (routeId) {
             var deferred = $.Deferred();
-            $.ajax({
-                url: StopByStop.AppState.current.urls.RouteDataUrl + routeId,
-                dataType: 'json',
-                method: 'GET',
-                success: function (data) {
-                    var route = data;
-                    var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, function () {
-                        deferred.resolve();
-                    });
-                    Init._app(app);
-                }
-            });
+            if (Init._cachedRoutes[routeId]) {
+                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
+            }
+            else {
+                $.ajax({
+                    url: StopByStop.AppState.current.urls.RouteDataUrl + routeId,
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        Init._cachedRoutes[routeId] = data;
+                        Init.onRouteDataLoaded(routeId, data, deferred);
+                    }
+                });
+            }
             return deferred.promise();
+        };
+        Init.onRouteDataLoaded = function (routeId, data, done) {
+            if (routeId === Init._currentRouteId) {
+                var route = data;
+                var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, function () {
+                    done.resolve();
+                });
+                Init._app(app);
+            }
+            else {
+                done.reject();
+            }
         };
         Init.completeExitPageInit = function () {
             var selectedRouteJunction = Init._app().routePlan.junctionMap[StopByStop.AppState.current.navigationLocation.exitId];
@@ -2334,15 +2356,26 @@ var StopByStop;
             Init._app().url(location.toString());
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
+            Init.animateFiltersTrigger();
         };
         Init.initSPA = function () {
             var _this = this;
             /* apply root bindings for Cordova app */
             var sbsRootNode = $("#sbsRoot")[0];
             ko.applyBindings(Init._app, sbsRootNode);
-            /* initialize UI */
-            $(".filter-btn").click(function () { return Init.openFilterPopup(); });
             $(".jqm-navmenu-link").click(function () { return Init.openNavigationMenu(); });
+            // Initialize breadcrumb on applicable pages
+            jQuery(document).ready(function () {
+                jQuery(".breadCrumb").jBreadCrumb();
+            });
+            // wire up click on the social button
+            $(".social-btn").click(function () {
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.SocialButtonClick);
+            });
+            $(".filters-trigger").click(function () {
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterButtonClick);
+                Init.openFilterPopup();
+            });
             /* initialize page navigation events */
             var pageBeforeShowTime;
             var navigationAbandoned = false;
@@ -2375,31 +2408,8 @@ var StopByStop;
                         paddingTop: "51px",
                         paddingBottom: "50px"
                     });
-                    /*
-                    (<any>$("#sbsheader")
-                        .prependTo(pageIdSelector))
-                        .toolbar({ position: "fixed" });
-
-                    (<any>$("#menupanel")
-                        .appendTo(pageIdSelector))
-                        .panel();
-
-                    $("#menupanel-list").listview();
-                    $("#menupanel-list>li a").removeClass("ui-btn-active");
-
-                    (<any>$("#sbsfooter")
-                        .appendTo(pageIdSelector))
-                        .toolbar({ position: "fixed" });
-
-                    (<any>$.mobile).resetActivePageHeight();
-
-                    <any>$(pageIdSelector).css(
-                        {
-                            paddingTop: "51px",
-                            paddingBottom: "50px"
-                        });
-
-                    */
+                    var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
+                    filtersContainer.css({ "width": "30px" });
                 },
                 show: function (event, ui) {
                     if (navigationAbandoned) {
@@ -2408,13 +2418,16 @@ var StopByStop;
                     switch (StopByStop.AppState.current.navigationLocation.page) {
                         case StopByStop.SBSPage.route:
                         case StopByStop.SBSPage.exit:
-                            $(".filter-btn").show();
                             if (Init._currentRouteId !== StopByStop.AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = StopByStop.AppState.current.navigationLocation.routeId;
                                 Init._app(new StopByStop.AppViewModel(null));
-                                Init.loadRoute(StopByStop.AppState.current.navigationLocation.routeId).done(function () {
+                                Init._loadRoutePromise = Init.loadRoute(StopByStop.AppState.current.navigationLocation.routeId);
+                                Init._loadRoutePromise.done(function (callback) {
                                     if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                         Init.completeExitPageInit();
+                                    }
+                                    else {
+                                        Init.animateFiltersTrigger();
                                     }
                                 });
                             }
@@ -2423,6 +2436,7 @@ var StopByStop;
                                 if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.route) {
                                     _this._app().route.recalcRoadLine($(".route")[0]);
                                     _this._app().title(_this._app().route.shortDescription);
+                                    Init.animateFiltersTrigger();
                                 }
                                 else if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
                                     Init.completeExitPageInit();
@@ -2430,7 +2444,6 @@ var StopByStop;
                             }
                             break;
                         default:
-                            $(".filter-btn").hide();
                             break;
                     }
                     // this is a hack. But I am not sure why this class is added despite the fact that
@@ -2439,6 +2452,13 @@ var StopByStop;
                     StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+        };
+        Init.animateFiltersTrigger = function () {
+            window.setTimeout(function () {
+                var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
+                filtersContainer.css({ "width": "30px" });
+                filtersContainer.animate({ "width": "120px" }, "slow");
+            }, 50);
         };
         Init.initJunctionMapWhenReady = function (junctionAppViewModel) {
             var dfd = jQuery.Deferred();
@@ -2521,6 +2541,15 @@ var StopByStop;
         };
         Init.openFilterPopup = function () {
             var fd = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filter-dlg");
+            fd.on('popupafteropen', function () {
+                var hCenter = ($(window).width() - fd.width()) / 2;
+                var vCenter = ($(window).height() - fd.height()) / 2;
+                $('.ui-popup-container').css({
+                    top: vCenter,
+                    left: hCenter,
+                    position: "fixed"
+                });
+            });
             if (fd.length > 0) {
                 fd.popup();
                 fd.trigger("create");
@@ -2531,6 +2560,8 @@ var StopByStop;
             }
         };
         Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
+        Init._cachedRoutes = {};
+        Init._loadRoutePromise = null;
         return Init;
     }());
     StopByStop.Init = Init;
