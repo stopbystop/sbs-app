@@ -2182,8 +2182,8 @@ h1 {
     text-transform: uppercase;
     font-size: 0.9em;
     white-space: nowrap;
-    width:100%;
-    background:#EB65A0;
+    width: 100%;
+    background: #EB65A0;
 }
 
 @media (min-width: 60em) {
@@ -2244,8 +2244,7 @@ h1 {
 
 @media only screen and (max-device-width: 480px) {
 
-    .imageholder 
-            { 
+    .imageholder { 
         display: inline-block;
         background-color: #73C5E1;
         background-size:100px;
