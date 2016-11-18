@@ -171,7 +171,7 @@ module StopByStop {
 
             // Initialize breadcrumb on applicable pages
             jQuery(document).ready(() => {
-                (<any>jQuery("#breadCrumb0")).jBreadCrumb();
+                (<any>jQuery(".breadCrumb")).jBreadCrumb();
             })
 
             // wire up click on the social button

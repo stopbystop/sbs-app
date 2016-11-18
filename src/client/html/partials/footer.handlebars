@@ -1,11 +1,10 @@
 ﻿<div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
     {{#if renderLetsGoButton}}
-    <div style="position:fixed;width:100%;bottom:65px;z-index:100;height:50px;">
+    <div class="letsgo-outer">
         <!-- let's go button-->
-        <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container" style="width:100%;padding:0 5px 0px;position:absolute;width:100%;">
-            <a href="#" class="ui-btn ui-btn-inline ui-corner-all"
+        <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container">
+            <a href="#" class="ui-btn ui-btn-inline ui-corner-all letsgo-button"
                data-bind="click:function(){routePlan.navigate();return false;}"
-               style="width:55%;margin:0 auto;display:block;background-color:#5bb12f;color:#fff;font-size:1.3em;text-transform:uppercase;padding:12px;box-shadow:1px 1px 4px #606060;"
                data-rel="back">Let's go</a>
         </div>
     </div>

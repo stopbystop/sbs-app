@@ -40,6 +40,8 @@ module StopByStop {
 
             this.startTimeString = ko.observable(Utils.getTimeString(this._routeStartTime));
             this.etaString = ko.observable(Utils.getTimeString(this._routeStartTime, this._route.t * 1000));
+            this.tripTimeHours = ko.observable(Utils.getHours(this._route.t));
+            this.tripTimeMinutes = ko.observable(Utils.getMinutes(this._route.t));
             this.routeId = this._route.rid;
             this.distance = this._route.d;
 
@@ -127,6 +129,8 @@ module StopByStop {
         public distance: number;
         public etaString: KnockoutObservable<string>;
         public startTimeString: KnockoutObservable<string>;
+        public tripTimeHours: KnockoutObservable<number>;
+        public tripTimeMinutes: KnockoutObservable<number>;
 
         public sideBar: SideBarViewModel;
         public routeHeightPx: KnockoutObservable<number> = ko.observable(0);
@@ -197,6 +201,8 @@ module StopByStop {
             }
 
             this.etaString(Utils.getTimeString(this._routeStartTime, this._route.t * 1000 + totalDelaysSoFarInMs));
+            this.tripTimeHours = ko.observable(Utils.getHours(this._route.t + totalDelaysSoFarInMs / 1000));
+            this.tripTimeMinutes = ko.observable(Utils.getMinutes(this._route.t + totalDelaysSoFarInMs / 1000));
         }
     }
 }

@@ -853,7 +853,6 @@ ui-btn.poi-table-cell-link {
 }
 
 .description_title {
-    color: #73C5E1;
     font-size: 25px !important;
     margin: 0 auto;
     padding-left: 5%;
@@ -1782,6 +1781,25 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     text-align: center;
 }
 
+.route-description2 {
+    margin: 0 auto;
+    width: 70%;
+    text-align: center;
+}
+
+.route-description-metric {
+    font-weight: 300;
+    font-family: Consolas;
+    background-color: #000;
+    color: #5bb12f;
+    font-size: 20px;
+    padding: 0 3px;
+}
+
+.route-description-metric-label {
+    text-transform: uppercase;
+}
+
 .ui-filterable.route-wrapper {
     margin-top: 10px;
     padding-top: 10px;
@@ -2118,19 +2136,9 @@ h1 {
     background-image: url('../images/hex2.gif');
 }
 
-.sbs-cdb .filter-btn {
-    z-index: 1002;
-    margin-top: -7px;
-    top: 30%;
-    background-color: #73c5e1;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: initial;
-}
-
 .filters-container {
-    position: fixed;
-    top: 53px;
+    position: absolute;
+    top: 0;
     height: 36px;
     overflow: hidden;
     right: 0px;
@@ -2170,11 +2178,52 @@ h1 {
     line-height: 36px;
     color: #ffffff !important;
     float: left;
-    font-family: "Open sans condensed",sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.9em;
     white-space: nowrap;
-    width:100%;
-    background:#EB65A0;
+    width: 100%;
+    background: #EB65A0;
+}
+
+@media (min-width: 60em) {
+    .filters-container {
+        height: 44px;
+    }
+
+    .filters-trigger-line1, .filters-trigger-line2 {
+        border-top: 22px solid transparent;
+        border-bottom: 22px solid transparent;
+    }
+
+    .filters-trigger {
+        font-size: 1em;
+        line-height: 44px;
+    }
+}
+
+.letsgo-outer {
+    position: fixed;
+    width: 100%;
+    bottom: 65px;
+    z-index: 100;
+    height: 50px;
+}
+
+.letsgo-container {
+    width: 100%;
+    position: absolute;
+}
+
+.letsgo-container .letsgo-button {
+    width: 55%;
+    margin: 0 auto;
+    display: block;
+    background-color: #5bb12f !important;
+    color: #fff;
+    font-size: 2.59em;
+    text-transform: uppercase;
+    padding: 0px;
+    border-radius: 0;
+    font-weight: 300;
 }

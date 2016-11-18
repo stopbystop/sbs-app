@@ -3,20 +3,39 @@
     {{>header}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
-            <div class="breadCrumbHolder module" >
-                <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
+            <div class="breadCrumbHolder module">
+                <div class="breadCrumb module" style="position:relative">
                     <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
                         </li>
                     </ul>
+                    {{>filterButton}}
                 </div>
-
                 <div class="main_inner" data-bind="if:route">
-                    <h1 data-bind="text:route.title"></h1>
-                    <h2 data-bind="text:route.shortDescription" class="description_title"></h2>
+                    <h2 class="description_title" data-bind="text:route.title"></h2>
+                    <div class="route-description2">
+                        <span class="route-description-metric" data-bind="text: route.distance"></span>
+                        <span class="route-description-metric-label">mile(s)</span>
+                        <span data-bind="if:(route.tripTimeHours() > 0)">
+                            <span class="route-description-metric" data-bind="text: route.tripTimeHours"></span>
+                            <span class="route-description-metric-label">hour(s)</span>
+                        </span>
+                        <span class="route-description-metric" data-bind="text: route.tripTimeMinutes"></span>
+                        <span class="route-description-metric-label">minute(s)</span>
+                    </div>
+                    <div class="route-description2">
+                        <span class="route-description-metric" data-bind="text: filter.filteredFoodCount"></span>
+                        <span class="route-description-metric-label">restaurant(s)</span>
+                        <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
+                        <span class="route-description-metric-label">gas station(s)</span>
 
-
+                  
+                        <span class="route-description-metric-label">within</span>
+                        <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
+                        <span class="route-description-metric-label">mile(s) from exit</span>
+                    </div>
+                    <p></p>
                     <!-- route -->
                     <div class="ui-filterable route-wrapper">
                         <div class="route" data-bind="element:route.boundElement">
@@ -127,9 +146,8 @@
         </div>
     </div>
     <!-- filter dialog end-->
-
     <!-- stop settings dialog start-->
-    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup"  class="ui-content stop-settings-dialog">
+    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
         <div data-bind="with:routePlan">
             <div data-role="header">
                 <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
@@ -187,7 +205,6 @@
         </div>
     </div>
     <!-- stop settings dialog end-->
-    {{>filterButton}}
     {{>navpanel}}
     {{>footer renderLetsGoButton=true }}
 </div>

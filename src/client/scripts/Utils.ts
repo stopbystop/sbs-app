@@ -102,6 +102,14 @@ module StopByStop {
             return distance.toString() + "mi";
         }
 
+        public static getHours(seconds: number):number {
+            return Math.floor(((seconds % 31536000) % 86400) / 3600);
+        }
+
+        public static getMinutes(seconds: number): number {
+            return Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        }
+
         public static getTimeString(time: Date, msOffset: number = 0): string {
             time = new Date(time.getTime() + msOffset);
             return Utils.formatTime(time);
