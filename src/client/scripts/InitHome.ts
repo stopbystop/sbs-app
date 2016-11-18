@@ -10,23 +10,24 @@
 module StopByStop {
 
     export class InitHome {
- 
+        static yIncrement : number =-100; 
         //The functionality below pulls the image url based on lat long
         //And populates the images inside a div
         //If an image is not available, it is shown as a blank div
         public static addImagesDynamically(prevPlace,currentLocationString) {
             
             if (StopByStop.AppState.current.app !== StopByStop.SBSApp.Web) {
+                var prevPlace = $('#Images').data('prevPlace');                
                 var place = $('#from').data('place');
                 if (place === null) {
                     return true;
                 }
-                if (prevPlace !== null && prevPlace.n === place.n) {
+                if (prevPlace && prevPlace.n === place.n) {
                     // Dont proceed further as the same place is being selected
                     return true;
                 }
                 // Continue with the processing if the previous place doesnt match with the current returned place
-                prevPlace = place;
+                $('#Images').data('prevPlace',place);
                 //Remove any div contents from the previous population before adding new divs
                 $("#Images").empty();
                 var placesNearbyUrl = "";
@@ -65,30 +66,37 @@ module StopByStop {
                                 $("#view_trip").removeClass("ui-disabled");
 
                             });
-                            var imageElement = document.createElement('img');
-                            imageElement.src = AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
-                            imageElement.id = imageId;
-                            imageElement.className = 'imagetransition';
-                            imageElement.onload = function () {
-                            };
-                            imageElement.onerror = function () {
-                                // If the image is not available change the background color and hide the image
-                                $(this).parent('div').addClass('parentdivcss');
-                                $(this).hide();
-                            };
-                            imageElement.onclick = function () {
-                                $("#to").val($(this).parent('div').data('place').n);
-                                var placeData = { n: $(this).parent('div').data('place').n, i: $(this).parent('div').data('place').i };
-                                $("#to").data('place', placeData);
-                                $("#view_trip").removeClass("ui-disabled");
-                            };
-                            document.getElementById('appendedImagediv' + divIndex).appendChild(imageElement);
+                            
+                            var imgurl=StopByStop.AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
+                            $('#appendedImagediv' + divIndex).css('background-image','url(' + imgurl + ')');                            
+                            
                         }
+                        
+                        InitHome.moveImageInBackground();
                     }
                 });
             }
         }
         
+        public static moveImageInBackground(){
+            InitHome.yIncrement=InitHome.yIncrement+1;
+            var divIndexCount=0;
+            var requestID = null;
+            for(divIndexCount=0;divIndexCount<10;divIndexCount++){
+                var appendedImagediv = $('#appendedImagediv'+divIndexCount);
+                if(appendedImagediv){
+                    $(appendedImagediv).css('background-position','0px ' + InitHome.yIncrement + 'px');
+                }
+            }
+            requestID=requestAnimationFrame(InitHome.moveImageInBackground);
+            if(InitHome.yIncrement>=0)
+            {
+                cancelAnimationFrame(requestID); 
+                InitHome.yIncrement=-100;
+            }
+            
+        }        
+
         public static createDiv(divIndex,data) {
             var imageDiv = document.createElement("div");
             imageDiv.id = 'appendedImagediv' + divIndex;

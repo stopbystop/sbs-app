@@ -2182,8 +2182,8 @@ h1 {
     text-transform: uppercase;
     font-size: 0.9em;
     white-space: nowrap;
-    width: 100%;
-    background: #EB65A0;
+    width:100%;
+    background:#EB65A0;
 }
 
 @media (min-width: 60em) {
@@ -2227,7 +2227,7 @@ h1 {
     border-radius: 0;
     font-weight: 300;
 }
-
+    
 .childdiv  {
     height: 45px;
     width: 160px;
@@ -2242,126 +2242,71 @@ h1 {
     text-transform: uppercase;
 }  
 
-.imgelement {
-    width:160px;
-    height: 90px;
-    margin:5px auto ;
-}
+@media only screen and (max-device-width: 480px) {
 
-.parentdivcss{
-   width:160px;
-   height: 90px;
-   background-color: #73C5E1;
-}
-
-    @media only screen and (max-device-width: 480px) {
-       .parentdivcss{
-           width:98px;
-           height: 55px;
-           background-color: #73C5E1;
-        }
-
-        .imageholder 
-                { 
-            display: inline-block;
-            /* crops images */
-            overflow: hidden;
-            width: 98px;
-            height: 55px;
-            /*width: 20%;
-            height: 11.2%;*/
-            /* makes abs positioned images stay inside container */
-            position: relative;
-            border: 3px solid #000000;
-            margin: 5px 5px 5px 5px;
-            font-size: 10px;
-        }
-            
-        .childdiv  {
-            height: 28px;
-            width: 98px;
-            background-color: rgba(51,51,51,0.5);
-            /*  border: 1px solid green;*/
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 2;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-        }  
-    }
-    
-    
-   @media only screen
-    and (min-device-width : 481px)
-    and (max-device-width : 767px)
-    {   
-       .parentdivcss{
-           width:128px;
-           height: 72px;
-           background-color: #73C5E1;
-        }
-
-       .imageholder { 
-            display: inline-block;
-            overflow: hidden;
-            width: 128px;
-            height: 72px;
-            position: relative;
-            border: 3px solid #000000;
-            margin: 10px 10px 10px 10px;
-            font-size: 13px;
-        }
-            
-        .childdiv  {
-            height: 36px;
-            width: 128px;
-            background-color: rgba(51,51,51,0.5);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            z-index: 2;
-            font-weight: bold;
-            text-align: center;
-            text-transform: uppercase;
-        }  
-    }
-
-
-    @media only screen and (min-device-width: 768px) {
-        .imageholder { 
-            display: inline-block;
-            /* crops images */
-            overflow: hidden;
-            width: 160px;
-            height: 90px;
-            /* makes abs positioned images stay inside container */
-            position: relative;
-            border: 3px solid #000000;
-            margin: 25px 25px 25px 25px;
-        }
-    }
-   
-    .imagetransition {
+    .imageholder 
+            { 
+        display: inline-block;
+        background-color: #73C5E1;
+        background-size:100px;
+        overflow: hidden;
+        width: 98px;
+        height: 55px;
         position: relative;
-        -webkit-animation: mymove 3s; 
-        -webkit-animation-iteration-count: 3; 
-        animation: mymove 3s;
-        animation-iteration-count: infinite;
-        z-index: 1;
+        border: 3px solid #000000;
+        margin: 5px 5px 5px 5px;
+        font-size: 10px;
     }
-    
-    @-webkit-keyframes mymove {
-        from {top: 0px;}
-        to {top: 10px;}
+        
+    .childdiv  {
+        height: 28px;
+        width: 98px;
+        background-color: rgba(51,51,51,0.5);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+    }  
+}
+
+
+@media only screen
+and (min-device-width : 481px)
+and (max-device-width : 767px)
+{   
+     .imageholder { 
+        background-color: #73C5E1;
+        background-size:150px;
+        display: inline-block;
+        overflow: hidden;
+        width: 128px;
+        height: 72px;
+        position: relative;
+        border: 3px solid #000000;
+        margin: 10px 10px 10px 10px;
+        font-size: 13px;
     }
-    
-    @keyframes mymove {
-        from {top: 0px;}
-        to {top: 10px;}
-    }
-    
-    to {
-        bottom: 100px;
-    }
+        
+    .childdiv  {
+        height: 36px;
+        width: 128px;
+        background-color: rgba(51,51,51,0.5);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+    }  
+}
+
+
+#Images{
+    text-align: center;
+}
+   
+ 
