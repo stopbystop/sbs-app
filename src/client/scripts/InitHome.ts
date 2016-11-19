@@ -10,12 +10,18 @@
 module StopByStop {
 
     export class InitHome {
-        static yIncrement : number =-100; 
-        //The functionality below pulls the image url based on lat long
-        //And populates the images inside a div
-        //If an image is not available, it is shown as a blank div
+        static yIncrement: number = -100; 
+
+        /*
+        The functionality below pulls the image url based on lat long
+        And populates the images inside a div
+        If an image is not available, it is shown as a blank div
+        */
         public static addImagesDynamically(prevPlace,currentLocationString) {
+
+            // temporary, as server-side functionality is not ready yet
             
+            /*
             if (StopByStop.AppState.current.app !== StopByStop.SBSApp.Web) {
                 var prevPlace = $('#Images').data('prevPlace');                
                 var place = $('#from').data('place');
@@ -76,6 +82,7 @@ module StopByStop {
                     }
                 });
             }
+            */
         }
         
         public static moveImageInBackground(){

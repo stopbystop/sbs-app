@@ -47,10 +47,14 @@ module StopByStop {
 
 QUnit.begin(()=>
 {
-    StopByStop.AppState.current.pageInfo = {
+    StopByStop.AppState.current = {
+        app:StopByStop.SBSApp.Web,
+        baseDataUrl:"",
+        baseImageUrl:"",
+        pageInfo : {
                         pageName: "TestPageName",
                         telemetryPageName: "TestPageName"
-                    };
+    }};
 });
 
 QUnit.test("RoutePlanViewModel: constructor test", (assert) => {

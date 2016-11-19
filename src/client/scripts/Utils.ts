@@ -205,5 +205,25 @@ module StopByStop {
                 "change",
                 pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide" });
         }
+
+        public static getShareUrl(hostName: string, navLocation: ISBSNavigationLocation) {
+            var shareUrl = hostName;
+            if (shareUrl.substr(shareUrl.length - 1) !== "/") {
+                shareUrl += "/";
+            }
+
+            switch (navLocation.page) {
+                case SBSPage.route:
+                case SBSPage.exit:
+                    shareUrl += "route/" + navLocation.routeId;
+
+                    if (navLocation.page === SBSPage.exit) {
+                        shareUrl += "/exit/osm-" + navLocation.exitId;
+                    }
+                    break;
+            }
+
+            return shareUrl;
+        }
     }
 }
