@@ -39,6 +39,13 @@ QUnit.test("Utils: GetShareUrl test", (assert) => {
   assert.equal(Utils.getShareUrl("https://www.host.com",{page:SBSPage.route, routeId:"route1", exitId:"exit1", poiType:PoiType.Gas}), "https://www.host.com/route/route1");
 });
 
+
+QUnit.test("Utils: GetRouteTitleFromRouteId test", (assert) => {
+  assert.equal(Utils.getRouteTitleFromRouteId("47.68950,-122.03859-to-new-york-city-ny-united-states"), "from your location to New York City, NY");
+  assert.equal(Utils.getRouteTitleFromRouteId("tacoma-wa-united-states-to-new-york-city-ny-united-states"), "from Tacoma, WA to New York City, NY");
+  assert.equal(Utils.getRouteTitleFromRouteId(""), "");
+  assert.equal(Utils.getRouteTitleFromRouteId("10-to-10"), "");
+ });
 function updateAndVerifyNavigationLocation(assert:QUnitAssert, hash:string, inputLocation:ISBSNavigationLocation, expectedLocation:ISBSNavigationLocation):void
 {
   Utils.updateNavigationLocation(hash, inputLocation);

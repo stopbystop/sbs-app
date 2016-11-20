@@ -12,7 +12,14 @@
         },
         "cordova-plugin-device": {
             "PACKAGE_NAME": "Stop by Stop"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "Stop by Stop"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "Stop by Stop"
+        }
+    }
 }

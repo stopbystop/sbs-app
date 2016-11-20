@@ -1787,6 +1787,13 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     text-align: center;
 }
 
+.route-loading{
+    height: 100%;
+    margin: 45% auto;
+    width: 60%;
+    text-align:center;
+}
+
 .route-description-metric {
     font-weight: 300;
     font-family: Consolas;

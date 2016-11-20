@@ -12,8 +12,11 @@ module StopByStop {
 
         private _route: IRoute;
 
-        constructor(route: IRoute, initSettings: IAppState = null, routeInitializationComplete: () => void = null) {
-            this.url(location.toString());
+        constructor(route: IRoute, initSettings: IAppState, routeTitle: string, routeInitializationComplete: () => void = null) {
+            this.isRouteLoading(true);
+            this.routeLoadingMessage("Loading route " + routeTitle + " ...");
+            this.url(Utils.getShareUrl(initSettings.baseDataUrl, initSettings.navigationLocation));
+
             if (route) {
                 this._route = route;
                 var rjs: IRouteJunction[] = [];
@@ -23,6 +26,7 @@ module StopByStop {
                 this.filter = new FilterViewModel(route.rid, rjs, route.fcat, route.tfcat);
                 this.routePlan = new RoutePlanViewModel(this._route.rid, this._route.d, new LocationViewModel(route.tl));
 
+                this.isRouteLoading(false);
                 this.route = new RouteViewModel(this._route, this, this.filter, initSettings, () => {
 
                     if (initSettings.app === SBSApp.Web) {
@@ -52,6 +56,8 @@ module StopByStop {
         // initialize filter to an empty object, so that it doesn't require IFs which would require delayed jqm initialization
         public filter: FilterViewModel = <FilterViewModel>{};
         public routePlan: RoutePlanViewModel = null;
+        public isRouteLoading: KnockoutObservable<boolean> = ko.observable(false);
+        public routeLoadingMessage: KnockoutObservable<string> = ko.observable("");
         public selectedJunction: KnockoutObservable<JunctionAppBaseViewModel> = ko.observable(null);
 
         public initSideBar(): void {

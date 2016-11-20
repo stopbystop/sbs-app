@@ -102,7 +102,7 @@ module StopByStop {
             return distance.toString() + "mi";
         }
 
-        public static getHours(seconds: number):number {
+        public static getHours(seconds: number): number {
             return Math.floor(((seconds % 31536000) % 86400) / 3600);
         }
 
@@ -224,6 +224,51 @@ module StopByStop {
             }
 
             return shareUrl;
+        }
+
+        public static getRouteTitleFromRouteId(routeId: string): string {
+            var routeTitle = "";
+
+            if (routeId && routeId.indexOf("-to-") > 1) {
+                var fromAndTo = routeId.split("-to-");
+                var fromString = fromAndTo[0];
+                var toString = fromAndTo[1];
+
+                if (fromString.length > 1 && toString.length > 1) {
+                    if ($.isNumeric(fromString[0])) {
+                        fromString = "your location";
+                    } else {
+                        fromString = Utils.getPlaceNameFromPlaceId(fromString);
+                    }
+                }
+
+                toString = Utils.getPlaceNameFromPlaceId(toString);
+                if (fromString && toString) {
+                    routeTitle = "from " + fromString + " to " + toString;
+                } else {
+                    routeTitle = "";
+                }
+            }
+
+            return routeTitle;
+        }
+
+        private static getPlaceNameFromPlaceId(placeId: string) {
+            var placeName = "";
+            var usIndex = placeId.indexOf("-united-states");
+            if (usIndex > 0) {
+                placeId = placeId.substr(0, usIndex);
+
+                var state = placeId.substr(placeId.length - 2, 2).toUpperCase();
+                placeId = placeId.substr(0, placeId.length - 3);
+                placeId = placeId.replace(/-/g, ' ');
+                placeName = placeId.replace(/([^ \t]+)/g, (_, word: string) =>
+                {
+                    return word[0].toUpperCase() + word.substr(1);
+                }) + ", " + state;
+            }
+
+            return placeName;
         }
     }
 }

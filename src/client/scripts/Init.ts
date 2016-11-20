@@ -25,7 +25,7 @@ module StopByStop {
         public static initialize(settings: IAppState): void {
             AppState.current = settings;
             AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
-            Init._app = ko.observable<AppViewModel>(new AppViewModel(null));
+            Init._app = ko.observable<AppViewModel>(new AppViewModel(null, AppState.current, ""));
 
             (<any>ko).options.deferUpdates = true;
             Init.enableUAMatch();
@@ -141,7 +141,8 @@ module StopByStop {
 
             if (routeId === Init._currentRouteId) {
                 var route = <IRoute>data;
-                var app = new AppViewModel(route, AppState.current, () => {
+                var app = new AppViewModel(route, AppState.current, Utils.getRouteTitleFromRouteId(routeId),
+                    () => {
                     done.resolve();
                 });
 
@@ -174,7 +175,7 @@ module StopByStop {
 
             })
 
-            Init._app().url(location.toString());
+            Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
             Init.animateFiltersTrigger();
@@ -262,6 +263,8 @@ module StopByStop {
                         return;
                     }
 
+                    Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
+
 
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
@@ -269,7 +272,7 @@ module StopByStop {
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
 
-                                Init._app(new AppViewModel(null));
+                                Init._app(new AppViewModel(null, AppState.current, Utils.getRouteTitleFromRouteId(AppState.current.navigationLocation.routeId)));
 
                                 Init._loadRoutePromise = Init.loadRoute(AppState.current.navigationLocation.routeId);
 
@@ -282,8 +285,7 @@ module StopByStop {
                                     }
                                 });
                             } else {
-                                this._app().url(location.toString());
-                                if (AppState.current.navigationLocation.page === SBSPage.route) {
+                                 if (AppState.current.navigationLocation.page === SBSPage.route) {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
                                     this._app().title(this._app().route.shortDescription);

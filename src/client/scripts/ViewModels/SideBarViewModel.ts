@@ -199,7 +199,7 @@ module StopByStop {
                 $(window).off("resize", SideBarViewModel._recalcOnWindowResize);
             }
 
-            SideBarViewModel._recalcOnWindowResize = SideBarViewModel.recalculateSideBarPosition.bind(this);
+            SideBarViewModel._recalcOnWindowResize = SideBarViewModel.recalculateSideBarPosition.bind(null, this);
             $(window).on("resize", SideBarViewModel._recalcOnWindowResize);
 
 

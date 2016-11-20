@@ -17,6 +17,11 @@
                     </ul>
                     {{>filterButton}}
                 </div>
+                <div class="main_inner" data-bind="if:isRouteLoading">
+                    <div class="route-loading">
+                        <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                    </div>
+                </div>
                 <div data-bind="if:selectedJunction">
                     <div class="main_inner">
                         

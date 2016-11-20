@@ -12,6 +12,11 @@
                     </ul>
                     {{>filterButton}}
                 </div>
+                <div class="main_inner" data-bind="if:isRouteLoading">
+                    <div class="route-loading">
+                        <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                    </div>
+                </div>
                 <div class="main_inner" data-bind="if:route">
                     <h2 class="description_title" data-bind="text:route.title"></h2>
                     <div class="route-description2">
@@ -30,7 +35,7 @@
                         <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
                         <span class="route-description-metric-label">gas station(s)</span>
 
-                  
+
                         <span class="route-description-metric-label">within</span>
                         <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
                         <span class="route-description-metric-label">mile(s) from exit</span>
