@@ -13,7 +13,8 @@ namespace Yojowa.StopByStop.Web.Controllers
         // GET: /Home/
         public ActionResult Index(string rf)
         {
-            return View(new HomeModel(StopByStopService.Instance.GetLastRoutes()));
+            return View("Main");
+            //return View(new HomeModel(StopByStopService.Instance.GetLastRoutes()));
         }
 
         public ActionResult About()

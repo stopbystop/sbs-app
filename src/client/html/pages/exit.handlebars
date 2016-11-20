@@ -60,7 +60,7 @@
                                                 <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
                                             </div>
                                             <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
-                                            <img src="images/add_to_route.png" class="poi-table-cell-go" alt="Add to route" />
+                                            <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
                                         </a>
                                     </div>
                                     <div class="poi-table-cell poi-yelp-cell">
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="poi-table-cell poi-phone-cell call-icon">
                                         <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title" target="_blank">
-                                            <img src="images/phone2.png" class="poi-phone" alt="Call" />
+                                            <img src='{{{getImage "phone2.png"}}}' class="poi-phone" alt="Call" />
                                         </a>
                                     </div> <!-- /poi-table-cell -->
                                 </div> <!-- /poi-table-row -->
@@ -95,7 +95,7 @@
                                             <div class="poi-placename poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
 
                                             <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
-                                            <img src="images/add_to_route.png" class="poi-table-cell-go" alt="Add to route" />
+                                            <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
                                         </a>
                                     </div>
                                     <div class="poi-table-cell poi-yelp-cell">
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="poi-table-cell poi-phone-cell call-icon">
                                         <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title" target="_blank">
-                                            <img src="images/phone2.png" class="poi-phone" alt="Call" />
+                                            <img src='{{{getImage "phone2.png"}}}' class="poi-phone" alt="Call" />
                                         </a>
                                     </div> <!-- /poi-table-cell -->
                                 </div> <!-- /poi-table-row -->

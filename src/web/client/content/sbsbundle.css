@@ -164,7 +164,7 @@ input {
 
 .sbs-web .ui-alt-icon.ui-icon-bars::after,
 .sbs-web .ui-alt-icon .ui-icon-bars::after {
-    background-image: url("v1/images/svg/lines7.svg");
+    background-image: url("v1/images/lines7.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-bars::after,
@@ -175,7 +175,7 @@ input {
 .sbs-web .ui-alt-icon.ui-icon-search::after,
 .sbs-web .ui-alt-icon .ui-icon-search::after,
 .sbs-web .ui-input-search::after {
-    background-image: url("v1/images/svg/magnifying-glass32.svg");
+    background-image: url("v1/images/magnifying-glass32.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-search::after,

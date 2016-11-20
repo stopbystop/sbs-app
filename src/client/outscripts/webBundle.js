@@ -360,8 +360,17 @@ var StopByStop;
                     if ($.isNumeric(fromString[0])) {
                         fromString = "your location";
                     }
+                    else {
+                        fromString = Utils.getPlaceNameFromPlaceId(fromString);
+                    }
                 }
-                routeTitle = "from " + Utils.getPlaceNameFromPlaceId(fromString) + " to " + Utils.getPlaceNameFromPlaceId(toString);
+                toString = Utils.getPlaceNameFromPlaceId(toString);
+                if (fromString && toString) {
+                    routeTitle = "from " + fromString + " to " + toString;
+                }
+                else {
+                    routeTitle = "";
+                }
             }
             return routeTitle;
         };
@@ -370,12 +379,12 @@ var StopByStop;
             var usIndex = placeId.indexOf("-united-states");
             if (usIndex > 0) {
                 placeId = placeId.substr(0, usIndex);
-                var state = placeId.substr(placeId.length - 2, 2);
+                var state = placeId.substr(placeId.length - 2, 2).toUpperCase();
                 placeId = placeId.substr(0, placeId.length - 3);
-                placeId = placeId.replace("-", " ");
+                placeId = placeId.replace(/-/g, ' ');
                 placeName = placeId.replace(/([^ \t]+)/g, function (_, word) {
                     return word[0].toUpperCase() + word.substr(1);
-                });
+                }) + ", " + state;
             }
             return placeName;
         };
@@ -2138,6 +2147,7 @@ var StopByStop;
             this.routeLoadingMessage = ko.observable("");
             this.selectedJunction = ko.observable(null);
             this.isRouteLoading(true);
+            this.routeLoadingMessage("Loading route " + routeTitle + " ...");
             this.url(StopByStop.Utils.getShareUrl(initSettings.baseDataUrl, initSettings.navigationLocation));
             if (route) {
                 this._route = route;
@@ -2146,7 +2156,6 @@ var StopByStop;
                 this.filter = new StopByStop.FilterViewModel(route.rid, rjs, route.fcat, route.tfcat);
                 this.routePlan = new StopByStop.RoutePlanViewModel(this._route.rid, this._route.d, new StopByStop.LocationViewModel(route.tl));
                 this.isRouteLoading(false);
-                this.routeLoadingMessage("Loading " + routeTitle + " ...");
                 this.route = new StopByStop.RouteViewModel(this._route, this, this.filter, initSettings, function () {
                     if (initSettings.app === StopByStop.SBSApp.Web) {
                         _this.routePlan.loadStopsFromStorage();

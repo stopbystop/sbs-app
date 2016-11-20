@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+    string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+    string rf = HttpContext.Current.Request.QueryString["rf"];
+    if (string.IsNullOrEmpty(rf))
+    {
+        rf = Yojowa.StopByStop.Utils.CookieUtils.ReadCookie("rf");
+    }
+    if (string.IsNullOrEmpty(rf))
+    {
+        rf = "";
+    }
+}
+
+<!DOCTYPE html>
+<html class="sbs-web">
+<head>
+
+    <title>@(ViewBag.Title) - Stop by Stop</title>
+
+    <meta name="description" content="@(ViewBag.Description)" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="msvalidate.01" content="C5252CA292217904D2AE105CDB814ABB" />
+    <meta property="og:url" content="@currentUrl" />
+    <meta property="og:title" content="@(ViewBag.Title)" />
+    <meta property="og:description" content="@(ViewBag.Description)" />
+    <meta property="og:site_name" content="Stop by Stop" />
+    <meta property="og:image" content="https://www.stopbystop.com/client/content/v1/images/main_image2.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:height" content="763" />
+    <meta property="og:image:width" content="1540" />
+    <meta property="fb:app_id" content="1385725698401226" />
+    <meta name="google-site-verification" content="4YnVgJsYaWa9b1baICDoWWcaU7bGTFe7zq7Nm8nNBaw" />
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="@RenderHelper.GetCDNUrl("/client/content/v1/images/favicon.ico")" />
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
+
+
+    <!-- TODO: change to min.css-->
+    @System.Web.Optimization.Styles.Render("~/client/content/sbscssbundle")
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
+
+    <script type="text/javascript">
+        var BASE_URL = '@Url.Content("~/")';
+        var CDN_ROOT = '@RenderHelper.GetCDNRoot()';
+    </script>
+    @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
+    <script type="text/javascript">
+
+        StopByStop.Init.initialize({
+            app: StopByStop.SBSApp.SPA,
+            baseDataUrl: BASE_URL,
+            baseImageUrl: window["CDN_ROOT"] + "/client/content/v1/icons/",
+            navigationLocation: { page: StopByStop.SBSPage.home }
+        });
+
+        $("body").css({ opacity: "1.0" });
+    </script>
+
+    @if (System.Configuration.ConfigurationManager.AppSettings["envtype"] == "production")
+    {
+    <script type="text/javascript">
+        window.isProduction = true;
+    </script>
+    }
+
+
+</head>
+<body class="sbs">
+    <div id="sbsRoot">
+        {{>home}}
+        {{>route}}
+        {{>exit}}
+        {{>about}}
+        <div style="display:none">
+            {{>header}}
+            {{>navpanel}}
+            {{>footer}}
+        </div>
+        {{>sidebar}}
+    </div>
+    <div style="display:none">
+        {{>mappoipopup}}
+    </div>
+
+
+    @* Delay loading*@
+    <script type="text/javascript">
+        $(window).on("load", function () {
+            window.setTimeout(function () {
+                $("head").append('<link rel="stylesheet" type="text/css" href="@(System.Web.Optimization.Styles.Url("~/client/content/sbscssdelayedbundle"))" />');
+
+                @* FB script *@
+                if (window.isProduction) {
+                    window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: '1385725698401226',
+                            xfbml: true,
+                            version: 'v2.4'
+                        });
+                    };
+
+                    (function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) { return; }
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/en_US/sdk.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                }
+
+
+            }, 100);
+        });
+    </script>
+</body>
+</html>

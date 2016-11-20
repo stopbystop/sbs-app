@@ -238,6 +238,7 @@
     </Content>
     <Content Include="packages.config" />
     <EmbeddedResource Include="nearbyplaces.json" />
+    <Content Include="client\Views\Home\Main.cshtml" />
     <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
     <Content Include="sitemaps-2016-03-13\sitemap-1.xml" />
     <Content Include="sitemaps-2016-03-13\sitemap-10.xml" />

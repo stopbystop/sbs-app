@@ -15,8 +15,33 @@ gulp.task("min", ["concat:js", "concat:css", "min:js", "min:css", "min:html"]);
 gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
-gulp.task("default", ["min", "html:cordova"]);
+gulp.task("default", ["min", "html:cordova", "html:web"]);
 
+
+gulp.task('html:web', function () {
+    var templateData = {
+    },
+    options = {
+        compile: { noEscape: true },
+        partials: {
+        },
+        batch: ['./html/partials', './html/pages'],
+        helpers: {
+            capitals: function (str) {
+                return str.toUpperCase();
+            },
+            getImage: function (imageName) {
+                return "@RenderHelper.GetCDNUrl(\"/client/content/v1/images/" + imageName + "\")";
+            }
+        }
+    }
+
+    return gulp.src('html/web.handlebars')
+        .pipe(handlebars(templateData, options))
+        /*.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))*/
+        .pipe(rename('Main.cshtml'))
+        .pipe(gulp.dest('./../web/client/Views/Home'));
+});
 
 gulp.task('html:cordova', function () {
     var templateData = {
@@ -29,13 +54,16 @@ gulp.task('html:cordova', function () {
         helpers: {
             capitals: function (str) {
                 return str.toUpperCase();
+            },
+            getImage: function (imageName) {
+                return "images/" + imageName;
             }
         }
     }
 
     return gulp.src('html/cordova.handlebars')
         .pipe(handlebars(templateData, options))
-        .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts:["text/html"]}))
+        .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))
         .pipe(rename('index.html'))
         .pipe(gulp.dest('./../cordova/www'));
 });
