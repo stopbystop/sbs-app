@@ -1,6 +1,7 @@
 ﻿namespace Yojowa.StopByStop.Web.Controllers
 {
     using Microsoft.ApplicationInsights;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -23,10 +24,10 @@
         public ActionResult PoiGroup(string id, string exitId, string poiTypeString)
         {
             long osmId;
+            StopByStop.Route route = GetRouteFromRoutePathId(id);
             RouteJunction routeJunction = GetJunctionFromExitId(exitId, out osmId);
             if (routeJunction == null)
             {
-                StopByStop.Route route = GetRouteFromRoutePathId(id);
                 if (route != null)
                 {
                     routeJunction = route.RouteSegments
@@ -55,55 +56,43 @@
                 }
             }
 
+
+            PoiType poiType = PoiType.General;
+            var model = new MainModel(this.Url)
+            {
+                Page = ClientPage.Route,
+                RouteId = id,
+                Route = route,
+                ExitId = exitId,
+            };
+
             if (routeJunction != null)
             {
-                Location fromLocation, toLocation;
-                var fromAndTo = StopByStopService.Instance.GetRouteLocationsFromRoutePathId(id);
-                fromLocation = fromAndTo[0];
-                toLocation = fromAndTo[1];
-
-
-                PoiType poiType;
-                string poiTypeName;
-
-                poiType = PoiType.General;
-                poiTypeName = string.Empty;
 
                 switch (poiTypeString.ToLowerInvariant())
                 {
                     case "gas":
-                        poiTypeName = "Gas stations";
                         poiType = PoiType.Gas;
                         break;
                     case "food":
-                        poiTypeName = "Places to eat";
                         poiType = PoiType.Food;
                         break;
                 }
 
-                if (poiType != PoiType.General)
-                {
-                    PoiOnJunction[] pois = routeJunction.Junction.Pois.Where(p => p.Poi.PoiType == poiType).ToArray();
-                    if (pois.Length > 0)
-                    {
-
-                        return View(new PoiGroupModel(id, routeJunction, pois, poiTypeName, poiType, fromLocation, toLocation));
-                    }
-                }
-
-                return View("Exit", new ExitModel(id, routeJunction, fromLocation, toLocation));
+                model.Page = ClientPage.Exit;
+                model.ExitId = exitId;
+                model.PoiType = poiType;
             }
             else
             {
-                // routeJunction not found
-                StopByStop.Route route = GetRouteFromRoutePathId(id);
                 if (route != null)
                 {
                     telemetryClient.TrackEvent("ExitNotFound",
                         new Dictionary<string, string>() { { "MissingExit", id + "/" + exitId } });
                     telemetryClient.TrackException(
                         new InvalidOperationException(string.Format("PoiGroup Action - Cannot find exit. id={0}, exitId={1}", id, exitId)));
-                    return View("Route", new RouteModel(route, id));
+                    model.Page = ClientPage.Route;
+
                 }
                 else
                 {
@@ -111,9 +100,18 @@
                          new Dictionary<string, string>() { { "MissingRoute", id } });
                     telemetryClient.TrackException(
                         new InvalidOperationException(string.Format("PoiGroup Action - Cannot find route. id={0}, exitId={1}", id, exitId)));
-                    return RedirectToAction("Index", "Home");
+                    model.Page = ClientPage.Home;
                 }
             }
+
+            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+            {
+                Page = ClientPage.Exit,
+                RouteId = id,
+                Route = route,
+                ExitId = exitId,
+                PoiType = poiType
+            });
         }
 
         [Route("route/{id}/exit/{exitId}")]
@@ -130,8 +128,12 @@
                (double)random.Next(-12500000, -6600000) / 100000.00);
 
             StopByStop.Route route = GetRouteFromRoutePathId(pathId);
-
-            return View("Route", new RouteModel(route, pathId));
+            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+            {
+                Page = ClientPage.Route,
+                RouteId = pathId,
+                Route = route
+            });
 
         }
 
@@ -150,7 +152,12 @@
             StopByStop.Route route = GetRouteFromRoutePathId(id);
             if (route != null)
             {
-                return View("Route", new RouteModel(route, id));
+                return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+                {
+                    Page = ClientPage.Route,
+                    RouteId = id,
+                    Route = route
+                });
             }
             return RedirectToAction("Index", "Home");
         }
@@ -162,7 +169,7 @@
         }
 
 
-        private StopByStop.Route GetRouteFromRoutePathId(string routePathId)
+        private static StopByStop.Route GetRouteFromRoutePathId(string routePathId)
         {
             var fromAndTo = StopByStopService.Instance.GetRouteLocationsFromRoutePathId(routePathId);
             if (fromAndTo[0] != Location.Unknown && fromAndTo[1] != Location.Unknown)

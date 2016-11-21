@@ -1,4 +1,4 @@
-﻿namespace Yojowa.StobByStop.Client
+﻿namespace Yojowa.StopByStop.Client
 {
     public class Dummy
     {

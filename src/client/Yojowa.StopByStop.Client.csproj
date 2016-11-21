@@ -59,6 +59,7 @@
     <TypeScriptCompile Include="scripts\ViewModels\RouteStopViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\RouteViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\SideBarViewModel.ts" />
+    <TypeScriptCompile Include="scripts\WebInit.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />

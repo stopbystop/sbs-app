@@ -42,26 +42,51 @@
     <!-- TODO: change to min.css-->
     @System.Web.Optimization.Styles.Render("~/client/content/sbscssbundle")
 
+    <script type="text/javascript">
+        var getQueryString = function (field, url) {
+            var href = url ? url : window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : "";
+        };
+
+        var appInsights = window.appInsights || function (config) {
+            function s(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u; for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode.appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"]; i.length;) s("track" + i.pop()); return config.disableExceptionTracking || (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) { var s = u && u(config, r, f, e, o); return s !== !0 && t["_" + i](config, r, f, e, o), s }), t
+        }({
+            instrumentationKey: '@(Microsoft.ApplicationInsights.Extensibility.TelemetryConfiguration.Active.InstrumentationKey)'
+        });
+
+        window.appInsights = appInsights;
+
+        appInsights.queue.push(function () {
+            appInsights.context.addTelemetryInitializer(function (envelope) {
+                var telemetryItem = envelope.data.baseData;
+                telemetryItem.properties = telemetryItem.properties || {};
+                telemetryItem.properties["rf"] = getQueryString("rf") || "@rf";
+            });
+        });
+
+
+        appInsights.trackPageView();
+
+        window.setTimeout(function () {
+            StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.NonBounce);
+        }, 3000);
+    </script>
+
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 
-    <script type="text/javascript">
-        var BASE_URL = '@Url.Content("~/")';
-        var CDN_ROOT = '@RenderHelper.GetCDNRoot()';
-    </script>
+   
     @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
+    
     <script type="text/javascript">
-
-        StopByStop.Init.initialize({
-            app: StopByStop.SBSApp.SPA,
-            baseDataUrl: BASE_URL,
-            baseImageUrl: window["CDN_ROOT"] + "/client/content/v1/icons/",
-            navigationLocation: { page: StopByStop.SBSPage.home }
-        });
-
+        StopByStop.WebInit.initialize(
+        @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))
+        );
         $("body").css({ opacity: "1.0" });
     </script>
 

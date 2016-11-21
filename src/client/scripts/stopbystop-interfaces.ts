@@ -9,6 +9,8 @@ module StopByStop {
         SPA = 1
     }
 
+
+
     export interface IInitUrls {
         BaseUrl: string;
         RouteUrl: string;
@@ -30,6 +32,25 @@ module StopByStop {
         pageInfo?: IPageInfo;
         navigationLocation?: ISBSNavigationLocation;
         knownHashChangeInProgress?: boolean;
+        historyDisabled?: boolean;
+    }
+
+    export interface IWebInitData {
+        /** page */
+        p: SBSPage;
+        /** route id */
+        rid: string;
+        /** route */
+        r: IRoute;
+        /** exit id */
+        exd: string;
+        /** poi type */
+        pt: PoiType;
+        /** base data url */
+        durl: string;
+        /** base image url */
+        iurl: string;
+        
     }
 
     export interface ILocation {

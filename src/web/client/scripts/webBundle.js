@@ -43,22 +43,23 @@ var StopByStop;
         TelemetryEvent[TelemetryEvent["LocationIN"] = 7] = "LocationIN";
         TelemetryEvent[TelemetryEvent["LocationOUT"] = 8] = "LocationOUT";
         TelemetryEvent[TelemetryEvent["LocationOUTPopupDisplayed"] = 9] = "LocationOUTPopupDisplayed";
-        TelemetryEvent[TelemetryEvent["POIGroupPageScroll"] = 10] = "POIGroupPageScroll";
-        TelemetryEvent[TelemetryEvent["POIGroupSwitchList"] = 11] = "POIGroupSwitchList";
-        TelemetryEvent[TelemetryEvent["POIGroupSwitchMap"] = 12] = "POIGroupSwitchMap";
-        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 13] = "Remove5MinFromStop";
-        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 14] = "RemoveStopFromRoute";
-        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 15] = "RoutePageScroll";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 16] = "RoutePlanNavigateClick";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 17] = "RoutePlanNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 18] = "ShowStopSettingsPopup";
-        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 19] = "SideBarThumbTouch";
-        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 20] = "SocialButtonClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 21] = "StopPopupNavigateClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 22] = "StopPopupNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 23] = "TelLinkClick";
-        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 24] = "ViewTripButtonClick";
-        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 25] = "YelpLinkClick";
+        TelemetryEvent[TelemetryEvent["NonBounce"] = 10] = "NonBounce";
+        TelemetryEvent[TelemetryEvent["POIGroupPageScroll"] = 11] = "POIGroupPageScroll";
+        TelemetryEvent[TelemetryEvent["POIGroupSwitchList"] = 12] = "POIGroupSwitchList";
+        TelemetryEvent[TelemetryEvent["POIGroupSwitchMap"] = 13] = "POIGroupSwitchMap";
+        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 14] = "Remove5MinFromStop";
+        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 15] = "RemoveStopFromRoute";
+        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 16] = "RoutePageScroll";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 17] = "RoutePlanNavigateClick";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 18] = "RoutePlanNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 19] = "ShowStopSettingsPopup";
+        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 20] = "SideBarThumbTouch";
+        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 21] = "SocialButtonClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 22] = "StopPopupNavigateClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 23] = "StopPopupNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 24] = "TelLinkClick";
+        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 25] = "ViewTripButtonClick";
+        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 26] = "YelpLinkClick";
     })(StopByStop.TelemetryEvent || (StopByStop.TelemetryEvent = {}));
     var TelemetryEvent = StopByStop.TelemetryEvent;
     (function (TelemetryProperty) {
@@ -331,8 +332,9 @@ var StopByStop;
             if (poiType) {
                 dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
             }
+            var reverse = (StopByStop.AppState.current.navigationLocation && StopByStop.AppState.current.navigationLocation.page > page);
             StopByStop.AppState.current.knownHashChangeInProgress = true;
-            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide" });
+            $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         };
         Utils.getShareUrl = function (hostName, navLocation) {
             var shareUrl = hostName;
@@ -373,6 +375,9 @@ var StopByStop;
                 }
             }
             return routeTitle;
+        };
+        Utils.isHistoryAPISupported = function () {
+            return !!(window.history && history.pushState);
         };
         Utils.getPlaceNameFromPlaceId = function (placeId) {
             var placeName = "";
@@ -2462,7 +2467,7 @@ var StopByStop;
             /* end of poi group page initialization */
             /* handle unknown hash change */
             var scheduledUnknownChange = false;
-            $(window).hashchange(function () {
+            var onBrowserHistoryChanged = function () {
                 if (!scheduledUnknownChange) {
                     scheduledUnknownChange = true;
                     window.setTimeout(function () {
@@ -2478,9 +2483,13 @@ var StopByStop;
                         scheduledUnknownChange = false;
                     }, 100);
                 }
-            });
+            };
+            $(window).hashchange(onBrowserHistoryChanged);
+            if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
+                window.onpopstate = onBrowserHistoryChanged;
+            }
             /* trigger initial hash change */
-            $(window).hashchange();
+            onBrowserHistoryChanged();
         };
         Init.loadRoute = function (routeId) {
             var deferred = $.Deferred();
@@ -2586,7 +2595,13 @@ var StopByStop;
                     if (navigationAbandoned) {
                         return;
                     }
-                    Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation));
+                    var shareUrl = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation);
+                    Init._app().url(shareUrl);
+                    if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
+                        var newHistoryState = history.state;
+                        newHistoryState.url = shareUrl + location.hash;
+                        history.replaceState(newHistoryState, newHistoryState.title, shareUrl + location.hash);
+                    }
                     switch (StopByStop.AppState.current.navigationLocation.page) {
                         case StopByStop.SBSPage.route:
                         case StopByStop.SBSPage.exit:
@@ -2731,11 +2746,56 @@ var StopByStop;
             }
         };
         Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
-        Init._cachedRoutes = {};
         Init._loadRoutePromise = null;
+        Init._cachedRoutes = {};
         return Init;
     }());
     StopByStop.Init = Init;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="tsdef/jquery.d.ts"/>
+/// <reference path="tsdef/jquerymobile.d.ts"/>
+/// <reference path="tsdef/knockout-3.3.d.ts"/>
+/// <reference path="AppState.ts" />
+/// <reference path="Telemetry.ts"/>
+/// <reference path="Utils.ts"/>
+/// <reference path="stopbystop-interfaces.ts"/>
+/// <reference path="InitUrls.ts"/>
+/// <reference path="InitHome.ts"/>
+/// <reference path="ViewModels/IAppViewModel.ts" />
+/// <reference path="ViewModels/AppViewModel.ts" />
+/// <reference path="ViewModels/RouteViewModel.ts" />
+/// <reference path="ViewModels/JunctionAppViewModel.ts" />
+var StopByStop;
+(function (StopByStop) {
+    var WebInit = (function () {
+        function WebInit() {
+        }
+        WebInit.initialize = function (webInitData) {
+            if (webInitData.r) {
+                StopByStop.Init._cachedRoutes[webInitData.rid] = webInitData.r;
+            }
+            if (webInitData.exd && webInitData.exd.indexOf("osm-") === 0) {
+                webInitData.exd = webInitData.exd.substr("osm-".length);
+            }
+            var appState = {
+                app: StopByStop.SBSApp.SPA,
+                baseDataUrl: webInitData.durl,
+                baseImageUrl: webInitData.iurl,
+                navigationLocation: {
+                    page: webInitData.p,
+                    exitId: webInitData.exd,
+                    poiType: webInitData.pt,
+                    routeId: webInitData.rid
+                },
+                historyDisabled: true
+            };
+            StopByStop.Init.initialize(appState);
+            var hash = StopByStop.Utils.getHashFromNavigationLocation(appState.navigationLocation);
+            location.hash = hash;
+        };
+        return WebInit;
+    }());
+    StopByStop.WebInit = WebInit;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="stopbystop-interfaces.ts"/>
 /// <reference path="AppState.ts"/>
@@ -2744,6 +2804,7 @@ var StopByStop;
 /// <reference path="Utils.ts"/>
 /// <reference path="InitHome.ts"/>
 /// <reference path="Init.ts"/>
+/// <reference path="WebInit.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
 /// <reference path="ViewModels/IStopPlace.ts"/>
 /// <reference path="ViewModels/PoiCategoryViewModel.ts"/>

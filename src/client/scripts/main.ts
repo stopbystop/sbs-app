@@ -5,6 +5,7 @@
 /// <reference path="Utils.ts"/>
 /// <reference path="InitHome.ts"/>
 /// <reference path="Init.ts"/>
+/// <reference path="WebInit.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
 /// <reference path="ViewModels/IStopPlace.ts"/>
 /// <reference path="ViewModels/PoiCategoryViewModel.ts"/>

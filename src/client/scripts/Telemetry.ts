@@ -14,6 +14,7 @@ module StopByStop {
         LocationIN,
         LocationOUT,
         LocationOUTPopupDisplayed,
+        NonBounce,
         POIGroupPageScroll,
         POIGroupSwitchList,
         POIGroupSwitchMap,

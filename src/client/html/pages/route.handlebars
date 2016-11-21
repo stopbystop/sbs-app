@@ -1,4 +1,4 @@
-﻿<!-- route page-->
+<!-- route page-->
 <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
     {{>header}}
     <div role="main" class="ui-content jqm-content">
@@ -102,7 +102,7 @@
     </div>
 
     <!-- filter dialog start-->
-    <div data-role="popup" class="ui-content filter-dlg">
+    <div data-role="popup" data-history="false" class="ui-content filter-dlg">
         <div data-role="header">
             <h2>Set filters</h2>
         </div>
@@ -152,7 +152,7 @@
     </div>
     <!-- filter dialog end-->
     <!-- stop settings dialog start-->
-    <div data-bind="if:(routePlan && routePlan.editedStop())" data-role="popup" class="ui-content stop-settings-dialog">
+    <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
         <div data-bind="with:routePlan">
             <div data-role="header">
                 <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>

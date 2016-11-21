@@ -200,10 +200,13 @@ module StopByStop {
                 dataUrl += "&poitype=" + PoiType[poiType].toLowerCase();
             }
 
+            var reverse = (AppState.current.navigationLocation && AppState.current.navigationLocation.page > page);
+
             AppState.current.knownHashChangeInProgress = true;
+
             $.mobile.pageContainer.pagecontainer(
                 "change",
-                pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide" });
+                pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         }
 
         public static getShareUrl(hostName: string, navLocation: ISBSNavigationLocation) {
@@ -253,6 +256,10 @@ module StopByStop {
             return routeTitle;
         }
 
+        public static isHistoryAPISupported(): boolean {
+            return !!(window.history && history.pushState);
+        }
+
         private static getPlaceNameFromPlaceId(placeId: string) {
             var placeName = "";
             var usIndex = placeId.indexOf("-united-states");
@@ -262,8 +269,7 @@ module StopByStop {
                 var state = placeId.substr(placeId.length - 2, 2).toUpperCase();
                 placeId = placeId.substr(0, placeId.length - 3);
                 placeId = placeId.replace(/-/g, ' ');
-                placeName = placeId.replace(/([^ \t]+)/g, (_, word: string) =>
-                {
+                placeName = placeId.replace(/([^ \t]+)/g, (_, word: string) => {
                     return word[0].toUpperCase() + word.substr(1);
                 }) + ", " + state;
             }

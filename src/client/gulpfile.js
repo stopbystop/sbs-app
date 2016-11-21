@@ -40,7 +40,7 @@ gulp.task('html:web', function () {
         .pipe(handlebars(templateData, options))
         /*.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))*/
         .pipe(rename('Main.cshtml'))
-        .pipe(gulp.dest('./../web/client/Views/Home'));
+        .pipe(gulp.dest('./../web/client/Views'));
 });
 
 gulp.task('html:cordova', function () {

@@ -209,25 +209,25 @@
     <Content Include="client\content\sbsbundle.css.min.css" />
     <Content Include="client\content\styles.css" />
     <Content Include="client\content\styles_delayed.css" />
-    <Content Include="client\content\v1\icons\add_to_route.png" />
-    <Content Include="client\content\v1\icons\car.png" />
-    <Content Include="client\content\v1\icons\exit_map.png" />
-    <Content Include="client\content\v1\icons\food2.png" />
-    <Content Include="client\content\v1\icons\food_map2.png" />
-    <Content Include="client\content\v1\icons\gas.png" />
-    <Content Include="client\content\v1\icons\gas_map.png" />
-    <Content Include="client\content\v1\icons\go3.png" />
-    <Content Include="client\content\v1\icons\phone2.png" />
+    <Content Include="client\content\v1\images\add_to_route.png" />
+    <Content Include="client\content\v1\images\car.png" />
+    <Content Include="client\content\v1\images\exit_map.png" />
+    <Content Include="client\content\v1\images\food2.png" />
+    <Content Include="client\content\v1\images\food_map2.png" />
+    <Content Include="client\content\v1\images\gas.png" />
+    <Content Include="client\content\v1\images\gas_map.png" />
+    <Content Include="client\content\v1\images\go3.png" />
+    <Content Include="client\content\v1\images\phone2.png" />
     <Content Include="client\content\v1\images\favicon.ico" />
     <Content Include="client\content\v1\images\hex2.gif" />
     <Content Include="client\content\v1\images\logo2.png" />
     <Content Include="client\content\v1\images\main_image2.jpg" />
     <Content Include="client\content\v1\images\main_image_mobile2.jpg" />
     <Content Include="client\content\v1\images\route_line.gif" />
-    <Content Include="client\content\v1\images\svg\feedback.svg" />
-    <Content Include="client\content\v1\images\svg\lines7.svg" />
-    <Content Include="client\content\v1\images\svg\magnifying-glass32.svg" />
-    <Content Include="client\content\v1\images\svg\sprites.svg" />
+    <Content Include="client\content\v1\images\feedback.svg" />
+    <Content Include="client\content\v1\images\lines7.svg" />
+    <Content Include="client\content\v1\images\magnifying-glass32.svg" />
+    <Content Include="client\content\v1\images\sprites.svg" />
     <Content Include="client\scripts\sbsbundle.js" />
     <Content Include="client\scripts\webBundle.js" />
     <Content Include="Error.htm" />
@@ -238,7 +238,7 @@
     </Content>
     <Content Include="packages.config" />
     <EmbeddedResource Include="nearbyplaces.json" />
-    <Content Include="client\Views\Home\Main.cshtml" />
+    <Content Include="client\Views\Main.cshtml" />
     <None Include="Properties\PublishProfiles\stopbystop-production2.pubxml" />
     <Content Include="sitemaps-2016-03-13\sitemap-1.xml" />
     <Content Include="sitemaps-2016-03-13\sitemap-10.xml" />
@@ -304,12 +304,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="JsonNetResult.cs" />
-    <Compile Include="Models\HomeModel.cs" />
-    <Compile Include="Models\PoiListModel.cs" />
-    <Compile Include="Models\PoiModel.cs" />
-    <Compile Include="Models\PoiGroupModel.cs" />
-    <Compile Include="Models\ExitModel.cs" />
-    <Compile Include="Models\RouteModel.cs" />
+    <Compile Include="Models\MainModel.cs" />
     <Compile Include="NoCacheAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderHelper.cs" />
@@ -320,19 +315,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="client\Views\web.config" />
-    <Content Include="client\Views\_ViewStart.cshtml" />
-    <Content Include="client\Views\Shared\_Layout.cshtml" />
-    <Content Include="client\Views\Home\Index.cshtml" />
-    <Content Include="client\Views\Route\Route.cshtml" />
-    <Content Include="client\Views\Home\About.cshtml" />
-    <Content Include="client\Views\Route\Exit.cshtml" />
-    <Content Include="client\Views\Route\Poi.cshtml" />
-    <Content Include="client\Views\Route\PoiGroup.cshtml" />
-    <Content Include="client\Views\Shared\_SocialButtons.cshtml" />
-    <Content Include="client\Views\Shared\_NonHomeLayout.cshtml" />
-    <Content Include="client\Views\Shared\_POITableAndMap.cshtml" />
-    <Content Include="client\Views\Shared\_POITableAndMap_SCRIPTS.cshtml" />
-    <Content Include="client\Views\Test\All.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -343,7 +325,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="client\Views\Service\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\client\Yojowa.StopByStop.Client.csproj">

@@ -19,9 +19,11 @@ module StopByStop {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
         private static _initSPAOnce = Utils.runOnce(Init.initSPA);
-        private static _cachedRoutes: { [id: string]: { data: any } } = {};
+        
         private static _loadRoutePromise: JQueryPromise<any> = null;
 
+
+        public static _cachedRoutes: { [id: string]: IRoute } = {};
         public static initialize(settings: IAppState): void {
             AppState.current = settings;
             AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
@@ -87,7 +89,9 @@ module StopByStop {
 
             /* handle unknown hash change */
             var scheduledUnknownChange = false;
-            (<any>$(window)).hashchange(() => {
+
+            var onBrowserHistoryChanged = () => {
+
                 if (!scheduledUnknownChange) {
                     scheduledUnknownChange = true;
                     window.setTimeout(() => {
@@ -111,10 +115,17 @@ module StopByStop {
                         scheduledUnknownChange = false;
                     }, 100);
                 }
-            });
+            };
+
+
+            (<any>$(window)).hashchange(onBrowserHistoryChanged);
+
+            if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
+                window.onpopstate = onBrowserHistoryChanged;
+            }
 
             /* trigger initial hash change */
-            (<any>$(window)).hashchange();
+            onBrowserHistoryChanged();
         }
 
         private static loadRoute(routeId: string): JQueryPromise<any> {
@@ -137,10 +148,10 @@ module StopByStop {
             return deferred.promise();
         }
 
-        private static onRouteDataLoaded(routeId: string, data: any, done: JQueryDeferred<any>): void {
+        private static onRouteDataLoaded(routeId: string, data: IRoute, done: JQueryDeferred<any>): void {
 
             if (routeId === Init._currentRouteId) {
-                var route = <IRoute>data;
+                var route = data;
                 var app = new AppViewModel(route, AppState.current, Utils.getRouteTitleFromRouteId(routeId),
                     () => {
                     done.resolve();
@@ -263,7 +274,14 @@ module StopByStop {
                         return;
                     }
 
-                    Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
+                    var shareUrl = Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation);
+                    Init._app().url(shareUrl);
+
+                    if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
+                        var newHistoryState = history.state;
+                        newHistoryState.url = shareUrl + location.hash;
+                        history.replaceState(newHistoryState, newHistoryState.title, shareUrl + location.hash);
+                    }
 
 
                     switch (AppState.current.navigationLocation.page) {
