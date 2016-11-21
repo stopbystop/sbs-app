@@ -40,8 +40,10 @@ module StopByStop {
 
             Init.initialize(appState);
 
-            var hash = Utils.getHashFromNavigationLocation(appState.navigationLocation);
-            location.hash = hash;
+            if (!location.hash) {
+                var hash = Utils.getHashFromNavigationLocation(appState.navigationLocation);
+                location.hash = hash;
+            }
         }
     }
 }

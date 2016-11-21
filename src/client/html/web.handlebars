@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Yojowa.StopByStop.Web.Models.MainModel
+@{
     Layout = null;
     string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
     string rf = HttpContext.Current.Request.QueryString["rf"];
@@ -10,22 +11,24 @@
     {
         rf = "";
     }
+
+    this.Model.GenerateTitleAndDescription();
 }
 
 <!DOCTYPE html>
 <html class="sbs-web">
 <head>
 
-    <title>@(ViewBag.Title) - Stop by Stop</title>
+    <title>@Model.Title</title>
 
-    <meta name="description" content="@(ViewBag.Description)" />
+    <meta name="description" content="@(Model.Description)" />
     <meta name="robots" content="index,follow" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="msvalidate.01" content="C5252CA292217904D2AE105CDB814ABB" />
     <meta property="og:url" content="@currentUrl" />
-    <meta property="og:title" content="@(ViewBag.Title)" />
-    <meta property="og:description" content="@(ViewBag.Description)" />
+    <meta property="og:title" content="@(Model.Title)" />
+    <meta property="og:description" content="@(Model.Description)" />
     <meta property="og:site_name" content="Stop by Stop" />
     <meta property="og:image" content="https://www.stopbystop.com/client/content/v1/images/main_image2.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -80,9 +83,9 @@
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 
-   
+
     @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
-    
+
     <script type="text/javascript">
         StopByStop.WebInit.initialize(
         @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))

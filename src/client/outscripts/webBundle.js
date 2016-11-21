@@ -2790,8 +2790,10 @@ var StopByStop;
                 historyDisabled: true
             };
             StopByStop.Init.initialize(appState);
-            var hash = StopByStop.Utils.getHashFromNavigationLocation(appState.navigationLocation);
-            location.hash = hash;
+            if (!location.hash) {
+                var hash = StopByStop.Utils.getHashFromNavigationLocation(appState.navigationLocation);
+                location.hash = hash;
+            }
         };
         return WebInit;
     }());

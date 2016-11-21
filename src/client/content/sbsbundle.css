@@ -2249,6 +2249,7 @@ h1 {
 }
 
 .filters-container {
+    cursor:hand;
     position: absolute;
     top: 0;
     height: 36px;
