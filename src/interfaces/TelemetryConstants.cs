@@ -37,6 +37,11 @@
         /// </summary>
         public const string EVENT_YelpPerformRequest = "YelpPerformRequest";
 
+        /// <summary>
+        /// Route cannot be calculated
+        /// </summary>
+        public const string EVENT_RouteCannotBeCalculated = "RouteCannotBeCalculated";
+
 
         /// <summary>
         /// Time to retrive from OSM and process route (if not found in DB)

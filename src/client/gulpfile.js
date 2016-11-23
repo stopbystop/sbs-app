@@ -32,6 +32,9 @@ gulp.task('html:web', function () {
             },
             getImage: function (imageName) {
                 return "@RenderHelper.GetCDNUrl(\"/client/content/v1/images/" + imageName + "\")";
+            },
+            getImageNoCDN: function (imageName) {
+                return "/client/content/v1/images/" + imageName;
             }
         }
     }
@@ -56,6 +59,9 @@ gulp.task('html:cordova', function () {
                 return str.toUpperCase();
             },
             getImage: function (imageName) {
+                return "images/" + imageName;
+            },
+            getImageNoCDN: function (imageName) {
                 return "images/" + imageName;
             }
         }

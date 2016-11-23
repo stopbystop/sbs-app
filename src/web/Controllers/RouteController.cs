@@ -17,15 +17,21 @@
     public class RouteController : Controller
     {
         private static Random random = new System.Random();
-        private static TelemetryClient telemetryClient = new TelemetryClient();
+        protected static TelemetryClient telemetryClient = new TelemetryClient();
 
 
         [Route("route/{id}/exit/{exitId}/{poiTypeString}")]
         public ActionResult PoiGroup(string id, string exitId, string poiTypeString)
         {
             long osmId;
+            RouteJunction routeJunction = null;
             StopByStop.Route route = GetRouteFromRoutePathId(id);
-            RouteJunction routeJunction = GetJunctionFromExitId(exitId, out osmId);
+
+            if (route != null)
+            {
+                routeJunction = GetJunctionFromExitId(exitId, out osmId);
+            }
+
             if (routeJunction == null)
             {
                 if (route != null)
@@ -128,13 +134,18 @@
                (double)random.Next(-12500000, -6600000) / 100000.00);
 
             StopByStop.Route route = GetRouteFromRoutePathId(pathId);
-            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
-            {
-                Page = ClientPage.Route,
-                RouteId = pathId,
-                Route = route
-            });
 
+            if (route != null)
+            {
+                return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+                {
+                    Page = ClientPage.Route,
+                    RouteId = pathId,
+                    Route = route
+                });
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
 

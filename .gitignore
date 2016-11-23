@@ -5,3 +5,6 @@ packages
 node_modules
 .vs
 stylecop.cache
+
+# CSHTML files should be generated
+*cshtml

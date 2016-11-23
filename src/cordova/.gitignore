@@ -1,3 +1,4 @@
 ﻿# .gitignore
 [Pp]latforms/
 *.map
+www/index.html
