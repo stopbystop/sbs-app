@@ -194,6 +194,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="client\content\BreadCrumb.css" />
     <Content Include="client\content\city_images\brooklyn-united-states.jpg" />
     <Content Include="client\content\city_images\chicago-il-united-states.jpg" />

@@ -13,6 +13,8 @@ scripts/Utils.js
 scripts/InitUrls.js
 scripts/AppState.js
 scripts/InitHome.js
+scripts/WebInit.js
+scripts/main.js
 compiledscripts
 node_modules
 content/sbsbundle*
