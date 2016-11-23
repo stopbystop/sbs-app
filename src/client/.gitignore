@@ -16,3 +16,4 @@ scripts/InitHome.js
 compiledscripts
 node_modules
 content/sbsbundle*
+outscripts/*

@@ -1,4 +1,9 @@
 ﻿# .gitignore
 [Pp]latforms/
 *.map
+
+# Generated files
 www/index.html
+www/scripts/appBundle*
+www/scripts/sbsbundle*
+www/css/sbsbundle*
