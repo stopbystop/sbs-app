@@ -2337,18 +2337,28 @@ var StopByStop;
     ;
     var JunctionSPAAppViewModel = (function (_super) {
         __extends(JunctionSPAAppViewModel, _super);
-        function JunctionSPAAppViewModel(route, routeJunctionViewModel, filter, routePlan, poiTypeToShow) {
+        function JunctionSPAAppViewModel(route, routeJunctionViewModel, parentFilter, routePlan, poiTypeToShow) {
             var _this = this;
             if (poiTypeToShow === void 0) { poiTypeToShow = StopByStop.PoiType.General; }
             _super.call(this);
             // TODO: here
             this.routePlan = routePlan;
             this.routeJunction = routeJunctionViewModel;
-            this.filter = new StopByStop.FilterViewModel(filter.routeId, [this.routeJunction.routeJunction], route.fcat, route.tfcat, false);
-            var junctionLocationViewModel = this.routeJunction.junction.location;
-            this._poiLocations = StopByStop.LocationViewModel.getGridLocations({
-                a: junctionLocationViewModel.lat,
-                o: junctionLocationViewModel.lon
+            this.filter = new StopByStop.FilterViewModel(parentFilter.routeId, [this.routeJunction.routeJunction], route.fcat, route.tfcat, false);
+            // propagate distance and restaurant enablement setting from parent route filter
+            this.filter.maxDistanceFromJunction(parentFilter.maxDistanceFromJunction());
+            var mdarr = [
+                [this.filter.maxDistanceFromJunctionIs1, "1"],
+                [this.filter.maxDistanceFromJunctionIs2, "2"],
+                [this.filter.maxDistanceFromJunctionIs3, "3"],
+                [this.filter.maxDistanceFromJunctionIs4, "4"],
+                [this.filter.maxDistanceFromJunctionIs5, "5"]
+            ];
+            for (var i = 0; i < mdarr.length; i++) {
+                mdarr[i][0](mdarr[i][1] === parentFilter.maxDistanceFromJunction());
+            }
+            $.each(this.filter.foodCategoriesEnablement(), function (index, item) {
+                item.visible(parentFilter.foodCategoriesEnablementLookup[item.category.sbsid].visible());
             });
             if (poiTypeToShow === StopByStop.PoiType.Food) {
                 this.filter.showGasStations(false);
@@ -2356,6 +2366,11 @@ var StopByStop;
             else if (poiTypeToShow === StopByStop.PoiType.Gas) {
                 this.filter.showRestaurants(false);
             }
+            var junctionLocationViewModel = this.routeJunction.junction.location;
+            this._poiLocations = StopByStop.LocationViewModel.getGridLocations({
+                a: junctionLocationViewModel.lat,
+                o: junctionLocationViewModel.lon
+            });
             this.loadFullPoiData();
             this.routeJunction.applyFilter(this.filter);
             ko.computed(function () { return ko.toJS(_this.filter); }).subscribe(function () {
@@ -2370,36 +2385,6 @@ var StopByStop;
         return JunctionSPAAppViewModel;
     }(JunctionAppBaseViewModel));
     StopByStop.JunctionSPAAppViewModel = JunctionSPAAppViewModel;
-    var JunctionAppViewModel = (function (_super) {
-        __extends(JunctionAppViewModel, _super);
-        function JunctionAppViewModel(routeJunction, poiTypeToShow, routeId, mapDiv, mapContainerDiv) {
-            var _this = this;
-            _super.call(this);
-            var routeStartTime = new Date();
-            this._routeJunction = routeJunction;
-            this.routePlan = new StopByStop.RoutePlanViewModel(routeId, 0, /* not needed here */ null);
-            this.routePlan.loadStopsFromStorage();
-            this.filter = new StopByStop.FilterViewModel(routeId, [routeJunction], routeJunction.j.fcat, routeJunction.j.tfcat, false);
-            this.filter.showRestaurants(true);
-            this.filter.showGasStations(true);
-            if (poiTypeToShow === StopByStop.PoiType.Food) {
-                this.filter.showGasStations(false);
-            }
-            else if (poiTypeToShow === StopByStop.PoiType.Gas) {
-                this.filter.showRestaurants(false);
-            }
-            this.routeJunction = new StopByStop.RouteJunctionViewModel(this._routeJunction, routeStartTime, this);
-            this.routeJunction.applyFilter(this.filter);
-            ko.computed(function () { return ko.toJS(_this.filter); }).subscribe(function () {
-                _this.routeJunction.applyFilter(_this.filter);
-            });
-            this.junctionMapViewModel = new StopByStop.JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, StopByStop.AppState.current.urls);
-            this._poiLocations = StopByStop.LocationViewModel.getGridLocations(routeJunction.j.l);
-            this.loadFullPoiData();
-        }
-        return JunctionAppViewModel;
-    }(JunctionAppBaseViewModel));
-    StopByStop.JunctionAppViewModel = JunctionAppViewModel;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
@@ -2789,7 +2774,8 @@ var StopByStop;
         })(Application = Cordova.Application || (Cordova.Application = {}));
         var snippet = {
             config: {
-                instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"
+                //instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
+                instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245" //prod instrumentation key
             }
         };
         var init = new Microsoft.ApplicationInsights.Initialization(snippet);
