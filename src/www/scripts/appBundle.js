@@ -2801,7 +2801,8 @@ var StopByStop;
             app: StopByStop.SBSApp.SPA,
             baseDataUrl: "https://www.stopbystop.com/",
             baseImageUrl: "images/",
-            navigationLocation: { page: StopByStop.SBSPage.home }
+            navigationLocation: { page: StopByStop.SBSPage.home },
+            historyDisabled: true
         });
         window.onload = function () {
             Application.initialize();

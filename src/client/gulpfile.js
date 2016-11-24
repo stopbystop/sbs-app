@@ -15,7 +15,7 @@ gulp.task("min", ["concat:js", "concat:css", "min:js", "min:css", "min:html"]);
 gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
-gulp.task("default", ["min", "html:cordova", "html:web"]);
+gulp.task("default", ["min", "html:web", "html:cordova"]);
 
 
 gulp.task('html:web', function () {
@@ -49,7 +49,7 @@ gulp.task('html:web', function () {
 gulp.task('html:cordova', function () {
     var templateData = {
     },
-    options = {
+    cordovaOptions = {
         ignorePartials: true,
         partials: {
         },
@@ -68,16 +68,16 @@ gulp.task('html:cordova', function () {
     }
 
     return gulp.src('html/cordova.handlebars')
-        .pipe(handlebars(templateData, options))
-        .pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))
+        .pipe(handlebars(templateData, cordovaOptions))
+        /*.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))*/
         .pipe(rename('index.html'))
         .pipe(gulp.dest('./../cordova/www'));
 });
 
 
 gulp.task("minWebBundle:js", function () {
-    return gulp.src(["OutScripts/webBundle.js"])
-        .pipe(concat("OutScripts/webBundle.min.js"))
+    return gulp.src(["outscripts/webBundle.js"])
+        .pipe(concat("outscripts/webBundle.min.js"))
         .pipe(uglify())
         .pipe(gulp.dest("."));
 });
