@@ -7,7 +7,7 @@
 
 "use strict";
 module StopByStop {
-    interface ICategoryEnablement {
+    export interface ICategoryEnablement {
         category: PoiCategoryViewModel;
         count: KnockoutObservable<number>;
         visible: KnockoutObservable<boolean>;
@@ -110,11 +110,13 @@ module StopByStop {
 
     export class FilterViewModel {
         private allCategories: { [id: string]: PoiCategoryViewModel } = {};
-        private foodCategoriesEnablementLookup: { [id: string]: ICategoryEnablement } = {}
         private filterCacheManager: FilterCacheManager;
         private routeJunctions: IRouteJunction[];
 
         public routeId: string;
+
+
+        public foodCategoriesEnablementLookup: { [id: string]: ICategoryEnablement } = {};
 
         // this setting is necessary because for Exit page we are not preserving showRestaurants and showGasStations to storage, while for route page we are
         public preserveShowAllSettings: boolean;

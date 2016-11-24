@@ -1,11 +1,11 @@
 {
      "android": {
-         "release": {
-             "keystore": "",
-             "storePassword": "",
-             "alias": "",
-             "password" : "",
-             "keystoreType": ""
-         }
+      "release": {
+        "keystore": "C:\\sbs\\release\\android\\release-key.keystore",
+        "storePassword": "travel",
+        "alias": "alexb",
+        "password": "",
+        "keystoreType": ""
+      }
      }
  }

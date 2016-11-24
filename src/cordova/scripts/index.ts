@@ -42,7 +42,8 @@ module StopByStop.Cordova {
 
     var snippet = {
         config: {
-            instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"
+            instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
+            //instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"//prod instrumentation key
         }
     };
     var init = new (<any>Microsoft.ApplicationInsights).Initialization(snippet);

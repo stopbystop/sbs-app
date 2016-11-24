@@ -48,27 +48,38 @@ module StopByStop {
         constructor(
             route: IRoute,
             routeJunctionViewModel: RouteJunctionViewModel,
-            filter: FilterViewModel,
+            parentFilter: FilterViewModel,
             routePlan: RoutePlanViewModel,
             poiTypeToShow: PoiType = PoiType.General
         ) {
             super();
             // TODO: here
-          
+
             this.routePlan = routePlan;
             this.routeJunction = routeJunctionViewModel;
             this.filter = new FilterViewModel(
-                filter.routeId, 
+                parentFilter.routeId,
                 [this.routeJunction.routeJunction],
                 route.fcat,
                 route.tfcat,
                 false);
-            
-            var junctionLocationViewModel = this.routeJunction.junction.location;
 
-            this._poiLocations = LocationViewModel.getGridLocations({
-                a: junctionLocationViewModel.lat,
-                o: junctionLocationViewModel.lon
+            // propagate distance and restaurant enablement setting from parent route filter
+            this.filter.maxDistanceFromJunction(parentFilter.maxDistanceFromJunction());
+            var mdarr = [
+                [this.filter.maxDistanceFromJunctionIs1, "1"],
+                [this.filter.maxDistanceFromJunctionIs2, "2"],
+                [this.filter.maxDistanceFromJunctionIs3, "3"],
+                [this.filter.maxDistanceFromJunctionIs4, "4"],
+                [this.filter.maxDistanceFromJunctionIs5, "5"]
+            ];
+
+            for (var i = 0; i < mdarr.length; i++) {
+                (<KnockoutObservable<boolean>>mdarr[i][0])(mdarr[i][1] === parentFilter.maxDistanceFromJunction());
+            }
+
+            $.each(this.filter.foodCategoriesEnablement(), (index: number, item: ICategoryEnablement) => {
+                item.visible(parentFilter.foodCategoriesEnablementLookup[item.category.sbsid].visible());
             });
 
             if (poiTypeToShow === PoiType.Food) {
@@ -76,6 +87,13 @@ module StopByStop {
             } else if (poiTypeToShow === PoiType.Gas) {
                 this.filter.showRestaurants(false);
             }
+
+            var junctionLocationViewModel = this.routeJunction.junction.location;
+
+            this._poiLocations = LocationViewModel.getGridLocations({
+                a: junctionLocationViewModel.lat,
+                o: junctionLocationViewModel.lon
+            });
 
             this.loadFullPoiData();
 
@@ -90,52 +108,6 @@ module StopByStop {
         public initMap(mapDiv: Element, mapContainerDiv: Element): JunctionMapViewModel {
             this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
             return this.junctionMapViewModel;
-        }
-    }
-
-    export class JunctionAppViewModel extends JunctionAppBaseViewModel {
-        private _routeJunction: IRouteJunction;
-        
-
-        constructor(
-            routeJunction: IRouteJunction,
-            poiTypeToShow: PoiType,
-            routeId: string,
-            mapDiv: Element,
-            mapContainerDiv: Element) {
-
-            super();
-
-            var routeStartTime = new Date();
-            this._routeJunction = routeJunction;
-
-            this.routePlan = new RoutePlanViewModel(
-                routeId,
-                0, /* not needed here */
-                null);
-
-            this.routePlan.loadStopsFromStorage();
-            this.filter = new FilterViewModel(routeId, [routeJunction], routeJunction.j.fcat, routeJunction.j.tfcat, false);
-
-            this.filter.showRestaurants(true);
-            this.filter.showGasStations(true);
-
-            if (poiTypeToShow === PoiType.Food) {
-                this.filter.showGasStations(false);
-            } else if (poiTypeToShow === PoiType.Gas) {
-                this.filter.showRestaurants(false);
-            }
-
-            this.routeJunction = new RouteJunctionViewModel(this._routeJunction, routeStartTime, this);
-            this.routeJunction.applyFilter(this.filter);
-
-            ko.computed(() => ko.toJS(this.filter)).subscribe(() => {
-                this.routeJunction.applyFilter(this.filter);
-            });
-
-            this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
-            this._poiLocations = LocationViewModel.getGridLocations(routeJunction.j.l);
-            this.loadFullPoiData();
         }
     }
 }
