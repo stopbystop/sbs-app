@@ -2,6 +2,7 @@
 {
     using Microsoft.ApplicationInsights;
     using Newtonsoft.Json;
+    using Service;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -182,13 +183,13 @@
 
         private static StopByStop.Route GetRouteFromRoutePathId(string routePathId)
         {
-            var fromAndTo = StopByStopService.Instance.GetRouteLocationsFromRoutePathId(routePathId);
-            if (fromAndTo[0] != Location.Unknown && fromAndTo[1] != Location.Unknown)
+            Location fromLocation, toLocation;
+            if (RouteUtils.GetRouteLocationsFromRoutePathId(routePathId, out fromLocation, out toLocation))
             {
-                var route = StopByStopService.Instance.GetRoute(
+                var route = StopByStopService.RouteServiceInstance.GetRoute(
                             routePathId,
-                            fromAndTo[0],
-                            fromAndTo[1],
+                            fromLocation,
+                            toLocation,
                             new RouteOptions()
                             {
                                 ExcludeJunctionsWithoutExitInfo = false,
@@ -206,7 +207,7 @@
             osmId = 0;
             if (long.TryParse(Regex.Match(exitId, "osm-(?<id>[0-9]+)").Groups["id"].Value, out osmId))
             {
-                var junction = StopByStopService.Instance.GetJunctionFromOSMID(osmId, true);
+                var junction = StopByStopService.RouteServiceInstance.GetJunctionFromOSMID(osmId, true);
                 routeJunction = new RouteJunction()
                 {
                     Junction = junction

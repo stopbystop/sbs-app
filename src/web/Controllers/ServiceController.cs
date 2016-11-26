@@ -1,60 +1,35 @@
 ﻿namespace Yojowa.StopByStop.Web.Controllers
 {
     using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
+    using Service;
     using System.Web.Mvc;
+    using System;
 
     [NoCache]
-    public class ServiceController : Controller, IStopByStopService
+    public class ServiceController : Controller, IRouteService, IPlacesService
     {
-        #region FindPlacesByName
-        [HttpGet]
-        public JsonResult FindPlacesByName(string name, bool useCache)
-        {
-            return Json(((IStopByStopService)this).FindPlacesByName(name, useCache), JsonRequestBehavior.AllowGet);
-        }
-
-        GeoPlace[] IStopByStopService.FindPlacesByName(string name, bool useCache)
-        {
-            return StopByStopService.Instance.FindPlacesByName(name, useCache);
-        }
-        #endregion
-
+        #region IRouteService
         #region GetJunctionFromOSMID
         [HttpGet]
         public JsonResult GetJunctionFromOSMID(long osmId, bool populatePOICategories)
         {
-            return Json(((IStopByStopService)this).GetJunctionFromOSMID(osmId, populatePOICategories), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetJunctionFromOSMID(osmId, populatePOICategories), JsonRequestBehavior.AllowGet);
         }
-        Junction IStopByStopService.GetJunctionFromOSMID(long osmId, bool populatePOICategories)
+        Junction IRouteService.GetJunctionFromOSMID(long osmId, bool populatePOICategories)
         {
-            return StopByStopService.Instance.GetJunctionFromOSMID(osmId, populatePOICategories);
+            return StopByStopService.RouteServiceInstance.GetJunctionFromOSMID(osmId, populatePOICategories);
         }
         #endregion
 
         #region GetLastRoutes
         public JsonResult GetLastRoutes()
         {
-            return Json(((IStopByStopService)this).GetLastRoutes(), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetLastRoutes(), JsonRequestBehavior.AllowGet);
         }
 
-        Route[] IStopByStopService.GetLastRoutes()
+        Route[] IRouteService.GetLastRoutes()
         {
-            return StopByStopService.Instance.GetLastRoutes();
-        }
-        #endregion
-
-        #region GetLocationFromPlaceID
-        public JsonResult GetLocationFromPlaceID(string placeId)
-        {
-            return Json(((IStopByStopService)this).GetLocationFromPlaceID(placeId), JsonRequestBehavior.AllowGet);
-        }
-        Location IStopByStopService.GetLocationFromPlaceID(string placeId)
-        {
-            return StopByStopService.Instance.GetLocationFromPlaceID(placeId);
+            return StopByStopService.RouteServiceInstance.GetLastRoutes();
         }
         #endregion
 
@@ -62,23 +37,23 @@
         public JsonResult GetPois(string poiAreaString)
         {
             Location poiArea = JsonConvert.DeserializeObject<Location>(poiAreaString);
-            return Json(((IStopByStopService)this).GetPois(poiArea), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetPois(poiArea), JsonRequestBehavior.AllowGet);
         }
 
-        PoisWithAreaDiagnostics IStopByStopService.GetPois(Location poiArea)
+        PoisWithAreaDiagnostics IRouteService.GetPois(Location poiArea)
         {
-            return StopByStopService.Instance.GetPois(poiArea);
+            return StopByStopService.RouteServiceInstance.GetPois(poiArea);
         }
         #endregion
 
         #region GetReviews
-        Review[] IStopByStopService.GetReviews(string SBSID)
+        Review[] IRouteService.GetReviews(string SBSID)
         {
-            return StopByStopService.Instance.GetReviews(SBSID);
+            return StopByStopService.RouteServiceInstance.GetReviews(SBSID);
         }
         public JsonResult GetReviews(string SBSID)
         {
-            return Json(((IStopByStopService)this).GetReviews(SBSID), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetReviews(SBSID), JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -89,22 +64,11 @@
             Location end = JsonConvert.DeserializeObject<Location>(endString);
             RouteOptions routeOptions = JsonConvert.DeserializeObject<RouteOptions>(routeOptionsString);
 
-            return Json(((IStopByStopService)this).GetRoute(routeId, start, end, routeOptions), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetRoute(routeId, start, end, routeOptions), JsonRequestBehavior.AllowGet);
         }
-        Route IStopByStopService.GetRoute(string routeId, Location start, Location end, RouteOptions routeOptions)
+        Route IRouteService.GetRoute(string routeId, Location start, Location end, RouteOptions routeOptions)
         {
-            return StopByStopService.Instance.GetRoute(routeId, start, end, routeOptions);
-        }
-        #endregion
-
-        #region GetRouteLocationsFromRoutePathId
-        public JsonResult GetRouteLocationsFromRoutePathId(string pathId)
-        {
-            return Json(((IStopByStopService)this).GetRouteLocationsFromRoutePathId(pathId), JsonRequestBehavior.AllowGet);
-        }
-        Location[] IStopByStopService.GetRouteLocationsFromRoutePathId(string pathId)
-        {
-            return StopByStopService.Instance.GetRouteLocationsFromRoutePathId(pathId);
+            return StopByStopService.RouteServiceInstance.GetRoute(routeId, start, end, routeOptions);
         }
         #endregion
 
@@ -112,12 +76,12 @@
         public JsonResult SubmitReview(string SBSID, string reviewString)
         {
             Review review = JsonConvert.DeserializeObject<Review>(reviewString);
-            ((IStopByStopService)this).SubmitReview(SBSID, review);
+            ((IRouteService)this).SubmitReview(SBSID, review);
             return Json("");
         }
-        void IStopByStopService.SubmitReview(string SBSID, Review review)
+        void IRouteService.SubmitReview(string SBSID, Review review)
         {
-            StopByStopService.Instance.SubmitReview(SBSID, review);
+            StopByStopService.RouteServiceInstance.SubmitReview(SBSID, review);
         }
         #endregion
 
@@ -125,12 +89,67 @@
         public JsonResult UpdateRouteProgress(string routeId, string currentLocationString)
         {
             Location currentLocation = JsonConvert.DeserializeObject<Location>(currentLocationString);
-            return Json(((IStopByStopService)this).UpdateRouteProgress(routeId, currentLocation), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).UpdateRouteProgress(routeId, currentLocation), JsonRequestBehavior.AllowGet);
         }
-        Route IStopByStopService.UpdateRouteProgress(string routeId, Location currentLocation)
+
+
+        Route IRouteService.UpdateRouteProgress(string routeId, Location currentLocation)
         {
-            return StopByStopService.Instance.UpdateRouteProgress(routeId, currentLocation);
+            return StopByStopService.RouteServiceInstance.UpdateRouteProgress(routeId, currentLocation);
         }
+
+        #endregion
+        #endregion
+
+        #region IPlacesService
+        #region GetPlaceById
+        public JsonResult GetPlaceById(string placeId)
+        {
+            return Json(((IPlacesService)this).GetPlaceById(placeId), JsonRequestBehavior.AllowGet);
+        }
+        GeoPlace IPlacesService.GetPlaceById(string placeId)
+        {
+            return StopByStopService.PlacesServiceInstance.GetPlaceById(placeId);
+        }
+        #endregion
+
+        #region FindPlacesByPartialMatch
+        public JsonResult FindPlacesByPartialMatch(string name, int maxItems)
+        {
+            return Json(((IPlacesService)this).FindPlacesByPartialMatch(name, maxItems), JsonRequestBehavior.AllowGet);
+        }
+
+        GeoPlace[] IPlacesService.FindPlacesByPartialMatch(string name, int maxItems)
+        {
+            return StopByStopService.PlacesServiceInstance.FindPlacesByPartialMatch(name, maxItems);
+        }
+        #endregion
+
+        #region FindPlacesInArea
+        public JsonResult FindPlacesInArea(string locationString, int maxItems)
+        {
+            Location location = JsonConvert.DeserializeObject<Location>(locationString);
+            return Json(((IPlacesService)this).FindPlacesInArea(location, maxItems), JsonRequestBehavior.AllowGet);
+        }
+
+        GeoPlace[] IPlacesService.FindPlacesInArea(Location center, int maxItems)
+        {
+            return StopByStopService.PlacesServiceInstance.FindPlacesInArea(center, maxItems);
+        }
+        #endregion
+
+        #region GetLocationFromPlaceId
+        public JsonResult GetLocationFromPlaceId(string placeId)
+        {
+            return Json(((IPlacesService)this).GetLocationFromPlaceId(placeId), JsonRequestBehavior.AllowGet);
+        }
+
+        Location IPlacesService.GetLocationFromPlaceId(string placeId)
+        {
+            return StopByStopService.PlacesServiceInstance.GetLocationFromPlaceId(placeId);
+        }
+        #endregion
+
         #endregion
     }
 }

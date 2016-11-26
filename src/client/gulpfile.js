@@ -15,7 +15,7 @@ gulp.task("min", ["concat:js", "concat:css", "min:js", "min:css", "min:html"]);
 gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
-gulp.task("default", ["min", "html:web", "html:cordova"]);
+gulp.task("default", ["min", "html:web"]);
 
 
 gulp.task('html:web', function () {
@@ -34,7 +34,7 @@ gulp.task('html:web', function () {
                 return "@RenderHelper.GetCDNUrl(\"/client/content/v1/images/" + imageName + "\")";
             },
             getImageNoCDN: function (imageName) {
-                return "/client/content/v1/images/" + imageName;
+                return "@Url.Content(\"~/client/content/v1/images/" + imageName + "\")";
             }
         }
     }

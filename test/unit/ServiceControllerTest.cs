@@ -10,6 +10,8 @@ namespace Yojowa.StopByStop.UnitTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Newtonsoft.Json;
     using Web;
+    using Web.Service;
+    using Web.Service.Proxy;
 
     /// <summary>
     /// Service controller test
@@ -48,7 +50,7 @@ namespace Yojowa.StopByStop.UnitTests
         [TestMethod]
         public void VerifyGetObjectFromRemoteServer()
         {
-            StopByStopService.StopByStopServiceProxy proxy = new StopByStopService.StopByStopServiceProxy(LocalServiceUrl);
+            RouteServiceProxy proxy = new RouteServiceProxy(LocalServiceUrl);
             Route routeActual = proxy.GetRoute("seattle-wa-united-states-to-tacoma-wa-united-states", LOCATIONSeattle, LOCATIONTacoma, new RouteOptions() { ExcludeJunctionsWithoutExitInfo = false });
             Route routeExpected = GetRouteFromServiceController(LOCATIONSeattle, LOCATIONTacoma);
 

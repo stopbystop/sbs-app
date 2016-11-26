@@ -1,5 +1,6 @@
 ﻿namespace Yojowa.StopByStop.Web.Controllers
 {
+    using Service;
     using System;
     using System.Web.Mvc;
     using Yojowa.StopByStop.Utils;
@@ -17,7 +18,7 @@
                 throw new ArgumentException("InvalidLocation");
             }
 
-            var poisWithDiagnostics = StopByStopService.Instance.GetPois(location);
+            var poisWithDiagnostics = StopByStopService.RouteServiceInstance.GetPois(location);
             return Json(poisWithDiagnostics.Pois, JsonRequestBehavior.AllowGet);
         
         }

@@ -820,7 +820,7 @@ ui-btn.poi-table-cell-link {
 /* Homepage */
 .main_title {
     color: #ffffff;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: 700;
     text-align: center;
     text-transform: uppercase;
@@ -829,7 +829,7 @@ ui-btn.poi-table-cell-link {
     /*padding-top: 70px;*/
 }
 
-@media (min-width: 90em) {
+@media (min-width: 60em) {
     .main_title {
         font-size: 5em;
         padding-top: 0px;
@@ -838,7 +838,6 @@ ui-btn.poi-table-cell-link {
 
 .sub_title {
     color: #73C5E1;
-    font-size: 33px !important;
     margin: 0 auto;
     padding-left: 5%;
     padding-right: 5%;
@@ -867,7 +866,7 @@ ui-btn.poi-table-cell-link {
 
 @media (min-width: 60em) {
     .sub_title {
-        font-size: 44px !important;
+        font-size: 3em !important;
         width: 70%;
         padding-left: 15%;
         padding-right: 15%;
@@ -886,7 +885,7 @@ ui-btn.poi-table-cell-link {
 
 .form_title {
     color: #606060;
-    font-size: 40px;
+    font-size: 1.5em;
     font-weight: 700;
     margin-top: 0;
     text-align: center;
@@ -1787,11 +1786,11 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     text-align: center;
 }
 
-.route-loading{
+.route-loading {
     height: 100%;
     margin: 45% auto;
     width: 60%;
-    text-align:center;
+    text-align: center;
 }
 
 .route-description-metric {
@@ -2144,7 +2143,7 @@ h1 {
 }
 
 .filters-container {
-    cursor:pointer;
+    cursor: pointer;
     position: absolute;
     top: 0;
     height: 36px;
@@ -2223,82 +2222,66 @@ h1 {
     position: absolute;
 }
 
-.letsgo-container .letsgo-button {
-    width: 55%;
-    margin: 0 auto;
-    display: block;
-    background-color: #5bb12f !important;
-    color: #fff;
-    font-size: 2.59em;
-    text-transform: uppercase;
-    padding: 0px;
-    border-radius: 0;
-    font-weight: 300;
-}
-    
-.imageholder { 
+    .letsgo-container .letsgo-button {
+        width: 55%;
+        margin: 0 auto;
+        display: block;
+        background-color: #5bb12f !important;
+        color: #fff;
+        font-size: 2.59em;
+        text-transform: uppercase;
+        padding: 0px;
+        border-radius: 0;
+        font-weight: 300;
+    }
+
+.imageholder {
     background-color: #73C5E1;
-    background-size:200px;
+    background-size: 200px;
     display: inline-block;
     overflow: hidden;
     width: 160px;
     height: 90px;
     position: relative;
-    border: 3px solid #000000;
-    margin: 25px 25px 25px 25px;
+    border: 1px solid rgb(204, 204, 204);
+    margin: 25px;
+    font-size: 2em;
 }
-    
-.childdiv  {
+
+.childdiv {
     height: 45px;
     width: 160px;
     background-color: rgba(51,51,51,0.5);
- 
+    color: #fff;
     position: absolute;
     bottom: 0;
     left: 0;
     z-index: 2;
-    font-weight: bold;
+    font-weight: 300;
     text-align: center;
     text-transform: uppercase;
-}  
+}
 
 @media only screen and (max-device-width: 480px) {
-
-    .imageholder { 
-        display: inline-block;
-        background-color: #73C5E1;
-        background-size:100px;
-        overflow: hidden;
+    .imageholder {
+        background-size: 100px;
         width: 98px;
         height: 55px;
-        position: relative;
-        border: 3px solid #000000;
-        margin: 5px 5px 5px 5px;
-        font-size: 10px;
+        margin: 5px;
+        font-size: 1em;
     }
-        
-    .childdiv  {
+
+    .childdiv {
         height: 28px;
         width: 98px;
-        background-color: rgba(51,51,51,0.5);
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        z-index: 2;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
-    }  
+    }
 }
 
 
-@media only screen
-and (min-device-width : 481px)
-and (max-device-width : 767px)
-{   
-    .imageholder { 
+@media only screen and (min-device-width : 481px) and (max-device-width : 767px) {
+    .imageholder {
         background-color: #73C5E1;
-        background-size:150px;
+        background-size: 150px;
         display: inline-block;
         overflow: hidden;
         width: 128px;
@@ -2308,8 +2291,8 @@ and (max-device-width : 767px)
         margin: 10px 10px 10px 10px;
         font-size: 13px;
     }
-        
-    .childdiv  {
+
+    .childdiv {
         height: 36px;
         width: 128px;
         background-color: rgba(51,51,51,0.5);
@@ -2320,12 +2303,10 @@ and (max-device-width : 767px)
         font-weight: bold;
         text-align: center;
         text-transform: uppercase;
-    }  
+    }
 }
 
 
-#Images{
+#Images {
     text-align: center;
 }
-   
- 

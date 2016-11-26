@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4AA28541-181E-4725-8B7C-2881D4DD267E}</ProjectGuid>
+    <ProjectGuid>{69F312CF-1A2D-4B82-B6D5-4F59FC139A44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yojowa.StopByStop.UnitTests</RootNamespace>
@@ -70,7 +70,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="LocationTests.cs" />
-    <Compile Include="PlacesTest.cs" />
+    <Compile Include="TrieTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceControllerTest.cs" />
   </ItemGroup>
@@ -83,10 +83,6 @@
     <ProjectReference Include="..\..\src\interfaces\Yojowa.StopByStop.Interfaces.csproj">
       <Project>{a7df5262-9fe9-4191-bb94-9e7b36db0563}</Project>
       <Name>Yojowa.StopByStop.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\places\Yojowa.StopByStop.Places\Yojowa.StopByStop.Places.csproj">
-      <Project>{ccef4c42-6fb0-492c-8628-43c7163a6e82}</Project>
-      <Name>Yojowa.StopByStop.Places</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\utils\Yojowa.StopByStop.Utils.csproj">
       <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>

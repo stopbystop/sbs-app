@@ -81,13 +81,6 @@
         /// <param name="route"></param>
         void SaveRoute(string routeId, StopByStop.Route route);
 
-        /// <summary>
-        /// Gets location from place id
-        /// </summary>
-        /// <param name="placeId">Place id</param>
-        /// <returns>Location object</returns>
-        Location GetLocationFromPlaceId(string placeId);
-
 
         Junction[] GetJunctionsWithinBounds(decimal south, decimal west, decimal north, decimal east);
 
@@ -101,9 +94,18 @@
     public interface IPlacesService
     {
         /// <summary>
-        /// Gets location from place id
+        /// Gets place from place id
         /// </summary>
         /// <param name="placeId">Place id</param>
+        /// <returns>
+        /// Place object
+        /// </returns>
+        GeoPlace GetPlaceById(string placeId);
+
+        /// <summary>
+        /// Gets the location from place id.
+        /// </summary>
+        /// <param name="placeId">The place id.</param>
         /// <returns>Location object</returns>
         Location GetLocationFromPlaceId(string placeId);
 
@@ -121,13 +123,12 @@
         /// Gets places around specified center location
         /// </summary>
         /// <param name="center">Center location</param>
-        /// <param name="radiusInMiles">Max radius around the center location to search</param>
-        /// <param name="maxItems">Max number of items to return (starting from the closest to the center</param>
-        /// <returns></returns>
-        GeoPlace[] FindPlacesInArea(Location center, double radiusInMiles);
+        /// <param name="maxItems">Max number of items to return</param>
+        /// <returns>Items in area, sorted by population in reverse order (starting from most populous)</returns>
+        GeoPlace[] FindPlacesInArea(Location center, int maxItems);
     }
 
-    public interface IStopByStopService
+    public interface IRouteService
     {
 
         /// <summary>
@@ -146,13 +147,6 @@
         /// <param name="route">Route object</param>
         /// <param name="currentLocation">Current user location</param>
         Route UpdateRouteProgress(string routeId, Location currentLocation);
-
-        /// <summary>
-        /// Gets places by name
-        /// </summary>
-        /// <param name="name">Name typed by user</param>
-        /// <returns>List of places to display in the dropdown</returns>
-        GeoPlace[] FindPlacesByName(string name, bool useCache);
 
         /// <summary>
         /// Submit user feedback. Feedback can be submitted for PoiOnJunction object and for Poi object - SBS id is present for both
@@ -176,13 +170,6 @@
         Route[] GetLastRoutes();
 
         /// <summary>
-        /// Gets location from place id
-        /// </summary>
-        /// <param name="placeId"></param>
-        /// <returns></returns>
-        Location GetLocationFromPlaceID(string placeId);
-
-        /// <summary>
         /// Gets junction from OSM id
         /// </summary>
         /// <param name="osmId"></param>
@@ -195,13 +182,6 @@
         /// <param name="poiArea">POI area</param>
         /// <returns></returns>
         PoisWithAreaDiagnostics GetPois(Location poiArea);
-
-        /// <summary>
-        /// Gets route locations from path ID
-        /// </summary>
-        /// <param name="pathId">Path ID</param>
-        /// <returns>Array consisting of 2 location elements</returns>
-        Location[] GetRouteLocationsFromRoutePathId(string pathId);
     }
 
 
@@ -259,24 +239,20 @@
         {
         }
 
-        public Location(double lat, double lon, string place = null, string placeDescription = null)
+        public Location(double lat, double lon, string placeDescription = null)
         {
             this.Lat = lat;
             this.Lon = lon;
-            this.Place = place;
             this.PlaceDescription = placeDescription;
         }
 
-        public static readonly Location Unknown = new Location() { IsCustom = true, Place = string.Empty, PlaceDescription = string.Empty };
+        public static readonly Location Unknown = new Location() { IsCustom = true, PlaceDescription = string.Empty };
 
         [JsonProperty("a")]
         public double Lat { get; set; }
 
         [JsonProperty("o")]
         public double Lon { get; set; }
-
-        [JsonIgnore]
-        public string Place { get; set; }
 
         [JsonProperty("pd")]
         public string PlaceDescription { get; set; }

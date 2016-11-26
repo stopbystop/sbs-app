@@ -18,10 +18,6 @@ module StopByStop {
         If an image is not available, it is shown as a blank div
         */
         public static addImagesDynamically(prevPlace,currentLocationString) {
-
-            // temporary, as server-side functionality is not ready yet
-            
-            /*
             if (StopByStop.AppState.current.app !== StopByStop.SBSApp.Web) {
                 var prevPlace = $('#Images').data('prevPlace');                
                 var place = $('#from').data('place');
@@ -82,7 +78,6 @@ module StopByStop {
                     }
                 });
             }
-            */
         }
         
         public static moveImageInBackground(){
@@ -111,7 +106,7 @@ module StopByStop {
             var innerDiv = document.createElement("div");
             innerDiv.id = 'appendedInnerdiv' + divIndex;
             innerDiv.className = "childdiv";
-            innerDiv.innerHTML = data.n;
+            innerDiv.innerHTML = data.sn;
             imageDiv.appendChild(innerDiv);
             innerDiv.onclick = function () {
                 $("#to").val($(this).parent('div').data('place').n);
