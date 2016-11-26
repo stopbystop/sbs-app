@@ -12,7 +12,7 @@
     background-image: url('../images/main_image_mobile2.jpg');
 }
 
-@media (min-width: 90em) {
+@media (min-width: 35em) {
     .sbs-web .ui-overlay-a, 
     .sbs-web .ui-page-theme-a, 
     .sbs-web .ui-page-theme-a .ui-panel-wrapper {

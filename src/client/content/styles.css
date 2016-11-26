@@ -40,7 +40,7 @@ input {
     .main_inner {
         margin: 0 auto;
         position: relative;
-        width: 1140px;
+        width: 100%;
     }
 }
 
@@ -831,7 +831,7 @@ ui-btn.poi-table-cell-link {
 
 @media (min-width: 60em) {
     .main_title {
-        font-size: 5em;
+        font-size: 4em;
         padding-top: 0px;
     }
 }
@@ -849,6 +849,7 @@ ui-btn.poi-table-cell-link {
     display: inherit;
     font-weight: inherit;
     line-height: 1em;
+    background-color: rgba(51, 51, 51, 0.50);
 }
 
 .description_title {
@@ -885,7 +886,8 @@ ui-btn.poi-table-cell-link {
 
 .form_title {
     color: #606060;
-    font-size: 1.5em;
+    font-size: 2em;
+    line-height: 0.8em;
     font-weight: 700;
     margin-top: 0;
     text-align: center;
@@ -1104,6 +1106,11 @@ ui-btn.poi-table-cell-link {
         color: #fff;
     }
 
+#home_content {
+    max-width: 80em;
+    margin: 0 auto;
+}
+
 @media (min-width: 60em) {
     .jqm-demos .jqm-header h2 {
         margin: 0;
@@ -1184,16 +1191,12 @@ ui-btn.poi-table-cell-link {
         width: 100%;
     }
 
-    #home_content {
-        padding-top: 14em;
-    }
-
-    .jqm-demos .jqm-content.jqm-fullwidth {
-        width: auto;
-        padding-left: 15%;
-        padding-right: 15%;
-        float: none;
-    }
+        .jqm-demos .jqm-content.jqm-fullwidth {
+            width: auto;
+            padding-left: 15%;
+            padding-right: 15%;
+            float: none;
+        }
 
     .jqm-navmenu-panel .ui-listview .ui-btn {
         padding-left: 12.5%;
@@ -1231,63 +1234,63 @@ ui-btn.poi-table-cell-link {
         z-index: 1003; /* Puts the panel on top of the dismiss modal which is not adjusted to custom width */
     }
 
-    @media (min-width: 60em) {
-        .jqm-demos .jqm-navmenu-panel {
-            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-            box-shadow: none;
-            clip: initial;
-            float: right;
-            left: 0;
-            position: relative;
-            transform: none !important;
-            transition: none 0s ease 0s !important;
-            visibility: visible;
-            width: 45%;
-        }
 
-            .jqm-demos .jqm-navmenu-panel .ui-panel-inner {
-                margin-bottom: 0;
-                margin-top: 0;
-            }
-
-        .ui-panel-inner {
-            padding: 1em;
-            text-align: right;
-            text-transform: uppercase;
-        }
-
-        .ui-listview > li {
-            display: inline;
-            overflow: visible;
-            position: relative;
-        }
-
-        .jqm-demos .jqm-header .ui-btn {
-            border: 0 none;
-            border-radius: 0.3125em;
-            height: auto;
-            margin-top: 2.5em;
-            opacity: 1;
-            top: 50%;
-            width: auto;
-        }
-
-        .main_inner .ui-btn.jqm-navmenu-link {
-            width: 2em;
-            height: 2em;
-            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-        }
-
-        .navbar-brand.ui-btn {
-            color: #ffffff !important;
-            font-size: 18px;
-        }
-
-        .jqm-navmenu-panel .ui-btn::after {
-            display: none;
-            opacity: 0.4;
-        }
+    .jqm-demos .jqm-navmenu-panel {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        box-shadow: none;
+        clip: initial;
+        float: right;
+        left: 0;
+        position: relative;
+        transform: none !important;
+        transition: none 0s ease 0s !important;
+        visibility: visible;
+        width: 45%;
     }
+
+        .jqm-demos .jqm-navmenu-panel .ui-panel-inner {
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+    .ui-panel-inner {
+        padding: 1em;
+        text-align: right;
+        text-transform: uppercase;
+    }
+
+    .ui-listview > li {
+        display: inline;
+        overflow: visible;
+        position: relative;
+    }
+
+    .jqm-demos .jqm-header .ui-btn {
+        border: 0 none;
+        border-radius: 0.3125em;
+        height: auto;
+        margin-top: 2.5em;
+        opacity: 1;
+        top: 50%;
+        width: auto;
+    }
+
+    .main_inner .ui-btn.jqm-navmenu-link {
+        width: 2em;
+        height: 2em;
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    }
+
+    .navbar-brand.ui-btn {
+        color: #ffffff !important;
+        font-size: 18px;
+    }
+
+    .jqm-navmenu-panel .ui-btn::after {
+        display: none;
+        opacity: 0.4;
+    }
+
 
     .jqm-search-panel.ui-panel-animate.ui-panel-position-right {
         -webkit-transform: translate3d(26em,0,0);
@@ -1304,6 +1307,10 @@ ui-btn.poi-table-cell-link {
 @media (min-width: 35em) {
     .jqm-block-content {
         min-height: 18em;
+    }
+
+    #home_content {
+        padding-top: 5em;
     }
 }
 
@@ -2244,8 +2251,8 @@ h1 {
     height: 90px;
     position: relative;
     border: 1px solid rgb(204, 204, 204);
-    margin: 25px;
-    font-size: 2em;
+    margin: 10px;
+    font-size: 1.5em;
 }
 
 .childdiv {
@@ -2280,29 +2287,16 @@ h1 {
 
 @media only screen and (min-device-width : 481px) and (max-device-width : 767px) {
     .imageholder {
-        background-color: #73C5E1;
         background-size: 150px;
-        display: inline-block;
-        overflow: hidden;
         width: 128px;
         height: 72px;
-        position: relative;
-        border: 3px solid #000000;
         margin: 10px 10px 10px 10px;
-        font-size: 13px;
+        font-size: 1em;
     }
 
     .childdiv {
         height: 36px;
         width: 128px;
-        background-color: rgba(51,51,51,0.5);
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        z-index: 2;
-        font-weight: bold;
-        text-align: center;
-        text-transform: uppercase;
     }
 }
 

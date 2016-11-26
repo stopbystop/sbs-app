@@ -481,8 +481,6 @@ var StopByStop;
         If an image is not available, it is shown as a blank div
         */
         InitHome.addImagesDynamically = function (prevPlace, currentLocationString) {
-            // temporary, as server-side functionality is not ready yet
-            /*
             if (StopByStop.AppState.current.app !== StopByStop.SBSApp.Web) {
                 var prevPlace = $('#Images').data('prevPlace');
                 var place = $('#from').data('place');
@@ -494,18 +492,18 @@ var StopByStop;
                     return true;
                 }
                 // Continue with the processing if the previous place doesnt match with the current returned place
-                $('#Images').data('prevPlace',place);
+                $('#Images').data('prevPlace', place);
                 //Remove any div contents from the previous population before adding new divs
                 $("#Images").empty();
                 var placesNearbyUrl = "";
-                //If the place returned is the current location, the processing should be different,
+                //If the place returned is the current location, the processing should be different, 
                 //should be picked up from place.i
                 if (place.n === currentLocationString) {
                     var modifiedCurrentLocation = place.i.replace(",", "/");
-                    placesNearbyUrl = AppState.current.urls.PlacesNearbyUrl + modifiedCurrentLocation;
+                    placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrl + modifiedCurrentLocation;
                 }
                 else {
-                    placesNearbyUrl = AppState.current.urls.PlacesNearbyUrl + place.l.a + '/' + place.l.o;
+                    placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrl + place.l.a + '/' + place.l.o;
                 }
                 $.ajax({
                     url: placesNearbyUrl,
@@ -526,24 +524,18 @@ var StopByStop;
                             $(myDivs[divIndex]).data('place', result[divIndex]);
                             $("#Images").append(myDivs[divIndex]);
                             $(myDivs[divIndex]).on('click', function () {
-
                                 $("#to").val($(this).data('place').n);
                                 var placeData = { n: $(this).data('place').n, i: $(this).data('place').i };
                                 $("#to").data('place', placeData);
                                 $("#view_trip").removeClass("ui-disabled");
-
                             });
-                            
-                            var imgurl=StopByStop.AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
-                            $('#appendedImagediv' + divIndex).css('background-image','url(' + imgurl + ')');
-                            
+                            var imgurl = StopByStop.AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
+                            $('#appendedImagediv' + divIndex).css('background-image', 'url(' + imgurl + ')');
                         }
-                        
                         InitHome.moveImageInBackground();
                     }
                 });
             }
-            */
         };
         InitHome.moveImageInBackground = function () {
             InitHome.yIncrement = InitHome.yIncrement + 1;
@@ -568,7 +560,7 @@ var StopByStop;
             var innerDiv = document.createElement("div");
             innerDiv.id = 'appendedInnerdiv' + divIndex;
             innerDiv.className = "childdiv";
-            innerDiv.innerHTML = data.n;
+            innerDiv.innerHTML = data.sn;
             imageDiv.appendChild(innerDiv);
             innerDiv.onclick = function () {
                 $("#to").val($(this).parent('div').data('place').n);
