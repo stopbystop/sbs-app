@@ -120,6 +120,9 @@
   <ItemGroup>
     <Compile Include="Dummy.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="content\v1\fonts\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>
@@ -160,7 +163,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Target Name="AfterBuild" Condition="'$(SkipClientAfterBuild)' != true">
     <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.0.6\tools\tsc.exe" />
-    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js default" />
+    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-cordova" />
+    <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-web" />
     <Exec Command="..\copybundles.cmd" />
   </Target>
 </Project>
