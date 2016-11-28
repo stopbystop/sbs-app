@@ -40,13 +40,13 @@ The project has two UI modes: MVC (classic navigation model) and SPA (single pag
 ## Building and running
 You can build Typescript files with npm and you can also build the whole solution with Visual Studio 2015.
 
-### Building Typescript files with npm and running with http-server
+### Building SPA app with npm
 To build run the following from repo root:
 * `npm install`
-* `npm run build`
-* If you made changes to CSS and images you need to run this to copy bundled CSS to destination: `copybundles.cmd` from root
+* `npm run build-cordova`
+* If you made changes to CSS and images you need to run this to copy bundled CSS to destination: `src\copybundles.cmd` from root
 
-### Running SPA version of the app
+### Running SPA app locally
 To run you can use http-server. It is already installed into dev dependencies after you run `npm install`:
 * Run `http-server -S`  from repo root
 * Navigate to https://localhost:8080/src/cordova/www/
