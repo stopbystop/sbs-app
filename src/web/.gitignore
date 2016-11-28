@@ -1,3 +1,4 @@
 ﻿client/Views/*cshtml
 client/**/*.css
 client/**/*.js
+client/content/fonts/**/*

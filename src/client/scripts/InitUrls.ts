@@ -2,7 +2,7 @@
 
 module StopByStop {
     export class InitUrls implements IInitUrls {
-        constructor(baseUrl: string, baseImageUrl:string) {
+        constructor(baseUrl: string, baseImageUrl: string) {
             if (typeof baseUrl !== "string") {
                 baseUrl = "/";
             } else if (!/\/$/.test(baseUrl)) {
@@ -17,8 +17,8 @@ module StopByStop {
             this.PlacesUrl = baseUrl + "place/";
             this.RouteDataUrl = baseUrl + "routedata/";
             this.PoiUrl = baseUrl + "poi/";
-            this.PlacesNearbyUrl = baseUrl + "placesnearby/";            
-            this.CityImagesUrl = baseUrl + "client/content/city_images/";            
+            this.PlacesNearbyUrl = baseUrl + "placesnearby/";
+            this.CityImagesUrl = "https://az804061.vo.msecnd.net/client/content/city_images/";
         }
 
         public BaseUrl: string;

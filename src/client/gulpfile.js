@@ -15,7 +15,7 @@ gulp.task("min", ["concat:js", "concat:css", "min:js", "min:css", "min:html"]);
 gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
-gulp.task("default", ["min", "html:web"]);
+gulp.task("default", ["min", "html:cordova"]);
 
 
 gulp.task('html:web', function () {

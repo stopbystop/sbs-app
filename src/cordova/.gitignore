@@ -7,5 +7,6 @@ www/index.html
 www/scripts/appBundle*
 www/scripts/sbsbundle*
 www/css/sbsbundle*
+www/fonts/**/*
 build.json
 res/native/android/ant.properties
