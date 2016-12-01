@@ -2253,6 +2253,7 @@ h1 {
     border: 1px solid rgb(204, 204, 204);
     margin: 10px;
     font-size: 1.5em;
+    cursor:pointer;
 }
 
 .childdiv {

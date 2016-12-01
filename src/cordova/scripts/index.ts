@@ -4,6 +4,7 @@
 // and then run "window.location.reload()" in the JavaScript Console.
 
 /// <reference path="../../client/scripts/tsdef/ai.d.ts"/>
+/// <reference path="../../client/scripts/tsdef/fb.d.ts"/>
 /// <reference path="../../client/scripts/Init.ts"/>
 /// <reference path="../../client/scripts/Telemetry.ts"/>
 
@@ -47,7 +48,23 @@ module StopByStop.Cordova {
         }
     };
     var init = new (<any>Microsoft.ApplicationInsights).Initialization(snippet);
-    Telemetry._appInsights = init.loadAppInsights();   
+    Telemetry._appInsights = init.loadAppInsights();
+
+
+    try {
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1385725698401226',
+                xfbml: true,
+                version: 'v2.8'
+            });
+
+            (<any>FB).AppEvents.activateApp();
+        };
+    }
+    catch (ex) {
+        Telemetry.trackError(new Error(ex.toString()));
+    }
 
     $.mobile.ajaxEnabled = true;
     $.mobile.allowCrossDomainPages = true;
