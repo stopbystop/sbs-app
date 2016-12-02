@@ -34,6 +34,7 @@
     <TypeScriptCompile Include="scripts\stopbystop-interfaces.ts" />
     <TypeScriptCompile Include="scripts\Telemetry.ts" />
     <TypeScriptCompile Include="scripts\tsdef\ai.d.ts" />
+    <TypeScriptCompile Include="scripts\tsdef\fb.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\google.maps.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\jquery.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\jquerymobile.d.ts" />
