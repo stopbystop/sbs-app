@@ -226,7 +226,7 @@ input {
 
 .sbs-web .ui-alt-icon.ui-icon-bars::after,
 .sbs-web .ui-alt-icon .ui-icon-bars::after {
-    background-image: url("v1/images/lines7.svg");
+    background-image: url("../images/lines7.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-bars::after,
@@ -237,7 +237,7 @@ input {
 .sbs-web .ui-alt-icon.ui-icon-search::after,
 .sbs-web .ui-alt-icon .ui-icon-search::after,
 .sbs-web .ui-input-search::after {
-    background-image: url("v1/images/magnifying-glass32.svg");
+    background-image: url("../images/magnifying-glass32.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-search::after,
@@ -250,7 +250,7 @@ input {
     .sbs-web .ui-alt-icon.ui-icon-search::after,
 .sbs-web .ui-alt-icon .ui-icon-search::after,
 .sbs-web .ui-input-search::after {
-    background-image: url("v1/images/magnifying-glass32-mobile.svg");
+    background-image: url("../images/magnifying-glass32-mobile.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-search::after,
@@ -753,7 +753,7 @@ ui-btn.poi-table-cell-link {
 }
 
 .poi-placename-food {
-    background-image: url('v1/icons/food2.png');
+    background-image: url('../images/food2.png');
 }
 
 .sbs-cdb .poi-placename-food {
@@ -761,7 +761,7 @@ ui-btn.poi-table-cell-link {
 }
 
 .poi-placename-gas {
-    background-image: url('v1/icons/gas.png');
+    background-image: url('../images/gas.png');
 }
 
 .sbs-cdb .poi-placename-gas {
@@ -790,7 +790,7 @@ ui-btn.poi-table-cell-link {
 }
 
 .gas {
-    background-image: url('v1/icons/gas.png');
+    background-image: url('../images/gas.png');
     background-size: 3em;
     border-radius: 8px;
     box-shadow: 1px 1px 4px #606060;
@@ -803,7 +803,7 @@ ui-btn.poi-table-cell-link {
 
 
 .food {
-    background-image: url('v1/icons/food2.png');
+    background-image: url('../images/food2.png');
     background-size: 3em;
     border-radius: 8px;
     box-shadow: 1px 1px 4px #606060;
@@ -817,7 +817,7 @@ ui-btn.poi-table-cell-link {
 .current-loc {
     width: 3em;
     height: 3em;
-    background: url('v1/icons/car.png');
+    background: url('../images/car.png');
     background-size: 3em;
     position: absolute;
     left: -1em;
@@ -1943,6 +1943,11 @@ ui-btn.poi-table-cell-link {
   color:#3e465b;
 }
 
+ path {
+ 
+  fill:#3e465b;
+}
+
 
 .social_icons.home_content {
     padding: 60px 0px;
@@ -2012,7 +2017,9 @@ ui-btn.poi-table-cell-link {
 @media(max-width: 630px){
     .ui-filterable .ui-input-search{
         margin-left:35px;
+
         margin-right: 35px;
+
         
 
     }
@@ -2071,6 +2078,16 @@ ui-btn.poi-table-cell-link {
 
     .ui-input-search input{
         font-size:1em !important;
+    }
+}
+
+@media(max-width: 320px){
+
+    .ui-input-search input{
+        font-size:.5em !important;
+    }
+    .ui-input-search input{
+        padding-left:2.75em;
     }
 }
 
@@ -2213,7 +2230,7 @@ div.ui-slider {
 }
 
 .route_line {
-    background-image: url('v1/images/route_line.gif');
+    background-image: url('../images/route_line.gif');
     background-position: center top;
     background-repeat: repeat-y;
     width: 100%;
@@ -2506,7 +2523,7 @@ h1 {
 }
 
 .poi-yelp-loading {
-    background-image: url('v1/images/hex2.gif');
+    background-image: url('../images/hex2.gif');
     background-size: 40px;
     background-repeat: no-repeat;
     background-position: center;

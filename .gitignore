@@ -8,16 +8,7 @@ stylecop.cache
 
 # CSHTML files should be generated
 *cshtml
-src/cordova/www/images/v1/images/logo2b.png
 
-src/.DS_Store
 
-src/.DS_Store
+.DS_Store
 
-src/.DS_Store
-
-src/client/.DS_Store
-
-src/client/content/v1/images/logo2-b.png
-
-src/cordova/www/images/logo2b.png

@@ -1,5 +1,22 @@
 <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
- 
+ {{#if renderLetsGoButton}}
+  <div class="letsgo-outer">
+         <!-- let's go button-->
+         <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container">
+             <a href="#" class="ui-btn ui-btn-inline ui-corner-all letsgo-button"
+                data-bind="click:function(){routePlan.navigate();return false;}"
+                data-rel="back">Let's go</a>
+         </div>
+     </div>
+     {{/if}}
+  
+  
+     <div style="position:absolute;top:3px;left:15px;">
+      <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+            <img style="height:50px;" src='{{{getImageNoCDN "feedback.svg"}}}' />
+       </a>
+   </div>
+   
 
     
     <div class="social_icons">
