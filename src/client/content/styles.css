@@ -1,18 +1,6 @@
 ﻿@charset "utf-8";
 
-@font-face {
-    font-family: 'Open Sans Condensed';
-    font-style: normal;
-    font-weight: 300;
-    src: local('Open Sans Cond Light'), local('OpenSans-CondensedLight'), url(https://fonts.gstatic.com/s/opensanscondensed/v10/gk5FxslNkTTHtojXrkp-xF1YPouZEKgzpqZW9wN-3Ek.woff) format('woff');
-}
 
-@font-face {
-    font-family: 'Open Sans Condensed';
-    font-style: normal;
-    font-weight: 700;
-    src: local('Open Sans Condensed Bold'), local('OpenSans-CondensedBold'), url(https://fonts.gstatic.com/s/opensanscondensed/v10/gk5FxslNkTTHtojXrkp-xONSK5BxN3NFS4EJkViHIqo.woff) format('woff');
-}
 
 @font-face {
     font-family: 'AleoLight';
@@ -47,7 +35,7 @@
 
 
 body, input, select, textarea, button, .ui-btn {
-    font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'MontReg', Arial, sans-serif;
     margin: 0;
 }
 
@@ -803,7 +791,7 @@ ui-btn.poi-table-cell-link {
         left: 1em;
         margin: 0;
         color: #666;
-        font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+        font-family: 'AleoBold', Arial, sans-serif;
         font-weight: 300;
         text-transform: uppercase;
     }
@@ -846,7 +834,7 @@ ui-btn.poi-table-cell-link {
     .jqm-demos .jqm-footer p {
         font-size: .8em;
         color: #999;
-        font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+        font-family: 'AleoBold',  Arial, sans-serif;
         font-weight: 300;
         margin: 0 1.25em 1.25em;
     }
@@ -869,7 +857,7 @@ ui-btn.poi-table-cell-link {
     .jqm-demos .jqm-content > p,
     .jqm-demos .jqm-content > ul li,
     .jqm-demos .jqm-content > a {
-        font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+        font-family: 'AleoBold', Arial, sans-serif;
         font-weight: 300;
     }
 
@@ -1089,7 +1077,7 @@ ui-btn.poi-table-cell-link {
     border: 1px solid #eee;
     -webkit-border-radius: .3125em;
     border-radius: .3125em;
-    font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'AleoBold', Arial, sans-serif;
 }
 
     .jqm-block-content h3 {
@@ -1145,7 +1133,7 @@ ui-btn.poi-table-cell-link {
 .jqm-demos .jqm-list .ui-btn,
 .jqm-demos .jqm-list .ui-btn:visited,
 .jqm-demos .jqm-list .ui-li-divider {
-    font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'AleoBold', Arial, sans-serif;
     font-weight: 300;
     text-shadow: none !important;
 }
@@ -1274,7 +1262,7 @@ ui-btn.poi-table-cell-link {
 .jqm-demos .jqm-content .jqm-view-source-link:hover,
 .jqm-demos .jqm-content .jqm-view-source-link:active {
     color: #3eb249;
-    font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'AleoBold', Arial, sans-serif;
     font-weight: 400;
     margin: 2em 0 1.5em 1em;
 }
@@ -1503,7 +1491,7 @@ ui-btn.poi-table-cell-link {
 }
 
 .jqm-view-source .ui-collapsible-heading .ui-btn {
-    font-family: 'Open Sans Condensed', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'AleoBold', Arial, sans-serif;
     font-weight: 400;
 }
 
@@ -2194,11 +2182,7 @@ h1 {
     background: none !important;
 }
 
-.ui-page-theme-a .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head + body .ui-btn.ui-btn-a:hover {
-    background-color: none;
-    border-color: #ddd;
-    text-shadow: 0 1px 0 #f3f3f3;
-}
+
 
 .ui-page-theme-a .ui-btn{
     background-color: #32394C;
@@ -2210,6 +2194,11 @@ h1 {
      background-color: #32394C !important;
     border-color: #3e465b !important;
     color: #fff !important;
+}
+
+.ui-page-theme-a .ui-btn:hover,html .ui-body-a .ui-btn:hover{
+    background-color: rgb(39, 45, 63) !important;
+
 }
 
 
