@@ -46,11 +46,13 @@
                         <div class="route" data-bind="element:route.boundElement">
                             <div class="route_line" data-bind="foreach: route.routeSegments">
                                 <div class="segment" data-bind="style: {height: height, lineHeight:height}">
+                                    
                                     <div class="segment-name">
-
+                                        <span class="direction-icon exit"></span>
                                         <span class="segment-instructions">
                                             <span data-bind="html: instructions, attr: {title: instructionsTip}"></span>
                                         </span>
+                                       
                                         <span class="highway-name">
                                             <span data-bind="text: highwayNameText, attr: {title:highwayNameText}"></span>
                                         </span>
@@ -106,7 +108,7 @@
         <div data-role="header">
             <h2>Set filters</h2>
         </div>
-        <div role="main" style="padding:5px;background-color:#fff;">
+        <div role="main" class="filter-content-main">
             <div class="containing-element">
                 <label style="text-align:center">How far from exits would you like to see places? (miles)</label>
                 <fieldset data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
@@ -157,7 +159,7 @@
             <div data-role="header">
                 <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
             </div>
-            <div role="main" style="padding:5px;background-color:#fff;">
+            <div role="main" class="filter-content-main">
                 <div class="containing-element">
                     <p style="text-align:center;">How long would you like to stop there?</p>
                     <div data-bind="with:editedStop" style="display:table;">
