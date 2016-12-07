@@ -196,15 +196,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="client\content\BreadCrumb.css" />
-    <Content Include="client\content\city_images\brooklyn-united-states.jpg" />
-    <Content Include="client\content\city_images\chicago-il-united-states.jpg" />
-    <Content Include="client\content\city_images\cleveland-oh-united-states.jpg" />
-    <Content Include="client\content\city_images\columbus-oh-united-states.jpg" />
-    <Content Include="client\content\city_images\greensboro-nc-united-states.jpg" />
-    <Content Include="client\content\city_images\Indianapolis-in-united-states.jpg" />
-    <Content Include="client\content\city_images\madison-wi-united-states.jpg" />
-    <Content Include="client\content\city_images\manhattan-ny-united-states.jpg" />
-    <Content Include="client\content\city_images\st.louis-mo-united-states.jpg" />
+    <Content Include="client\content\city_images\*" />
     <Content Include="client\content\rrssb.css" />
     <Content Include="client\content\sbsbundle.css" />
     <Content Include="client\content\sbsbundle.css.min.css" />
