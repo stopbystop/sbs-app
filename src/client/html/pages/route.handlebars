@@ -1,6 +1,7 @@
 <!-- route page-->
 <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
     {{>header}}
+     {{>filterButton}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
             <div class="breadCrumbHolder module">
@@ -10,7 +11,7 @@
                             <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
                         </li>
                     </ul>
-                    {{>filterButton}}
+                   
                 </div>
                 <div class="main_inner" data-bind="if:isRouteLoading">
                     <div class="route-loading">
@@ -20,23 +21,31 @@
                 <div class="main_inner" data-bind="if:route">
                     <h2 class="description_title" data-bind="text:route.title"></h2>
                     <div class="route-description2">
-                        <span class="route-description-metric" data-bind="text: route.distance"></span>
-                        <span class="route-description-metric-label">mile(s)</span>
-                        <span data-bind="if:(route.tripTimeHours() > 0)">
-                            <span class="route-description-metric" data-bind="text: route.tripTimeHours"></span>
-                            <span class="route-description-metric-label">hour(s)</span>
-                        </span>
-                        <span class="route-description-metric" data-bind="text: route.tripTimeMinutes"></span>
-                        <span class="route-description-metric-label">minute(s)</span>
+                    <span class="route-description-metric-label first-label">Distance</span>
+                        <span class="route-description-metric-label">Total Time</span>
+                         <span class="route-description-metric-label">Restaurant</span>
+                        <span class="route-description-metric-label">Gas station</span>
+                       
+                        
                     </div>
                     <div class="route-description2">
+                        
+                         <span class="route-description-metric" data-bind="text: route.distance"></span>
+                       
+                        <span data-bind="if:(route.tripTimeHours() > 0)">
+                            <span class="route-description-metric" data-bind="text: route.tripTimeHours"></span>
+                           
+                        </span>
+
+                        <span class="route-description-metric" data-bind="text: route.tripTimeMinutes"></span>
+                        <span class = "restaurant-icon"></span>
                         <span class="route-description-metric" data-bind="text: filter.filteredFoodCount"></span>
-                        <span class="route-description-metric-label">restaurant(s)</span>
+                         <span class = "gas-icon"></span>
                         <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
-                        <span class="route-description-metric-label">gas station(s)</span>
-
-
-                        <span class="route-description-metric-label">within</span>
+                        
+                    </div>
+                    <div class="route-description2 miles">
+                        <span class="route-description-metric-label first-label">within</span>
                         <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
                         <span class="route-description-metric-label">mile(s) from exit</span>
                     </div>
