@@ -1,73 +1,62 @@
 <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
-    {{#if renderLetsGoButton}}
-    <div class="letsgo-outer">
-        <!-- let's go button-->
-        <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container">
-            <a href="#" class="ui-btn ui-btn-inline ui-corner-all letsgo-button"
-               data-bind="click:function(){routePlan.navigate();return false;}"
-               data-rel="back">Let's go</a>
-        </div>
-    </div>
-    {{/if}}
-
-    <div style="position:absolute;top:3px;left:15px;">
-        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+ {{#if renderLetsGoButton}}
+  <div class="letsgo-outer">
+         <!-- let's go button-->
+         <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container">
+             <a href="#" class="ui-btn ui-btn-inline ui-corner-all letsgo-button"
+                data-bind="click:function(){routePlan.navigate();return false;}"
+                data-rel="back">Let's go</a>
+         </div>
+     </div>
+     {{/if}}
+  
+  
+     <div style="position:absolute;top:3px;left:15px;">
+      <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
             <img style="height:50px;" src='{{{getImageNoCDN "feedback.svg"}}}' />
-        </a>
-    </div>
+       </a>
+   </div>
+   
+
+    
     <div class="social_icons">
         <ul>
             <!--Facebook-->
             <li>
+           
                 <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
                    class="popup social-fb social-btn" target="_top">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         viewBox="0 0 486.392 486.392" fill="#EB65A0" width="32px" height="32px" style="enable-background:new 0 0 486.392 486.392;" xml:space="preserve">
-                    <use xlink:href='{{{getImageNoCDN "sprites.svg#icon-fb"}}}'></use>
-                    </svg>
+                    <img src="images/fb.png" alt="facebook">
                 </a>
             </li>
+
+
             <!--google+-->
             <li>
+              
                 <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
                    class="popup social-gp social-btn" target="_top">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         width="32px" height="32px" viewBox="0 0 612 612" fill="#EB65A0" style="enable-background:new 0 0 612 612;" xml:space="preserve">
-                    <use xlink:href='{{{getImageNoCDN "sprites.svg#icon-gp"}}}'></use>
-                    </svg>
+                    <img src="images/google.png" alt="google+">
+                   
                 </a>
             </li>
             <!--linkdin-->
             <li>
                 <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
                    class="popup social-ln social-btn" target="_top">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 486.392 486.392" style="enable-background:new 0 0 486.392 486.392;" xml:space="preserve" fill="#EB65A0">
-                    <use xlink:href='{{{getImageNoCDN "sprites.svg#icon-ln"}}}'></use>
-                    </svg>
+                    <img src="images/linkedin.png" alt="linkedin">
                 </a>
             </li>
             <!--Twitter-->
             <li>
                 <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
                    target="_top" class="popup social-tw social-btn">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                         width="32px" height="32px" fill="#EB65A0" viewBox="0 0 49.652 49.652" style="enable-background:new 0 0 49.652 49.652;"
-                         xml:space="preserve">
-                    <use xlink:href='{{{getImageNoCDN "sprites.svg#icon-tw"}}}'></use>
-                    </svg>
+                    <img src="images/twitter.png" alt="twitter">
+                    
                 </a>
             </li>
 
         </ul>
     </div>
-    <div class="copyright">
-        <span>
-            Design By <span style="font-weight:bold;color:#ffffff;text-decoration:none;">
-                <a href="http://www.eighty3.co.uk" target="_blank">
-                    Eighty
-                    <span style="color:#DA7B15">3</span>
-                </a>
-            </span>
-        </span>
-    </div>
+  
 </div>

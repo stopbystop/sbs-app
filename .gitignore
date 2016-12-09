@@ -8,3 +8,7 @@ stylecop.cache
 
 # CSHTML files should be generated
 *cshtml
+
+
+.DS_Store
+
