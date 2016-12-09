@@ -77,6 +77,10 @@ input {
     }
 }
 
+p,h1,a,span,h2{
+    text-shadow:none !important;
+}
+
 .ui-overlay-a, .route-page.ui-page-theme-a, .route-page.ui-page-theme-a .ui-panel-wrapper {
      background-image: url('../images/main_image.jpg') !important;
      background-color: transparent;
@@ -138,8 +142,8 @@ input {
     background-image: url("../images/magnifying-glass32-mobile.svg");
 }
 .ui-input-search:after{
-    left:.6em;
-    margin-top: -7px;
+    left:.4em;
+    margin-top: -12px;
     width:1.273em;
     height:1.273em;
 }
@@ -717,7 +721,7 @@ svg image{
 }
 
 .poi-table-row {
-    display: table-row;
+    display: inline-block;
     margin: 0.1em 0;
 }
 
@@ -729,7 +733,7 @@ svg image{
 }
 
 .poi-table-cell {
-    display: table-cell;
+    display: inline-block;
     vertical-align: middle;
     max-width: 150px;
     padding: 2px;
@@ -742,8 +746,8 @@ svg image{
     }
 }
 
-.poi-table-cell-go {
-    height: 49px;
+img.poi-table-cell-go {
+    height: 86px !important;
     padding: 1px;
     position: absolute;
     right: 0;
@@ -752,6 +756,14 @@ svg image{
 
 .poi-phone-cell {
     width: 10%;
+}
+
+.poi-yelp-cell,.poi-phone-cell{
+    height:8em;
+}
+
+.poi-yelp-cell{
+    margin-right: 10px;
 }
 
 .ui-btn.poi-table-cell-link {
@@ -924,19 +936,29 @@ svg image{
     font-size: 1.2em;
 }
 
-.poi-details {
+.poi-details.distance {
     float: left;
     overflow: hidden;
-    width: 60%;
+    width: auto;
+    font-family: 'MontReg',Arial;
+    background-color:#202637; 
+    color:#9cadb7;
+    position: absolute;
+    margin-left: 85px;
+    padding:15px;
+    border-radius:11px;
+    line-height: 1em;
 }
 
 .poi-placename {
-    overflow: hidden;
-    width: 65%;
+    display: inline-block;
+    width: 85%;
     text-overflow: ellipsis;
-    padding-left: 1.5em;
-    background-repeat: no-repeat;
-    background-size: 1.4em;
+    padding-left: 5px;
+    line-height: 1em;
+    font-family: 'MontReg',Arial;
+    font-size: 1.8em;
+    overflow:hidden;
 }
 
 .poi-popup .poi-placename {
@@ -944,8 +966,39 @@ svg image{
     background-size: 1.2em;
 }
 
+.exit-food,.exit-gas{
+    height:70px;
+    display: inline-block;
+    padding-left: 20px;
+    width:380px;
+    padding-top: 10px;
+-webkit-box-shadow: 0px 0px 1.5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 1.5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 1.5px 0px rgba(0,0,0,0.75);
+margin-left: 80px;
+
+}
+
+.exit-food .poi-placename{
+    color:#f15b6a;
+}
+
+.exit-gas .poi-placename{
+    color:#4fc0e8;
+}
+
 .poi-placename-food {
+    background-repeat: no-repeat;
+    background-size: 4em;
     background-image: url('../images/food.png');
+    width:80px;
+    height:80px;
+    background-color: #f15b6a;
+    position: absolute;
+    display: inline-block;
+    background-position: 4px 4px;
+      border-top-left-radius:11px;
+    border-bottom-left-radius:11px;
 }
 
 .sbs-cdb .poi-placename-food {
@@ -954,6 +1007,16 @@ svg image{
 
 .poi-placename-gas {
     background-image: url('../images/gas.png');
+    background-repeat: no-repeat;
+    background-size: 4em;
+    width:80px;
+    height:80px;
+    background-color: #4fc0e8;
+    position: absolute;
+    display: inline-block;
+    background-position: 4px 4px;
+    border-top-left-radius:11px;
+    border-bottom-left-radius:11px;
 }
 
 .sbs-cdb .poi-placename-gas {
@@ -969,9 +1032,15 @@ svg image{
 .poi-details {
     float: left;
     overflow: hidden;
-    width: 65%;
-    text-overflow: ellipsis;
+    width: auto;
+    padding: 5px;
+    font-size: 1.5em;
+    font-family: 'MontReg',Arial;
+    
+  
 }
+
+
 
 @media (min-width: 35em) {
     .poi-details {
@@ -1136,7 +1205,8 @@ svg image{
 .poi-rating-count {
     clear: both;
     text-align: center;
-    font-size: 0.7em;
+    font-size: 1em;
+    font-family: 'MontReg',Arial;
 }
 
 .poi-phone {
@@ -1245,6 +1315,16 @@ svg image{
         .jqm-demos .jqm-header .ui-btn{
             left:-36%;
             top:25%;
+        }
+    }
+
+
+
+    @media(max-width:320px){
+
+        .jqm-demos .jqm-header .ui-btn{
+           
+            top:49%;
         }
     }
 
@@ -1382,7 +1462,7 @@ svg image{
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 780px) {
     .main_title {
         font-size: 6.02em;
     
@@ -1415,7 +1495,7 @@ svg image{
     width: 90%;
     display: inherit;
     font-weight: 400;
-    line-height: 1em;
+    line-height: 1.2em;
     font-size: 2.45em;
    
     font-family: 'MontReg',Arial;
@@ -1438,6 +1518,8 @@ svg image{
     border-radius: 4px 4px 0 0;
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
 }
+
+
 
 @media (min-width:901px) {
     .description_title{
@@ -1949,6 +2031,14 @@ svg image{
     }
 }
 
+@media(max-width: 320px ){
+    .jqm-demos .jqm-header h2{
+        padding:15px 0 !important;
+        padding-bottom: 0 !important;
+        line-height: 0;
+    }
+}
+
 /* View source popup */
 #jqm-view-source-popup.ui-popup-container {
     width: 90%;
@@ -2054,6 +2144,7 @@ svg image{
     width: 100%;
     height: 100%;
     background: url(https://s3-media4.fl.yelpcdn.com/assets/srv0/yelp_styleguide/c2252a4cd43e/assets/img/stars/stars_map.png) no-repeat;
+    background-size:133px;
 }
 
 .rating .stars_0 {
@@ -2101,7 +2192,7 @@ svg image{
     position: relative;
     overflow: hidden;
     width: 49px;
-    height: 9px;
+    height: 13px;
 }
 
     .rating-small .stars_0 {
@@ -2269,8 +2360,19 @@ svg image{
     padding: 0 5px;
 }
 
+@media (max-width: 500px){
+    .social_icons img{
+        width:32px;
+        height:32px;
+    }
+}
 
-
+@media (max-width: 320px){
+    .social_icons img{
+        width:26px;
+        height:26px;
+    }
+}
 
 
 
@@ -2507,9 +2609,14 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
 }
 
+.restaurant-group,.gas-group{
+    display: inline-block;
 
+}
 
-
+.restaurant-group{
+  width:340px;
+}
 
 .route-loading {
     height: 100%;
@@ -2651,6 +2758,29 @@ div.ui-slider {
 
 }
 
+@media (max-width: 900px) {
+      .restaurant-group,.gas-group{
+        display: inline-block;
+
+    }
+
+    .restaurant-group{
+      width:100px;
+      margin-right: 35px;
+    }
+
+    .exit-page .route-description-metric-label{
+        width:114px;
+        display: inline-block;
+        margin-right: 0px;
+    }
+    .exit-page .miles .route-description-metric-label{
+         margin-right:0;
+         display:inline;
+     }
+
+}
+
 @media (max-width: 320px) {
  .route-description2 .first-label{
     margin-left:2px; 
@@ -2662,6 +2792,20 @@ div.ui-slider {
     font-size:.9em; 
  }
 
+  .restaurant-group{
+      width:128px;
+      margin-right: 4px;
+    }
+
+    .exit-page .route-description-metric-label{
+
+         margin-right:-13px;
+    }
+
+     .exit-page .miles .route-description-metric-label{
+         margin-right:0;
+         display:inline;
+     }
 }
 
 
@@ -2683,8 +2827,7 @@ h1 {
 }
 
 
-.ui-btn.ui-corner-all.sbs-navigate-btn {
-}
+
 
 .pois-list {
     padding-left: 0%;
@@ -2701,6 +2844,12 @@ h1 {
         display: inline;
     }
 }
+
+.pois-list fieldset{
+    margin-left: 51%;
+    margin-bottom: 30px;
+}
+
 
 .ui-btn.ui-corner-all.yelp_review {
     padding-left: 0;
@@ -2850,13 +2999,24 @@ h1 {
 .breadcrumb_main li a{
 background-color:transparent;
 font-family:'MontReg', Arial;
-font-size:.40em;
+font-size:1em;
 color:#9cadb7 !important;
 padding-left: 11px; 
 }
 
+.exit-page .breadcrumb-arrow{
+    width:8px;
+    height:auto;
+    margin-left:6px;
+}
+
 .breadcrumb_main li a:hover,.breadcrumb_main li a:visited,.breadcrumb_main li a:focus{
     background-color:rgb(39, 45, 63) !important;
+}
+
+.exit-page .breadcrumb_main li:nth-child(2) a:hover,.exit-page  .breadcrumb_main li:nth-child(2) a:visited,.exit-page  .breadcrumb_main li:nth-child(2) a:focus,.breadcrumb_main li:nth-child(2) a{
+    background-color:transparent !important;
+    color:#fff !important;
 }
 
 .breadcrumb_main li a:after,.breadcrumb_main li a:before{
@@ -2878,7 +3038,13 @@ padding-left: 11px;
     }
 }
 
+@media (max-width: 900px) {
+   .exit-page .breadcrumb-arrow{
+        width:6px;
+   
+    }
 
+}
 
 .sidebar-label
 {
@@ -3107,14 +3273,83 @@ padding-left: 11px;
      color: #fff !important;
 }
 
+.pois-list fieldset .ui-btn.ui-btn-active{
+    background-color: #202637 !important;
+     border-color:  #202637 !important;
+}
+
+.pois-list fieldset .list-view{
+    background-image:url('../images/list-view.png');
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    background-position: 20px 17px;
+    background-color: #272d40 !important;
+    border: 0;
+    background-size: 42%;
+}
+
+.pois-list fieldset .map-view{
+    background-image:url('../images/map-view.png');
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    background-position: 20px 11px;
+    background-color: #272d40 !important;
+    border: 0;
+     background-size: 35%;
+}
+
+
+@media (max-width:900px){
+    .pois-list fieldset{
+        margin-left: 0;
+        text-align: right !important;
+        margin-bottom: 60px;
+    }
+}
+
+@media (min-width:376px) and (max-width:500px){
+      .pois-list fieldset{
+         margin-bottom: 40px;
+    }
+
+.pois-list fieldset .list-view{
+    width:25px;
+    height:25px;
+    background-position:20px 15px;
+}
+.pois-list fieldset .map-view{
+    width:25px;
+    height:25px;
+
+}
+
+}
+
+@media (max-width:375px){
+
+.pois-list fieldset .list-view{
+    width:18px;
+    height:18px;
+    background-position:20px 13px;
+    background-size: 35%;
+}
+.pois-list fieldset .map-view{
+    width:18px;
+    height:18px;
+     background-size: 29%;
+
+}
+
+}
+
 .ui-btn.ui-corner-all.ui-btn-inherit.ui-btn-icon-left.ui-checkbox-on::after {
     background-color: rgb(255, 156, 0) !important;
     border-color:rgb(255, 156, 0) !important;
 }
 
-.poi-yelp-cell {
-    width: 10%;
-}
+
 
 .ui-btn.poi-table-cell-link.sbs-navigate-btn,
 .ui-btn.poi-table-cell-link.yelp-link {
@@ -3125,20 +3360,77 @@ padding-left: 11px;
     text-shadow: 0 0px 0 #f3f3f3;
     border-width: 2px;
     padding: 5px 2px;
-    height: 60px;
+    height: 120px;
     margin: 0;
+    border-radius:11px;
 }
 
+.ui-btn.poi-table-cell-link.sbs-navigate-btn:focus{
+    border:0 !important;
+    outline:0 !important;
+    box-shadow:none;
+}  
+
+ .ui-btn.poi-table-cell-link.yelp-link:focus{ 
+     border:0 !important;
+    outline:0 !important;
+        -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+
+}
 .poi-popup .ui-btn.poi-table-cell-link.sbs-navigate-btn,
 .poi-popup .ui-btn.poi-table-cell-link.yelp-link {
     height: 40px;
 }
 
-.poi-table-cell-link.sbs-navigate-btn:hover,
-.poi-table-cell-link.yelp-link:hover {
-    background-color: #f1f1f1;
+.poi-details-cell{
+    width:600px;
+    max-width: none;
+    margin-top:-90px;
 }
 
+.sbs-navigate-btn{
+    width:auto !important;
+    border:0 !important;
+
+}
+
+.yelp-link{
+    width:100px;
+    border:0 !important;
+    background-color: #3e465b !important;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    width:150px;
+
+}
+
+.yelp-link.call-map-title{
+    width:120px;
+    border:0 !important;
+    background-color: #202637 !important;
+    -webkit-box-shadow: none !important;
+-moz-box-shadow: none !important;
+box-shadow: none !important;
+   width:150px;
+}
+
+.poi-table-cell-link.sbs-navigate-btn:hover,
+.poi-table-cell-link.yelp-link:hover {
+    background-color: transparent !important;
+}
+
+
+
+.yelp-link{
+    background-color: #3e465b;
+}
+
+.poi-table-cell-link.yelp-link.call_map_title,.poi-table-cell-link.yelp-link.call_map_title:hover{
+    background-color: #202637 !important;
+}
 
 
 
@@ -3166,10 +3458,18 @@ padding-left: 11px;
     vertical-align: middle;
 }
 
+.yelp-link img{
+    margin-top: 17%;
+    width:70px;
+    height:auto;
+}
+
 .poi-cat {
-    background-color: #ff9c00;
+    background-color: transparent;
     color: #fff;
     padding: 3px;
+    font-family: 'MontReg',arial;
+    font-size: 1.5em;
 }
 
 .poi-yelp-loading {
@@ -3183,6 +3483,218 @@ padding-left: 11px;
 .sbs-cdb .poi-yelp-loading {
     background-image: url('../images/hex2.gif');
 }
+
+@media (min-width:801px) and (min-width:900px){
+
+    .poi-details-cell{
+        width:585px;
+    }
+  
+}
+
+@media (min-width:501px) and (max-width:801px){
+
+    .poi-details-cell{
+        width:500px;
+    }
+    .poi-placename{
+        font-size: 1.3em;
+    }
+    .poi-cat{
+         font-size:1em;
+    }
+
+    .poi-details.distance{
+        padding:5px;
+    }
+    .poi-yelp-cell{
+        margin-right: 0;
+    }
+
+    .yelp-link{
+        width:105px;
+    }
+    .ui-btn.poi-table-cell-link.sbs-navigate-btn, .ui-btn.poi-table-cell-link.yelp-link{
+        height:105px;
+    }
+
+}
+
+@media (min-width:376px) and (max-width:500px){
+
+    .poi-table-row{
+        margin-bottom:-50px;
+    }
+
+    .poi-details-cell{
+        width:255px;
+    }
+
+    .poi-placename-food,.poi-placename-gas{
+        width:40px;
+        height:40px;
+        background-size: 2em;
+
+    }
+
+    .exit-food, .exit-gas{
+        height:39px;
+        width:180px;
+        margin-left:40px;
+        padding-top: 1px;
+        padding-left:5px;
+    }
+    .poi-details{
+        padding:0;
+        font-size:.6em !important;
+        line-height: .8em;
+    }
+
+
+    .poi-placename{
+        font-size: .8em;
+    }
+    .poi-cat{
+         font-size:.5em;
+         line-height: 1em;
+    }
+
+    .poi-details.distance{
+        padding:4px;
+        padding-top: 6px;
+        margin-left:40px;
+    }
+    .poi-yelp-cell{
+        margin-right: 0;
+    }
+
+    .yelp-link{
+       
+        text-shadow:none !important;
+        width:65px;
+        right:20px;
+    }
+
+    .yelp-link img{
+        width:45%;
+        margin-top:8%;
+    }
+      .yelp-link.call_map_title img{
+        width:48%;
+        margin-top:14%;
+    }
+
+    .call_map_title{
+        right:22px;
+        width:65px;
+    }
+
+    .ui-btn.poi-table-cell-link.sbs-navigate-btn, .ui-btn.poi-table-cell-link.yelp-link{
+        height:55px;
+    }
+
+    img.poi-table-cell-go{
+        height:41px !important;
+        left:170px;
+        width:65px;
+        padding-top: 3px;
+    }
+
+    .poi-rating-count{
+        font-size:.1em;
+    }
+
+}
+
+@media  (min-width:320px) and (max-width:375px){
+
+    .poi-table-row{
+        margin-bottom:-50px;
+    }
+
+    .poi-details-cell{
+        width:190px;
+    }
+
+    .poi-placename-food,.poi-placename-gas{
+        width:30px;
+        height:30px;
+        background-size: 1.5em;
+
+    }
+
+    .exit-food, .exit-gas{
+        height:30px;
+        width:120px;
+        margin-left:25px;
+        padding-top: 0;
+        padding-left:5px;
+    }
+    .poi-details{
+        padding:0;
+        font-size:.1em !important;
+        line-height: .4em !important;
+        font-weight: 100 !important;
+    }
+
+
+    .poi-placename{
+        font-size: .4em;
+    }
+    .poi-cat{
+         font-size:.5em;
+         line-height: 1em;
+    }
+
+    .poi-details.distance{
+        padding:4px;
+        padding-top: 6px;
+        margin-left:25px;
+    }
+    .poi-yelp-cell{
+        margin-right: 0;
+    }
+
+    .yelp-link{
+       
+        text-shadow:none !important;
+        width:50px;
+        right:8px;
+    }
+
+    .yelp-link img{
+        width:30%;
+        margin-top:8%;
+    }
+      .yelp-link.call_map_title img{
+        width:47%;
+        margin-top:14%;
+    }
+
+    .call_map_title{
+        right:14px;
+        width:50px;
+    }
+
+    .ui-btn.poi-table-cell-link.sbs-navigate-btn, .ui-btn.poi-table-cell-link.yelp-link{
+        height:42px;
+    }
+
+    img.poi-table-cell-go{
+        height:30px !important;
+        left:137px;
+        width:50px;
+        padding-top: 4px;
+    }
+
+    .poi-rating-count{
+        font-size:.1em;
+    }
+
+}
+
+
+
 
 .filters-container {
     cursor: pointer;
@@ -3267,11 +3779,16 @@ padding-left: 11px;
     }
 }
 
+@media  (max-width: 630px){
+    .filters-container{
+        top:22px;
+    }
+}
 
 
 @media  (max-width: 320px){
     .filters-container{
-        top:29px;
+        top:30px;
     }
 }
 
