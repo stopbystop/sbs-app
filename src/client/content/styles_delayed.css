@@ -17,7 +17,7 @@
 }
 
 .sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('../images/main_image.jpg') !important;
+    background-image: url('v1/images/main_image.jpg') !important;
 
 }
 .sbs-cdb .ui-overlay-a,.sbs-cdb .route-page.ui-page-theme-a,.sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
@@ -26,7 +26,7 @@
 
 @media (min-width: 800px) {
         .sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
-        background-image: url('../images/main_image.jpg') !important;
+        background-image: url('v1/images/main_image.jpg') !important;
         padding-top: 160px !important;
     }
     .sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper{
@@ -46,7 +46,7 @@
     }
 
     .sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('../images/main_image.jpg') !important;
+    background-image: url('v1/images/main_image.jpg') !important;
 }
 .sbs-cdb .ui-overlay-a,.sbs-cdb .route-page.ui-page-theme-a,.sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
     background-image: url('../images/main_image.jpg') !important;

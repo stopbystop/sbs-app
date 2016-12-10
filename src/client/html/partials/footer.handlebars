@@ -26,7 +26,7 @@
            
                 <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
                    class="popup social-fb social-btn" target="_top">
-                    <img src="images/fb.png" alt="facebook">
+                    <img src="{{{getImage "fb.png"}}}" alt="facebook">
                 </a>
             </li>
 
@@ -36,7 +36,7 @@
               
                 <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
                    class="popup social-gp social-btn" target="_top">
-                    <img src="images/google.png" alt="google+">
+                    <img src="{{{getImage "google.png"}}}" alt="google+">
                    
                 </a>
             </li>
@@ -44,14 +44,14 @@
             <li>
                 <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
                    class="popup social-ln social-btn" target="_top">
-                    <img src="images/linkedin.png" alt="linkedin">
+                    <img src="{{{getImage "linkedin.png"}}}" alt="linkedin">
                 </a>
             </li>
             <!--Twitter-->
             <li>
                 <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
                    target="_top" class="popup social-tw social-btn">
-                    <img src="images/twitter.png" alt="twitter">
+                    <img src="{{{getImage "twitter.png"}}}" alt="twitter">
                     
                 </a>
             </li>

@@ -28,7 +28,6 @@
     list-style: none;
     overflow: hidden;
     font-size: 13px;
-    background: #73C5E1;
     padding-left: 0px !important;
 }
 
@@ -37,7 +36,6 @@
         list-style: none;
         overflow: hidden;
         font-size: 18px;
-        background: #73C5E1;
     }
 }
 
@@ -46,11 +44,10 @@
 }
 
     .breadcrumb_main li a {
-        background: #73C5E1 none repeat scroll 0 0;
+        background: #fff none repeat scroll 0 0;
         color: #ffffff !important;
         display: block;
         float: left;
-        font-family: "Open sans condensed",sans-serif;
         font-weight: 700;
         padding: 10px 0 10px 55px;
         position: relative;
@@ -65,7 +62,7 @@
             height: 0;
             border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
             border-bottom: 50px solid transparent;
-            border-left: 30px solid #73C5E1;
+            border-left: 30px solid #fff;
             position: absolute;
             top: 50%;
             margin-top: -50px;
@@ -123,12 +120,4 @@
 
         .breadcrumb_main li:nth-child(5) a:after {
             border-left-color: #207A97;
-        }
-
-    .breadcrumb_main li a:hover {
-        background: #73C5E1;
-    }
-
-        .breadcrumb_main li a:hover:after {
-            border-left-color: #73C5E1 !important;
         }
