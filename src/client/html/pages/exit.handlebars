@@ -1,13 +1,14 @@
  <!-- exit page-->
 <div id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
     {{>header}}
+    {{>filterButton}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
             <div class="breadCrumbHolder module">
                 <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
                     <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
-                            <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
+                            <a itemprop="item" href="#home"><span itemprop="name">Home <img class = "breadcrumb-arrow" src ="images/arrow.png"></span></a>
                         </li>
                         <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#route">
@@ -15,7 +16,7 @@
                             </a>
                         </li>
                     </ul>
-                    {{>filterButton}}
+                    
                 </div>
                 <div class="main_inner" data-bind="if:isRouteLoading">
                     <div class="route-loading">
@@ -26,14 +27,30 @@
                     <div class="main_inner">
                         
                         <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
+                          <div class="route-description2">
+
+                        <span class="route-description-metric-label">restaurants</span>
+                        <span class="route-description-metric-label">gas stations</span>
+                        </div>
                         <div class="route-description2">
+                          <div class = "restaurant-group">
+                          <span class = "restaurant-icon"></span>
                             <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
-                            <span class="route-description-metric-label">restaurant(s)</span>
+                            </div>
+                            <div class = "gas-group">
+                             <span class = "gas-icon"></span>
                             <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
-                            <span class="route-description-metric-label">gas station(s)</span>
+                            </div>
+                            
 
 
+                            
+                        </div>
+                      
+                        <div class="route-description2 miles">
+                        
                             <span class="route-description-metric-label">within</span>
+                           
                             <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
                             <span class="route-description-metric-label">mile(s) from exit</span>
                         </div>
@@ -41,10 +58,10 @@
                         <div class="pois-list">
                             <fieldset class="view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
                                 <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
-                                <label for="view-mode-radio-choice-21">List view</label>
+                                <label class="list-view" for="view-mode-radio-choice-21"></label>
 
                                 <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-22" value="map" />
-                                <label for="view-mode-radio-choice-22">Map view</label>
+                                <label class = "map-view" for="view-mode-radio-choice-22"></label>
                             </fieldset>
 
                             <!-- start food POI list-->
@@ -55,11 +72,15 @@
                                            class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
                                            style="text-align:left;"
                                            data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-                                            <div class="poi-placename poi-placename-food" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
-                                            <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
-                                                <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
+                                            <div class=" poi-placename-food" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+                                            <div class = "exit-food">
+                                                <span class = "poi-placename" itemprop="name" data-bind="text:poi.name"></span>
+                                                <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
+
+                                                    <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
+                                                </div>
                                             </div>
-                                            <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
+                                            <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
                                             <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
                                         </a>
                                     </div>
@@ -92,9 +113,11 @@
                                            class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
                                            style="text-align:left;"
                                            data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-                                            <div class="poi-placename poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"><span itemprop="name" data-bind="text:poi.name"></span></div>
-
-                                            <div class="poi-details" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
+                                            <div class="poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+                                             <div class = "exit-gas">
+                                             <span class = "poi-placename" itemprop="name" data-bind="text:poi.name"></span>
+                                            </div>
+                                            <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
                                             <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
                                         </a>
                                     </div>
@@ -190,21 +213,21 @@
             <div role="main" style="padding:5px;background-color:#fff;">
                 <div class="containing-element">
                     <p style="text-align:center;">How long would you like to stop there?</p>
-                    <div data-bind="with:editedStop" style="display:table;">
+                    <div data-bind="with:editedStop" style="display:table;margin-left:13%;margin-bottom:7%;">
                         <div style="display:table-row">
                             <div style="display:table-cell">
                                 <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;" href="#" data-role="button" data-icon="minus"></a>
                             </div>
 
                             <div style="display:table-cell;vertical-align:middle;position:relative;">
-                                <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                <span style="padding:3px;font-size:30px;border:1px solid #fff;"
                                       data-bind="text:stopDurationHours"></span>
                                 <div style="position:absolute;font-variant:small-caps;left:11px;">
                                     hr
                                 </div>
                             </div>
                             <div style="display:table-cell;vertical-align:middle;position:relative;">
-                                <span style="padding:3px;font-size:30px;border:1px solid #35acd4;"
+                                <span style="padding:3px;font-size:30px;border:1px solid #fff;"
                                       data-bind="text:stopDurationMinutes"></span>
                                 <div style="position:absolute;font-variant:small-caps;left:9px;">
                                     min
@@ -216,15 +239,15 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div style="margin-left:5%;">
                         <a data-bind="click:addEditedStopToRoute" href="#"
-                           class="ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
+                           class=" exit-add ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;" data-rel="back">
                             <span style="display:inline-block;margin-top:10px;">
                                 Add to<br />route
                             </span>
 
                         </a>
-                        <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all"
+                        <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class=" exit-navigate ui-btn ui-btn-inline ui-corner-all"
                            style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
                             <span>Navigate<br />there<br />now</span>
                         </a>
@@ -232,8 +255,8 @@
                     <div>
 
                     </div>
-                    <div>
-                        <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
+                    <div style="margin-left:4%;">
+                        <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="exit-action ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
                     </div>
                 </div>
             </div>
