@@ -364,14 +364,14 @@ p,h1,a,span,h2{
 .highway-name {
     overflow-x: hidden;
     display: block;
-    width: 100%;
+    width: 80%;
     text-overflow: ellipsis;
     font-size: 1.636em;
     color: #fff;
     font-weight: 100;
-    text-align: left;
+    text-align: center;
     margin-left: 20px;
-    line-height: 28px;
+    line-height: 1.5em;
     font-family: 'MontLight',Arial;
 }
 
@@ -389,15 +389,15 @@ p,h1,a,span,h2{
     background-color: transparent;
     margin-bottom: 0;
     max-width: 80%;
-    text-align: left;
+    text-align: center;
     margin-left: 20px;
     margin-top:auto;
     
 }
 
 .segment-instructions b {
-    color: #fff;
-    text-transform: capitalize;
+    color: #ffb301;
+    text-transform: uppercase;
 }
 
 .segment-distance {
@@ -738,6 +738,7 @@ svg image{
 .poi-table-row {
     display: inline-block;
     margin: 0.1em 0;
+    white-space: nowrap;
 }
 
 
@@ -950,15 +951,14 @@ img.poi-table-cell-go {
 .poi-details.distance {
     float: left;
     overflow: hidden;
-    width: auto;
+    width: 94%;
     font-family: 'MontReg',Arial;
-    background-color:#202637; 
-    color:#9cadb7;
     position: absolute;
-    margin-left: 85px;
     padding:15px;
     border-radius:11px;
     line-height: 1em;
+    border: 1px solid #202637;
+    text-align: center;
 }
 
 .poi-placename {
