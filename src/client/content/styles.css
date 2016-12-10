@@ -3487,10 +3487,6 @@ box-shadow: none !important;
     background-color: #3e465b;
 }
 
-.poi-table-cell-link.yelp-link.call_map_title,.poi-table-cell-link.yelp-link.call_map_title:hover{
-    background-color: #202637 !important;
-}
-
 
 
 .main_details {
@@ -3620,8 +3616,7 @@ box-shadow: none !important;
 
     .poi-details.distance{
         padding:4px;
-        padding-top: 6px;
-        margin-left:40px;
+        width:87%;
     }
     .poi-yelp-cell{
         margin-right: 0;
@@ -3708,7 +3703,7 @@ box-shadow: none !important;
     .poi-details.distance{
         padding:4px;
         padding-top: 6px;
-        margin-left:25px;
+
     }
     .poi-yelp-cell{
         margin-right: 0;

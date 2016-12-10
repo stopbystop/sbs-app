@@ -33,7 +33,7 @@
 
                     <div data-bind="foreach: filter.foodCategoriesEnablement">
                         <div data-bind="visible:count() > 0">
-                            <input type="checkbox" data-bind="attr:{id:'{{cbid}}'+category.sbsid, name:'{{cbid}}+category.sbsid},jqmchecked: visible" data-mini="true">
+                            <input type="checkbox" data-bind="attr:{id:'{{cbid}}'+category.sbsid, name:'{{cbid}}'+category.sbsid},jqmchecked: visible" data-mini="true">
                             <label data-bind="attr:{for:'{{cbid}}'+category.sbsid}">
                                 <span data-bind="text:category.name"></span>
                                 <span style="float:right;" data-bind="text:count"></span>
