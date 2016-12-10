@@ -1,5 +1,6 @@
 ﻿# .gitignore
-[Pp]latforms/
+[Pp]latforms/android/
+[Pp]latforms/windows/
 *.map
 
 # Generated files

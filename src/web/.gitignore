@@ -2,3 +2,4 @@
 client/**/*.css
 client/**/*.js
 client/content/fonts/**/*
+client/content/city_images/*
