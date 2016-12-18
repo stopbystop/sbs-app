@@ -62,4 +62,8 @@ You can view the latest version of SPA UI for a given branch using rawgit.com. F
 ## Test pass isues opened last week
 [query](https://github.com/stopbystop/sbs-app/issues?utf8=%E2%9C%93&q=is%3Aissue%20scenario%20created%3A%3E2016-10-26)    
 
-(test change)
+## Debugging on Android devices
+* https://taco.visualstudio.com/en-us/docs/run-app-apache/#android-devices
+
+## Emulate device and location with Chrome developer tools
+![img](http://i.imgur.com/7BHkQUD.png)

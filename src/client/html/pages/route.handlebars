@@ -1,6 +1,6 @@
 <!-- route page-->
 <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
-    {{>header}} {{>filterButton}}
+    {{>header renderFilterButton=true}}
     <div role="main" class="ui-content jqm-content">
         <div class="page-content-inner">
             <div class="breadCrumbHolder module">
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-    {{>filterDialog cbid='cb2'}} 
+    {{>filterDialog cbid='cb2' forJunction=false}} 
     {{>stopSettingsDialog addToRouteText='Keep this <br/>stop'}}
     {{>navpanel}} 
     {{>footer renderLetsGoButton=true }}

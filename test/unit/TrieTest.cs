@@ -67,4 +67,3 @@ namespace Yojowa.StopByStop.UnitTests
         }
     }
 }
-

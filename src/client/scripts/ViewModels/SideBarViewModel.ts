@@ -183,6 +183,8 @@ module StopByStop {
                 this.sideBarBottom("");
                 this.sideBarThumbTop("0px");
             }
+
+            (<any>ko).tasks.runEarly();
         }
 
         private recalcThumbPosition(): void {

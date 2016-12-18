@@ -37,7 +37,11 @@ gulp.task('html:web', function () {
             },
             getImageNoCDN: function (imageName) {
                 return "@Url.Content(\"~/client/content/v1/images/" + imageName + "\")";
+            },
+            filterDialogBind: function (forJunction) {
+                return forJunction ? 'with:selectedJunction' : '';
             }
+
         }
     }
 
@@ -65,6 +69,9 @@ gulp.task('html:cordova', function () {
             },
             getImageNoCDN: function (imageName) {
                 return "images/" + imageName;
+            },
+            filterDialogBind: function (forJunction) {
+                return forJunction ? 'with:selectedJunction' : '';
             }
         }
     }

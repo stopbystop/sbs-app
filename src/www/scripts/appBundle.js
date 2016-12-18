@@ -1900,6 +1900,7 @@ var StopByStop;
                 this.sideBarBottom("");
                 this.sideBarThumbTop("0px");
             }
+            ko.tasks.runEarly();
         };
         SideBarViewModel.prototype.recalcThumbPosition = function () {
             this.sideBarThumbTop(((this.sideBarInnerHeight() - this._thumbHeight) * this._portionOfRouteScrolled).toString() + "px");
@@ -2566,7 +2567,7 @@ var StopByStop;
                         paddingBottom: "50px"
                     });
                     var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
-                    filtersContainer.css({ "width": "30px" });
+                    filtersContainer.css({ "right": "-75%" });
                 },
                 show: function (event, ui) {
                     if (navigationAbandoned) {
@@ -2619,8 +2620,8 @@ var StopByStop;
         Init.animateFiltersTrigger = function () {
             window.setTimeout(function () {
                 var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
-                filtersContainer.css({ "width": "30px" });
-                filtersContainer.animate({ "width": "120px" }, "slow");
+                filtersContainer.css({ "right": "-75%" });
+                filtersContainer.animate({ "right": "-55%" }, "slow");
             }, 50);
         };
         Init.initJunctionMapWhenReady = function (junctionAppViewModel) {

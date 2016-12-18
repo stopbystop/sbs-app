@@ -265,6 +265,7 @@
     <Content Include="client\content\v1\images\apple-icon-76x76.png" />
     <Content Include="client\content\v1\images\apple-icon-precomposed.png" />
     <Content Include="client\content\v1\images\apple-icon.png" />
+    <Content Include="client\content\v1\images\app_image.jpg" />
     <Content Include="client\content\v1\images\arrow.png" />
     <Content Include="client\content\v1\images\browserconfig.xml" />
     <Content Include="client\content\v1\images\car.png" />

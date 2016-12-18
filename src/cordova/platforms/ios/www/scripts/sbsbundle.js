@@ -659,7 +659,7 @@ String.prototype.f = function () {
     }
     return s;
 };
-//# sourceMappingURL=extensions.js.map
+
 
 ko.bindingHandlers.jqmchecked = {
     init: ko.bindingHandlers.checked.init,

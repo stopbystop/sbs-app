@@ -203,24 +203,45 @@ p, h1, a, span, h2 {
     text-shadow: none !important;
 }
 
-
-
-.ui-overlay-a, .route-page.ui-page-theme-a, .route-page.ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('../images/main_image.jpg');
-    background-color: transparent;
-    background-repeat: no-repeat;
+body {
+    background-image: url('v1/images/main_image.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
     background-size: 100%;
-    color: #000;
-    text-shadow: none;
+    height: auto !important;
 }
 
-    .sbs-web .ui-overlay-a, .sbs-web .route-page.ui-page-theme-a, .sbs-web .route-page.ui-page-theme-a .ui-panel-wrapper {
-        background-image: url('v1/images/main_image.jpg');
-    }
+.sbs-cdb body {
+    background-image: url('../images/main_image.jpg');
+}
 
-@media (min-width: 90em) {
-    .ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {
-    }
+
+/* Main background image */
+.ui-overlay-a,
+.route-page.ui-page-theme-a,
+.route-page.ui-page-theme-a .ui-panel-wrapper {
+    /*
+        background-image: url('../images/main_image.jpg');
+    background-color: transparent;
+    background-repeat: repeat;
+    background-size: 100%;
+        */
+    color: #000;
+    text-shadow: none;
+    height: 100%;
+}
+
+.sbs-web .ui-overlay-a,
+.sbs-web .route-page.ui-page-theme-a,
+.sbs-web .route-page.ui-page-theme-a .ui-panel-wrapper {
+    /*
+    background-image: url('v1/images/main_image.jpg');
+        */
+}
+
+
+.ui-page-theme-a {
+    background-color: transparent;
 }
 
 .sbs-web .ui-alt-icon.ui-icon-bars::after,
@@ -482,7 +503,7 @@ p, h1, a, span, h2 {
 
 
 .highway-name {
-    overflow-x: hidden;
+    overflow: hidden;
     display: block;
     width: 80%;
     text-overflow: ellipsis;
@@ -1172,7 +1193,6 @@ img.poi-table-cell-go {
     overflow: hidden;
     width: auto;
     padding: 5px;
-    font-size: 1.5em;
     font-family: 'MontReg',Arial;
 }
 
@@ -2158,7 +2178,7 @@ img.poi-table-cell-go {
 
 @media(min-width: 901px ) {
     .jqm-demos .jqm-header h2 {
-        padding: 80px 0 !important;
+        padding: 60px 0 !important;
         padding-bottom: 0 !important;
     }
 }
@@ -2685,7 +2705,7 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
 }
 
 .page-content {
-    background: inherit;
+    background-color: rgb(32, 38, 55);
     width: 100%;
     display: inline-block;
     padding-top: 20px;
@@ -2701,7 +2721,6 @@ a.navbar-brand.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
 
 @media (min-width: 60em) {
     .page-content {
-        background: inherit;
         display: inline-block;
         padding: 30px 10%;
         width: 80%;
@@ -2992,7 +3011,7 @@ h1 {
 
 .poi-table {
     text-align: center;
-    margin-left:-22px;
+    margin-left: -22px;
 }
 
 @media(max-width:768px) {
@@ -3714,7 +3733,6 @@ h1 {
 
     .poi-details {
         padding: 0;
-        font-size: .6em !important;
         line-height: .8em;
     }
 
@@ -3800,7 +3818,6 @@ h1 {
 
     .poi-details {
         padding: 0;
-        font-size: .1em !important;
         line-height: .4em !important;
         font-weight: 100 !important;
     }
@@ -3866,13 +3883,14 @@ h1 {
 
 .filters-container {
     cursor: pointer;
-    position: absolute;
-    top: 37px;
+    position: relative;
     height: 36px;
     overflow: hidden;
-    right: 10px;
+    right: -55%;
     width: 30px;
     z-index: 1000;
+    top: -43px;
+    padding: 5px;
 }
 
 .filters-trigger-line1 {
@@ -3895,10 +3913,9 @@ h1 {
 
 .filters-trigger {
     position: absolute;
-    left: 85px;
     padding-right: 10px;
     padding-left: 12px;
-    padding-bottom: 1px;
+    padding-bottom: 4px;
     top: 0px;
     line-height: 36px;
     color: #ffffff !important;
@@ -3929,9 +3946,9 @@ h1 {
 
 @media (min-width: 901px) {
     .filters-container {
-        top: 100px;
+        top: -95px;
         height: 50px;
-        right: 45px;
+        right: -55%;
     }
 
     .filters-trigger {
@@ -3940,31 +3957,27 @@ h1 {
 }
 
 
-
-
-
 @media (min-width: 500px) and (max-width: 900px) {
     .filters-container {
-        top: 65px;
+        top: -80px;
+        right: -55%;
     }
 }
 
 @media (max-width: 630px) {
     .filters-container {
-        top: 22px;
+        top: -43px;
     }
 }
 
 
 @media (max-width: 320px) {
     .filters-container {
-        top: 30px;
+        top: -43px;
     }
 }
 
 @media (min-width: 60em) {
-
-
     .filters-trigger-line1, .filters-trigger-line2 {
         border: 0;
     }
@@ -4090,65 +4103,72 @@ h1 {
     text-align: center;
 }
 
+input {
+    -webkit-appearance: none;
+}
 
-
-.sbs-web .ui-overlay-a, 
-.sbs-web .ui-page-theme-a, 
+/*
+.sbs-web .ui-overlay-a,
+.sbs-web .ui-page-theme-a,
 .sbs-web .ui-page-theme-a .ui-panel-wrapper {
- /* background-image: url('images/main_image2.jpg');*/
-        background-image:none;
-        background-color: #32394c;
+    background-image: none;
+    background-color: #32394c;
 }
 
-.sbs-cdb .ui-overlay-a, 
-.sbs-cdb .ui-page-theme-a, 
+.sbs-cdb .ui-overlay-a,
+.sbs-cdb .ui-page-theme-a,
 .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
- /* background-image: url('images/main_image2.jpg');*/
-        background-image:none;
-        background-color: #32394c;
+    background-image: none;
+    background-color: #32394c;
 }
 
-.sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
+.sbs-web .ui-overlay-a, .sbs-web .route-page.ui-page-theme-a, .sbs-web .ui-page-theme-a .ui-panel-wrapper {
     background-image: url('v1/images/main_image.jpg') !important;
-
 }
-.sbs-cdb .ui-overlay-a,.sbs-cdb .route-page.ui-page-theme-a,.sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
+
+.sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
     background-image: url('../images/main_image.jpg') !important;
 }
 
 @media (min-width: 800px) {
-        .sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
+    .sbs-web .ui-overlay-a,
+    .sbs-web .route-page.ui-page-theme-a,
+    .sbs-web .ui-page-theme-a .ui-panel-wrapper {
         background-image: url('v1/images/main_image.jpg') !important;
         padding-top: 160px !important;
     }
-    .sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper{
+
+    .sbs-cdb .ui-overlay-a,
+    .sbs-cdb .route-page.ui-page-theme-a,
+    .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
         background-image: url('../images/main_image.jpg') !important;
-         padding-top: 160px !important;
+        padding-top: 160px !important;
     }
 }
 
 @media (min-width: 35em) {
-    .sbs-web .ui-overlay-a, 
-    .sbs-web .ui-page-theme-a, 
-    .sbs-web .ui-page-theme-a .ui-panel-wrapper {
-        /* background-image: url('images/main_image2.jpg');*/
-        background-image:none;
-        background-color: #32394c;
-
-    }
-
-    .sbs-web .ui-overlay-a,.sbs-web .route-page.ui-page-theme-a,.sbs-web .ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('v1/images/main_image.jpg') !important;
-}
-.sbs-cdb .ui-overlay-a,.sbs-cdb .route-page.ui-page-theme-a,.sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('../images/main_image.jpg') !important;
-}
-
-    .sbs-cdb .ui-overlay-a, 
-    .sbs-cdb .ui-page-theme-a, 
+    .sbs-cdb .ui-overlay-a,
+    .sbs-cdb .ui-page-theme-a,
     .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
-        /* background-image: url('images/main_image2.jpg');*/
-        background-image:none;
+        background-image: url('images/main_image2.jpg');
+        background-color: #32394c;
+    }
+
+    .sbs-web .ui-overlay-a,
+    .sbs-web .route-page.ui-page-theme-a,
+    .sbs-web .ui-page-theme-a .ui-panel-wrapper {
+        background-image: url('v1/images/main_image.jpg') !important;
+    }
+
+    .sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
+        background-image: url('../images/main_image.jpg') !important;
+    }
+
+    .sbs-cdb .ui-overlay-a,
+    .sbs-cdb .ui-page-theme-a,
+    .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
+        background-image: none;
         background-color: #32394c;
     }
 }
+    */

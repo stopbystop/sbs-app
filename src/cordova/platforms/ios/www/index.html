@@ -6,6 +6,22 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <meta http-equiv="Content-Security-Policy" />
 
+   
+   <meta name="msapplication-TileColor" content="#ffffff">
+   <meta name="msapplication-TileImage" content='images/ms-icon-144x144.png'>
+   <meta name="theme-color" content="#ffffff">
+   
+   <meta property="og:url" content="https://www.stopbystop.com" />
+   <meta property="og:title" content="Stop by Stop" />
+   <meta property="og:description" content="See best places to stop on the way to your destination" />
+   
+   <meta property="og:site_name" content="Stop by Stop" />
+   <meta property="og:image" content="https://www.stopbystop.com/client/content/v1/images/app_image.jpg" />
+   <meta property="og:image:type" content="image/jpeg" />
+   <meta property="og:image:height" content="1024" />
+   <meta property="og:image:width" content="1024" />
+   <meta property="fb:app_id" content="1385725698401226" />
+   
    <link rel="apple-touch-icon" sizes="57x57" href='images/apple-icon-57x57.png'>
    <link rel="apple-touch-icon" sizes="60x60" href='images/apple-icon-60x60.png'>
    <link rel="apple-touch-icon" sizes="72x72" href='images/apple-icon-72x72.png'>
@@ -15,14 +31,12 @@
    <link rel="apple-touch-icon" sizes="144x144" href='images/apple-icon-144x144.png'>
    <link rel="apple-touch-icon" sizes="152x152" href='images/apple-icon-152x152.png'>
    <link rel="apple-touch-icon" sizes="180x180" href='images/apple-icon-180x180.png'>
-   <link rel="icon" type="image/png" sizes="192x192"  href='images/android-icon-192x192.png'>
+   <link rel="icon" type="image/png" sizes="192x192" href='images/android-icon-192x192.png'>
    <link rel="icon" type="image/png" sizes="32x32" href='images/favicon-32x32.png'>
    <link rel="icon" type="image/png" sizes="96x96" href='images/favicon-96x96.png'>
    <link rel="icon" type="image/png" sizes="16x16" href='images/favicon-16x16.png'>
    <link rel="manifest" href='images/manifest.json'>
-   <meta name="msapplication-TileColor" content="#ffffff">
-   <meta name="msapplication-TileImage" content='images/ms-icon-144x144.png'>
-   <meta name="theme-color" content="#ffffff">   
+   
     <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" />
     <link href="css/jquery.mobile.icons-1.4.5.min.css" rel="stylesheet" />
     <link href="css/jquery.mobile.inline-png-1.4.5.min.css" rel="stylesheet" />
@@ -54,11 +68,10 @@
                 <div class="main_inner">
                     <h2>
                         <a href="#home">
-                            <img src='images/logo2.png' alt="StopByStop" /> 
+                            <img src='images/logo2.png' alt="StopByStop" />
                         </a>
                     </h2>
                     <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-                   
                 </div>
             </div>    <div role="main" class="ui-content jqm-content">
                 <div id="home_content">
@@ -161,21 +174,19 @@
         <!-- end of home page-->        <!-- route page-->
         <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
             <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
-            <div class="main_inner">
-                <h2>
-                    <a href="#home">
-                        <img src='images/logo2.png' alt="StopByStop" /> 
-                    </a>
-                </h2>
-                <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-               
-            </div>
-        </div> <div class="filters-container">
-            <div class="filters-trigger-line1"></div>
-            <div class="filters-trigger-line2"></div>
-            <div class="filters-trigger"></div>
-        </div>
-            <div role="main" class="ui-content jqm-content">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                    <div class="filters-container">
+                        <div class="filters-trigger-line1"></div>
+                        <div class="filters-trigger-line2"></div>
+                        <div class="filters-trigger"></div>
+                    </div>    </div>
+            </div>    <div role="main" class="ui-content jqm-content">
                 <div class="page-content-inner">
                     <div class="breadCrumbHolder module">
                         <div class="breadCrumb module" style="position:relative">
@@ -284,7 +295,11 @@
             </div>
         
                 <!-- filter dialog start-->
-                <div data-role="popup" data-history="false" class="ui-content filter-dlg">
+            
+            <div data-bind=""
+                 data-role="popup"
+                 data-history="false"
+                 class="ui-content filter-dlg">
                     <div data-role="header">
                         <h2>Set filters</h2>
                     </div>
@@ -332,7 +347,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- filter dialog end-->     <!-- stop settings dialog start-->
+                <!-- filter dialog end-->
+             <!-- stop settings dialog start-->
                 <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
                     <div data-bind="with:routePlan">
                         <div data-role="header">
@@ -466,21 +482,19 @@
         <!-- end of route page-->        <!-- exit page-->
         <div id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
             <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
-            <div class="main_inner">
-                <h2>
-                    <a href="#home">
-                        <img src='images/logo2.png' alt="StopByStop" /> 
-                    </a>
-                </h2>
-                <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-               
-            </div>
-        </div> <div class="filters-container">
-            <div class="filters-trigger-line1"></div>
-            <div class="filters-trigger-line2"></div>
-            <div class="filters-trigger"></div>
-        </div>
-            <div role="main" class="ui-content jqm-content">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                    <div class="filters-container">
+                        <div class="filters-trigger-line1"></div>
+                        <div class="filters-trigger-line2"></div>
+                        <div class="filters-trigger"></div>
+                    </div>    </div>
+            </div>    <div role="main" class="ui-content jqm-content">
                 <div class="page-content-inner">
                     <div class="breadCrumbHolder module">
                         <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
@@ -646,7 +660,11 @@
             <!-- /main -->
         
                 <!-- filter dialog start-->
-                <div data-role="popup" data-history="false" class="ui-content filter-dlg">
+            
+            <div data-bind="with:selectedJunction"
+                 data-role="popup"
+                 data-history="false"
+                 class="ui-content filter-dlg">
                     <div data-role="header">
                         <h2>Set filters</h2>
                     </div>
@@ -695,6 +713,7 @@
                     </div>
                 </div>
                 <!-- filter dialog end-->
+        
             <!-- stop settings dialog start-->
                <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
                    <div data-bind="with:routePlan">
@@ -825,11 +844,10 @@
                 <div class="main_inner">
                     <h2>
                         <a href="#home">
-                            <img src='images/logo2.png' alt="StopByStop" /> 
+                            <img src='images/logo2.png' alt="StopByStop" />
                         </a>
                     </h2>
                     <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-                   
                 </div>
             </div>    <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul id="menupanel-list" data-role="listview">
@@ -901,11 +919,10 @@
                 <div class="main_inner">
                     <h2>
                         <a href="#home">
-                            <img src='images/logo2.png' alt="StopByStop" /> 
+                            <img src='images/logo2.png' alt="StopByStop" />
                         </a>
                     </h2>
                     <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-                   
                 </div>
             </div>            <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul id="menupanel-list" data-role="listview">
