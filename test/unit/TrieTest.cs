@@ -6,10 +6,10 @@
 
 namespace Yojowa.StopByStop.UnitTests
 {
+    using System;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Utils;
-    using System;
 
     /// <summary>
     /// Trie test

@@ -7,19 +7,19 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.myapp8735da"
-        },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "io.cordova.myapp8735da"
+            "PACKAGE_NAME": "com.yojowa.stopbystop"
         },
         "cordova-plugin-geolocation": {
-            "PACKAGE_NAME": "io.cordova.myapp8735da"
+            "PACKAGE_NAME": "com.yojowa.stopbystop"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.yojowa.stopbystop"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "io.cordova.myapp8735da"
+            "PACKAGE_NAME": "com.yojowa.stopbystop"
         }
     }
 }
