@@ -8,6 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 /// <reference path="tsdef/ai.d.ts"/>
 var StopByStop;
 (function (StopByStop) {
+    var TelemetryEvent;
     (function (TelemetryEvent) {
         TelemetryEvent[TelemetryEvent["Add5MinToStop"] = 0] = "Add5MinToStop";
         TelemetryEvent[TelemetryEvent["AddStopToRoute"] = 1] = "AddStopToRoute";
@@ -36,19 +37,18 @@ var StopByStop;
         TelemetryEvent[TelemetryEvent["TelLinkClick"] = 24] = "TelLinkClick";
         TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 25] = "ViewTripButtonClick";
         TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 26] = "YelpLinkClick";
-    })(StopByStop.TelemetryEvent || (StopByStop.TelemetryEvent = {}));
-    var TelemetryEvent = StopByStop.TelemetryEvent;
+    })(TelemetryEvent = StopByStop.TelemetryEvent || (StopByStop.TelemetryEvent = {}));
+    var TelemetryProperty;
     (function (TelemetryProperty) {
         TelemetryProperty[TelemetryProperty["FilterVisibility"] = 0] = "FilterVisibility";
         TelemetryProperty[TelemetryProperty["LoadStopsFromCache"] = 1] = "LoadStopsFromCache";
         TelemetryProperty[TelemetryProperty["PageName"] = 2] = "PageName";
         TelemetryProperty[TelemetryProperty["StopCount"] = 3] = "StopCount";
         TelemetryProperty[TelemetryProperty["NavigationUrl"] = 4] = "NavigationUrl";
-    })(StopByStop.TelemetryProperty || (StopByStop.TelemetryProperty = {}));
-    var TelemetryProperty = StopByStop.TelemetryProperty;
+    })(TelemetryProperty = StopByStop.TelemetryProperty || (StopByStop.TelemetryProperty = {}));
+    var TelemetryMeasurement;
     (function (TelemetryMeasurement) {
-    })(StopByStop.TelemetryMeasurement || (StopByStop.TelemetryMeasurement = {}));
-    var TelemetryMeasurement = StopByStop.TelemetryMeasurement;
+    })(TelemetryMeasurement = StopByStop.TelemetryMeasurement || (StopByStop.TelemetryMeasurement = {}));
     var Telemetry = (function () {
         function Telemetry() {
         }
@@ -134,9 +134,9 @@ var StopByStop;
                 }
             }
         };
-        Telemetry._appInsights = window["appInsights"];
         return Telemetry;
     }());
+    Telemetry._appInsights = window["appInsights"];
     StopByStop.Telemetry = Telemetry;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
@@ -274,7 +274,7 @@ var StopByStop;
             return function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+                    args[_i] = arguments[_i];
                 }
                 if (!ran) {
                     ran = true;
@@ -369,52 +369,52 @@ var StopByStop;
             }
             return placeName;
         };
-        // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
-        Utils.observeDOM = (function () {
-            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
-            return function (obj, callback) {
-                if (MutationObserver) {
-                    // define a new observer
-                    var obs = new MutationObserver(function (mutations, observer) {
-                        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
-                            callback();
-                    });
-                    // have the observer observe foo for changes in children
-                    obs.observe(obj, { childList: true, subtree: true });
-                }
-                else if (eventListenerSupported) {
-                    obj.addEventListener('DOMNodeInserted', callback, false);
-                    obj.addEventListener('DOMNodeRemoved', callback, false);
-                }
-            };
-        })();
         return Utils;
     }());
+    // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+    Utils.observeDOM = (function () {
+        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
+        return function (obj, callback) {
+            if (MutationObserver) {
+                // define a new observer
+                var obs = new MutationObserver(function (mutations, observer) {
+                    if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
+                        callback();
+                });
+                // have the observer observe foo for changes in children
+                obs.observe(obj, { childList: true, subtree: true });
+            }
+            else if (eventListenerSupported) {
+                obj.addEventListener('DOMNodeInserted', callback, false);
+                obj.addEventListener('DOMNodeRemoved', callback, false);
+            }
+        };
+    })();
     StopByStop.Utils = Utils;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 "use strict";
 var StopByStop;
 (function (StopByStop) {
+    var SBSApp;
     (function (SBSApp) {
         SBSApp[SBSApp["Web"] = 0] = "Web";
         SBSApp[SBSApp["SPA"] = 1] = "SPA";
-    })(StopByStop.SBSApp || (StopByStop.SBSApp = {}));
-    var SBSApp = StopByStop.SBSApp;
+    })(SBSApp = StopByStop.SBSApp || (StopByStop.SBSApp = {}));
     ;
+    var PoiType;
     (function (PoiType) {
         PoiType[PoiType["General"] = 0] = "General";
         PoiType[PoiType["Gas"] = 1] = "Gas";
         PoiType[PoiType["Food"] = 2] = "Food";
-    })(StopByStop.PoiType || (StopByStop.PoiType = {}));
-    var PoiType = StopByStop.PoiType;
+    })(PoiType = StopByStop.PoiType || (StopByStop.PoiType = {}));
+    var SBSPage;
     (function (SBSPage) {
         SBSPage[SBSPage["home"] = 0] = "home";
         SBSPage[SBSPage["route"] = 1] = "route";
         SBSPage[SBSPage["exit"] = 2] = "exit";
         SBSPage[SBSPage["about"] = 3] = "about";
-    })(StopByStop.SBSPage || (StopByStop.SBSPage = {}));
-    var SBSPage = StopByStop.SBSPage;
+    })(SBSPage = StopByStop.SBSPage || (StopByStop.SBSPage = {}));
 })(StopByStop || (StopByStop = {}));
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
@@ -427,13 +427,13 @@ var StopByStop;
     var AppState = (function () {
         function AppState() {
         }
-        AppState.current = {
-            baseDataUrl: null,
-            baseImageUrl: null,
-            app: null
-        };
         return AppState;
     }());
+    AppState.current = {
+        baseDataUrl: null,
+        baseImageUrl: null,
+        app: null
+    };
     StopByStop.AppState = AppState;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="stopbystop-interfaces.ts"/>
@@ -696,9 +696,9 @@ var StopByStop;
                 $("#view_trip").removeClass("ui-disabled");
             }
         };
-        InitHome.yIncrement = -100;
         return InitHome;
     }());
+    InitHome.yIncrement = -100;
     StopByStop.InitHome = InitHome;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
@@ -811,8 +811,8 @@ var StopByStop;
     }());
     var FilterViewModel = (function () {
         function FilterViewModel(routeId, rjs, foodPoiCategoryOccurrences, topLevelFoodCategories, preserveShowAllSettings) {
-            var _this = this;
             if (preserveShowAllSettings === void 0) { preserveShowAllSettings = true; }
+            var _this = this;
             this.allCategories = {};
             this.foodCategoriesEnablementLookup = {};
             this.allRestaurantCategoriesSelected = ko.observable(false);
@@ -1052,9 +1052,9 @@ var StopByStop;
         LocationViewModel.round1DecimalDigit = function (n) {
             return Math.round(n * 10) / 10;
         };
-        LocationViewModel.GRAIN = 0.1;
         return LocationViewModel;
     }());
+    LocationViewModel.GRAIN = 0.1;
     StopByStop.LocationViewModel = LocationViewModel;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
@@ -1285,7 +1285,7 @@ var StopByStop;
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var srcLat = position.coords.latitude;
                     var srcLon = position.coords.longitude;
-                    var navigationUrl = "http://maps.google.com/maps?saddr="
+                    var navigationUrl = "https://maps.google.com/maps?saddr="
                         + srcLat + ","
                         + srcLon + "&daddr="
                         + _this.location.lat.toString() + ","
@@ -1293,7 +1293,8 @@ var StopByStop;
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.StopPopupNavigateBeforeDirect, [
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.location.assign(navigationUrl);
+                    // window.location.assign(navigationUrl);
+                    window.open(navigationUrl, "_system", "location=yes");
                 }, function (positionError) {
                     try {
                         StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
@@ -1639,7 +1640,7 @@ var StopByStop;
                         daddrStr += "+to:";
                     }
                     daddrStr += _this._destination.lat + "," + _this._destination.lon;
-                    var navigationUrl = "http://maps.google.com/maps?saddr="
+                    var navigationUrl = "https://maps.google.com/maps?saddr="
                         + srcLat + ","
                         + srcLon + "&daddr="
                         + daddrStr;
@@ -1647,7 +1648,8 @@ var StopByStop;
                         { k: StopByStop.TelemetryProperty.StopCount, v: _this.stops().length.toString() },
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.location.assign(navigationUrl);
+                    //window.location.assign(navigationUrl);
+                    window.open(navigationUrl, "_system", "location=yes");
                 }, function (positionError) {
                     StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
                     window.alert("Please allow StopByStop.com to share your location.");
@@ -1750,10 +1752,10 @@ var StopByStop;
                 }
             }
         };
-        RouteSegmentViewModel.SEGMENT_INITIAL_SPACE = 7;
-        RouteSegmentViewModel.SPACE_FOR_JUNCTION = 8;
         return RouteSegmentViewModel;
     }());
+    RouteSegmentViewModel.SEGMENT_INITIAL_SPACE = 7;
+    RouteSegmentViewModel.SPACE_FOR_JUNCTION = 8;
     StopByStop.RouteSegmentViewModel = RouteSegmentViewModel;
 })(StopByStop || (StopByStop = {}));
 /// <reference path="../tsdef/jquery.d.ts"/>
@@ -2133,8 +2135,8 @@ var StopByStop;
 (function (StopByStop) {
     var AppViewModel = (function () {
         function AppViewModel(route, initSettings, routeTitle, routeInitializationComplete) {
-            var _this = this;
             if (routeInitializationComplete === void 0) { routeInitializationComplete = null; }
+            var _this = this;
             this.route = null;
             this.url = ko.observable("");
             this.title = ko.observable("");
@@ -2185,7 +2187,7 @@ var StopByStop;
 String.prototype.f = function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
+        args[_i] = arguments[_i];
     }
     var s = this, i = args.length;
     while (i--) {
@@ -2331,44 +2333,44 @@ var StopByStop;
     var JunctionSPAAppViewModel = (function (_super) {
         __extends(JunctionSPAAppViewModel, _super);
         function JunctionSPAAppViewModel(route, routeJunctionViewModel, parentFilter, routePlan, poiTypeToShow) {
-            var _this = this;
             if (poiTypeToShow === void 0) { poiTypeToShow = StopByStop.PoiType.General; }
-            _super.call(this);
+            var _this = _super.call(this) || this;
             // TODO: here
-            this.routePlan = routePlan;
-            this.routeJunction = routeJunctionViewModel;
-            this.filter = new StopByStop.FilterViewModel(parentFilter.routeId, [this.routeJunction.routeJunction], route.fcat, route.tfcat, false);
+            _this.routePlan = routePlan;
+            _this.routeJunction = routeJunctionViewModel;
+            _this.filter = new StopByStop.FilterViewModel(parentFilter.routeId, [_this.routeJunction.routeJunction], route.fcat, route.tfcat, false);
             // propagate distance and restaurant enablement setting from parent route filter
-            this.filter.maxDistanceFromJunction(parentFilter.maxDistanceFromJunction());
+            _this.filter.maxDistanceFromJunction(parentFilter.maxDistanceFromJunction());
             var mdarr = [
-                [this.filter.maxDistanceFromJunctionIs1, "1"],
-                [this.filter.maxDistanceFromJunctionIs2, "2"],
-                [this.filter.maxDistanceFromJunctionIs3, "3"],
-                [this.filter.maxDistanceFromJunctionIs4, "4"],
-                [this.filter.maxDistanceFromJunctionIs5, "5"]
+                [_this.filter.maxDistanceFromJunctionIs1, "1"],
+                [_this.filter.maxDistanceFromJunctionIs2, "2"],
+                [_this.filter.maxDistanceFromJunctionIs3, "3"],
+                [_this.filter.maxDistanceFromJunctionIs4, "4"],
+                [_this.filter.maxDistanceFromJunctionIs5, "5"]
             ];
             for (var i = 0; i < mdarr.length; i++) {
                 mdarr[i][0](mdarr[i][1] === parentFilter.maxDistanceFromJunction());
             }
-            $.each(this.filter.foodCategoriesEnablement(), function (index, item) {
+            $.each(_this.filter.foodCategoriesEnablement(), function (index, item) {
                 item.visible(parentFilter.foodCategoriesEnablementLookup[item.category.sbsid].visible());
             });
             if (poiTypeToShow === StopByStop.PoiType.Food) {
-                this.filter.showGasStations(false);
+                _this.filter.showGasStations(false);
             }
             else if (poiTypeToShow === StopByStop.PoiType.Gas) {
-                this.filter.showRestaurants(false);
+                _this.filter.showRestaurants(false);
             }
-            var junctionLocationViewModel = this.routeJunction.junction.location;
-            this._poiLocations = StopByStop.LocationViewModel.getGridLocations({
+            var junctionLocationViewModel = _this.routeJunction.junction.location;
+            _this._poiLocations = StopByStop.LocationViewModel.getGridLocations({
                 a: junctionLocationViewModel.lat,
                 o: junctionLocationViewModel.lon
             });
-            this.loadFullPoiData();
-            this.routeJunction.applyFilter(this.filter);
+            _this.loadFullPoiData();
+            _this.routeJunction.applyFilter(_this.filter);
             ko.computed(function () { return ko.toJS(_this.filter); }).subscribe(function () {
                 _this.routeJunction.applyFilter(_this.filter);
             });
+            return _this;
         }
         ;
         JunctionSPAAppViewModel.prototype.initMap = function (mapDiv, mapContainerDiv) {
@@ -2723,11 +2725,11 @@ var StopByStop;
                 });
             }
         };
-        Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
-        Init._loadRoutePromise = null;
-        Init._cachedRoutes = {};
         return Init;
     }());
+    Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
+    Init._loadRoutePromise = null;
+    Init._cachedRoutes = {};
     StopByStop.Init = Init;
 })(StopByStop || (StopByStop = {}));
 // For an introduction to the Blank template, see the following documentation:

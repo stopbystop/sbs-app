@@ -239,7 +239,7 @@ module StopByStop {
                         }
 
                         daddrStr += this._destination.lat + "," + this._destination.lon;
-                        var navigationUrl = "http://maps.google.com/maps?saddr="
+                        var navigationUrl = "https://maps.google.com/maps?saddr="
                             + srcLat + ","
                             + srcLon + "&daddr="
                             + daddrStr;
@@ -253,7 +253,8 @@ module StopByStop {
                             null,
                             true);
 
-                        window.location.assign(navigationUrl);
+                        //window.location.assign(navigationUrl);
+                        window.open(navigationUrl, "_system", "location=yes");
 
                     },
                     (positionError: PositionError) => {

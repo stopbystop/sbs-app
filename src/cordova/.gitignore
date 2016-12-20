@@ -1,7 +1,7 @@
 ﻿# .gitignore
-[Pp]latforms/android/
-[Pp]latforms/windows/
+[Pp]latforms/
 *.map
+*.user
 
 # Generated files
 www/index.html
@@ -11,3 +11,4 @@ www/css/sbsbundle*
 www/fonts/**/*
 build.json
 res/native/android/ant.properties
+bld/

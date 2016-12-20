@@ -27,8 +27,6 @@ module StopByStop.Cordova {
             // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
             var viewPortScale = 1 / window.devicePixelRatio;
             $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
-
-
         }
 
         function onPause() {

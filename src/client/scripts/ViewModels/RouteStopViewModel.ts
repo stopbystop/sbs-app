@@ -79,7 +79,7 @@ module StopByStop {
 
                         var srcLat = position.coords.latitude;
                         var srcLon = position.coords.longitude;
-                        var navigationUrl = "http://maps.google.com/maps?saddr="
+                        var navigationUrl = "https://maps.google.com/maps?saddr="
                             + srcLat + ","
                             + srcLon + "&daddr="
                             + this.location.lat.toString() + ","
@@ -94,7 +94,8 @@ module StopByStop {
                             null,
                             true);
 
-                        window.location.assign(navigationUrl);
+                        // window.location.assign(navigationUrl);
+                        window.open(navigationUrl, "_system", "location=yes");
                     },
                     (positionError: PositionError) => {
                         try {

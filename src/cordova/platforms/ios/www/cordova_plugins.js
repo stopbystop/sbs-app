@@ -1,40 +1,49 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "id": "cordova-plugin-device.device",
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+        "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "pluginId": "cordova-plugin-inappbrowser",
+        "clobbers": [
+            "cordova.InAppBrowser.open",
+            "window.open"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
         "pluginId": "cordova-plugin-device",
         "clobbers": [
             "device"
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.Coordinates",
         "file": "plugins/cordova-plugin-geolocation/www/Coordinates.js",
+        "id": "cordova-plugin-geolocation.Coordinates",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "Coordinates"
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.PositionError",
         "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "id": "cordova-plugin-geolocation.PositionError",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "PositionError"
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.Position",
         "file": "plugins/cordova-plugin-geolocation/www/Position.js",
+        "id": "cordova-plugin-geolocation.Position",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "Position"
         ]
     },
     {
-        "id": "cordova-plugin-geolocation.geolocation",
         "file": "plugins/cordova-plugin-geolocation/www/geolocation.js",
+        "id": "cordova-plugin-geolocation.geolocation",
         "pluginId": "cordova-plugin-geolocation",
         "clobbers": [
             "navigator.geolocation"
@@ -44,10 +53,11 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-inappbrowser": "1.6.1",
     "cordova-plugin-device": "1.1.3",
     "cordova-plugin-geolocation": "2.4.0",
-    "cordova-plugin-whitelist": "1.2.1"
-};
+    "cordova-plugin-whitelist": "1.2.1",
+    "cordova-plugin-compat": "1.1.0"
+}
 // BOTTOM OF METADATA
 });

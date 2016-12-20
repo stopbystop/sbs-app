@@ -15,6 +15,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.yojowa.stopbystop"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.yojowa.stopbystop"
         }
     },
     "dependent_plugins": {
