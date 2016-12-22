@@ -13,10 +13,10 @@
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.yojowa.stopbystop"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.yojowa.stopbystop"
         },
-        "cordova-plugin-inappbrowser": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.yojowa.stopbystop"
         }
     },
