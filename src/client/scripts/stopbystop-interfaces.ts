@@ -27,6 +27,7 @@ module StopByStop {
     export interface IAppState {
         baseDataUrl: string;
         baseImageUrl: string;
+        windowOpenTarget: string;
         app: SBSApp;
         urls?: IInitUrls;
         pageInfo?: IPageInfo;

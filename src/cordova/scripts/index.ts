@@ -66,14 +66,15 @@ module StopByStop.Cordova {
 
     $.mobile.ajaxEnabled = true;
     $.mobile.allowCrossDomainPages = true;
-    $.support.cors = true;       
+    $.support.cors = true;
 
     StopByStop.Init.initialize({
         app: SBSApp.SPA,
         baseDataUrl: "https://www.stopbystop.com/",
         baseImageUrl: "images/",
         navigationLocation: { page: SBSPage.home },
-        historyDisabled:true
+        historyDisabled: true,
+        windowOpenTarget: "_system"
     });
 
     window.onload = function () {

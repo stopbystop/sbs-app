@@ -45,16 +45,17 @@ module StopByStop {
     }
 };
 
-QUnit.begin(()=>
-{
+QUnit.begin(() => {
     StopByStop.AppState.current = {
-        app:StopByStop.SBSApp.Web,
-        baseDataUrl:"",
-        baseImageUrl:"",
-        pageInfo : {
-                        pageName: "TestPageName",
-                        telemetryPageName: "TestPageName"
-    }};
+        app: StopByStop.SBSApp.Web,
+        baseDataUrl: "",
+        baseImageUrl: "",
+        windowOpenTarget: "_system",
+        pageInfo: {
+            pageName: "TestPageName",
+            telemetryPageName: "TestPageName"
+        }
+    };
 });
 
 QUnit.test("RoutePlanViewModel: constructor test", (assert) => {
@@ -82,7 +83,7 @@ QUnit.test("RoutePlanViewModel: add stop test", (assert) => {
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
     assert.ok(routeStopViewModel);
-    
+
     routePlanViewModel.addStopToRoute(routeStopViewModel);
     assert.equal(routePlanViewModel.stops().length, 1);
     assert.equal(routePlanViewModel.stops()[0].stopDuration(), 5);
@@ -115,8 +116,8 @@ QUnit.test("RoutePlanViewModel: change stop duration time test", (assert) => {
     routeStopViewModel.subtract5MinutesFromDuration();
     assert.equal(routePlanViewModel.stops()[0].stopDurationHours(), "00");
     assert.equal(routePlanViewModel.stops()[0].stopDurationMinutes(), "05");
-    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),      	
-         "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
+    assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY),
+        "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
 });
 
 QUnit.test("RoutePlanViewModel: remove stop test", (assert) => {

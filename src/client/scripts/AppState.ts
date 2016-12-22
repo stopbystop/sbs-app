@@ -11,7 +11,8 @@ module StopByStop {
         public static current: IAppState = {
             baseDataUrl: null,
             baseImageUrl: null,
-            app: null
+            app: null,
+            windowOpenTarget: "_system"
         };
     }
 }

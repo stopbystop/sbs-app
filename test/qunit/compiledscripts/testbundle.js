@@ -1000,7 +1000,7 @@ var StopByStop;
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var srcLat = position.coords.latitude;
                     var srcLon = position.coords.longitude;
-                    var navigationUrl = "http://maps.google.com/maps?saddr="
+                    var navigationUrl = "https://maps.google.com/maps?saddr="
                         + srcLat + ","
                         + srcLon + "&daddr="
                         + _this.location.lat.toString() + ","
@@ -1008,7 +1008,7 @@ var StopByStop;
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.StopPopupNavigateBeforeDirect, [
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.location.assign(navigationUrl);
+                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
                 }, function (positionError) {
                     try {
                         StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
@@ -1039,7 +1039,8 @@ var StopByStop;
     AppState.current = {
         baseDataUrl: null,
         baseImageUrl: null,
-        app: null
+        app: null,
+        windowOpenTarget: "_system"
     };
     StopByStop.AppState = AppState;
 })(StopByStop || (StopByStop = {}));
@@ -1374,7 +1375,7 @@ var StopByStop;
                         daddrStr += "+to:";
                     }
                     daddrStr += _this._destination.lat + "," + _this._destination.lon;
-                    var navigationUrl = "http://maps.google.com/maps?saddr="
+                    var navigationUrl = "https://maps.google.com/maps?saddr="
                         + srcLat + ","
                         + srcLon + "&daddr="
                         + daddrStr;
@@ -1382,7 +1383,7 @@ var StopByStop;
                         { k: StopByStop.TelemetryProperty.StopCount, v: _this.stops().length.toString() },
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.location.assign(navigationUrl);
+                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
                 }, function (positionError) {
                     StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
                     window.alert("Please allow StopByStop.com to share your location.");
@@ -2775,6 +2776,7 @@ QUnit.begin(function () {
         app: StopByStop.SBSApp.Web,
         baseDataUrl: "",
         baseImageUrl: "",
+        windowOpenTarget: "_system",
         pageInfo: {
             pageName: "TestPageName",
             telemetryPageName: "TestPageName"

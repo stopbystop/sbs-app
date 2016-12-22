@@ -40,6 +40,9 @@ gulp.task('html:web', function () {
             },
             filterDialogBind: function (forJunction) {
                 return forJunction ? 'with:selectedJunction' : '';
+            },
+            linkClick: function () {
+                return "";
             }
 
         }
@@ -72,6 +75,9 @@ gulp.task('html:cordova', function () {
             },
             filterDialogBind: function (forJunction) {
                 return forJunction ? 'with:selectedJunction' : '';
+            },
+            linkClick: function () {
+                return "window.open(this.href, '_system', 'location=yes'); return false;";
             }
         }
     }

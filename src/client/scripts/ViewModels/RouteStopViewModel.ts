@@ -94,8 +94,7 @@ module StopByStop {
                             null,
                             true);
 
-                        // window.location.assign(navigationUrl);
-                        window.open(navigationUrl, "_system", "location=yes");
+                        window.open(navigationUrl, AppState.current.windowOpenTarget, "location=yes");
                     },
                     (positionError: PositionError) => {
                         try {

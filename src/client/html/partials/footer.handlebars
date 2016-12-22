@@ -24,7 +24,7 @@
             <!--Facebook-->
             <li>          
                 <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
-                   onclick="window.open(this.href, '_system', 'location=yes'); return false;"
+                   onclick="{{linkClick}}"
                    class="popup social-fb social-btn" target="_blank">
                     <img src="{{{getImage "fb.png"}}}" alt="facebook">
                 </a>
@@ -35,7 +35,7 @@
             <li>
               
                 <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
-                   onclick="window.open(this.href, '_system', 'location=yes'); return false;"
+                   onclick="{{linkClick}}"
                    class="popup social-gp social-btn" target="_blank">
                     <img src="{{{getImage "google.png"}}}" alt="google+">
                    
@@ -44,7 +44,7 @@
             <!--linkdin-->
             <li>
                 <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
-                   onclick="window.open(this.href, '_system', 'location=yes'); return false;"
+                   onclick="{{linkClick}}"
                    class="popup social-ln social-btn" target="_blank">
                     <img src="{{{getImage "linkedin.png"}}}" alt="linkedin">
                 </a>
@@ -52,7 +52,7 @@
             <!--Twitter-->
             <li>
                 <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
-                   onclick="window.open(this.href, '_system', 'location=yes'); return false;"
+                   onclick="{{linkClick}}"
                    target="_blank" class="popup social-tw social-btn">
                     <img src="{{{getImage "twitter.png"}}}" alt="twitter">
                     

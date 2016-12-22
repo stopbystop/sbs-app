@@ -24,7 +24,7 @@ namespace Yojowa.StopByStop.Web.Service.Proxy
             return GetObjectFromRemoteServer<GeoPlace[]>(
                 this.serviceUrl,
                 "findplacesinarea",
-                Tuple.Create<string, object>("center", center),
+                Tuple.Create<string, object>("locationString", center),
                 Tuple.Create<string, object>("maxItems", maxItems.ToString()));
         }
 
