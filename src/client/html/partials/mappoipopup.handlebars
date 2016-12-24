@@ -8,7 +8,7 @@
 
                 <div data-bind="css:'poi-placename poi-placename-'+StopByStop.PoiType[poi.poiType].toLowerCase()" class='poi-placename' style='font-size:1em;line-height:1.1em;' itemscope='itemscope' itemtype='http://schema.org/LocalBusiness'>
                     <span itemprop='name' data-bind="text:poi.name" style='font-size:1em;'></span>
-                </div>
+                </div>  
                 <div class='poi-details' style='font-size:0.6em;' data-bind="html:poi.description"></div>
                 <div class='poi-details distance' style='font-size:0.6em;text-align:center;' data-bind="html:distanceFromJunctionText"></div>
                 <img src='{{{getImage "add_to_route.png"}}}' class='poi-table-cell-go' style='height:40px;' alt='Add to route' />

@@ -47,9 +47,7 @@
                         </div>
 
                         <div class="route-description2 miles">
-
                             <span class="route-description-metric-label">within</span>
-
                             <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
                             <span class="route-description-metric-label">mile(s) from exit</span>
                         </div>
@@ -65,85 +63,13 @@
 
                             <!-- start food POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
-                                <div class="poi-table-row">
-                                    <div class="poi-table-cell poi-details-cell">
-                                        <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
-                                            style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-                                            <div poi-placename-food" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
-                                            <div class="exit-food">
-                                                <span class="poi-placename" itemprop="name" data-bind="text:poi.name"></span>
-                                                <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
-
-                                                    <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
-                                                </div>
-                                            </div>
-                                            <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
-                                            <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
-                                        </a>
-                                    </div>
-                                    <div class="poi-table-cell poi-yelp-cell">
-                                        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
-                                            <div><img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
-                                                    alt="Yelp" /></div>
-                                            <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
-
-                                            <div data-bind="visible: !poi.isYInfoLoading()">
-                                                <div class="rating-small poi-rating">
-                                                    <i data-bind="css:'star-img '+poi.yStarClass()"></i>
-                                                </div>
-                                                <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="poi-table-cell poi-phone-cell call-icon">
-                                        <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title"
-                                            target="_blank">
-                                            <img src='{{{getImage "phone2.png"}}}' class="poi-phone" alt="Call" />
-                                        </a>
-                                    </div>
-                                    <!-- /poi-table-cell -->
-                                </div>
-                                <!-- /poi-table-row -->
+                              {{>poiRow showCategories=true poiType='food'}}
                             </div>
                             <!-- /poi-table -->
                             <!-- end food POI list-->
                             <!-- start gas POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleGasPois">
-                                <div class="poi-table-row">
-                                    <div class="poi-table-cell poi-details-cell">
-                                        <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
-                                            style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-                                            <div class="poi-placename-gas" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
-                                            <div class="exit-gas">
-                                                <span class="poi-placename" itemprop="name" data-bind="text:poi.name"></span>
-                                            </div>
-                                            <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
-                                            <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
-                                        </a>
-                                    </div>
-                                    <div class="poi-table-cell poi-yelp-cell">
-                                        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
-                                            <div><img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
-                                                    alt="Yelp" /></div>
-                                            <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
-
-                                            <div data-bind="visible: !poi.isYInfoLoading()">
-                                                <div class="rating-small poi-rating">
-                                                    <i data-bind="css:'star-img '+poi.yStarClass()"></i>
-                                                </div>
-                                                <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="poi-table-cell poi-phone-cell call-icon">
-                                        <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title"
-                                            target="_blank">
-                                            <img src='{{{getImage "phone2.png"}}}' class="poi-phone" alt="Call" />
-                                        </a>
-                                    </div>
-                                    <!-- /poi-table-cell -->
-                                </div>
-                                <!-- /poi-table-row -->
+                                {{>poiRow showCategories=false poiType='gas'}}
                             </div>
                             <!-- /poi-table -->
                             <!-- end gas POI list-->

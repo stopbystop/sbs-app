@@ -172,6 +172,7 @@
     <Content Include="html\partials\filterDialog.handlebars" />
     <None Include="html\partials\mappoipopup.handlebars" />
     <None Include="html\partials\sidebar.handlebars" />
+    <None Include="html\partials\poiRow.handlebars" />
     <Content Include="outscripts\sbsbundle.js" />
     <Content Include="outscripts\sbsbundle.js.min.js" />
     <Content Include="outscripts\webBundle.js" />

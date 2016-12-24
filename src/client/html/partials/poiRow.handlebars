@@ -1,0 +1,44 @@
+<div class="poi-table-row">
+    <div class="poi-table-cell poi-details-cell">
+        <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
+           style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
+            <div class="poi-placename poi-placename-{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div class="exit-{{poiType}}">
+                <div class="poi-placename">
+                    <span itemprop="name" data-bind="text:poi.name"></span>
+                </div>
+                {{#if showCategories}}
+                <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
+                    <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
+                </div>
+                {{/if}}
+                <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
+                <div class="poi-table-cell-go">
+                    <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="poi-table-cell poi-yelp-cell">
+        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
+            <div>
+                <img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
+                     alt="Yelp" />
+            </div>
+            <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
+
+            <div data-bind="visible: !poi.isYInfoLoading()">
+                <div class="rating-small poi-rating">
+                    <i data-bind="css:'star-img '+poi.yStarClass()"></i>
+                </div>
+                <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
+            </div>
+        </a>
+    </div>
+    <div class="poi-table-cell poi-phone-cell call-icon">
+        <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title" target="_blank">
+            <img src='{{{getImage "phone2.png"}}}' class="poi-phone" alt="Call" />
+        </a>
+    </div>
+    <!-- /poi-table-cell -->
+</div>

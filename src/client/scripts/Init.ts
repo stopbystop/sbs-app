@@ -319,10 +319,6 @@ module StopByStop {
                     }
 
 
-                    // this is a hack. But I am not sure why this class is added despite the fact that
-                    // sbsheader is added with {position:fixed}
-                    // $("#sbsheader").removeClass("ui-fixed-hidden");
-
                     Telemetry.trackPageView(
                         AppState.current.pageInfo.telemetryPageName,
                         "#" + AppState.current.pageInfo.pageName,
