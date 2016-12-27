@@ -1,0 +1,119 @@
+﻿/* Homepage */
+.main_title {
+    color: #ffffff;
+    font-size: 2em;
+    font-weight: 100;
+    text-align: center;
+    margin: 0;
+    font-family: 'AleoLight', Arial;
+    padding-top: 10%;
+    padding-bottom: 30px;
+}
+
+    .main_title span {
+        font-family: 'AleoBold', Arial;
+        color: #ff9c00;
+        text-transform: uppercase;
+    }
+
+.sub_title {
+    color: #9cadb7;
+    margin: 0 auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    position: relative;
+    text-align: center;
+    padding-bottom: 10px;
+    text-transform: none !important;
+    width: 90%;
+    display: inherit;
+    font-weight: 400;
+    line-height: 1.2em;
+    font-size: 1em;
+    font-family: 'MontReg',Arial;
+}
+
+.description_title {
+    font-family: 'MontReg',Arial;
+    font-size: 1em;
+    margin: 0 auto;
+    padding: 5px 0px;
+    padding-top: 15px;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    width: 100%;
+    font-weight: 300;
+    padding-bottom: 10px;
+    background: #202637;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
+}
+
+.title_body {
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 3px 3px 9px #606060;
+    display: inherit;
+    font-weight: inherit;
+}
+
+
+.form_title {
+    color: #fff;
+    font-size: 2em;
+    margin-top: 0;
+    text-align: center;
+    font-family: 'AleoLight',Arial;
+}
+
+    .form_title span {
+        font-family: 'AleoBold',Arial;
+        text-transform: uppercase;
+        color: #ff9c00;
+    }
+
+.ui-filterable .ui-input-search {
+    margin-left: 35px;
+    margin-right: 35px;
+    background-color: #272d3f;
+}
+
+/* city images styles */
+.imageholder {
+    background-color: #73C5E1;
+    background-size: 100px;
+    display: inline-block;
+    overflow: hidden;
+    width: 98px;
+    height: 55px;
+    position: relative;
+    border: 1px solid rgb(204, 204, 204);
+    margin: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.childdiv {
+    height: 28px;
+    width: 98px;
+    background-color: rgba(51,51,51,0.5);
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#Images {
+    text-align: center;
+}
+
+/* end of city images tyles*/
+/* end of home page styles*/
+

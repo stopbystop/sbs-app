@@ -1,0 +1,34 @@
+﻿@media only all and (min-width: 48em) {
+
+    .main_title {
+        font-size: 4em;
+    }
+
+    .description_title {
+        width: 94%;
+    }
+
+    .sub_title {
+        font-size: 2.45em !important;
+        width: 70%;
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+
+    .imageholder {
+        background-size: 200px;
+        width: 160px;
+        height: 90px;
+        font-size: 1.5em;
+    }
+
+    .childdiv {
+        height: 45px;
+        width: 160px;
+    }
+
+    .ui-filterable .ui-input-search {
+        margin-left: 91px;
+        margin-right: 91px;
+    }
+}

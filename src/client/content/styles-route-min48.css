@@ -1,0 +1,154 @@
+﻿@media only all and (min-width: 48em) {
+    .route {
+        margin: 0 auto;
+        max-width: 600px;
+        padding-left: 20%;
+        padding-right: 20%;
+        width: 60%;
+    }
+
+    .segment-name {
+        width: 100%;
+        margin-left: 5%;
+    }
+
+    .segment-instructions {
+        font-size: 1.2em;
+        margin-left: 25px;
+    }
+
+    .highway-name {
+        font-size: 1.3em;
+        line-height: 1em;
+        margin-left: 25px;
+    }
+
+    .segment-distance {
+        font-size: 1.2em;
+    }
+
+    .distance-to-junction {
+        height: 30px;
+        line-height: 28px;
+        min-width: 0 !important;
+        width: 9em !important;
+        top: 110px;
+        margin: 0 39%;
+    }
+
+    .junction-wrapper {
+        position: absolute;
+        width: 100%;
+        z-index: 100;
+    }
+
+    .junction {
+        width: 190px;
+        margin-left: -60px;
+    }
+
+    .junction-name {
+        padding: 0 35px;
+    }
+
+    .poi {
+        width: 4em;
+        height: 4em;
+        margin: 0 .6em;
+    }
+
+    .poi-count {
+        width: 1.5em;
+        height: 1.5em;
+        font-size: .9em;
+        left: 51px;
+    }
+
+    .gas, .food {
+        background-size: 40px;
+    }
+
+    .poi-distance-label {
+        top: 75px;
+        left: 13px;
+        font-size: 1em;
+    }
+
+    div.ui-slider {
+        height: 30px;
+        margin: 25px 0;
+        padding: 0 20%;
+        width: 60%;
+    }
+
+    .route-description2 {
+        width: 94%;
+    }
+
+        .route-description2 .first-label {
+            margin-left: -35px;
+        }
+
+    .route-description-metric-label, .route-description-metric, .miles .route-description-metric {
+        font-size: 2em;
+    }
+
+    .route-description-metric {
+        margin-right: 139px;
+    }
+
+    #sidebar {
+        margin-top: 285px !important;
+    }
+
+    #sidebar-inner {
+        left: 40px;
+    }
+
+    .sidebar-label {
+        width: 9.5em;
+    }
+
+    .sidebar_text {
+        line-height: .8em;
+        font-size: 2.5em;
+    }
+
+    .route-start, .route-eta {
+        font-size: 1.8em;
+        line-height: 1.5em;
+        padding: 0;
+    }
+
+    .sidebar-stop-time {
+        width: 260px;
+        left: 72px;
+        font-size: 1.3em;
+        padding: 4px;
+    }
+
+    .sidebar-stop {
+        width: 4em;
+        height: 3.8em;
+    }
+
+    .filters-container {
+        top: -95px;
+        height: 50px;
+        right: -55%;
+    }
+
+    .filters-trigger {
+        background-size: 69%;
+    }
+
+    .filters-trigger-line1, .filters-trigger-line2 {
+        border: 0;
+    }
+
+    .letsgo-container .letsgo-button {
+        font-size: 1.8em;
+        width: 35%;
+        margin-left: auto;
+    }
+}

@@ -1,0 +1,30 @@
+﻿@media only all and (min-width: 32em) {
+    .ui-input-search:after {
+        width: 28px;
+        height: 28px;
+        left: 1em;
+        margin-top: -11px;
+    }
+
+    .jqm-block-content {
+        min-height: 18em;
+    }
+
+    #home_content {
+        padding-top: 2em;
+    }
+
+    .jqm-demos .jqm-header h2 img {
+        padding: 0 0 .1em;
+    }
+
+    .breadcrumb_main {
+        width: 106.5%;
+        margin-left: -20px;
+    }
+
+    .breadCrumb.module {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+}

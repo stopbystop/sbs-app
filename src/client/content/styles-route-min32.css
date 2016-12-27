@@ -1,0 +1,131 @@
+﻿@media only all and (min-width: 32em) {
+    .sbs .button-green {
+        font-size: 1.5em;
+        margin: 0 0 0 -18px;
+        width: 106%;
+    }
+
+    .segment-instructions {
+        font-size: 1em;
+    }
+
+    .highway-name {
+        font-size: 1.2em;
+    }
+
+    .segment-distance {
+        font-size: 1em;
+    }
+
+    .direction-icon {
+        width: 35px;
+        height: 35px;
+        left: 7px;
+    }
+
+        .direction-icon.exit {
+            background-size: 13px;
+            background-position: 38%;
+        }
+
+        .direction-icon.southwest {
+            background-size: 10px;
+            background-position: 50%;
+        }
+
+
+        .direction-icon.right, .direction-icon.left, .direction-icon.merge {
+            background-size: 13px;
+        }
+
+    .distance-to-junction {
+        height: 30px;
+        line-height: 28px;
+        min-width: 0 !important;
+        width: 10.5em !important;
+        top: 110px;
+        margin: 0 37.3%;
+    }
+
+    .junction {
+        width: 140px;
+        margin-left: -40px;
+    }
+
+    .poi-details {
+        float: left;
+        overflow: hidden;
+        width: 75%;
+    }
+
+    .poi {
+        width: 4em;
+        height: 4em;
+        margin: 0 .6em;
+    }
+
+    .poi-count {
+        width: 1.5em;
+        height: 1.5em;
+        font-size: .9em;
+        left: 49px;
+    }
+
+    .gas, .food {
+        background-size: 40px;
+    }
+
+    .poi-distance-label {
+        top: 75px;
+        left: 13px;
+        font-size: 1em;
+    }
+
+    #sidebar {
+        margin-left: 17px;
+        margin-top: 262px !important;
+    }
+
+    .route-start, .route-eta {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .sidebar-label {
+        width: 6.5em;
+    }
+
+    #sidebar-inner {
+        left: 12px;
+    }
+
+    .sidebar-stop-time {
+        width: 170px;
+    }
+
+    .sidebar_text {
+        font-size: 1.5em;
+        padding: 5px;
+    }
+
+    .sidebar-label, .route-start, .route-eta {
+        font-size: 1em;
+    }
+
+    .route-start, .route-eta {
+        padding: 8px 12px;
+    }
+
+    #sidebar-inner {
+        left: -4px;
+    }
+
+    .sidebar-label {
+        left: -1.7em;
+    }
+
+    .filters-container {
+        top: -80px;
+        right: -55%;
+    }
+}

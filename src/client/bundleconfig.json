@@ -4,7 +4,22 @@
     "inputFiles": [
       "content/BreadCrumb.css",
       "content/rrssb.css",
-      "content/styles.css",
+      "content/styles-common.css",
+      "content/styles-common-min24.css",
+      "content/styles-common-min32.css",
+      "content/styles-common-min48.css",
+      "content/styles-home.css",
+      "content/styles-home-min24.css",
+      "content/styles-home-min32.css",
+      "content/styles-home-min48.css",
+      "content/styles-route.css",
+      "content/styles-route-min24.css",
+      "content/styles-route-min32.css",
+      "content/styles-route-min48.css",
+      "content/styles-exit.css",
+      "content/styles-exit-min24.css",
+      "content/styles-exit-min32.css",
+      "content/styles-exit-min48.css",
       "content/styles_delayed.css"
     ]
   },
@@ -26,4 +41,4 @@
       "compiledscripts/webbundle.js"
     ]
   }
-] 
+]

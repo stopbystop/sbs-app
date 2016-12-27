@@ -1,0 +1,10 @@
+﻿@media only all and (min-width: 24em) {
+        .jqm-demos .jqm-header h2 img {
+            width: 5em;
+        }
+
+    .social_icons img {
+        width: 32px;
+        height: 32px;
+    }
+}

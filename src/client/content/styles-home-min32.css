@@ -1,0 +1,35 @@
+﻿@media only all and (min-width: 32em) {
+    .main_title {
+        font-size: 3em;
+        padding-bottom: 56px;
+    }
+
+    .description_title {
+        font-size: 2em;
+    }
+
+    .sub_title {
+        font-size: 2em;
+    }
+
+    .form_title {
+        font-size: 2em;
+    }
+
+    .imageholder {
+        background-size: 150px;
+        width: 128px;
+        height: 72px;
+        margin: 10px;
+        font-size: 1em;
+    }
+
+    .childdiv {
+        height: 36px;
+        width: 128px;
+    }
+
+    .ui-input-search input {
+        font-size: 1.5em;
+    }
+}

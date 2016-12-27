@@ -1,0 +1,107 @@
+﻿@media only all and (min-width: 48em) {
+    .main_inner {
+        width: 100%;
+    }
+
+    .jqm-demos .jqm-header h2 {
+        padding: 44px 5px;
+    }
+
+        .jqm-demos .jqm-header h2 img {
+            width: 300px;
+            height: 114px;
+        }
+
+    .jqm-demos .jqm-header p {
+        bottom: auto;
+        left: auto;
+        top: 50%;
+        right: 15%;
+        font-size: 1.2em;
+        margin-top: -.625em;
+    }
+
+    .jqm-demos .jqm-search-link {
+        right: 3%;
+    }
+
+    .jqm-demos .jqm-footer p {
+        float: right;
+        margin: 1.5em 3% 1.5em 1.5em;
+    }
+
+        .jqm-demos .jqm-footer p:first-child {
+            float: left;
+            margin: 1.25em 1.25em 1.25em 3%;
+        }
+
+
+
+
+    .jqm-search-panel {
+        width: 26em;
+        right: -26em;
+        z-index: 1003; /* Puts the panel on top of the dismiss modal which is not adjusted to custom width */
+    }
+
+    .ui-panel-inner {
+        padding: 1em;
+        text-align: right;
+        text-transform: uppercase;
+    }
+
+    .ui-listview > li {
+        display: inline;
+        overflow: visible;
+        position: relative;
+    }
+
+    /* override default JQM behavior and show menu link in desktop resolution */
+    .jqm-demos .jqm-navmenu-link {
+        display: block;
+    }
+
+    .jqm-demos .jqm-header .ui-btn {
+        left: -31%;
+    }
+
+    .main_inner .ui-btn.jqm-navmenu-link {
+        width: 2em;
+        height: 2em;
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    }
+
+    .navbar-brand.ui-btn {
+        color: #ffffff;
+        font-size: 18px;
+    }
+
+    .jqm-demos .jqm-header h2 {
+        padding: 60px 5px;
+    }
+
+    .page-content {
+        display: inline-block;
+        padding: 30px 10%;
+        width: 80%;
+    }
+
+    .ui-panel-inner {
+        position: static;
+        padding: 0;
+    }
+
+    .breadcrumb_main {
+        margin-top: 1px;
+        width: 100%;
+        background: #202637;
+    }
+
+    .exit-page .breadcrumb-arrow {
+        width: 8px;
+    }
+
+    .jqm-header.ui-header {
+        padding-top: 0;
+    }
+}

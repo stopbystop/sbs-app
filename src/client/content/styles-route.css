@@ -1,0 +1,968 @@
+﻿/* Route page styles */
+.route {
+    padding-left: 0;
+    position: relative;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -o-user-select: none;
+    width: 100%;
+}
+.sbs .textbox {
+    margin: 0;
+    min-height: 2.2em;
+    text-align: left;
+    border: solid 1px #cacaca;
+    background: transparent none;
+    -webkit-appearance: none;
+    -webkit-border-radius: inherit;
+    border-radius: inherit;
+    padding: .4em;
+    line-height: 1.3em;
+    display: block;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+}
+
+    .sbs .textbox:focus {
+        border: solid 1px #27ae60;
+    }
+
+.input-tip {
+    font-size: 0.9em;
+}
+
+.input-wrapper {
+    position: relative;
+    margin: 2em 0;
+}
+
+    .input-wrapper .ui-loader {
+        display: block;
+        position: absolute;
+    }
+
+.sbs .button {
+    display: block;
+    margin: 0.5em 0;
+    min-width: 43%;
+    padding: 11px 1em;
+    text-align: center;
+    transition: all 250ms ease 0s;
+    width: 100%;
+}
+
+.sbs a.button, .sbs a.button:visited {
+    font-weight: normal;
+    width: auto;
+    text-decoration: none;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.sbs .button-green {
+    background-color: #ff9c00;
+    border: medium none;
+    color: #ffffff;
+    font-weight: 400;
+    margin: 0 0 0 -10px;
+    text-transform: uppercase;
+    font-family: 'MontReg', Arial;
+    width: 106%;
+    height: 70px;
+    font-size: 1em;
+}
+
+
+.button-green:hover {
+    background-color: #11a2a6;
+}
+
+.ui-body {
+    margin: 0.4em 0;
+}
+
+.poi-count {
+    border-radius: 50%;
+    width: .8em;
+    height: .8em;
+    color: #ffffff;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    line-height: 1em;
+    font-family: 'MontReg',Arial;
+    font-size: .3em;
+    font-weight: 100;
+    background: #202637;
+    border: .2em solid #202637;
+    top: 0px;
+    left: 40px;
+    float: right;
+}
+
+.poi-distance-label {
+    position: absolute;
+    top: 55px;
+    height: 20px;
+    width: 45px;
+    line-height: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: .3em;
+    font-weight: 400;
+    color: #fff;
+    left: 3px;
+}
+
+.segment {
+    position: relative;
+    margin-top: 50px;
+}
+
+.segment-name {
+    width: 58%;
+    height: auto text-align: center;
+    line-height: 2.5em;
+    position: absolute;
+    margin-left: 21%;
+    word-break: nowrap;
+    font-family: 'MontReg', Arial;
+    font-size: 1.273em;
+    background-color: #2b3244;
+    border-radius: 10px;
+    padding: 15px 30px;
+    color: #d3d7e1;
+    text-transform: uppercase;
+}
+
+
+.highway-name {
+    overflow: hidden;
+    display: block;
+    width: 80%;
+    text-overflow: ellipsis;
+    font-size: 1.636em;
+    color: #fff;
+    font-weight: 100;
+    text-align: center;
+    margin-left: 20px;
+    line-height: 1.5em;
+    font-family: 'MontLight',Arial;
+}
+
+.segment-instructions {
+    display: block;
+    width: 100%;
+    line-height: 1.2em;
+    font-family: 'MontReg', Arial;
+    font-size: 1.273em;
+    text-transform: none;
+    font-variant: normal;
+    background-color: transparent;
+    margin-bottom: 0;
+    max-width: 80%;
+    text-align: center;
+    margin-left: 20px;
+    margin-top: auto;
+}
+
+    .segment-instructions b {
+        color: #ffb301;
+        text-transform: uppercase;
+    }
+
+.segment-distance {
+    line-height: 1.5em;
+    position: absolute;
+    text-align: center;
+    text-shadow: none;
+    z-index: 100;
+    background: #202637 !important;
+    border: 2px solid #a0d468;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'MontReg', Arial;
+    font-size: .5em;
+}
+
+svg image {
+    width: 100%;
+    height: 100%;
+}
+
+
+.direction-icon {
+    box-shadow: 1px 1px 4px #606060;
+    background-repeat: no-repeat;
+    background-color: #f99c1c;
+    border-radius: 50%;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    left: 5px;
+    position: absolute;
+    top: 20px;
+}
+
+    .direction-icon.exit {
+        background-image: url('../images/exit.png');
+        background-size: 6px;
+        background-position: 30%;
+    }
+
+.sbs-web .direction-icon.exit {
+    background-image: url('v1/icons/exit.png');
+}
+
+.direction-icon.right {
+    background-image: url('../images/right.png');
+    background-size: 7px;
+    background-position: 51%;
+}
+
+.sbs-web .direction-icon.right {
+    background-image: url('v1/icons/right.png');
+}
+
+.direction-icon.left {
+    background-image: url('../images/left.png');
+    background-size: 7px;
+    background-position: 38%;
+}
+
+.sbs-web .direction-icon.left {
+    background-image: url('v1/icons/left.png');
+}
+
+.direction-icon.merge {
+    background-image: url('../images/merge.png');
+    background-size: 7px;
+    background-position: 58%;
+}
+
+.sbs-web .direction-icon.merge {
+    background-image: url('v1/icons/merge.png');
+}
+
+.direction-icon.southwest {
+    background-image: url('../images/southwest.png');
+    background-size: 5px;
+    background-position: 49.5%;
+}
+
+.sbs-web .direction-icon.southwest {
+    background-image: url('v1/icons/southwest.png');
+}
+
+.distance_marker {
+    padding: 5px;
+    width: 100px;
+}
+
+.distance_to_junction_marker {
+    padding: 5px;
+    width: 50px;
+}
+
+.time_to_junction_marker {
+    width: 50px;
+}
+
+
+.segment-name > .segment-distance {
+    top: 0;
+    width: 15.5%;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    background: #202637;
+    color: #fff;
+    border: 2px solid #202637;
+    border-radius: 0 10px 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* junction distance label. TODO: remove !important*/
+.distance-to-junction {
+    width: 13em;
+    position: relative;
+    margin: 0 27.8%;
+    top: 109px;
+    min-width: 5em !important;
+    height: 25px;
+    line-height: 25px;
+    text-transform: uppercase;
+}
+
+.distance-to-finish {
+    top: 100px;
+    width: 100%;
+}
+
+.distance-label {
+    background: #ccc;
+    color: #606060;
+}
+
+.ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit {
+    background-color: #2b3244;
+}
+
+.filter-dlg .ui-header.ui-bar-inherit {
+    padding-left: 0 !important;
+    color: #fff !important;
+}
+
+.filter-content-main {
+    background-color: #32394c;
+    padding: 5px;
+}
+
+.ui-content.stop-settings-dialog.ui-popup.ui-body-inherit div[role=main] {
+    background-color: #32394c !important;
+    padding: 5px;
+}
+
+.filter-dlg .ui-header.ui-bar-inherit h2 {
+    text-shadow: none;
+}
+
+#route .ui-page-theme-a .ui-btn {
+    text-shadow: none;
+}
+
+.route-start,
+.route-eta {
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: normal;
+    border: 2px solid #ff9c00;
+    border-radius: 20px;
+    padding: 5px 0;
+    background-color: #ff9c00;
+    font-family: 'MontReg',Arial;
+}
+
+.poi-segment-distance {
+    position: static;
+    top: 10px;
+    left: inherit;
+    right: 10px;
+}
+
+.junction-wrapper {
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    margin-bottom: 20px;
+}
+
+    .junction-wrapper a {
+        text-decoration: none;
+        font-weight: normal;
+    }
+
+.junction {
+    cursor: pointer;
+    float: left;
+    margin: 0 0;
+    position: relative;
+    z-index: 10;
+    background: #a0d468;
+    border: 3px solid #a0d468;
+    border-radius: 4px;
+    height: 70px;
+    width: 100px;
+    margin-left: -18px;
+}
+
+    .junction:before {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: -1;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        bottom: 2px;
+        border: 2px solid #fff;
+        border-radius: 6px;
+        border: none;
+    }
+
+.junction-name {
+    color: #ffffff;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%); /* IE */
+    -moz-transform: translateY(-50%); /* Firefox */
+    -webkit-transform: translateY(-50%); /* Safari and Chrome */
+    -o-transform: translateY(-50%); /* Opera */
+    font-family: 'MontReg', Arial;
+    font-size: 1em;
+    padding: 0 12px;
+    line-height: 1.4em;
+    font-weight: 400;
+}
+
+.gas {
+    background-image: url('v1/icons/gas.png');
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #4fc0e8;
+    border-radius: 50%;
+    box-shadow: none;
+}
+
+.sbs-cdb .gas {
+    background-image: url('../images/gas.png');
+}
+
+.food {
+    background-image: url('v1/icons/food.png');
+    box-shadow: none;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f15b6a;
+    border-radius: 50%;
+}
+
+.poi-distance-label {
+    top: 38px;
+    left: -7px;
+    font-size: .6em;
+}
+
+.poi {
+    width: 2em;
+    height: 2em;
+}
+
+.gas, .food {
+    background-size: 25px;
+}
+
+.poi-count {
+    left: 27px;
+    width: 1em;
+    height: 1em;
+    font-size: .6em;
+}
+
+.distance-to-junction {
+    width: 16em !important;
+}
+
+
+.sbs-cdb .food {
+    background-image: url('../images/food.png');
+}
+
+
+.current-loc {
+    width: 3em;
+    height: 3em;
+    background: url('v1/icons/car.png');
+    background-size: 3em;
+    position: absolute;
+    left: -1em;
+    top: 14em;
+}
+
+.sbs-cdb .current-loc {
+    background-image: url('../images/car.png');
+}
+
+.distance-cvd {
+    width: 1em;
+    height: 14em;
+    background: #42C0FB;
+    position: absolute;
+    top: 0em;
+}
+
+.clear {
+    clear: both;
+}
+
+.rating {
+    float: left;
+    margin-right: 1em;
+}
+
+.rating-count {
+    margin: 1em 0;
+    display: inline-block;
+}
+
+.rating img, .feedback-rating img {
+    margin-right: 0.2em;
+}
+
+.review-provider-icon {
+    clear: both;
+    width: 40px;
+    text-align: center;
+}
+
+.poi-rating {
+    margin: auto;
+    text-align: center;
+    float: none;
+}
+
+.poi-rating-count {
+    clear: both;
+    text-align: center;
+    font-size: 1em;
+    font-family: 'MontReg',Arial;
+}
+
+.poi-phone {
+    width: 65px;
+    height: 65px;
+    margin-top: 0px;
+}
+
+
+.poi-item {
+    margin: 0.5em 0;
+    cursor: pointer;
+}
+
+.poi-images {
+    text-align: center;
+}
+
+
+.route_title {
+    color: #73C5E1;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    display: inherit;
+    font-weight: inherit;
+}
+
+.route_description {
+    color: #606060;
+    font-size: 20px;
+    text-align: center;
+}
+
+.route-description2 {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    background: #202637;
+    padding: 5px 0px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
+}
+
+.restaurant-group, .gas-group {
+    display: inline-block;
+}
+
+.restaurant-group {
+    width: 340px;
+}
+
+.route-loading {
+    height: 100%;
+    margin: 45% auto;
+    width: 60%;
+    text-align: center;
+}
+
+.route-description-metric {
+    font-weight: 300;
+    padding: 0 3px;
+    background-color: transparent;
+    color: #fff;
+    font-family: 'MontLight', Arial;
+    font-size: 1.3em;
+    margin-right: 20px;
+}
+
+.miles .route-description-metric {
+    margin-right: 0;
+    color: #ffb301;
+    font-family: 'MontReg', Arial;
+    font-size: 1em;
+    padding-right: 0;
+}
+
+.miles .route-description-metric-label {
+    margin-right: 0;
+    color: #9cadb7;
+    font-family: 'MontReg', Arial;
+    text-transform: none;
+}
+
+.miles .first-label {
+    margin-right: -3px;
+    margin-left: 15px;
+}
+
+.restaurant-icon {
+    background-image: url('../images/restaurant-icon.png');
+    background-size: 90%;
+    height: 29px;
+    width: 23px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: 2px;
+}
+
+.sbs-web .restaurant-icon {
+    background-image: url('v1/icons/restaurant-icon.png');
+}
+
+.gas-icon {
+    background-image: url('../images/gas-icon.png');
+    background-size: 90%;
+    height: 29px;
+    width: 23px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: 2px;
+}
+
+.sbs-web .gas-icon {
+    background-image: url('v1/icons/gas-icon.png');
+}
+
+
+.route-description-metric-label {
+    color: #9cadb7;
+    font-family: 'MontReg', sans-serif;
+    font-size: 1em;
+    text-transform: capitalize;
+    margin-right: 3%;
+}
+
+.route-description2 .first-label {
+    margin-left: -10px;
+}
+
+.miles .first-label {
+    margin-right: -3px;
+    margin-left: 15px;
+}
+
+
+
+.route-description2:first-of-type {
+    padding-top: 15px;
+}
+
+.route-description2 + .route-description2 {
+    padding-bottom: 15px;
+}
+
+.ui-filterable.route-wrapper {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: none;
+}
+
+
+#distance-slider-label {
+    color: #606060;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+div.ui-slider {
+    height: 30px;
+    margin: 25px 0;
+}
+
+
+
+.route-description2 .first-label {
+    margin-left: 2px;
+}
+
+.route-description-metric-label {
+    margin-right: 1.5%;
+}
+
+.route-description-metric {
+    font-size: .9em;
+}
+
+.restaurant-group {
+    width: 128px;
+    margin-right: 4px;
+}
+
+.exit-page .route-description-metric-label {
+    margin-right: -13px;
+}
+
+.exit-page .miles .route-description-metric-label {
+    margin-right: 0;
+    display: inline;
+}
+
+
+.route_line {
+    background-image: url('v1/images/route_line.gif');
+    background-position: center top;
+    background-repeat: repeat-y;
+    width: 100%;
+}
+
+.sbs-cdb .route_line {
+    background-image: url('../images/route_line.gif');
+}
+
+/* small maps next to each junction */
+.junction-map {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    right: 37px;
+    top: -3px;
+    z-index: -1;
+}
+
+/* sidebar styles*/
+.sidebar-label {
+    font-size: 0.8em;
+    left: -3em;
+    line-height: 1em;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: .7;
+    width: 4.5em;
+    overflow: visible;
+}
+
+.sidebar-top {
+    top: 0;
+    width: 54px;
+}
+
+.sidebar-bottom {
+    bottom: 0;
+    width: 54px;
+}
+
+#sidebar {
+    bottom: 20px;
+    position: absolute;
+    z-index: 101;
+    margin-left: 28px;
+    margin-top: 215px;
+}
+
+#sidebar-inner {
+    position: relative;
+    background: #202637;
+    border: 2px solid #202637;
+    width: 20px;
+    left: -28px;
+}
+
+
+#sidebar-thumb {
+    border: 6px solid #ff9c00;
+    border-radius: 50%;
+    height: 30px;
+    left: -11px;
+    position: absolute;
+    width: 30px;
+    background-color: #32394c !important;
+    z-index: 2;
+}
+
+
+
+    #sidebar-thumb > div {
+        background: #000 none repeat scroll 0 0;
+        display: block;
+        height: 2px;
+        position: absolute;
+        top: 15px;
+        width: 31px;
+    }
+
+.sidebar-stop {
+    position: absolute;
+    z-index: 1;
+    width: 2em;
+    height: 1.8em;
+    background-size: 2em;
+    border-radius: 4px;
+}
+
+.sidebar-stop-time {
+    position: absolute;
+    left: 35px;
+    top: 0px;
+    text-align: center;
+    font-size: .6em;
+    font-weight: bold;
+    background-color: #3e465b;
+    border: 0;
+    border-radius: 0;
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 1px;
+    color: #fff;
+}
+
+
+.sidebar_text {
+    color: #ffffff;
+    max-height: 1.8em;
+    font-family: 'MontReg',Arial;
+    font-size: 1em;
+    padding: 2px;
+    font-weight: 400;
+    background: none;
+    text-transform: capitalize;
+    overflow: visible;
+}
+
+.sidebar-stop.gas .heading {
+    color: #4fc0e8;
+}
+
+.sidebar-stop.food .heading {
+    color: #f15b6a;
+}
+
+#sidebar .end-icon {
+    display: inline-block;
+    width: 41px;
+    height: 54px;
+    background-image: url('../images/pin-icon.png');
+}
+
+.sbs-web #sidebar .end-icon {
+    background-image: url('v1/icons/pin-icon.png');
+}
+
+/* end of sidebar styles*/
+
+/* filter styles*/
+.filters-container {
+    cursor: pointer;
+    position: relative;
+    height: 36px;
+    overflow: hidden;
+    right: -55%;
+    width: 30px;
+    z-index: 1000;
+    top: -43px;
+    padding: 5px;
+}
+
+.filters-trigger-line1 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 101;
+    border: 0;
+    height: 1px;
+}
+
+.filters-trigger-line2 {
+    position: absolute;
+    left: 1px;
+    top: 0;
+    z-index: 102;
+    border: 0;
+    height: 1px;
+}
+
+.filters-trigger {
+    position: absolute;
+    padding-right: 10px;
+    padding-left: 12px;
+    padding-bottom: 4px;
+    top: 0px;
+    line-height: 36px;
+    color: #ffffff !important;
+    float: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    white-space: nowrap;
+    width: 32px;
+    height: 31px;
+    background-image: url('v1/images/filter-icon.png');
+    background-repeat: no-repeat;
+    background-size: 42%;
+}
+
+.sbs-cdb .filters-trigger {
+    background-image: url('../images/filter-icon.png');
+}
+/* end of filter styles*/
+
+/* lets go styles*/
+.letsgo-outer {
+    position: fixed;
+    width: 100%;
+    bottom: 65px;
+    z-index: 100;
+    height: 50px;
+}
+
+.letsgo-container {
+    width: 100%;
+    position: absolute;
+}
+
+    .letsgo-container .letsgo-button {
+        width: 19%;
+        margin: 0 auto;
+        display: block;
+        background-color: #ff9c00 !important;
+        color: #fff;
+        font-size: .8em;
+        text-transform: uppercase;
+        padding: 0px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-radius: 0;
+        font-weight: 300;
+        font-family: 'MontReg',Arial;
+        margin-top: 1%;
+        margin-left: 41%;
+    }
+
+        .letsgo-container .letsgo-button:hover, .letsgo-container .letsgo-button.active {
+            background-color: #ff9c00 !important;
+            color: #fff;
+        }
+
+
+/* end of lets go styles*/
+
+/* end of route page styles */
