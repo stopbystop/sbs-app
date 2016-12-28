@@ -80,4 +80,21 @@
     .poi-rating-count {
         font-size: .6em;
     }
+
+
+    #exit .route-description-metric-label {
+        font-size: 1em;
+    }
+
+
+    .exit-page .route-description-metric-label {
+        width: 114px;
+        display: inline-block;
+        margin-right: 0px;
+    }
+
+    .exit-page .miles .route-description-metric-label {
+        margin-right: 0;
+        display: inline;
+    }
 }

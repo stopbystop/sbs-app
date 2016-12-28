@@ -266,7 +266,7 @@ module StopByStop {
                         });
 
                     var filtersContainer = $("." + AppState.current.pageInfo.pageName + " .filters-container");
-                    filtersContainer.css({ "right": "-75%" });
+                    filtersContainer.css({ "right": "10%" });
 
                 },
                 show: (event, ui) => {
@@ -330,8 +330,8 @@ module StopByStop {
         private static animateFiltersTrigger() {
             window.setTimeout(() => {
                 var filtersContainer = $("." + AppState.current.pageInfo.pageName + " .filters-container");
-                filtersContainer.css({ "right": "-75%" });
-                filtersContainer.animate({ "right": "-55%" }, "slow");
+                filtersContainer.css({ "right": "10%" });
+                filtersContainer.animate({ "right": "35%" }, "slow");
             }, 50);
         }
 

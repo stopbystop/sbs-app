@@ -442,6 +442,16 @@
     font-size: .5em;
 }
 
+.exit-page .route-description-metric-label {
+    margin-right: -13px;
+}
+
+.exit-page .miles .route-description-metric-label {
+    margin-right: 0;
+    display: inline;
+}
+
+
 
 
 /* Yelp stars*/

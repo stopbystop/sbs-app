@@ -9,6 +9,7 @@
     -o-user-select: none;
     width: 100%;
 }
+
 .sbs .textbox {
     margin: 0;
     min-height: 2.2em;
@@ -146,13 +147,13 @@
     display: block;
     width: 80%;
     text-overflow: ellipsis;
-    font-size: 1.636em;
     color: #fff;
     font-weight: 100;
     text-align: center;
-    margin-left: 20px;
     line-height: 1.5em;
     font-family: 'MontLight',Arial;
+    margin-left: 4px;
+    font-size: .6em;
 }
 
 .segment-instructions {
@@ -160,15 +161,15 @@
     width: 100%;
     line-height: 1.2em;
     font-family: 'MontReg', Arial;
-    font-size: 1.273em;
     text-transform: none;
     font-variant: normal;
     background-color: transparent;
     margin-bottom: 0;
     max-width: 80%;
     text-align: center;
-    margin-left: 20px;
     margin-top: auto;
+    margin-left: 4px;
+    font-size: .6em;
 }
 
     .segment-instructions b {
@@ -571,6 +572,17 @@ svg image {
     padding: 5px 0px;
     border-radius: 4px;
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
+    font-size:0.7em;
+}
+
+.route-summary-table{
+    margin:0 auto;
+    width:100%;
+    display:table;
+}
+.route-summary-cell{
+    display:table-cell;
+    padding:5px;
 }
 
 .restaurant-group, .gas-group {
@@ -590,12 +602,10 @@ svg image {
 
 .route-description-metric {
     font-weight: 300;
-    padding: 0 3px;
     background-color: transparent;
     color: #fff;
     font-family: 'MontLight', Arial;
     font-size: 1.3em;
-    margin-right: 20px;
 }
 
 .miles .route-description-metric {
@@ -652,7 +662,6 @@ svg image {
 .route-description-metric-label {
     color: #9cadb7;
     font-family: 'MontReg', sans-serif;
-    font-size: 1em;
     text-transform: capitalize;
     margin-right: 3%;
 }
@@ -701,10 +710,6 @@ div.ui-slider {
     margin-left: 2px;
 }
 
-.route-description-metric-label {
-    margin-right: 1.5%;
-}
-
 .route-description-metric {
     font-size: .9em;
 }
@@ -714,14 +719,6 @@ div.ui-slider {
     margin-right: 4px;
 }
 
-.exit-page .route-description-metric-label {
-    margin-right: -13px;
-}
-
-.exit-page .miles .route-description-metric-label {
-    margin-right: 0;
-    display: inline;
-}
 
 
 .route_line {
@@ -744,6 +741,8 @@ div.ui-slider {
     top: -3px;
     z-index: -1;
 }
+
+
 
 /* sidebar styles*/
 .sidebar-label {
@@ -872,14 +871,13 @@ div.ui-slider {
 /* filter styles*/
 .filters-container {
     cursor: pointer;
-    position: relative;
-    height: 36px;
+    position: absolute;
+    height: 30px;
     overflow: hidden;
-    right: -55%;
+    right: 35%;
     width: 30px;
     z-index: 1000;
-    top: -43px;
-    padding: 5px;
+    top: 18px;
 }
 
 .filters-trigger-line1 {
@@ -901,23 +899,12 @@ div.ui-slider {
 }
 
 .filters-trigger {
-    position: absolute;
-    padding-right: 10px;
-    padding-left: 12px;
-    padding-bottom: 4px;
-    top: 0px;
-    line-height: 36px;
-    color: #ffffff !important;
-    float: left;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.9em;
-    white-space: nowrap;
-    width: 32px;
-    height: 31px;
+    width: 100%;
+    height: 100%;
     background-image: url('v1/images/filter-icon.png');
     background-repeat: no-repeat;
-    background-size: 42%;
+    background-size: 65%;
+    background-position:center;
 }
 
 .sbs-cdb .filters-trigger {

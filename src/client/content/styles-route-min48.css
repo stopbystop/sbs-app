@@ -81,7 +81,7 @@
         width: 60%;
     }
 
-    .route-description2 {
+    .route-description2, .route-summary-table {
         width: 94%;
     }
 
@@ -89,14 +89,10 @@
             margin-left: -35px;
         }
 
-    .route-description-metric-label, .route-description-metric, .miles .route-description-metric {
-        font-size: 2em;
-    }
 
-    .route-description-metric {
-        margin-right: 139px;
+            .route-description2 {
+        font-size: 1.8em;
     }
-
     #sidebar {
         margin-top: 285px !important;
     }
@@ -133,13 +129,11 @@
     }
 
     .filters-container {
-        top: -95px;
-        height: 50px;
-        right: -55%;
+        top:79px;
     }
 
     .filters-trigger {
-        background-size: 69%;
+        background-size: 100%;
     }
 
     .filters-trigger-line1, .filters-trigger-line2 {

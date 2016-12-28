@@ -7,14 +7,7 @@
         width: 55%;
     }
 
-    .segment-instructions {
-        margin-left: 4px;
-        font-size: .6em;
-    }
-
     .highway-name {
-        margin-left: 4px;
-        font-size: .6em;
     }
 
     .distance-to-junction {
@@ -47,14 +40,6 @@
         font-size: .8em;
     }
 
-    .route-description-metric-label {
-        font-size: .8em;
-    }
-
-    #exit .route-description-metric-label {
-        font-size: 1em;
-    }
-
     .restaurant-group, .gas-group {
         display: inline-block;
     }
@@ -64,22 +49,12 @@
         margin-right: 35px;
     }
 
-    .exit-page .route-description-metric-label {
-        width: 114px;
-        display: inline-block;
-        margin-right: 0px;
-    }
-
-    .exit-page .miles .route-description-metric-label {
-        margin-right: 0;
-        display: inline;
-    }
 
     #sidebar {
         margin-top: 208px;
     }
 
-    .filters-container {
-        top: -43px;
+    .route-description2 {
+        font-size: 0.8em;
     }
 }
