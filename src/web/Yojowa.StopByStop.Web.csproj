@@ -197,6 +197,7 @@
     <Content Include=".gitignore" />
     <Content Include="client\content\BreadCrumb.css" />
     <Content Include="client\content\city_images\*" />
+    <Content Include="client\content\city_images_1000\*" />
     <Content Include="client\content\fonts\aleo\Aleo-Bold.otf" />
     <Content Include="client\content\fonts\aleo\Aleo-BoldItalic.otf" />
     <Content Include="client\content\fonts\aleo\Aleo-Italic.otf" />
