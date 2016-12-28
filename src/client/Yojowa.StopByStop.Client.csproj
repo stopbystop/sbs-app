@@ -110,6 +110,7 @@
     <Content Include="content\v1\icons\right.png" />
     <Content Include="content\v1\icons\southwest.png" />
     <Content Include="content\v1\images\arrow.png" />
+    <Content Include="content\v1\images\hex3.gif" />
     <Content Include="content\v1\images\manifest.json" />
     <Content Include="content\fonts\aleo\Aleo-Bold.otf" />
     <Content Include="content\fonts\aleo\Aleo-BoldItalic.otf" />

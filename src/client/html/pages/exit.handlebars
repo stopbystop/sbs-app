@@ -7,7 +7,7 @@
                 <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
                     <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
-                            <a itemprop="item" href="#home"><span itemprop="name">Home <img class = "breadcrumb-arrow" src ="{{{getImage "arrow.png"}}}"></span></a>
+                            <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span></a>
                         </li>
                         <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#route">
@@ -26,26 +26,27 @@
                     <div class="main_inner">
 
                         <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
-                        <div class="route-description2">
+                        <div class="route-summary-table">
+                            <div class="route-description2" style="display:table-row">
 
-                            <span class="route-description-metric-label">restaurants</span>
-                            <span class="route-description-metric-label">gas stations</span>
-                        </div>
-                        <div class="route-description2">
-                            <div class="restaurant-group">
-                                <span class="restaurant-icon"></span>
-                                <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
+                                <span class="route-description-metric-label">Restaurants</span>
+                                <span class="route-description-metric-label">Gas stations</span>
                             </div>
-                            <div class="gas-group">
-                                <span class="gas-icon"></span>
-                                <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
+                            <div class="route-description2" style="display:table-row">
+                                <div class="restaurant-group">
+                                    <span class="restaurant-icon"></span>
+                                    <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
+                                </div>
+                                <div class="gas-group">
+                                    <span class="gas-icon"></span>
+                                    <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
+                                </div>
+
+
+
+
                             </div>
-
-
-
-
                         </div>
-
                         <div class="route-description2 miles">
                             <span class="route-description-metric-label">within</span>
                             <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
@@ -63,7 +64,7 @@
 
                             <!-- start food POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
-                              {{>poiRow showCategories=true poiType='food'}}
+                                {{>poiRow showCategories=true poiType='food'}}
                             </div>
                             <!-- /poi-table -->
                             <!-- end food POI list-->
@@ -91,11 +92,10 @@
         <!-- /page-content-inner -->
     </div>
     <!-- /main -->
-
     {{>filterDialog cbid='cb3' forJunction=true}}
 
-   {{>stopSettingsDialog addToRouteText='Add to <br/> route'}}
-    {{>navpanel}} 
+    {{>stopSettingsDialog addToRouteText='Add to <br/> route'}}
+    {{>navpanel}}
     {{>footer}}
 </div>
 <!-- /exit-page -->

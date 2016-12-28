@@ -2,7 +2,7 @@
     <div class="poi-table-cell poi-details-cell">
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
            style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-            <div class="poi-placename poi-placename-{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div class="poi-typeicon poi-placename-{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
             <div class="exit-{{poiType}}">
                 <div class="poi-placename">
                     <span itemprop="name" data-bind="text:poi.name"></span>
@@ -12,9 +12,9 @@
                     <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
                 </div>
                 {{/if}}
-                <div class="poi-details distance" style="font-size:small;" data-bind="html:distanceFromJunctionText"></div>
+                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
                 <div class="poi-table-cell-go">
-                    <img src='{{{getImage "add_to_route.png"}}}' class="poi-table-cell-go" alt="Add to route" />
+                    <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />
                 </div>
             </div>
         </a>
