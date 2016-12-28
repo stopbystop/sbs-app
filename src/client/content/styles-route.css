@@ -122,16 +122,20 @@
 
 .segment {
     position: relative;
-    margin-top: 50px;
+    margin-top: 20px;
 }
+
+    .segment:first-child {
+        margin-top: 0px;
+    }
 
 .segment-name {
     width: 58%;
-    height: auto text-align: center;
+    height: auto;
+    text-align: center;
     line-height: 2.5em;
     position: absolute;
     margin-left: 21%;
-    word-break: nowrap;
     font-family: 'MontReg', Arial;
     font-size: 1.273em;
     background-color: #2b3244;
@@ -188,7 +192,7 @@
     border-radius: 4px;
     color: #fff;
     font-family: 'MontReg', Arial;
-    font-size: .5em;
+    font-size: 0.9em;
 }
 
 svg image {
@@ -294,13 +298,13 @@ svg image {
 /* junction distance label. TODO: remove !important*/
 .distance-to-junction {
     width: 13em;
-    position: relative;
-    margin: 0 27.8%;
-    top: 109px;
+    position: absolute;
+    top: 46px;
     min-width: 5em !important;
     height: 25px;
     line-height: 25px;
     text-transform: uppercase;
+    left: -5px;
 }
 
 .distance-to-finish {
@@ -380,9 +384,9 @@ svg image {
     background: #a0d468;
     border: 3px solid #a0d468;
     border-radius: 4px;
-    height: 70px;
-    width: 100px;
-    margin-left: -18px;
+    height: 40px;
+    width: 70px;
+    margin-left: -5px;
 }
 
     .junction:before {
@@ -444,12 +448,15 @@ svg image {
 .poi-distance-label {
     top: 38px;
     left: -7px;
-    font-size: .6em;
+    font-size: 1em;
 }
 
 .poi {
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
+    cursor:pointer;
+    float:left;
+    margin:3px;
 }
 
 .gas, .food {
@@ -460,13 +467,8 @@ svg image {
     left: 27px;
     width: 1em;
     height: 1em;
-    font-size: .6em;
+    font-size: 1em;
 }
-
-.distance-to-junction {
-    width: 16em !important;
-}
-
 
 .sbs-cdb .food {
     background-image: url('../images/food.png');
@@ -548,6 +550,11 @@ svg image {
     text-align: center;
 }
 
+.pois {
+    position:absolute;
+    width:120px;
+    left:75px;
+}
 
 .route_title {
     color: #73C5E1;
@@ -572,17 +579,19 @@ svg image {
     padding: 5px 0px;
     border-radius: 4px;
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
-    font-size:0.7em;
+    font-size: 0.7em;
 }
 
-.route-summary-table{
-    margin:0 auto;
-    width:100%;
-    display:table;
+.route-summary-table {
+    margin: 0 auto;
+    width: 100%;
+    display: table;
 }
-.route-summary-cell{
-    display:table-cell;
-    padding:5px;
+
+.route-summary-cell {
+    display: table-cell;
+    padding: 5px;
+    vertical-align: bottom;
 }
 
 .restaurant-group, .gas-group {
@@ -623,10 +632,6 @@ svg image {
     text-transform: none;
 }
 
-.miles .first-label {
-    margin-right: -3px;
-    margin-left: 15px;
-}
 
 .restaurant-icon {
     background-image: url('../images/restaurant-icon.png');
@@ -666,14 +671,7 @@ svg image {
     margin-right: 3%;
 }
 
-.route-description2 .first-label {
-    margin-left: -10px;
-}
 
-.miles .first-label {
-    margin-right: -3px;
-    margin-left: 15px;
-}
 
 
 
@@ -686,8 +684,6 @@ svg image {
 }
 
 .ui-filterable.route-wrapper {
-    margin-top: 10px;
-    padding-top: 10px;
     border-top: none;
 }
 
@@ -704,11 +700,6 @@ div.ui-slider {
     margin: 25px 0;
 }
 
-
-
-.route-description2 .first-label {
-    margin-left: 2px;
-}
 
 .route-description-metric {
     font-size: .9em;
@@ -761,19 +752,22 @@ div.ui-slider {
 .sidebar-top {
     top: 0;
     width: 54px;
+    z-index: 1;
 }
 
 .sidebar-bottom {
     bottom: 0;
     width: 54px;
+    z-index: 1;
 }
+
 
 #sidebar {
     bottom: 20px;
     position: absolute;
     z-index: 101;
     margin-left: 28px;
-    margin-top: 215px;
+    margin-top: 120px;
 }
 
 #sidebar-inner {
@@ -781,7 +775,7 @@ div.ui-slider {
     background: #202637;
     border: 2px solid #202637;
     width: 20px;
-    left: -28px;
+    left: -25px;
 }
 
 
@@ -845,6 +839,7 @@ div.ui-slider {
     background: none;
     text-transform: capitalize;
     overflow: visible;
+    white-space: nowrap;
 }
 
 .sidebar-stop.gas .heading {
@@ -877,7 +872,8 @@ div.ui-slider {
     right: 35%;
     width: 30px;
     z-index: 1000;
-    top: 18px;
+    top: -3px;
+    padding: 20px;
 }
 
 .filters-trigger-line1 {
@@ -904,7 +900,7 @@ div.ui-slider {
     background-image: url('v1/images/filter-icon.png');
     background-repeat: no-repeat;
     background-size: 65%;
-    background-position:center;
+    background-position: center;
 }
 
 .sbs-cdb .filters-trigger {

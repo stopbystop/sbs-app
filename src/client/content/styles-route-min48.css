@@ -13,7 +13,7 @@
     }
 
     .segment-instructions {
-        font-size: 1.2em;
+        font-size: 1em;
         margin-left: 25px;
     }
 
@@ -28,18 +28,9 @@
     }
 
     .distance-to-junction {
-        height: 30px;
-        line-height: 28px;
-        min-width: 0 !important;
-        width: 9em !important;
-        top: 110px;
-        margin: 0 39%;
     }
 
     .junction-wrapper {
-        position: absolute;
-        width: 100%;
-        z-index: 100;
     }
 
     .junction {
@@ -64,10 +55,6 @@
         left: 51px;
     }
 
-    .gas, .food {
-        background-size: 40px;
-    }
-
     .poi-distance-label {
         top: 75px;
         left: 13px;
@@ -85,20 +72,20 @@
         width: 94%;
     }
 
-        .route-description2 .first-label {
-            margin-left: -35px;
-        }
 
 
-            .route-description2 {
+
+    .route-description2 {
         font-size: 1.8em;
     }
+
     #sidebar {
-        margin-top: 285px !important;
+        margin-top: 200px;
+        margin-left: 45px;
     }
 
     #sidebar-inner {
-        left: 40px;
+        left: 20px;
     }
 
     .sidebar-label {
@@ -129,7 +116,9 @@
     }
 
     .filters-container {
-        top:79px;
+        top: 38px;
+        width: 40px;
+        height: 40px;
     }
 
     .filters-trigger {
@@ -144,5 +133,9 @@
         font-size: 1.8em;
         width: 35%;
         margin-left: auto;
+    }
+
+    .pois {
+        left: 140px;
     }
 }

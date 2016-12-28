@@ -122,6 +122,124 @@ body {
     background-image: url('../images/main_image.jpg');
 }
 
+/* Float Clearing
+ ---------------------------------------------------------------------*/
+
+.module:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+/* float clearing for IE6 */
+* html .module {
+    height: 1%;
+    overflow: visible;
+}
+
+/* float clearing for IE7 */
+* + html .module {
+    min-height: 1%;
+}
+
+/* Breadcrumb Styles
+ ---------------------------------------------------------------------*/
+
+/* New Breadcrumb Styling */
+.breadcrumb_main {
+    list-style: none;
+    overflow: hidden;
+    font-size: 1em;
+    padding-left: 0px !important;
+    margin:0;
+}
+
+    .breadcrumb_main li {
+        float: left;
+    }
+
+        .breadcrumb_main li a {
+            background: #fff none repeat scroll 0 0;
+            color: #ffffff !important;
+            display: block;
+            float: left;
+            font-weight: 700;
+            padding: 10px 0 10px 55px;
+            position: relative;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+            .breadcrumb_main li a:after {
+                content: " ";
+                display: block;
+                width: 0;
+                height: 0;
+                border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
+                border-bottom: 50px solid transparent;
+                border-left: 30px solid #fff;
+                position: absolute;
+                top: 50%;
+                margin-top: -50px;
+                left: 100%;
+                z-index: 2;
+            }
+
+            .breadcrumb_main li a:before {
+                content: " ";
+                display: block;
+                width: 0;
+                height: 0;
+                border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
+                border-bottom: 50px solid transparent;
+                border-left: 30px solid white;
+                position: absolute;
+                top: 50%;
+                margin-top: -50px;
+                margin-left: 1px;
+                left: 100%;
+                z-index: 1;
+            }
+
+        .breadcrumb_main li:first-child a {
+            padding-left: 10px;
+        }
+
+        .breadcrumb_main li:nth-child(2) a {
+            background: #57BADB;
+        }
+
+            .breadcrumb_main li:nth-child(2) a:after {
+                border-left-color: #57BADB;
+            }
+
+        .breadcrumb_main li:nth-child(3) a {
+            background: #35ACD4;
+        }
+
+            .breadcrumb_main li:nth-child(3) a:after {
+                border-left-color: #35ACD4;
+            }
+
+        .breadcrumb_main li:nth-child(4) a {
+            background: #2795B9;
+        }
+
+            .breadcrumb_main li:nth-child(4) a:after {
+                border-left-color: #2795B9;
+            }
+
+        .breadcrumb_main li:nth-child(5) a {
+            background: #207A97;
+        }
+
+            .breadcrumb_main li:nth-child(5) a:after {
+                border-left-color: #207A97;
+            }
+/* end of breadcrumb styles*/
+
 
 /* Main background image */
 .ui-overlay-a,
@@ -1031,6 +1149,9 @@ input {
 .ui-header, .ui-footer {
     border: medium none;
 }
+
+
+
 
 
 /* end of common styles */

@@ -4,7 +4,7 @@
     }
 
     .jqm-demos .jqm-header h2 {
-        padding: 44px 5px;
+        padding: 32px 5px;
     }
 
         .jqm-demos .jqm-header h2 img {
@@ -76,10 +76,6 @@
         font-size: 18px;
     }
 
-    .jqm-demos .jqm-header h2 {
-        padding: 60px 5px;
-    }
-
     .page-content {
         display: inline-block;
         padding: 30px 10%;
@@ -94,7 +90,6 @@
     .breadcrumb_main {
         margin-top: 1px;
         width: 100%;
-        background: #202637;
     }
 
     .exit-page .breadcrumb-arrow {
@@ -103,5 +98,15 @@
 
     .jqm-header.ui-header {
         padding-top: 0;
+    }
+
+    .breadcrumb_main {
+        list-style: none;
+        overflow: hidden;
+        font-size: 2em;
+    }
+
+    .jqm-demos .jqm-content {
+        margin-top:-6px;
     }
 }

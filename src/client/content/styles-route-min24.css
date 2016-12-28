@@ -1,23 +1,27 @@
 ﻿@media only all and (min-width: 24em) {
-    .segment-distance {
-        font-size: .8em;
-    }
 
     .segment-name {
         width: 55%;
+    }
+
+    .segment-distance {
+        font-size: 1.2em;
+    }
+
+    .segment-name > segment.segment-distance {
+        font-size: 1em;
     }
 
     .highway-name {
     }
 
     .distance-to-junction {
-        min-width: 0 !important;
-        width: 10em !important;
-        top: 104px;
-        height: 20px;
-        margin: 0 32.5%;
-        line-height: 15px;
-        padding-top: 5px;
+        top: 76px;
+    }
+
+    .junction {
+        width: 95px;
+        height: 70px;
     }
 
     .time_to_junction_marker {
@@ -25,19 +29,16 @@
     }
 
     .junction-name {
-        font-size: 1.6em;
-        padding: 0 12px;
+        font-size: 1.3em;
         line-height: 1em;
     }
 
     .poi-count {
-        width: 1em;
-        height: 1em;
-        font-size: .6em;
+        font-size: 1em;
     }
 
     .poi-distance-label {
-        font-size: .8em;
+        font-size: 1em;
     }
 
     .restaurant-group, .gas-group {
@@ -49,12 +50,15 @@
         margin-right: 35px;
     }
 
-
-    #sidebar {
-        margin-top: 208px;
-    }
-
     .route-description2 {
         font-size: 0.8em;
+    }
+
+    .pois {
+        left: 100px;
+    }
+
+    .distance_marker {
+       font-size:0.8em;
     }
 }

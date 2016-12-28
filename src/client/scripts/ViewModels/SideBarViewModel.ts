@@ -77,7 +77,7 @@ module StopByStop {
 
             this.sideBarHeight($(window).height());
             this.sideBarInnerHeight($(window).height());
-            this.sideBarInnerTop(50);
+            this.sideBarInnerTop($(".sidebar-top").outerHeight());
         });
 
         private _sideBarFirstScrollInit = Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
@@ -274,6 +274,18 @@ module StopByStop {
         }
 
         private static recalculateSideBarPosition(sbvm: SideBarViewModel): void {
+
+
+            if (AppState.current.app === SBSApp.Web) {
+                sbvm._headerHeight = $(".ui-header").outerHeight();
+                sbvm._footerHeight = $(".ui-footer").outerHeight();
+            } else {
+                // we have multiple copies of header and footer on SPA app
+                sbvm._headerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                sbvm._footerHeight = $("." + AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+            }
+
+
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
 
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();

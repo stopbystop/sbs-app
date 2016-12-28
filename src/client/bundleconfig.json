@@ -2,7 +2,6 @@
   {
     "outputFileName": "content/sbsbundle.css",
     "inputFiles": [
-      "content/BreadCrumb.css",
       "content/rrssb.css",
       "content/styles-common.css",
       "content/styles-common-min24.css",

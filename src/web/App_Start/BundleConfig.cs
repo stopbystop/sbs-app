@@ -66,7 +66,6 @@ namespace Yojowa.StopByStop.Web
 
 
             var stylesBundle = new StyleBundle(string.Format(nonCdnFormat, "/client/content/sbscssbundle"), string.Format(cdnFormat, "/client/content/sbscssbundle")).Include(
-                        "~/client/content/BreadCrumb.css",
                         "~/client/content/rrssb.css",
                         "~/client/content/styles-common.css",
                         "~/client/content/styles-common-min24.css",

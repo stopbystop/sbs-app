@@ -20,7 +20,7 @@
     padding: 0;
 }
 
-#exit_marker {
+.exit_marker {
     margin: 0 auto;
     position: relative;
     width: 4.5em;
@@ -109,29 +109,10 @@
         color: #4fc0e8;
     }
 
-.pois {
-    position: relative;
-    float: left;
-    margin-top: 3px;
-    margin-left: 2px;
-    display: inline;
-}
-
 .poi-wrapper {
     display: inline-block;
     width: 1em;
 }
-
-
-.poi {
-    width: 3em;
-    height: 3em;
-    background-size: 3em;
-    float: left;
-    margin: 0 .2em;
-    cursor: pointer;
-}
-
 
 .poi-name {
     font-size: 1.4em;

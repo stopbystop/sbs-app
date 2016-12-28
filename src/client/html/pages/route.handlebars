@@ -22,7 +22,7 @@
                     <div class="route-summary-table">
                         <div class="route-description2" style="display:table-row">
                             <div class="route-summary-cell">
-                                <span class="route-description-metric-label first-label">Distance</span>
+                                <span class="route-description-metric-label">Distance</span>
                             </div>
                             <div class="route-summary-cell">
                                 <span class="route-description-metric-label">Total Time</span>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="route-description2 miles">
-                        <span class="route-description-metric-label first-label">within</span>
+                        <span class="route-description-metric-label">within</span>
                         <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
                         <span class="route-description-metric-label">mile(s) from exit</span>
                     </div>
@@ -89,28 +89,28 @@
 
                                     <div data-bind="foreach: routeVisibleJunctions">
                                         <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
-                                            <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
-                                                <span class="time_to_junction_marker" data-bind="text: etaString"></span>
-                                            </div>
-                                            <div id="exit_marker">
+                                            <div class="exit_marker">
                                                 <a href="#" class="junction" data-bind="click: navigateToExitPage">
                                                     <div class="junction-name" data-bind="html: junction.ref, attr: {title:junction.name}"></div>
                                                 </a>
-                                            </div>
-                                            <div class="pois">
-                                                <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitGasPage" class="poi gas" data-type="servicestations">
-                                                    <div style="position:relative">
-                                                        <div class="poi-count" data-bind="html: gasPoiCountString"></div>
-                                                        <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
-                                                    </div>
-                                                </a>
-                                                <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitFoodPage" class="poi food" data-type="restaurants">
-                                                    <div style="position:relative">
-                                                        <div class="poi-count" data-bind="html: foodPoiCountString"></div>
-                                                        <div class="poi-distance-label" data-bind="html: closestFoodPoiDistance"></div>
-                                                    </div>
-                                                </a>
-                                                <div class="clear"></div>
+                                                <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
+                                                    <span class="time_to_junction_marker" data-bind="text: etaString"></span>
+                                                </div>
+                                                <div class="pois">
+                                                    <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitGasPage" class="poi gas" data-type="servicestations">
+                                                        <div style="position:relative">
+                                                            <div class="poi-count" data-bind="html: gasPoiCountString"></div>
+                                                            <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
+                                                        </div>
+                                                    </a>
+                                                    <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitFoodPage" class="poi food" data-type="restaurants">
+                                                        <div style="position:relative">
+                                                            <div class="poi-count" data-bind="html: foodPoiCountString"></div>
+                                                            <div class="poi-distance-label" data-bind="html: closestFoodPoiDistance"></div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="clear"></div>
+                                                </div>
                                             </div>
                                             <div class="clear"></div>
                                         </div>

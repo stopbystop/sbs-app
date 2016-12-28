@@ -5,16 +5,8 @@
         width: 106%;
     }
 
-    .segment-instructions {
-        font-size: 1em;
-    }
-
     .highway-name {
-        font-size: 1.2em;
-    }
-
-    .segment-distance {
-        font-size: 1em;
+        font-size: 0.9em;
     }
 
     .direction-icon {
@@ -39,12 +31,7 @@
         }
 
     .distance-to-junction {
-        height: 30px;
-        line-height: 28px;
-        min-width: 0 !important;
-        width: 10.5em !important;
-        top: 110px;
-        margin: 0 37.3%;
+        left: -13px;
     }
 
     .junction {
@@ -58,6 +45,11 @@
         width: 75%;
     }
 
+    .pois {
+        left: 110px;
+        width: 170px;
+    }
+
     .poi {
         width: 4em;
         height: 4em;
@@ -69,21 +61,17 @@
         height: 1.5em;
         font-size: .9em;
         left: 49px;
-    }
-
-    .gas, .food {
-        background-size: 40px;
+        padding: 3px 0 0 2px;
     }
 
     .poi-distance-label {
-        top: 75px;
-        left: 13px;
+        top: 60px;
+        left: 20px;
         font-size: 1em;
     }
 
     #sidebar {
-        margin-left: 17px;
-        margin-top: 262px !important;
+        margin-top: 160px;
     }
 
     .route-start, .route-eta {
@@ -121,10 +109,15 @@
     }
 
     .sidebar-label {
-        left: -1.7em;
+        left: -2.9em;
     }
 
     .route-description2 {
         font-size: 1.2em;
+    }
+
+    .junction-name {
+        font-size: 2em;
+        line-height: 1em;
     }
 }
