@@ -430,7 +430,8 @@ var StopByStop;
         AppState.current = {
             baseDataUrl: null,
             baseImageUrl: null,
-            app: null
+            app: null,
+            windowOpenTarget: "_system"
         };
         return AppState;
     }());
@@ -1293,8 +1294,7 @@ var StopByStop;
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.StopPopupNavigateBeforeDirect, [
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    // window.location.assign(navigationUrl);
-                    window.open(navigationUrl, "_system", "location=yes");
+                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
                 }, function (positionError) {
                     try {
                         StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
@@ -1648,8 +1648,7 @@ var StopByStop;
                         { k: StopByStop.TelemetryProperty.StopCount, v: _this.stops().length.toString() },
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    //window.location.assign(navigationUrl);
-                    window.open(navigationUrl, "_system", "location=yes");
+                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
                 }, function (positionError) {
                     StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
                     window.alert("Please allow StopByStop.com to share your location.");
@@ -2797,7 +2796,8 @@ var StopByStop;
             baseDataUrl: "https://www.stopbystop.com/",
             baseImageUrl: "images/",
             navigationLocation: { page: StopByStop.SBSPage.home },
-            historyDisabled: true
+            historyDisabled: true,
+            windowOpenTarget: "_system"
         });
         window.onload = function () {
             Application.initialize();
