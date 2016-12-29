@@ -454,9 +454,9 @@ svg image {
 .poi {
     width: 3em;
     height: 3em;
-    cursor:pointer;
-    float:left;
-    margin:3px;
+    cursor: pointer;
+    float: left;
+    margin: 3px;
 }
 
 .gas, .food {
@@ -551,13 +551,13 @@ svg image {
 }
 
 .pois {
-    position:absolute;
-    width:120px;
-    left:75px;
+    position: absolute;
+    width: 120px;
+    left: 75px;
 }
 
 .route_title {
-    color: #73C5E1;
+    color: #ff9c00;
     font-size: 40px;
     text-align: center;
     text-transform: uppercase;
@@ -685,6 +685,7 @@ svg image {
 
 .ui-filterable.route-wrapper {
     border-top: none;
+    background: #32394c;
 }
 
 
@@ -703,6 +704,12 @@ div.ui-slider {
 
 .route-description-metric {
     font-size: .9em;
+}
+
+.route-summary {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 48em;
 }
 
 .restaurant-group {
@@ -906,6 +913,12 @@ div.ui-slider {
 .sbs-cdb .filters-trigger {
     background-image: url('../images/filter-icon.png');
 }
+
+ .filter-dlg .filter-apply-btn {
+    width: 100%;
+    background-color: #ff9c00;
+    color: #fff;
+}
 /* end of filter styles*/
 
 /* lets go styles*/
@@ -923,7 +936,7 @@ div.ui-slider {
 }
 
     .letsgo-container .letsgo-button {
-        width: 19%;
+        width: 60%;
         margin: 0 auto;
         display: block;
         background-color: #ff9c00 !important;
@@ -936,8 +949,7 @@ div.ui-slider {
         border-radius: 0;
         font-weight: 300;
         font-family: 'MontReg',Arial;
-        margin-top: 1%;
-        margin-left: 41%;
+        margin:0 auto;
     }
 
         .letsgo-container .letsgo-button:hover, .letsgo-container .letsgo-button.active {

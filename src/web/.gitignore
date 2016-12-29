@@ -1,6 +1,4 @@
 ﻿client/Views/*cshtml
 client/**/*.css
 client/**/*.js
-client/content/fonts/**/*
-client/content/city_images/*
-client/content/city_images_1000/*
+client/content/**/*

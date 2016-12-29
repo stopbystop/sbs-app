@@ -18,53 +18,55 @@
                     </div>
                 </div>
                 <div class="main_inner" data-bind="if:route">
-                    <h2 class="description_title" data-bind="text:route.title"></h2>
-                    <div class="route-summary-table">
-                        <div class="route-description2" style="display:table-row">
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric-label">Distance</span>
+                    <div class="route-summary">
+                        <h2 class="description_title" data-bind="text:route.title"></h2>
+                        <div class="route-summary-table">
+                            <div class="route-description2" style="display:table-row">
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric-label">Distance</span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric-label">Total Time</span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric-label">Restaurants</span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric-label">Gas stations</span>
+                                </div>
                             </div>
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric-label">Total Time</span>
-                            </div>
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric-label">Restaurants</span>
-                            </div>
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric-label">Gas stations</span>
-                            </div>
-                        </div>
-                        <div class="route-description2" style="display:table-row">
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric">
-                                    <span data-bind="text: route.distance"></span>
-                                    <span> miles</span>
-                                </span>
-                            </div>
-                            <div class="route-summary-cell">
-                                <span class="route-description-metric">
-                                    <span data-bind="if:(route.tripTimeHours() > 0)">
-                                        <span data-bind="text: route.tripTimeHours"></span>
-                                        <span>hrs</span>
+                            <div class="route-description2" style="display:table-row">
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric">
+                                        <span data-bind="text: route.distance"></span>
+                                        <span> miles</span>
                                     </span>
-                                    <span data-bind="text: route.tripTimeMinutes"></span>
-                                    <span>min</span>
-                                </span>
-                            </div>
-                            <div class="route-summary-cell">
-                                <span class="restaurant-icon"></span>
-                                <span class="route-description-metric" data-bind="text: filter.filteredFoodCount"></span>
-                            </div>
-                            <div class="route-summary-cell">
-                                <span class="gas-icon"></span>
-                                <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric">
+                                        <span data-bind="if:(route.tripTimeHours() > 0)">
+                                            <span data-bind="text: route.tripTimeHours"></span>
+                                            <span>hrs</span>
+                                        </span>
+                                        <span data-bind="text: route.tripTimeMinutes"></span>
+                                        <span>min</span>
+                                    </span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="restaurant-icon"></span>
+                                    <span class="route-description-metric" data-bind="text: filter.filteredFoodCount"></span>
+                                </div>
+                                <div class="route-summary-cell">
+                                    <span class="gas-icon"></span>
+                                    <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="route-description2 miles">
-                        <span class="route-description-metric-label">within</span>
-                        <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
-                        <span class="route-description-metric-label">mile(s) from exit</span>
+                        <div class="route-description2 miles">
+                            <span class="route-description-metric-label">within</span>
+                            <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
+                            <span class="route-description-metric-label">mile(s) from exit</span>
+                        </div>
                     </div>
                     <p></p>
                     <!-- route -->

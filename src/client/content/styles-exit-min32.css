@@ -1,13 +1,9 @@
 ﻿@media only all and (min-width: 32em) {
 
     .poi-table-row {
-        height: 120px;
+        height: 90px
     }
     
-    .poi-details-cell {
-        width: 300px;
-    }
-
     .poi-placename {
         font-size: 1.3em;
     }
@@ -25,6 +21,6 @@
     }
 
     .yelp-link {
-        width: 105px;
+        width: 90px;
     }
 }

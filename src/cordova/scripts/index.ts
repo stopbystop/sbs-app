@@ -19,6 +19,16 @@ module StopByStop.Cordova {
 
         function onDeviceReady() {
             console.log("in onDeviceReady");
+
+            StopByStop.Init.initialize({
+                app: SBSApp.SPA,
+                baseDataUrl: "https://www.stopbystop.com/",
+                baseImageUrl: "images/",
+                navigationLocation: { page: SBSPage.home },
+                historyDisabled: true,
+                windowOpenTarget: "_system"
+            });
+
             //console.log(device.platform);
             // FastClick lib: https://github.com/ftlabs/fastclick
             var attachFastClick = window["Origami"].fastclick;
@@ -68,14 +78,7 @@ module StopByStop.Cordova {
     $.mobile.allowCrossDomainPages = true;
     $.support.cors = true;
 
-    StopByStop.Init.initialize({
-        app: SBSApp.SPA,
-        baseDataUrl: "https://www.stopbystop.com/",
-        baseImageUrl: "images/",
-        navigationLocation: { page: SBSPage.home },
-        historyDisabled: true,
-        windowOpenTarget: "_system"
-    });
+
 
     window.onload = function () {
         Application.initialize();

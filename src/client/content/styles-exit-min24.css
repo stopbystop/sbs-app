@@ -1,46 +1,18 @@
 ﻿@media only all and (min-width: 24em) {
 
-    .poi-table-row {
-        height: 70px;
+    .pois-list fieldset .list-view {
+        width: 25px;
+        height: 25px;
+        background-position: 20px 15px;
+        background-size: 42%;
     }
 
-    .pois-list fieldset {
-        margin-bottom: 40px;
+    .pois-list fieldset .map-view {
+        width: 25px;
+        height: 25px;
+        background-size: 29%;
     }
-
-        .pois-list fieldset .list-view {
-            width: 25px;
-            height: 25px;
-            background-position: 20px 15px;
-            background-size: 42%;
-        }
-
-        .pois-list fieldset .map-view {
-            width: 25px;
-            height: 25px;
-            background-size: 29%;
-        }
-
-    .poi-details-cell {
-        width: 255px;
-    }
-
-    .poi-placename-food, .poi-placename-gas {
-        width: 40px;
-        background-size: 2em;
-    }
-
     .exit-food, .exit-gas {
-    }
-
-    .poi-details {
-        padding: 0;
-        line-height: .8em;
-    }
-
-
-    .poi-placename {
-        font-size: 1em;
     }
 
     .poi-cat {
@@ -49,52 +21,11 @@
     }
 
     .poi-details.distance {
-        padding: 4px;
-        width: 87%;
+        font-size: 0.7em;
     }
 
-    .poi-yelp-cell {
-        margin-right: 0;
-    }
-
-    .yelp-link {
-        width: 65px;
-        right: 20px;
-    }
-
-        .yelp-link img {
-            width: 45%;
-            margin-top: 8%;
-        }
-
-        .yelp-link.call_map_title img {
-            width: 48%;
-            margin-top: 14%;
-        }
-
-    .call_map_title {
-        right: 22px;
-        width: 65px;
-    }
 
     .poi-rating-count {
         font-size: .6em;
-    }
-
-
-    #exit .route-description-metric-label {
-        font-size: 1em;
-    }
-
-
-    .exit-page .route-description-metric-label {
-        width: 114px;
-        display: inline-block;
-        margin-right: 0px;
-    }
-
-    .exit-page .miles .route-description-metric-label {
-        margin-right: 0;
-        display: inline;
     }
 }

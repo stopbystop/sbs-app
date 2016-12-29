@@ -24,35 +24,34 @@
                 </div>
                 <div data-bind="if:selectedJunction">
                     <div class="main_inner">
-
-                        <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
-                        <div class="route-summary-table">
-                            <div class="route-description2" style="display:table-row">
-
-                                <span class="route-description-metric-label">Restaurants</span>
-                                <span class="route-description-metric-label">Gas stations</span>
+                        <div class="route-summary">
+                            <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
+                            <div class="route-summary-table">
+                                <div class="route-description2" style="display:table-row">
+                                    <div class="route-summary-cell">
+                                        <span class="route-description-metric-label">Restaurants</span>
+                                    </div>
+                                    <div class="route-summary-cell">
+                                        <span class="route-description-metric-label">Gas stations</span>
+                                    </div>
+                                </div>
+                                <div class="route-description2" style="display:table-row">
+                                    <div class="route-summary-cell">
+                                        <span class="restaurant-icon"></span>
+                                        <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
+                                    </div>
+                                    <div class="route-summary-cell">
+                                        <span class="gas-icon"></span>
+                                        <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="route-description2" style="display:table-row">
-                                <div class="restaurant-group">
-                                    <span class="restaurant-icon"></span>
-                                    <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
-                                </div>
-                                <div class="gas-group">
-                                    <span class="gas-icon"></span>
-                                    <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
-                                </div>
-
-
-
-
+                            <div class="route-description2 miles">
+                                <span class="route-description-metric-label">within</span>
+                                <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
+                                <span class="route-description-metric-label">mile(s) from exit</span>
                             </div>
                         </div>
-                        <div class="route-description2 miles">
-                            <span class="route-description-metric-label">within</span>
-                            <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
-                            <span class="route-description-metric-label">mile(s) from exit</span>
-                        </div>
-
                         <div class="pois-list">
                             <fieldset class="view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
                                 <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
@@ -64,13 +63,13 @@
 
                             <!-- start food POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
-                                {{>poiRow showCategories=true poiType='food'}}
+                                {{>poiRow showCategories=true isMapPopup=false poiType='\'food\''}}
                             </div>
                             <!-- /poi-table -->
                             <!-- end food POI list-->
                             <!-- start gas POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleGasPois">
-                                {{>poiRow showCategories=false poiType='gas'}}
+                                {{>poiRow showCategories=false isMapPopup=false poiType='\'gas\''}}
                             </div>
                             <!-- /poi-table -->
                             <!-- end gas POI list-->

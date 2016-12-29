@@ -151,7 +151,7 @@ body {
 .breadcrumb_main {
     list-style: none;
     overflow: hidden;
-    font-size: 1em;
+    font-size: 0.8em;
     padding-left: 0px !important;
     margin:0;
 }
@@ -318,7 +318,7 @@ body {
 html .ui-body-a .ui-btn {
     background-color: #32394C;
     border-color: #3e465b;
-    color: #fff;
+    color: #fff !important;
 }
 
 .sbs .ui-page-theme-a a:visited,
@@ -1125,8 +1125,9 @@ h1 {
     content: none;
 }
 
+/* NOTE: this enables background on all pages */
 .breadCrumbHolder.module {
-    background: #32394c;
+    /*background: #32394c;*/
 }
 
 .exit-page .breadcrumb-arrow {

@@ -1818,7 +1818,7 @@ var StopByStop;
                 }
                 _this.sideBarHeight($(window).height());
                 _this.sideBarInnerHeight($(window).height());
-                _this.sideBarInnerTop(50);
+                _this.sideBarInnerTop($(".sidebar-top").outerHeight());
             });
             this._sideBarFirstScrollInit = StopByStop.Utils.runOnce(this.sideBarFirstScrollInit.bind(this));
             this.sideBarHeight = ko.observable(0);
@@ -1964,6 +1964,15 @@ var StopByStop;
             // Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
+                sbvm._headerHeight = $(".ui-header").outerHeight();
+                sbvm._footerHeight = $(".ui-footer").outerHeight();
+            }
+            else {
+                // we have multiple copies of header and footer on SPA app
+                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
+            }
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
@@ -2568,7 +2577,7 @@ var StopByStop;
                         paddingBottom: "50px"
                     });
                     var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
-                    filtersContainer.css({ "right": "-75%" });
+                    filtersContainer.css({ "right": "10%" });
                 },
                 show: function (event, ui) {
                     if (navigationAbandoned) {
@@ -2611,9 +2620,6 @@ var StopByStop;
                         default:
                             break;
                     }
-                    // this is a hack. But I am not sure why this class is added despite the fact that
-                    // sbsheader is added with {position:fixed}
-                    // $("#sbsheader").removeClass("ui-fixed-hidden");
                     StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
@@ -2621,8 +2627,8 @@ var StopByStop;
         Init.animateFiltersTrigger = function () {
             window.setTimeout(function () {
                 var filtersContainer = $("." + StopByStop.AppState.current.pageInfo.pageName + " .filters-container");
-                filtersContainer.css({ "right": "-75%" });
-                filtersContainer.animate({ "right": "-55%" }, "slow");
+                filtersContainer.css({ "right": "10%" });
+                filtersContainer.animate({ "right": "35%" }, "slow");
             }, 50);
         };
         Init.initJunctionMapWhenReady = function (junctionAppViewModel) {
@@ -2752,6 +2758,14 @@ var StopByStop;
             Application.initialize = initialize;
             function onDeviceReady() {
                 console.log("in onDeviceReady");
+                StopByStop.Init.initialize({
+                    app: StopByStop.SBSApp.SPA,
+                    baseDataUrl: "https://www.stopbystop.com/",
+                    baseImageUrl: "images/",
+                    navigationLocation: { page: StopByStop.SBSPage.home },
+                    historyDisabled: true,
+                    windowOpenTarget: "_system"
+                });
                 //console.log(device.platform);
                 // FastClick lib: https://github.com/ftlabs/fastclick
                 var attachFastClick = window["Origami"].fastclick;
@@ -2791,14 +2805,6 @@ var StopByStop;
         $.mobile.ajaxEnabled = true;
         $.mobile.allowCrossDomainPages = true;
         $.support.cors = true;
-        StopByStop.Init.initialize({
-            app: StopByStop.SBSApp.SPA,
-            baseDataUrl: "https://www.stopbystop.com/",
-            baseImageUrl: "images/",
-            navigationLocation: { page: StopByStop.SBSPage.home },
-            historyDisabled: true,
-            windowOpenTarget: "_system"
-        });
         window.onload = function () {
             Application.initialize();
         };

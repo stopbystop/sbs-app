@@ -14,6 +14,8 @@
 <meta property="og:image:width" content="1024" />
 <meta property="fb:app_id" content="1385725698401226" />
 
+
+
 <link rel="apple-touch-icon" sizes="57x57" href='{{{getImage "apple-icon-57x57.png"}}}'>
 <link rel="apple-touch-icon" sizes="60x60" href='{{{getImage "apple-icon-60x60.png"}}}'>
 <link rel="apple-touch-icon" sizes="72x72" href='{{{getImage "apple-icon-72x72.png"}}}'>
@@ -27,4 +29,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href='{{{getImage "favicon-32x32.png"}}}'>
 <link rel="icon" type="image/png" sizes="96x96" href='{{{getImage "favicon-96x96.png"}}}'>
 <link rel="icon" type="image/png" sizes="16x16" href='{{{getImage "favicon-16x16.png"}}}'>
-<link rel="manifest" href='{{{getImage "manifest.json"}}}'>
+
+
+{{#if includeManifest}}
+<link rel="manifest" href='~/client/content/manifest.webmanifest'>
+{{/if}}

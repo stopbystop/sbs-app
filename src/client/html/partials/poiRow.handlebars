@@ -1,9 +1,24 @@
 <div class="poi-table-row">
     <div class="poi-table-cell poi-details-cell">
+        {{#if isMapPopup}}
+        <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
+           style="text-align:left;" onclick="window.showPoiOptionsForMapPopup()" data-bind="attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
+            <div data-bind="css:'poi-typeicon poi-placename-'+{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div data-bind="css:'exit-'+{{poiType}}">
+                <div class="poi-placename">
+                    <span itemprop="name" data-bind="text:poi.name"></span>
+                </div>
+                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
+                <div class="poi-table-cell-go">
+                    <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />
+                </div>
+            </div>
+        </a>
+        {{else}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
            style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-            <div class="poi-typeicon poi-placename-{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
-            <div class="exit-{{poiType}}">
+            <div data-bind="css:'poi-typeicon poi-placename-'+{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div data-bind="css:'exit-'+{{poiType}}">
                 <div class="poi-placename">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
@@ -18,6 +33,7 @@
                 </div>
             </div>
         </a>
+        {{/if}}
     </div>
     <div class="poi-table-cell poi-yelp-cell">
         <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
