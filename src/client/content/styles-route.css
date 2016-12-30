@@ -614,7 +614,7 @@ svg image {
     background-color: transparent;
     color: #fff;
     font-family: 'MontLight', Arial;
-    font-size: 1.3em;
+    font-size: 1.4em;
 }
 
 .miles .route-description-metric {
@@ -699,11 +699,6 @@ svg image {
 div.ui-slider {
     height: 30px;
     margin: 25px 0;
-}
-
-
-.route-description-metric {
-    font-size: .9em;
 }
 
 .route-summary {
@@ -846,7 +841,8 @@ div.ui-slider {
     background: none;
     text-transform: capitalize;
     overflow: visible;
-    white-space: nowrap;
+    white-space: normal;
+    word-wrap:normal;
 }
 
 .sidebar-stop.gas .heading {

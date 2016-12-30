@@ -99,7 +99,7 @@ module StopByStop {
             this.stops = ko.observableArray<SideBarStopViewModel>([]);
             this._routePlanViewModel = routePlan;
             this._routeViewModel = routeViewModel;
-          
+
 
             $(document).scroll(() => {
 
@@ -122,6 +122,10 @@ module StopByStop {
 
         public postInit() {
             this._sideBarInit();
+        }
+
+        public recalculatePosition() {
+            SideBarViewModel.recalculateSideBarPosition(this);
         }
 
         private onTouchStart(eventObject: JQueryMouseEventObject) {

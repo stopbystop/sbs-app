@@ -242,33 +242,27 @@
     background-color: #a0d468 !important;
 }
 
-.pois-list fieldset {
-    margin-left: 0;
-    text-align: right !important;
-    margin-bottom: 60px;
+.pois-list fieldset .list-view {
+    background-image: url('../images/list-view.png');
+    width: 70px;
+    height: 18px;
+    background-position: 72px 10px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-color: #272d40 !important;
+    border: 0;
 }
 
-    .pois-list fieldset .list-view {
-        background-image: url('../images/list-view.png');
-        width: 18px;
-        height: 18px;
-        background-position: 20px 13px;
-        background-size: 35%;
-        background-repeat: no-repeat;
-        background-color: #272d40 !important;
-        border: 0;
-    }
-
-    .pois-list fieldset .map-view {
-        background-image: url('../images/map-view.png');
-        background-repeat: no-repeat;
-        background-position: 20px 11px;
-        background-color: #272d40 !important;
-        border: 0;
-        width: 18px;
-        height: 18px;
-        background-size: 29%;
-    }
+.pois-list fieldset .map-view {
+    background-image: url('../images/map-view.png');
+    background-repeat: no-repeat;
+    background-position: 20px 11px;
+    background-color: #272d40 !important;
+    border: 0;
+    width: 18px;
+    height: 18px;
+    background-size: 29%;
+}
 
 
 .sbs-web .pois-list fieldset .list-view {
@@ -341,8 +335,7 @@
 
 
     .pois-list fieldset {
-        margin-left: 58%;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
 .ui-btn.ui-corner-all.yelp_review {
@@ -617,41 +610,40 @@
     width: 170px;
 }
 
-.poi-popup .yelp-link{
-    width:auto;
+.poi-popup .yelp-link {
+    width: auto;
 }
 
-.poi-popup .yelp-link img{
-    width:30%;
-    margin-top:0;
+    .poi-popup .yelp-link img {
+        width: 30%;
+        margin-top: 0;
+    }
+
+.poi-popup .poi-placename {
+    font-size: .5em;
 }
 
-.poi-popup .poi-placename{
-    font-size:.5em;
+.poi-popup .yelp-link.call_map_title img {
+    width: auto;
+    margin-top: 0;
+    height: 25px;
 }
 
-.poi-popup .yelp-link.call_map_title img{
-    width:auto;
-    margin-top:0;
-    height:25px;
+.poi-popup .poi-rating {
+    margin-top: 12px;
 }
 
-.poi-popup .poi-rating{
-    margin-top:12px;
+.poi-popup .poi-rating-count {
+    font-size: .5em;
+    margin-top: -3px;
 }
 
-.poi-popup .poi-rating-count{
-    font-size:.5em;
-    margin-top:-3px;
-
+.poi-popup .yelp-link > div {
+    height: 7px;
+    margin-top: -5px;
 }
 
-.poi-popup .yelp-link>div{
-    height:7px;
-    margin-top:-5px;
-}
-
-.poi-popup .poi-details.distance{
-    font-size:.5em;
+.poi-popup .poi-details.distance {
+    font-size: .5em;
 }
 /* end of exit page styles*/

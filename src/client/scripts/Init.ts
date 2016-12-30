@@ -289,7 +289,6 @@ module StopByStop {
                         case SBSPage.exit:
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
-
                                 Init._app(new AppViewModel(null, AppState.current, Utils.getRouteTitleFromRouteId(AppState.current.navigationLocation.routeId)));
 
                                 Init._loadRoutePromise = Init.loadRoute(AppState.current.navigationLocation.routeId);
@@ -299,6 +298,7 @@ module StopByStop {
                                     if (AppState.current.navigationLocation.page === SBSPage.exit) {
                                         Init.completeExitPageInit();
                                     } else {
+                                        this._app().route.sideBar.recalculatePosition();
                                         Init.animateFiltersTrigger();
                                     }
                                 });
@@ -307,6 +307,7 @@ module StopByStop {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
                                     this._app().title(this._app().route.shortDescription);
+                                    this._app().route.sideBar.recalculatePosition();
                                     Init.animateFiltersTrigger();
 
                                 } else if (AppState.current.navigationLocation.page === SBSPage.exit) {

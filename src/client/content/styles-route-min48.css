@@ -80,7 +80,7 @@
     }
 
     #sidebar {
-        margin-top: 200px;
+        margin-top: 250px;
         margin-left: 45px;
     }
 
@@ -94,7 +94,7 @@
 
     .sidebar_text {
         line-height: .8em;
-        font-size: 2.5em;
+        font-size: 2em;
     }
 
     .route-start, .route-eta {
