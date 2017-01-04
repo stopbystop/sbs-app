@@ -4,6 +4,7 @@
 .poi-table {
     display: table;
     margin: 0 auto;
+    width:100%;
 }
 
 
@@ -242,26 +243,38 @@
     background-color: #a0d468 !important;
 }
 
-.pois-list fieldset .list-view {
-    background-image: url('../images/list-view.png');
-    width: 70px;
+.pois-list-filters-container {
+    float: left;
+}
+
+.pois-list-filters-button {
+    background-image: url('v1/images/filter-icon.png');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 75px;
+}
+
+
+.sbs-cdb .pois-list-filters-button {
+    background-image: url('../images/filter-icon.png');
+}
+
+.pois-list fieldset .list-view, .pois-list fieldset .map-view {
+    width: 50px;
     height: 18px;
-    background-position: 72px 10px;
-    background-size: 20px;
+    background-position: 52px 15px;
+    background-size: 16px;
     background-repeat: no-repeat;
     background-color: #272d40 !important;
     border: 0;
 }
 
+.pois-list fieldset .list-view {
+    background-image: url('../images/list-view.png');
+}
+
 .pois-list fieldset .map-view {
     background-image: url('../images/map-view.png');
-    background-repeat: no-repeat;
-    background-position: 20px 11px;
-    background-color: #272d40 !important;
-    border: 0;
-    width: 18px;
-    height: 18px;
-    background-size: 29%;
 }
 
 
@@ -274,7 +287,15 @@
     background-image: url('v1/icons/map-view.png');
 }
 
+.pois-list-view-mode-switch {
+    float: right;
+    margin:0;
+    padding:0;
+}
 
+.pois-list-view-mode-switch .ui-controlgroup-controls{
+    float:right;
+}
 
 .ui-btn.ui-corner-all.ui-btn-inherit.ui-btn-icon-left.ui-checkbox-on::after {
     background-color: rgb(255, 156, 0) !important;
@@ -332,11 +353,6 @@
     margin: 0 auto;
     max-width: 48em;
 }
-
-
-    .pois-list fieldset {
-        margin-bottom: 10px;
-    }
 
 .ui-btn.ui-corner-all.yelp_review {
     padding-left: 0;

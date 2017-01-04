@@ -19,7 +19,7 @@ module StopByStop {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
         private static _initSPAOnce = Utils.runOnce(Init.initSPA);
-        
+
         private static _loadRoutePromise: JQueryPromise<any> = null;
 
 
@@ -154,8 +154,8 @@ module StopByStop {
                 var route = data;
                 var app = new AppViewModel(route, AppState.current, Utils.getRouteTitleFromRouteId(routeId),
                     () => {
-                    done.resolve();
-                });
+                        done.resolve();
+                    });
 
                 Init._app(app);
             } else {
@@ -303,7 +303,7 @@ module StopByStop {
                                     }
                                 });
                             } else {
-                                 if (AppState.current.navigationLocation.page === SBSPage.route) {
+                                if (AppState.current.navigationLocation.page === SBSPage.route) {
 
                                     this._app().route.recalcRoadLine($(".route")[0]);
                                     this._app().title(this._app().route.shortDescription);
@@ -376,6 +376,11 @@ module StopByStop {
 
             $(".tel-btn").on("click", function () {
                 Telemetry.trackEvent(TelemetryEvent.TelLinkClick);
+            });
+
+            $(".pois-list-filters-button").click(() => {
+                Telemetry.trackEvent(TelemetryEvent.FilterButtonInlineExitPageClick);
+                Init.openFilterPopup();
             });
         };
 

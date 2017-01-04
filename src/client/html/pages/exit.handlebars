@@ -53,13 +53,18 @@
                             </div>
                         </div>
                         <div class="pois-list">
-                            <fieldset class="view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
-                                <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
-                                <label class="list-view" for="view-mode-radio-choice-21">View list</label>
+                            <div>
+                                <div class="pois-list-filters-container">
+                                    <a href="#" class="ui-btn ui-btn-inline ui-btn-icon-right pois-list-filters-button">Filters</a>
+                                </div>
+                                <fieldset class="view-mode-switch pois-list-view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                    <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
+                                    <label class="list-view" for="view-mode-radio-choice-21">List</label>
 
-                                <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-22" value="map" />
-                                <label class="map-view" for="view-mode-radio-choice-22">View map</label>
-                            </fieldset>
+                                    <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-22" value="map" />
+                                    <label class="map-view" for="view-mode-radio-choice-22">Map</label>
+                                </fieldset>
+                            </div>
 
                             <!-- start food POI list-->
                             <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">

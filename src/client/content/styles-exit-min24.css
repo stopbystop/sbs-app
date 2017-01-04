@@ -1,16 +1,11 @@
 ﻿@media only all and (min-width: 24em) {
 
     .pois-list fieldset .list-view {
-        width: 25px;
-        height: 25px;
-        background-position: 20px 15px;
-        background-size: 42%;
+      
     }
 
     .pois-list fieldset .map-view {
-        width: 25px;
-        height: 25px;
-        background-size: 29%;
+       
     }
     .exit-food, .exit-gas {
     }

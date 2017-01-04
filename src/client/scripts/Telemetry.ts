@@ -8,6 +8,7 @@ module StopByStop {
         AddStopToRoute,
         CityDropdownClick,
         FilterButtonClick,
+        FilterButtonInlineExitPageClick,
         FilterMaxDistanceFromJunctionChanged,
         FilterShowGasStationsChanged,
         FilterShowRestaurantsChanged,
