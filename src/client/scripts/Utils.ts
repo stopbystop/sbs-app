@@ -260,6 +260,14 @@ module StopByStop {
             return !!(window.history && history.pushState);
         }
 
+        public static windowOpen(url: string) {
+            if (AppState.current.windowOpenTarget === "_blank") {
+                window.location.assign(url);
+            } else {
+                window.open(url, AppState.current.windowOpenTarget, "location=yes");
+            }
+        }
+
         private static getPlaceNameFromPlaceId(placeId: string) {
             var placeName = "";
             var usIndex = placeId.indexOf("-united-states");
