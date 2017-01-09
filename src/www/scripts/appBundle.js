@@ -13,29 +13,30 @@ var StopByStop;
         TelemetryEvent[TelemetryEvent["AddStopToRoute"] = 1] = "AddStopToRoute";
         TelemetryEvent[TelemetryEvent["CityDropdownClick"] = 2] = "CityDropdownClick";
         TelemetryEvent[TelemetryEvent["FilterButtonClick"] = 3] = "FilterButtonClick";
-        TelemetryEvent[TelemetryEvent["FilterMaxDistanceFromJunctionChanged"] = 4] = "FilterMaxDistanceFromJunctionChanged";
-        TelemetryEvent[TelemetryEvent["FilterShowGasStationsChanged"] = 5] = "FilterShowGasStationsChanged";
-        TelemetryEvent[TelemetryEvent["FilterShowRestaurantsChanged"] = 6] = "FilterShowRestaurantsChanged";
-        TelemetryEvent[TelemetryEvent["LocationIN"] = 7] = "LocationIN";
-        TelemetryEvent[TelemetryEvent["LocationOUT"] = 8] = "LocationOUT";
-        TelemetryEvent[TelemetryEvent["LocationOUTPopupDisplayed"] = 9] = "LocationOUTPopupDisplayed";
-        TelemetryEvent[TelemetryEvent["NonBounce"] = 10] = "NonBounce";
-        TelemetryEvent[TelemetryEvent["POIGroupPageScroll"] = 11] = "POIGroupPageScroll";
-        TelemetryEvent[TelemetryEvent["POIGroupSwitchList"] = 12] = "POIGroupSwitchList";
-        TelemetryEvent[TelemetryEvent["POIGroupSwitchMap"] = 13] = "POIGroupSwitchMap";
-        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 14] = "Remove5MinFromStop";
-        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 15] = "RemoveStopFromRoute";
-        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 16] = "RoutePageScroll";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 17] = "RoutePlanNavigateClick";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 18] = "RoutePlanNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 19] = "ShowStopSettingsPopup";
-        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 20] = "SideBarThumbTouch";
-        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 21] = "SocialButtonClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 22] = "StopPopupNavigateClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 23] = "StopPopupNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 24] = "TelLinkClick";
-        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 25] = "ViewTripButtonClick";
-        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 26] = "YelpLinkClick";
+        TelemetryEvent[TelemetryEvent["FilterButtonInlineExitPageClick"] = 4] = "FilterButtonInlineExitPageClick";
+        TelemetryEvent[TelemetryEvent["FilterMaxDistanceFromJunctionChanged"] = 5] = "FilterMaxDistanceFromJunctionChanged";
+        TelemetryEvent[TelemetryEvent["FilterShowGasStationsChanged"] = 6] = "FilterShowGasStationsChanged";
+        TelemetryEvent[TelemetryEvent["FilterShowRestaurantsChanged"] = 7] = "FilterShowRestaurantsChanged";
+        TelemetryEvent[TelemetryEvent["LocationIN"] = 8] = "LocationIN";
+        TelemetryEvent[TelemetryEvent["LocationOUT"] = 9] = "LocationOUT";
+        TelemetryEvent[TelemetryEvent["LocationOUTPopupDisplayed"] = 10] = "LocationOUTPopupDisplayed";
+        TelemetryEvent[TelemetryEvent["NonBounce"] = 11] = "NonBounce";
+        TelemetryEvent[TelemetryEvent["POIGroupPageScroll"] = 12] = "POIGroupPageScroll";
+        TelemetryEvent[TelemetryEvent["POIGroupSwitchList"] = 13] = "POIGroupSwitchList";
+        TelemetryEvent[TelemetryEvent["POIGroupSwitchMap"] = 14] = "POIGroupSwitchMap";
+        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 15] = "Remove5MinFromStop";
+        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 16] = "RemoveStopFromRoute";
+        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 17] = "RoutePageScroll";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 18] = "RoutePlanNavigateClick";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 19] = "RoutePlanNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 20] = "ShowStopSettingsPopup";
+        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 21] = "SideBarThumbTouch";
+        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 22] = "SocialButtonClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 23] = "StopPopupNavigateClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 24] = "StopPopupNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 25] = "TelLinkClick";
+        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 26] = "ViewTripButtonClick";
+        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 27] = "YelpLinkClick";
     })(StopByStop.TelemetryEvent || (StopByStop.TelemetryEvent = {}));
     var TelemetryEvent = StopByStop.TelemetryEvent;
     (function (TelemetryProperty) {
@@ -354,6 +355,14 @@ var StopByStop;
         };
         Utils.isHistoryAPISupported = function () {
             return !!(window.history && history.pushState);
+        };
+        Utils.windowOpen = function (url) {
+            if (StopByStop.AppState.current.windowOpenTarget === "_blank") {
+                window.location.assign(url);
+            }
+            else {
+                window.open(url, StopByStop.AppState.current.windowOpenTarget, "location=yes");
+            }
         };
         Utils.getPlaceNameFromPlaceId = function (placeId) {
             var placeName = "";
@@ -1294,7 +1303,7 @@ var StopByStop;
                     StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.StopPopupNavigateBeforeDirect, [
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
+                    StopByStop.Utils.windowOpen(navigationUrl);
                 }, function (positionError) {
                     try {
                         StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
@@ -1648,7 +1657,7 @@ var StopByStop;
                         { k: StopByStop.TelemetryProperty.StopCount, v: _this.stops().length.toString() },
                         { k: StopByStop.TelemetryProperty.NavigationUrl, v: navigationUrl }
                     ], null, true);
-                    window.open(navigationUrl, StopByStop.AppState.current.windowOpenTarget, "location=yes");
+                    StopByStop.Utils.windowOpen(navigationUrl);
                 }, function (positionError) {
                     StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
                     window.alert("Please allow StopByStop.com to share your location.");
@@ -1849,6 +1858,9 @@ var StopByStop;
         }
         SideBarViewModel.prototype.postInit = function () {
             this._sideBarInit();
+        };
+        SideBarViewModel.prototype.recalculatePosition = function () {
+            SideBarViewModel.recalculateSideBarPosition(this);
         };
         SideBarViewModel.prototype.onTouchStart = function (eventObject) {
             StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.SideBarThumbTouch);
@@ -2602,6 +2614,7 @@ var StopByStop;
                                         Init.completeExitPageInit();
                                     }
                                     else {
+                                        _this._app().route.sideBar.recalculatePosition();
                                         Init.animateFiltersTrigger();
                                     }
                                 });
@@ -2610,6 +2623,7 @@ var StopByStop;
                                 if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.route) {
                                     _this._app().route.recalcRoadLine($(".route")[0]);
                                     _this._app().title(_this._app().route.shortDescription);
+                                    _this._app().route.sideBar.recalculatePosition();
                                     Init.animateFiltersTrigger();
                                 }
                                 else if (StopByStop.AppState.current.navigationLocation.page === StopByStop.SBSPage.exit) {
@@ -2667,6 +2681,10 @@ var StopByStop;
             });
             $(".tel-btn").on("click", function () {
                 StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.TelLinkClick);
+            });
+            $(".pois-list-filters-button").click(function () {
+                StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterButtonInlineExitPageClick);
+                Init.openFilterPopup();
             });
         };
         ;

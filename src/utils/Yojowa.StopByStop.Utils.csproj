@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleTraceListenerEx.cs" />
     <Compile Include="CookieUtils.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="LocationUtils.cs" />
