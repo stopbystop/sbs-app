@@ -11,8 +11,6 @@ namespace Yojowa.StopByStop.Web.Controllers
     [NoCache]
     public class PlaceController : Controller
     {
-        private static readonly GeoPlace[] testNearbyPlaces = null;
-
         [HttpGet]
         [Route("place/{id}")]
         public JsonResult Index(string id)
