@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringCompressor.cs" />
     <Compile Include="TelemetryConstants.cs" />
+    <Compile Include="TelemetryTracker.cs" />
     <Compile Include="Trie.cs" />
   </ItemGroup>
   <ItemGroup>
