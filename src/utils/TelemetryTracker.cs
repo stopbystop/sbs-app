@@ -14,7 +14,7 @@ namespace Yojowa.StopByStop.Utils
     /// <summary>
     /// Telemetry tracker
     /// </summary>
-    public class TelemetryTracker
+    public class TelemetryTracker : IDisposable
     {
         /// <summary>
         /// Bag of telemetry items to track
@@ -22,11 +22,18 @@ namespace Yojowa.StopByStop.Utils
         private ConcurrentBag<ITelemetry> telemetryItems;
 
         /// <summary>
+        /// Flag indicating whether to flush telemetry when complete
+        /// </summary>
+        private bool flushTelemetryWhenComplete;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryTracker"/> class. 
         /// </summary>
-        public TelemetryTracker()
+        /// <param name="flushTelemetryWhenComplete">Flag indicating whether to flush telemetry when complete</param>
+        public TelemetryTracker(bool flushTelemetryWhenComplete = false)
         {
             this.telemetryItems = new ConcurrentBag<ITelemetry>();
+            this.flushTelemetryWhenComplete = flushTelemetryWhenComplete;
         }
 
         /// <summary>
@@ -54,6 +61,19 @@ namespace Yojowa.StopByStop.Utils
             {
                 telemetryClient.Track(t);
             }
+
+            if (this.flushTelemetryWhenComplete)
+            {
+                telemetryClient.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Disposes of telemetry tracker
+        /// </summary>
+        public void Dispose()
+        {
+            this.Flush();
         }
     }
 }
