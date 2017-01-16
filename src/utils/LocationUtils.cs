@@ -9,6 +9,7 @@ namespace Yojowa.StopByStop.Utils
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Text.RegularExpressions;
     using Microsoft.ApplicationInsights;
     using Newtonsoft.Json;
 
@@ -165,6 +166,17 @@ namespace Yojowa.StopByStop.Utils
                 telemetryClient.TrackException(ex);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Normalizes city id
+        /// </summary>
+        /// <param name="cityId">City id</param>
+        /// <returns>Normalized city id</returns>
+        public static string NormalizeCityId(string cityId)
+        {
+            cityId = Regex.Replace(cityId, "[^A-Za-z]", "-");
+            return cityId.ToLowerInvariant();
         }
 
         /// <summary>

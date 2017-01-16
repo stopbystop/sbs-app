@@ -63,6 +63,17 @@ namespace Yojowa.StopByStop.UnitTests
         }
 
         /// <summary>
+        /// Tests city id normalization
+        /// </summary>
+        [TestMethod]
+        public void NormalizeCityIDTest()
+        {
+            Assert.AreEqual<string>(
+                "k-i-sawyer-s-air-force-base-united-states",
+                LocationUtils.NormalizeCityId("K.I.Sawyer's Air Force Base-united-states"));
+        }
+
+        /// <summary>
         /// Verifies the locations.
         /// </summary>
         /// <param name="locationsToVerify">The locations to verify.</param>
