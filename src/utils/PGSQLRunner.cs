@@ -1,5 +1,5 @@
 ﻿// <copyright file="PGSQLRunner.cs" company="Yojowa, LLC">
-// Copyright (c) 2016 All Rights Reserved
+// Copyright (c) 2016-2020 All Rights Reserved
 // </copyright>
 // <author>Alex Bulankou</author>
 // <date>01/17/2017</date>

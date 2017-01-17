@@ -77,9 +77,11 @@
     <Compile Include="ServiceControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\src\Settings.StyleCop">
+      <Link>Settings.StyleCop</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\interfaces\Yojowa.StopByStop.Interfaces.csproj">

@@ -1,22 +1,16 @@
-﻿// <copyright file="AssemblyInfo.cs" company="Yojowa, LLC">
-// Copyright (c) 2016-2020 All Rights Reserved
-// </copyright>
-// <author>Alex Bulankou</author>
-// <date>10/30/2016</date>
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Yojowa.StopByStop.UnitTests")]
+[assembly: AssemblyTitle("Yojowa.WebJobAgency.NpgSQL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Yojowa.StopByStop.UnitTests")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyProduct("Yojowa.WebJobAgency.NpgSQL")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -26,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("578359ba-3392-4cc8-85a6-e5d8ebeb0a05")]
+[assembly: Guid("eaf9a614-9129-44fe-95dd-4363bbef2662")]
 
 // Version information for an assembly consists of the following four values:
 //

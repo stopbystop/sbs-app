@@ -1,5 +1,5 @@
 ﻿// <copyright file="ServiceControllerTest.cs" company="Yojowa, LLC">
-// Copyright (c) 2016 All Rights Reserved
+// Copyright (c) 2016-2020 All Rights Reserved
 // </copyright>
 // <author>Alex Bulankou</author>
 // <date>10/30/2016</date>
