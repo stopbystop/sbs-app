@@ -12,7 +12,7 @@ namespace Yojowa.StopByStop.UnitTests
     using Utils;
 
     /// <summary>
-    /// Trie test
+    /// <c>Trie</c> test
     /// </summary>
     [TestClass]
     public class TrieTest
@@ -37,7 +37,7 @@ namespace Yojowa.StopByStop.UnitTests
         }
 
         /// <summary>
-        /// Verifies trie character range
+        /// Verifies <c>trie</c> character range
         /// </summary>
         [TestMethod]
         public void VerifyTrieCharacterRange()
@@ -56,7 +56,7 @@ namespace Yojowa.StopByStop.UnitTests
         }
 
         /// <summary>
-        /// Verifies trie character range
+        /// Verifies <c>trie</c> character range
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
