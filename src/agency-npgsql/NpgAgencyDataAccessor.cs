@@ -44,7 +44,8 @@ namespace Yojowa.WebJobAgency
         {
             { AgencyJobState.Scheduled, "scheduled" },
             { AgencyJobState.Running, "running" },
-            { AgencyJobState.Completed, "completed" }
+            { AgencyJobState.Completed, "completed" },
+            { AgencyJobState.Canceled, "canceled" }
         };
 
         /// <summary>
@@ -54,7 +55,8 @@ namespace Yojowa.WebJobAgency
         {
             { "scheduled", AgencyJobState.Scheduled },
             { "running", AgencyJobState.Running },
-            { "completed", AgencyJobState.Completed }
+            { "completed", AgencyJobState.Completed },
+            { "canceled", AgencyJobState.Canceled }
         };
 
         /// <summary>
@@ -63,39 +65,78 @@ namespace Yojowa.WebJobAgency
         private string connectionString;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NpgAgencyDataAccessor"/> class.
+        /// The agents table name
+        /// </summary>
+        private string agentsTableName;
+
+        /// <summary>
+        /// The jobs table name
+        /// </summary>
+        private string jobsTableName;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NpgAgencyDataAccessor" /> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        public NpgAgencyDataAccessor(string connectionString)
+        /// <param name="agentsTableName">Name of the agents table.</param>
+        /// <param name="jobsTableName">Name of the jobs table.</param>
+        public NpgAgencyDataAccessor(string connectionString, string agentsTableName, string jobsTableName)
         {
             this.connectionString = connectionString;
+            this.agentsTableName = agentsTableName;
+            this.jobsTableName = jobsTableName;
         }
 
         /// <summary>
         /// Creates the tables.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        public static void CreateTables(string connectionString)
+        /// <param name="agentsTableName">Name of the agents table.</param>
+        /// <param name="jobsTableName">Name of the jobs table.</param>
+        public static void CreateTables(string connectionString, string agentsTableName, string jobsTableName)
         {
-            string createDbQuery =
-               "DROP TABLE IF EXISTS clients;" +
-               "CREATE TABLE agents(" +
-               "id varchar(64) NOT NULL PRIMARY KEY," +
-               "state varchar(64) NOT NULL," +
-               "job_key varchar(64) NULL," +
-               "updated_date timestamp without time zone default (now() at time zone 'utc')" +
-               ")WITH (OIDS = FALSE);" +
-               "DROP table IF EXISTS jobs;" +
-               "CREATE TABLE jobs(" +
+            string createDbQuery = string.Format(
+               "DROP table IF EXISTS {0};" +
+               "CREATE TABLE {0}(" +
                "id serial NOT NULL PRIMARY KEY," +
                "job_key varchar(64) NOT NULL," +
                "configuration varchar(1024) NOT NULL," +
                "state varchar(64) NOT NULL," +
-               "client_id varchar(64) NULL," +
+               "agent_id varchar(64) NULL," +
                "percent_complete int NOT NULL," +
                "created_date timestamp without time zone default (now() at time zone 'utc')," +
+               "updated_date timestamp without time zone default (now() at time zone 'utc')," +
+               "UNIQUE(job_key,state)" +
+               ")WITH (OIDS = FALSE);" +
+               "DROP TABLE IF EXISTS {1};" +
+               "CREATE TABLE {1}(" +
+               "id varchar(64) NOT NULL PRIMARY KEY," +
+               "state varchar(64) NOT NULL," +
+               "job_id int NULL REFERENCES jobs(id)," +
                "updated_date timestamp without time zone default (now() at time zone 'utc')" +
-               ")WITH (OIDS = FALSE);";
+               ")WITH (OIDS = FALSE);",
+               jobsTableName,
+               agentsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<object>(
+                connectionString,
+                createDbQuery,
+                (cmd, c) => cmd.ExecuteNonQuery());
+        }
+
+        /// <summary>
+        /// Deletes the tables.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <param name="agentsTableName">Name of the agents table.</param>
+        /// <param name="jobsTableName">Name of the jobs table.</param>
+        public static void DeleteTables(string connectionString, string agentsTableName, string jobsTableName)
+        {
+            string createDbQuery = string.Format(
+               "DROP TABLE IF EXISTS {0};" +
+               "DROP TABLE IF EXISTS {1};",
+               jobsTableName,
+               agentsTableName);
 
             PGSQLRunner.ExecutePGSQLStatement<object>(
                 connectionString,
@@ -128,7 +169,7 @@ namespace Yojowa.WebJobAgency
                             clauseBuilder.Append(" OR ");
                         }
 
-                        clauseBuilder.AppendFormat("state = '{0}'", ClientStateToStringMapping[clientState]);
+                        clauseBuilder.AppendFormat("state = '{0}'", ClientStateToStringMapping[enumVal]);
                         firstCondition = false;
                     }
                 }
@@ -136,7 +177,7 @@ namespace Yojowa.WebJobAgency
                 clauseBuilder.Append(")");
             }
 
-            string query = string.Format("SELECT FROM clients {0}", clauseBuilder.ToString());
+            string query = string.Format("SELECT * FROM {0} {1}", this.agentsTableName, clauseBuilder.ToString());
             var results = PGSQLRunner.ExecutePGSQLStatement<IEnumerable<AgencyClientInfo>>(
                 this.connectionString,
                 query,
@@ -149,7 +190,7 @@ namespace Yojowa.WebJobAgency
                         clients.Add(new AgencyClientInfo(
                             (string)reader["id"],
                             StringToClientStateMapping[(string)reader["state"]],
-                            (string)reader["job_key"],
+                            PGSQLRunner.ConvertFromDBVal<string>(reader["job_id"]),
                             (DateTime)reader["updated_date"]));
                     }
 
@@ -185,7 +226,7 @@ namespace Yojowa.WebJobAgency
                             clauseBuilder.Append(" OR ");
                         }
 
-                        clauseBuilder.AppendFormat("state = '{0}'", JobStateToStringMapping[jobState]);
+                        clauseBuilder.AppendFormat("state = '{0}'", JobStateToStringMapping[enumVal]);
                         firstCondition = false;
                     }
                 }
@@ -193,7 +234,7 @@ namespace Yojowa.WebJobAgency
                 clauseBuilder.Append(")");
             }
 
-            string query = string.Format("SELECT FROM clients {0}", clauseBuilder.ToString());
+            string query = string.Format("SELECT * FROM {0} {1}", this.jobsTableName, clauseBuilder.ToString());
             var results = PGSQLRunner.ExecutePGSQLStatement<IEnumerable<AgencyJobInfo>>(
                 this.connectionString,
                 query,
@@ -207,7 +248,7 @@ namespace Yojowa.WebJobAgency
                             (string)reader["job_key"],
                             (string)reader["configuration"],
                             StringToJobStateMapping[(string)reader["state"]],
-                            (string)reader["client_id"],
+                            PGSQLRunner.ConvertFromDBVal<string>(reader["agent_id"]),
                             (DateTime)reader["updated_date"],
                             (int)reader["percent_complete"]));
                     }
@@ -219,11 +260,25 @@ namespace Yojowa.WebJobAgency
         }
 
         /// <summary>
-        /// Removes the job.
+        /// Cancels the job.
         /// </summary>
         /// <param name="jobId">The job identifier.</param>
-        public void RemoveJob(string jobId)
+        public void CancelJob(string jobId)
         {
+            string query = string.Format(
+                "UPDATE {3} SET state='{0}' WHERE state='{1}' AND job_key='{2}'",
+                JobStateToStringMapping[AgencyJobState.Canceled],
+                JobStateToStringMapping[AgencyJobState.Scheduled],
+                jobId,
+                this.jobsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+                this.connectionString,
+                query,
+                (cmd, c) =>
+                {
+                    return cmd.ExecuteNonQuery();
+                });
         }
 
         /// <summary>
@@ -233,18 +288,150 @@ namespace Yojowa.WebJobAgency
         /// <param name="configuration">The configuration.</param>
         public void ScheduleJob(string jobId, string configuration)
         {
+            string query = string.Format(
+                "INSERT INTO {3} (job_key,configuration,state,percent_complete) VALUES('{0}','{1}','{2}',0)",
+                jobId,
+                configuration,
+                JobStateToStringMapping[AgencyJobState.Scheduled],
+                this.jobsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+                this.connectionString,
+                query,
+                (cmd, c) =>
+                {
+                    return cmd.ExecuteNonQuery();
+                });
         }
 
         /// <summary>
-        /// Updates the state of the client job.
+        /// Adds the client.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        public void AddClient(string clientId)
+        {
+            string query = string.Format(
+                   "INSERT INTO {2} (id,state,updated_date) " +
+                   "VALUES('{0}','{1}', timezone('utc'::text, now())) " +
+                   "ON CONFLICT(id) DO NOTHING",
+                   clientId,
+                   ClientStateToStringMapping[AgencyClientState.Idle],
+                   this.agentsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+               this.connectionString,
+               query,
+               (cmd, c) =>
+               {
+                   return cmd.ExecuteNonQuery();
+               });
+        }
+
+        /// <summary>
+        /// Removes the client.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        public void RemoveClient(string clientId)
+        {
+            string query = string.Format(
+                "DELETE FROM {1} WHERE id='{0}'",
+                clientId,
+                this.agentsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+               this.connectionString,
+               query,
+               (cmd, c) =>
+               {
+                   return cmd.ExecuteNonQuery();
+               });
+        }
+
+        /// <summary>
+        /// Starts the running job.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="jobId">The job identifier.</param>
-        /// <param name="clientState">State of the client.</param>
-        /// <param name="jobState">State of the job.</param>
-        /// <param name="percentComplete">The percent complete.</param>
-        public void UpdateClientJobState(string clientId, string jobId, AgencyClientState clientState, AgencyJobState jobState, int? percentComplete = default(int?))
+        public void StartRunningJob(
+            string clientId,
+            string jobId)
         {
+            string query = string.Format(
+                "DO $$ BEGIN IF EXISTS (SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN UPDATE {5} SET state='{2}', job_id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') WHERE id='{2}';" +
+                "UPDATE {4} SET state='{3}',agent_id='{2}',percent_complete=0 WHERE id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}');" +
+                "END IF;END $$;",
+                jobId,
+                JobStateToStringMapping[AgencyJobState.Scheduled],
+                ClientStateToStringMapping[AgencyClientState.RunningJob],
+                clientId,
+                JobStateToStringMapping[AgencyJobState.Running],
+                this.jobsTableName,
+                this.agentsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+               this.connectionString,
+               query,
+               (cmd, c) =>
+               {
+                   return cmd.ExecuteNonQuery();
+               });
+        }
+
+        /// <summary>
+        /// Updates the job progress.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="percentComplete">The percent complete.</param>
+        public void UpdateJobProgress(
+            string jobId,
+            int percentComplete)
+        {
+            string query = string.Format(
+                "UPDATE {3} SET percent_complete={0} WHERE job_key='{1}' AND state='{2}'",
+                percentComplete,
+                jobId,
+                JobStateToStringMapping[AgencyJobState.Running],
+                this.jobsTableName);
+
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+             this.connectionString,
+             query,
+             (cmd, c) =>
+             {
+                 return cmd.ExecuteNonQuery();
+             });
+        }
+
+        /// <summary>
+        /// Completes the job.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        public void CompleteJob(
+            string jobId,
+            string clientId)
+        {
+            string query = string.Format(
+                "DO $$ BEGIN IF EXISTS (SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN UPDATE {5} SET state='{2}', job_id=NULL WHERE id='{2}';" +
+                "UPDATE {4} SET state='{3}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}');" +
+                "END IF;END $$;",
+                jobId,
+                JobStateToStringMapping[AgencyJobState.Running],
+                ClientStateToStringMapping[AgencyClientState.Idle],
+                clientId,
+                JobStateToStringMapping[AgencyJobState.Completed],
+                this.jobsTableName,
+                this.agentsTableName);
+                
+            PGSQLRunner.ExecutePGSQLStatement<int>(
+               this.connectionString,
+               query,
+               (cmd, c) =>
+               {
+                   return cmd.ExecuteNonQuery();
+               });
         }
     }
 }

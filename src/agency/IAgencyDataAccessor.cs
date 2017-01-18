@@ -35,24 +35,48 @@ namespace Yojowa.WebJobAgency
         void ScheduleJob(string jobId, string configuration);
 
         /// <summary>
-        /// Removes the job.
+        /// Adds the client.
         /// </summary>
-        /// <param name="jobId">The job identifier.</param>
-        void RemoveJob(string jobId);
+        /// <param name="clientId">The client identifier.</param>
+        void AddClient(string clientId);
 
         /// <summary>
-        /// Updates the state of the client job.
+        /// Removes the client.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        void RemoveClient(string clientId);
+
+        /// <summary>
+        /// Cancels the job.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        void CancelJob(string jobId);
+
+        /// <summary>
+        /// Starts the running job.
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="jobId">The job identifier.</param>
-        /// <param name="clientState">State of the client.</param>
-        /// <param name="jobState">State of the job.</param>
-        /// <param name="percentComplete">The percent complete.</param>
-        void UpdateClientJobState(
+        void StartRunningJob(
             string clientId,
+            string jobId);
+
+        /// <summary>
+        /// Updates the job progress.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="percentComplete">The percent complete.</param>
+        void UpdateJobProgress(
             string jobId,
-            AgencyClientState clientState,
-            AgencyJobState jobState,
-            int? percentComplete = null);
+            int percentComplete);
+
+        /// <summary>
+        /// Completes the job.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        void CompleteJob(
+            string jobId,
+            string clientId);
     }
 }

@@ -27,6 +27,11 @@ namespace Yojowa.WebJobAgency
         /// <summary>
         /// Job completed
         /// </summary>
-        Completed = 4
+        Completed = 4,
+
+        /// <summary>
+        /// Job canceled
+        /// </summary>
+        Canceled = 8
     }
 }

@@ -34,6 +34,24 @@ namespace Yojowa.StopByStop.Utils
         }
 
         /// <summary>
+        /// Converts from database value.
+        /// </summary>
+        /// <typeparam name="T">Type to convert to</typeparam>
+        /// <param name="obj">The object.</param>
+        /// <returns>Converted value</returns>
+        public static T ConvertFromDBVal<T>(object obj)
+        {
+            if (obj == null || obj == DBNull.Value)
+            {
+                return default(T); // returns the default value for the type
+            }
+            else
+            {
+                return (T)obj;
+            }
+        }
+
+        /// <summary>
         /// Runs PGSQL command
         /// </summary>
         /// <typeparam name="T">Result type to return</typeparam>
