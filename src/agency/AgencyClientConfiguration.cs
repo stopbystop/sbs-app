@@ -8,20 +8,49 @@ namespace Yojowa.WebJobAgency
 {
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Agency client configuration
+    /// </summary>
     public class AgencyClientConfiguration
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AgencyClientConfiguration"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="dataAccessor">The data accessor.</param>
+        /// <param name="jobDefinitions">The job definitions.</param>
         public AgencyClientConfiguration(
-            string id, 
-            IAgencyDataAccessor dataAccessor, 
+            string id,
+            IAgencyDataAccessor dataAccessor,
             IAgencyJobDefinition[] jobDefinitions)
         {
             this.ID = id;
-            this.dataAccessor = dataAccessor;
+            this.DataAccessor = dataAccessor;
             this.JobDefinitions = jobDefinitions;
         }
 
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         public string ID { get; private set; }
-        public IAgencyDataAccessor dataAccessor{ get; private set; }
+
+        /// <summary>
+        /// Gets the data accessor.
+        /// </summary>
+        /// <value>
+        /// The data accessor.
+        /// </value>
+        public IAgencyDataAccessor DataAccessor { get; private set; }
+
+        /// <summary>
+        /// Gets the job definitions.
+        /// </summary>
+        /// <value>
+        /// The job definitions.
+        /// </value>
         public IEnumerable<IAgencyJobDefinition> JobDefinitions { get; private set; }
     }
 }

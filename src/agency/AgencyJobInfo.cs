@@ -8,16 +8,82 @@ namespace Yojowa.WebJobAgency
 {
     using System;
 
+    /// <summary>
+    /// Agency job info
+    /// </summary>
     public class AgencyJobInfo
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AgencyJobInfo" /> class.
+        /// </summary>
+        /// <param name="jobId">The job identifier.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="jobState">State of the job.</param>
+        /// <param name="activeClientId">The active client identifier.</param>
+        /// <param name="lastUpdated">The last updated.</param>
+        /// <param name="percentComplete">The percent complete.</param>
+        public AgencyJobInfo(
+            string jobId, 
+            string configuration, 
+            AgencyJobState jobState, 
+            string activeClientId,
+            DateTime lastUpdated,
+            int percentComplete)
+        {
+            this.JobId = jobId;
+            this.Configuration = configuration;
+            this.JobState = jobState;
+            this.ActiveClientId = activeClientId;
+            this.LastUpdated = lastUpdated;
+            this.PercentComplete = percentComplete;
+        }
+
+        /// <summary>
+        /// Gets the job identifier.
+        /// </summary>
+        /// <value>
+        /// The job identifier.
+        /// </value>
         public string JobId { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
         public string Configuration { get; set; }
 
+        /// <summary>
+        /// Gets the state of the job.
+        /// </summary>
+        /// <value>
+        /// The state of the job.
+        /// </value>
         public AgencyJobState JobState { get; private set; }
 
+        /// <summary>
+        /// Gets the active client identifier.
+        /// </summary>
+        /// <value>
+        /// The active client identifier.
+        /// </value>
         public string ActiveClientId { get; private set; }
 
+        /// <summary>
+        /// Gets the last updated.
+        /// </summary>
+        /// <value>
+        /// The last updated.
+        /// </value>
         public DateTime LastUpdated { get; private set; }
+
+        /// <summary>
+        /// Gets the percent complete.
+        /// </summary>
+        /// <value>
+        /// The percent complete.
+        /// </value>
+        public int PercentComplete { get; private set; }
     }
 }

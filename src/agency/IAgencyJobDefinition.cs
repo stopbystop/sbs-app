@@ -8,10 +8,24 @@ namespace Yojowa.WebJobAgency
 {
     using System;
 
+    /// <summary>
+    /// Agency job definition
+    /// </summary>
     public interface IAgencyJobDefinition
     {
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
         string ID { get; }
 
+        /// <summary>
+        /// Runs the specified configuration.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="onPercentCompleteUpdate">The on percent complete update.</param>
         void Run(string configuration, Action<int> onPercentCompleteUpdate);
     }
 }

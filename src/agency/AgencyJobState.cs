@@ -8,11 +8,25 @@ namespace Yojowa.WebJobAgency
 {
     using System;
 
+    /// <summary>
+    /// Agency job state
+    /// </summary>
     [Flags]
     public enum AgencyJobState
     {
+        /// <summary>
+        /// Job scheduled, but not run
+        /// </summary>
         Scheduled = 1,
+
+        /// <summary>
+        /// Job running
+        /// </summary>
         Running = 2,
+
+        /// <summary>
+        /// Job completed
+        /// </summary>
         Completed = 4
     }
 }
