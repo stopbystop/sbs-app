@@ -27,6 +27,7 @@ namespace Yojowa.WebJobAgency
             this.ID = id;
             this.DataAccessor = dataAccessor;
             this.JobDefinitions = jobDefinitions;
+            this.PulseIntervalMilliseconds = 1000;
         }
 
         /// <summary>
@@ -52,5 +53,13 @@ namespace Yojowa.WebJobAgency
         /// The job definitions.
         /// </value>
         public IEnumerable<IAgencyJobDefinition> JobDefinitions { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the pulse interval in milliseconds.
+        /// </summary>
+        /// <value>
+        /// The pulse interval in milliseconds.
+        /// </value>
+        public int PulseIntervalMilliseconds { get; set; }
     }
 }

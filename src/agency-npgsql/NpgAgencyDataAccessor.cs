@@ -96,6 +96,7 @@ namespace Yojowa.WebJobAgency
         public static void CreateTables(string connectionString, string agentsTableName, string jobsTableName)
         {
             string createDbQuery = string.Format(
+               "DROP TABLE IF EXISTS {1};" +
                "DROP table IF EXISTS {0};" +
                "CREATE TABLE {0}(" +
                "id serial NOT NULL PRIMARY KEY," +
@@ -108,11 +109,10 @@ namespace Yojowa.WebJobAgency
                "updated_date timestamp without time zone default (now() at time zone 'utc')," +
                "UNIQUE(job_key,state)" +
                ")WITH (OIDS = FALSE);" +
-               "DROP TABLE IF EXISTS {1};" +
                "CREATE TABLE {1}(" +
                "id varchar(64) NOT NULL PRIMARY KEY," +
                "state varchar(64) NOT NULL," +
-               "job_id int NULL REFERENCES jobs(id)," +
+               "job_id int NULL REFERENCES {0}(id)," +
                "updated_date timestamp without time zone default (now() at time zone 'utc')" +
                ")WITH (OIDS = FALSE);",
                jobsTableName,
@@ -135,8 +135,8 @@ namespace Yojowa.WebJobAgency
             string createDbQuery = string.Format(
                "DROP TABLE IF EXISTS {0};" +
                "DROP TABLE IF EXISTS {1};",
-               jobsTableName,
-               agentsTableName);
+               agentsTableName,
+               jobsTableName);
 
             PGSQLRunner.ExecutePGSQLStatement<object>(
                 connectionString,
@@ -169,7 +169,7 @@ namespace Yojowa.WebJobAgency
                             clauseBuilder.Append(" OR ");
                         }
 
-                        clauseBuilder.AppendFormat("state = '{0}'", ClientStateToStringMapping[enumVal]);
+                        clauseBuilder.AppendFormat("{0}.state = '{1}'", this.agentsTableName, ClientStateToStringMapping[enumVal]);
                         firstCondition = false;
                     }
                 }
@@ -177,7 +177,7 @@ namespace Yojowa.WebJobAgency
                 clauseBuilder.Append(")");
             }
 
-            string query = string.Format("SELECT * FROM {0} {1}", this.agentsTableName, clauseBuilder.ToString());
+            string query = string.Format("SELECT {0}.*,{1}.job_key FROM {0} LEFT JOIN {1} ON {0}.job_id={1}.id {2}", this.agentsTableName, this.jobsTableName, clauseBuilder.ToString());
             var results = PGSQLRunner.ExecutePGSQLStatement<IEnumerable<AgencyClientInfo>>(
                 this.connectionString,
                 query,
@@ -190,7 +190,7 @@ namespace Yojowa.WebJobAgency
                         clients.Add(new AgencyClientInfo(
                             (string)reader["id"],
                             StringToClientStateMapping[(string)reader["state"]],
-                            PGSQLRunner.ConvertFromDBVal<string>(reader["job_id"]),
+                            PGSQLRunner.ConvertFromDBVal<string>(reader["job_key"]),
                             (DateTime)reader["updated_date"]));
                     }
 
@@ -305,15 +305,15 @@ namespace Yojowa.WebJobAgency
         }
 
         /// <summary>
-        /// Adds the client.
+        /// Adds the client or updates the last updated date for existing client
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
-        public void AddClient(string clientId)
+        public void AddOrUpdateClient(string clientId)
         {
             string query = string.Format(
                    "INSERT INTO {2} (id,state,updated_date) " +
                    "VALUES('{0}','{1}', timezone('utc'::text, now())) " +
-                   "ON CONFLICT(id) DO NOTHING",
+                   "ON CONFLICT(id) DO UPDATE SET updated_date=excluded.updated_date;",
                    clientId,
                    ClientStateToStringMapping[AgencyClientState.Idle],
                    this.agentsTableName);
@@ -357,9 +357,9 @@ namespace Yojowa.WebJobAgency
             string jobId)
         {
             string query = string.Format(
-                "DO $$ BEGIN IF EXISTS (SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {5} SET state='{2}', job_id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') WHERE id='{2}';" +
-                "UPDATE {4} SET state='{3}',agent_id='{2}',percent_complete=0 WHERE id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}');" +
+                "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN UPDATE {6} SET state='{2}', job_id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') WHERE id='{3}';" +
+                "UPDATE {5} SET state='{4}',agent_id='{3}',percent_complete=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Scheduled],
@@ -388,10 +388,9 @@ namespace Yojowa.WebJobAgency
             int percentComplete)
         {
             string query = string.Format(
-                "UPDATE {3} SET percent_complete={0} WHERE job_key='{1}' AND state='{2}'",
+                "UPDATE {2} SET percent_complete={0} WHERE job_key='{1}'",
                 percentComplete,
                 jobId,
-                JobStateToStringMapping[AgencyJobState.Running],
                 this.jobsTableName);
 
             PGSQLRunner.ExecutePGSQLStatement<int>(
@@ -413,9 +412,9 @@ namespace Yojowa.WebJobAgency
             string clientId)
         {
             string query = string.Format(
-                "DO $$ BEGIN IF EXISTS (SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {5} SET state='{2}', job_id=NULL WHERE id='{2}';" +
-                "UPDATE {4} SET state='{3}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {4} WHERE job_key='{0}' AND state='{1}');" +
+                "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN UPDATE {6} SET state='{2}', job_id=NULL WHERE id='{3}';" +
+                "UPDATE {5} SET state='{4}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Running],
@@ -424,7 +423,7 @@ namespace Yojowa.WebJobAgency
                 JobStateToStringMapping[AgencyJobState.Completed],
                 this.jobsTableName,
                 this.agentsTableName);
-                
+
             PGSQLRunner.ExecutePGSQLStatement<int>(
                this.connectionString,
                query,

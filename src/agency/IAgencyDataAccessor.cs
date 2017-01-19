@@ -35,10 +35,10 @@ namespace Yojowa.WebJobAgency
         void ScheduleJob(string jobId, string configuration);
 
         /// <summary>
-        /// Adds the client.
+        /// Adds the client or updates the last updated date for existing client
         /// </summary>
         /// <param name="clientId">The client identifier.</param>
-        void AddClient(string clientId);
+        void AddOrUpdateClient(string clientId);
 
         /// <summary>
         /// Removes the client.

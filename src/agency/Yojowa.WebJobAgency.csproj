@@ -51,6 +51,7 @@
     <Compile Include="AgencyClientConfiguration.cs" />
     <Compile Include="AgencyJobInfo.cs" />
     <Compile Include="AgencyClientInfo.cs" />
+    <Compile Include="AgencyJobScheduler.cs" />
     <Compile Include="AgencyJobState.cs" />
     <Compile Include="IAgencyDataAccessor.cs" />
     <Compile Include="IAgencyJobDefinition.cs" />

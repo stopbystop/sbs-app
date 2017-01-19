@@ -8,6 +8,7 @@ namespace Yojowa.StopByStop.UnitTests
 {
     using System;
     using System.Linq;
+    using System.Threading;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using WebJobAgency;
 
@@ -17,29 +18,9 @@ namespace Yojowa.StopByStop.UnitTests
     public class NpgAgencyDataAccessorTest
     {
         /// <summary>
-        /// The connection string
+        /// The data accessor wrapper
         /// </summary>
-        private const string ConnectionString = "TBD";
-
-        /// <summary>
-        /// The stamp
-        /// </summary>
-        private string stamp;
-
-        /// <summary>
-        /// The agent table name
-        /// </summary>
-        private string agentTableName;
-
-        /// <summary>
-        /// The jobs table name
-        /// </summary>
-        private string jobsTableName;
-
-        /// <summary>
-        /// The data accessor
-        /// </summary>
-        private NpgAgencyDataAccessor dataAccessor;
+        private DataAccessorWrapper dataAccessorWrapper;
 
         /// <summary>
         /// Initializes the test
@@ -47,11 +28,7 @@ namespace Yojowa.StopByStop.UnitTests
         [TestInitialize]
         public void TestInitialize()
         {
-            this.stamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff");
-            this.agentTableName = "agents_test_" + this.stamp;
-            this.jobsTableName = "jobs_test_" + this.stamp;
-            NpgAgencyDataAccessor.CreateTables(ConnectionString, this.agentTableName, this.jobsTableName);
-            this.dataAccessor = new NpgAgencyDataAccessor(ConnectionString, this.agentTableName, this.jobsTableName);
+            this.dataAccessorWrapper = new DataAccessorWrapper();
         }
 
         /// <summary>
@@ -60,16 +37,16 @@ namespace Yojowa.StopByStop.UnitTests
         [TestCleanup]
         public void TestCleanup()
         {
-            NpgAgencyDataAccessor.DeleteTables(ConnectionString, this.agentTableName, this.jobsTableName);
+            this.dataAccessorWrapper.Dispose();
         }
 
         /// <summary>
-        /// Tests the add client.
+        /// Tests adding and removing client.
         /// </summary>
         [TestMethod]
-        public void TestAddClient()
+        public void TestAddRemoveClient()
         {
-            this.dataAccessor.AddClient("c1");
+            this.dataAccessorWrapper.DataAccessor.AddOrUpdateClient("c1");
 
             var expectedAgents =
                 new AgencyClientInfo[]
@@ -82,40 +59,145 @@ namespace Yojowa.StopByStop.UnitTests
                 {
                 };
 
-            this.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);           
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
+            Thread.Sleep(2000);
+
+            this.dataAccessorWrapper.DataAccessor.AddOrUpdateClient("c1");
+
+            expectedAgents =
+                new AgencyClientInfo[]
+                {
+                    new AgencyClientInfo("c1", AgencyClientState.Idle, null, DateTime.UtcNow) /* updated_date should be updated */
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
+            this.dataAccessorWrapper.DataAccessor.RemoveClient("c1");
+
+            expectedAgents =
+                new AgencyClientInfo[]
+                {
+                };
+
+            expectedJobs =
+                new AgencyJobInfo[]
+                {
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
         }
 
         /// <summary>
-        /// Verifies the state of the agents and jobs.
+        /// Tests scheduling and canceling job
         /// </summary>
-        /// <param name="expectedAgents">The expected agents.</param>
-        /// <param name="expectedJobs">The expected jobs.</param>
-        private void VerifyAgentsAndJobsState(
-            AgencyClientInfo[] expectedAgents,
-            AgencyJobInfo[] expectedJobs)
+        [TestMethod]
+        public void TestScheduleAndCanceJob()
         {
-            var actualAgents = this.dataAccessor.GetClients(AgencyClientState.Dead | AgencyClientState.Idle | AgencyClientState.RunningJob).ToArray();
-            var actualJobs = this.dataAccessor.GetJobs(AgencyJobState.Canceled | AgencyJobState.Completed | AgencyJobState.Running | AgencyJobState.Scheduled).ToArray();
+            this.dataAccessorWrapper.DataAccessor.ScheduleJob("j1", "config");
+            var expectedAgents =
+               new AgencyClientInfo[]
+               {
+               };
 
-            Assert.AreEqual<int>(expectedAgents.Length, actualAgents.Length);
-            for (int i = 0; i < expectedAgents.Length; i++)
-            {
-                Assert.AreEqual<string>(expectedAgents[i].ActiveJobId, actualAgents[i].ActiveJobId);
-                Assert.AreEqual<string>(expectedAgents[i].ClientId, actualAgents[i].ClientId);
-                Assert.AreEqual<AgencyClientState>(expectedAgents[i].ClientState, actualAgents[i].ClientState);
-                Assert.IsTrue(Math.Abs(expectedAgents[i].LastActive.Ticks - actualAgents[i].LastActive.Ticks) < TimeSpan.TicksPerSecond);
-            }
+            var expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 0)
+                };
 
-            Assert.AreEqual<int>(expectedJobs.Length, actualJobs.Length);
-            for (int i = 0; i < expectedJobs.Length; i++)
-            {
-                Assert.AreEqual<string>(expectedJobs[i].ActiveClientId, actualJobs[i].ActiveClientId);
-                Assert.AreEqual<string>(expectedJobs[i].Configuration, actualJobs[i].Configuration);
-                Assert.AreEqual<string>(expectedJobs[i].JobId, actualJobs[i].JobId);
-                Assert.AreEqual<AgencyJobState>(expectedJobs[i].JobState, actualJobs[i].JobState);
-                Assert.IsTrue(Math.Abs(expectedJobs[i].LastUpdated.Ticks - actualJobs[i].LastUpdated.Ticks) < TimeSpan.TicksPerSecond);
-                Assert.AreEqual<int>(expectedJobs[i].PercentComplete, actualJobs[i].PercentComplete);
-            }
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
+            this.dataAccessorWrapper.DataAccessor.CancelJob("j1");
+            expectedAgents =
+              new AgencyClientInfo[]
+              {
+              };
+
+            expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Canceled, null, DateTime.UtcNow, 0)
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+        }
+
+        /// <summary>
+        /// Tests updating job progress.
+        /// </summary>
+        [TestMethod]
+        public void TestUpdateJobProgress()
+        {
+            this.dataAccessorWrapper.DataAccessor.ScheduleJob("j1", "config");
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", 10);
+            var expectedAgents =
+               new AgencyClientInfo[]
+               {
+               };
+
+            var expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 10)
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", 95);
+            expectedAgents =
+               new AgencyClientInfo[]
+               {
+               };
+
+            expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 95)
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+        }
+
+        /// <summary>
+        /// Tests the job assignment.
+        /// </summary>
+        [TestMethod]
+        public void TestJobAssignmentAndCompletion()
+        {
+            this.dataAccessorWrapper.DataAccessor.AddOrUpdateClient("c1");
+            this.dataAccessorWrapper.DataAccessor.ScheduleJob("j1", "config");
+            this.dataAccessorWrapper.DataAccessor.StartRunningJob("c1", "j1");
+
+            var expectedAgents =
+              new AgencyClientInfo[]
+              {
+                   new AgencyClientInfo("c1", AgencyClientState.RunningJob, "j1", DateTime.UtcNow)
+              };
+
+            var expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "c1", DateTime.UtcNow, 0)
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
+            this.dataAccessorWrapper.DataAccessor.CompleteJob("j1", "c1");
+
+            expectedAgents =
+             new AgencyClientInfo[]
+             {
+                   new AgencyClientInfo("c1", AgencyClientState.Idle, null, DateTime.UtcNow)
+             };
+
+            expectedJobs =
+               new AgencyJobInfo[]
+               {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100)
+               };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
         }
     }
 }
