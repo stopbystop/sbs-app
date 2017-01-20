@@ -122,6 +122,26 @@ namespace Yojowa.WebJobAgency
                 connectionString,
                 createDbQuery,
                 (cmd, c) => cmd.ExecuteNonQuery());
+            /*
+             DO
+            $do$
+            DECLARE
+                _tbl text;
+            BEGIN
+            FOR _tbl  IN
+                SELECT quote_ident(table_schema) || '.'
+                    || quote_ident(table_name)      -- escape identifier and schema-qualify!
+                FROM   information_schema.tables
+                WHERE  table_name LIKE 'jobs_test' || '%'  -- your table name prefix
+                AND    table_schema NOT LIKE 'pg_%'     -- exclude system schemas
+            LOOP
+                -- RAISE NOTICE '%',
+            EXECUTE
+                'DROP TABLE ' || _tbl;
+            END LOOP;
+            END
+            $do$;
+            */
         }
 
         /// <summary>
@@ -266,7 +286,7 @@ namespace Yojowa.WebJobAgency
         public void CancelJob(string jobId)
         {
             string query = string.Format(
-                "UPDATE {3} SET state='{0}' WHERE state='{1}' AND job_key='{2}'",
+                "UPDATE {3} SET updated_date=timezone('utc'::text, now()), state='{0}' WHERE state='{1}' AND job_key='{2}'",
                 JobStateToStringMapping[AgencyJobState.Canceled],
                 JobStateToStringMapping[AgencyJobState.Scheduled],
                 jobId,
@@ -358,8 +378,8 @@ namespace Yojowa.WebJobAgency
         {
             string query = string.Format(
                 "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {6} SET state='{2}', job_id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') WHERE id='{3}';" +
-                "UPDATE {5} SET state='{4}',agent_id='{3}',percent_complete=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') WHERE id='{3}';" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id='{3}',percent_complete=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Scheduled],
@@ -382,16 +402,20 @@ namespace Yojowa.WebJobAgency
         /// Updates the job progress.
         /// </summary>
         /// <param name="jobId">The job identifier.</param>
+        /// <param name="clienId">The client identifier.</param>
         /// <param name="percentComplete">The percent complete.</param>
         public void UpdateJobProgress(
             string jobId,
+            string clienId,
             int percentComplete)
         {
             string query = string.Format(
-                "UPDATE {2} SET percent_complete={0} WHERE job_key='{1}'",
+                "UPDATE {3} SET percent_complete={0} WHERE job_key='{1}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{2}'",
                 percentComplete,
                 jobId,
-                this.jobsTableName);
+                clienId,
+                this.jobsTableName,
+                this.agentsTableName);
 
             PGSQLRunner.ExecutePGSQLStatement<int>(
              this.connectionString,
@@ -413,8 +437,8 @@ namespace Yojowa.WebJobAgency
         {
             string query = string.Format(
                 "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {6} SET state='{2}', job_id=NULL WHERE id='{3}';" +
-                "UPDATE {5} SET state='{4}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=NULL WHERE id='{3}';" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Running],

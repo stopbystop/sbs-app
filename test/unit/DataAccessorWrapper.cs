@@ -80,7 +80,7 @@ namespace Yojowa.StopByStop.UnitTests
             for (int i = 0; i < expectedAgents.Length; i++)
             {
                 Assert.AreEqual<string>(expectedAgents[i].ActiveJobId, actualAgents[i].ActiveJobId);
-                Assert.AreEqual<string>(expectedAgents[i].ClientId, actualAgents[i].ClientId);
+                Assert.IsTrue(actualAgents[i].ClientId.StartsWith(expectedAgents[i].ClientId), string.Format("{0} != {1}", actualAgents[i].ClientId, expectedAgents[i].ClientId));
                 Assert.AreEqual<AgencyClientState>(expectedAgents[i].ClientState, actualAgents[i].ClientState);
                 Assert.IsTrue(Math.Abs(expectedAgents[i].LastActive.Ticks - actualAgents[i].LastActive.Ticks) < TimeSpan.TicksPerSecond);
             }
@@ -88,7 +88,7 @@ namespace Yojowa.StopByStop.UnitTests
             Assert.AreEqual<int>(expectedJobs.Length, actualJobs.Length);
             for (int i = 0; i < expectedJobs.Length; i++)
             {
-                Assert.AreEqual<string>(expectedJobs[i].ActiveClientId, actualJobs[i].ActiveClientId);
+                Assert.IsTrue((actualJobs[i].ActiveClientId == null && expectedJobs[i].ActiveClientId == null) || actualJobs[i].ActiveClientId.StartsWith(expectedJobs[i].ActiveClientId));
                 Assert.AreEqual<string>(expectedJobs[i].Configuration, actualJobs[i].Configuration);
                 Assert.AreEqual<string>(expectedJobs[i].JobId, actualJobs[i].JobId);
                 Assert.AreEqual<AgencyJobState>(expectedJobs[i].JobState, actualJobs[i].JobState);

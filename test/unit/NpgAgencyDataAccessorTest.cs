@@ -130,7 +130,7 @@ namespace Yojowa.StopByStop.UnitTests
         public void TestUpdateJobProgress()
         {
             this.dataAccessorWrapper.DataAccessor.ScheduleJob("j1", "config");
-            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", 10);
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 10);
             var expectedAgents =
                new AgencyClientInfo[]
                {
@@ -144,7 +144,7 @@ namespace Yojowa.StopByStop.UnitTests
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
 
-            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", 95);
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 95);
             expectedAgents =
                new AgencyClientInfo[]
                {

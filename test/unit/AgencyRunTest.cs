@@ -47,25 +47,32 @@ namespace Yojowa.StopByStop.UnitTests
         public void TestRun()
         {
             var jobDefinition = new TestJobDefinition();
+            var config = new AgencyClientConfiguration(
+                    "acc",
+                    this.dataAccessorWrapper.DataAccessor,
+                    new IAgencyJobDefinition[] { jobDefinition })
+            {
+                PulseIntervalMilliseconds = 20
+            };
 
-            var client = new AgencyClient(
-                new AgencyClientConfiguration("acc", this.dataAccessorWrapper.DataAccessor, new IAgencyJobDefinition[] { new TestJobDefinition() }));
+            var client = new AgencyClient(config);
 
             var scheduler = new AgencyJobScheduler(this.dataAccessorWrapper.DataAccessor);
 
-            Task.Run(() => client.StopWork());
+            Task.Run(() => client.StartWork());
 
             var expectedAgents =
-              new AgencyClientInfo[]
-              {
-              };
+                new AgencyClientInfo[]
+                {
+                    new AgencyClientInfo("acc", AgencyClientState.Idle, null, DateTime.UtcNow)
+                };
 
             var expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 0)
                 };
 
+            Thread.Sleep(100);
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
 
             scheduler.ScheduleJob("j1", "config");
@@ -73,22 +80,63 @@ namespace Yojowa.StopByStop.UnitTests
 
             Assert.IsTrue(jobDefinition.IsJobRunning);
 
+            expectedAgents =
+               new AgencyClientInfo[]
+               {
+                    new AgencyClientInfo("acc", AgencyClientState.RunningJob, "j1", DateTime.UtcNow)
+               };
+
+            expectedJobs =
+                new AgencyJobInfo[]
+                {
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 0)
+                };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
             jobDefinition.SignalToUpdatePercentComplete(10);
-            Thread.Sleep(200);
+            Thread.Sleep(100);
 
-            // verify percent complete 
+            expectedJobs =
+            new AgencyJobInfo[]
+            {
+                   new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 10)
+            };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
             jobDefinition.SignalToUpdatePercentComplete(50);
-            Thread.Sleep(200);
+            Thread.Sleep(100);
 
-            // verify percent complete
+            expectedJobs =
+            new AgencyJobInfo[]
+            {
+                  new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 50)
+            };
+
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
             jobDefinition.SignalCompleteJob();
-            Thread.Sleep(200);
+            Thread.Sleep(100);
 
-            // verify job complete
+            expectedJobs =
+            new AgencyJobInfo[]
+                {
+                      new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100)
+                };
+            expectedAgents =
+               new AgencyClientInfo[]
+               {
+                    new AgencyClientInfo("acc", AgencyClientState.Idle, null, DateTime.UtcNow)
+               };
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
+
             client.StopWork();
-            Thread.Sleep(200);
+            Thread.Sleep(100);
 
-            // verify client removed
+            expectedAgents =
+               new AgencyClientInfo[]
+               {
+               };
+            this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
         }
 
         /// <summary>
@@ -116,6 +164,11 @@ namespace Yojowa.StopByStop.UnitTests
             private volatile bool jobRunning;
 
             /// <summary>
+            /// The is running lock
+            /// </summary>
+            private AutoResetEvent autoResetEvent = new AutoResetEvent(false);
+
+            /// <summary>
             /// Gets the identifier.
             /// </summary>
             /// <value>
@@ -137,7 +190,11 @@ namespace Yojowa.StopByStop.UnitTests
             /// </value>
             public bool IsJobRunning
             {
-                get { return this.IsJobRunning; }
+                get
+                {
+                    this.autoResetEvent.WaitOne();
+                    return this.jobRunning;
+                }
             }
 
             /// <summary>
@@ -148,13 +205,13 @@ namespace Yojowa.StopByStop.UnitTests
             public void Run(string configuration, Action<int> onPercentCompleteUpdate)
             {
                 this.jobRunning = true;
-
-                while (!this.jobRunning)
+                this.autoResetEvent.Set();
+                while (this.jobRunning)
                 {
                     if (this.percentCompleteToUpdate > 0)
                     {
-                        this.percentCompleteToUpdate = -1;
                         onPercentCompleteUpdate(this.percentCompleteToUpdate);
+                        this.percentCompleteToUpdate = -1;
                     }
 
                     Thread.Sleep(100);

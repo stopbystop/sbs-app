@@ -7,6 +7,7 @@
 namespace Yojowa.WebJobAgency
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
 
@@ -45,17 +46,20 @@ namespace Yojowa.WebJobAgency
             {
                 while (!this.stopWork)
                 {
+                    Trace.TraceInformation("Client:work loop");
                     this.configuration.DataAccessor.AddOrUpdateClient(clientId);
                     var availableJobs = this.configuration.DataAccessor.GetJobs(AgencyJobState.Scheduled);
                     var knownJobDefinitions = this.configuration.JobDefinitions.ToDictionary(jd => jd.ID);
                     foreach (var job in availableJobs)
                     {
+                        Trace.TraceInformation("Available job: {0}", job.JobId);
                         if (knownJobDefinitions.ContainsKey(job.JobId))
                         {
                             var jobDefinition = knownJobDefinitions[job.JobId];
-                            this.configuration.DataAccessor.StartRunningJob(this.configuration.ID, job.JobId);
-                            jobDefinition.Run(job.Configuration, (pc) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, pc));
-                            this.configuration.DataAccessor.CompleteJob(job.JobId, this.configuration.ID);
+                            Trace.TraceInformation("Starting to run job: {0}", job.JobId);
+                            this.configuration.DataAccessor.StartRunningJob(clientId, job.JobId);
+                            jobDefinition.Run(job.Configuration, (pc) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc));
+                            this.configuration.DataAccessor.CompleteJob(job.JobId, clientId);
                         }
                     }
 

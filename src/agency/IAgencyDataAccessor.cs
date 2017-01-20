@@ -65,9 +65,11 @@ namespace Yojowa.WebJobAgency
         /// Updates the job progress.
         /// </summary>
         /// <param name="jobId">The job identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
         /// <param name="percentComplete">The percent complete.</param>
         void UpdateJobProgress(
             string jobId,
+            string clientId,
             int percentComplete);
 
         /// <summary>
