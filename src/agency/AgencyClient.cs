@@ -58,7 +58,7 @@ namespace Yojowa.WebJobAgency
                             var jobDefinition = knownJobDefinitions[job.JobId];
                             Trace.TraceInformation("Starting to run job: {0}", job.JobId);
                             this.configuration.DataAccessor.StartRunningJob(clientId, job.JobId);
-                            jobDefinition.Run(job.Configuration, (pc) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc));
+                            jobDefinition.Run(job.Configuration, (pc, timeRemaining) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc, timeRemaining));
                             this.configuration.DataAccessor.CompleteJob(job.JobId, clientId);
                         }
                     }

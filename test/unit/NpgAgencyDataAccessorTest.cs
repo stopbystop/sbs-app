@@ -103,7 +103,7 @@ namespace Yojowa.StopByStop.UnitTests
             var expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 0)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 0, TimeSpan.MaxValue)
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -117,7 +117,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Canceled, null, DateTime.UtcNow, 0)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Canceled, null, DateTime.UtcNow, 0, TimeSpan.MaxValue)
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -130,7 +130,7 @@ namespace Yojowa.StopByStop.UnitTests
         public void TestUpdateJobProgress()
         {
             this.dataAccessorWrapper.DataAccessor.ScheduleJob("j1", "config");
-            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 10);
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 10, TimeSpan.FromSeconds(1));
             var expectedAgents =
                new AgencyClientInfo[]
                {
@@ -139,12 +139,12 @@ namespace Yojowa.StopByStop.UnitTests
             var expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 10)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 10, TimeSpan.FromSeconds(1))
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
 
-            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 95);
+            this.dataAccessorWrapper.DataAccessor.UpdateJobProgress("j1", "c1", 95, TimeSpan.FromSeconds(1));
             expectedAgents =
                new AgencyClientInfo[]
                {
@@ -153,7 +153,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 95)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Scheduled, null, DateTime.UtcNow, 95, TimeSpan.FromSeconds(1))
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -178,7 +178,7 @@ namespace Yojowa.StopByStop.UnitTests
             var expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "c1", DateTime.UtcNow, 0)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "c1", DateTime.UtcNow, 0, TimeSpan.MaxValue)
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -194,7 +194,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
                new AgencyJobInfo[]
                {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100, TimeSpan.Zero)
                };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);

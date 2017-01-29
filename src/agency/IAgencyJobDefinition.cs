@@ -25,7 +25,8 @@ namespace Yojowa.WebJobAgency
         /// Runs the specified configuration.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        /// <param name="onPercentCompleteUpdate">The on percent complete update.</param>
-        void Run(string configuration, Action<int> onPercentCompleteUpdate);
+        /// <param name="onPercentCompleteUpdate">Function to call to update on percent complete and time remaining</param>
+        /// <returns>Success code</returns>
+        int Run(string configuration, Action<int, TimeSpan> onPercentCompleteUpdate);
     }
 }

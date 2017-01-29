@@ -94,6 +94,7 @@ namespace Yojowa.StopByStop.UnitTests
                 Assert.AreEqual<AgencyJobState>(expectedJobs[i].JobState, actualJobs[i].JobState);
                 Assert.IsTrue(Math.Abs(expectedJobs[i].LastUpdated.Ticks - actualJobs[i].LastUpdated.Ticks) < TimeSpan.TicksPerSecond);
                 Assert.AreEqual<int>(expectedJobs[i].PercentComplete, actualJobs[i].PercentComplete);
+                Assert.AreEqual<TimeSpan>(expectedJobs[i].TimeRemaining, actualJobs[i].TimeRemaining);
             }
         }
     }

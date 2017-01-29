@@ -105,6 +105,7 @@ namespace Yojowa.WebJobAgency
                "state varchar(64) NOT NULL," +
                "agent_id varchar(64) NULL," +
                "percent_complete int NOT NULL," +
+               "milliseconds_remaining bigint NOT NULL," +
                "created_date timestamp without time zone default (now() at time zone 'utc')," +
                "updated_date timestamp without time zone default (now() at time zone 'utc')," +
                "UNIQUE(job_key,state)" +
@@ -264,13 +265,16 @@ namespace Yojowa.WebJobAgency
                     List<AgencyJobInfo> jobs = new List<AgencyJobInfo>();
                     while (reader.Read())
                     {
+                        long millisecondsRemaining = (long)reader["milliseconds_remaining"];
+                        TimeSpan timeToComplete = millisecondsRemaining < 0 ? TimeSpan.MaxValue : TimeSpan.FromMilliseconds(millisecondsRemaining);
                         jobs.Add(new AgencyJobInfo(
                             (string)reader["job_key"],
                             (string)reader["configuration"],
                             StringToJobStateMapping[(string)reader["state"]],
                             PGSQLRunner.ConvertFromDBVal<string>(reader["agent_id"]),
                             (DateTime)reader["updated_date"],
-                            (int)reader["percent_complete"]));
+                            (int)reader["percent_complete"],
+                            timeToComplete));
                     }
 
                     return jobs;
@@ -309,7 +313,7 @@ namespace Yojowa.WebJobAgency
         public void ScheduleJob(string jobId, string configuration)
         {
             string query = string.Format(
-                "INSERT INTO {3} (job_key,configuration,state,percent_complete) VALUES('{0}','{1}','{2}',0)",
+                "INSERT INTO {3} (job_key,configuration,state,percent_complete,milliseconds_remaining) VALUES('{0}','{1}','{2}',0,-1)",
                 jobId,
                 configuration,
                 JobStateToStringMapping[AgencyJobState.Scheduled],
@@ -379,7 +383,7 @@ namespace Yojowa.WebJobAgency
             string query = string.Format(
                 "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
                 "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') WHERE id='{3}';" +
-                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id='{3}',percent_complete=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id='{3}',percent_complete=0,milliseconds_remaining=-1 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Scheduled],
@@ -404,18 +408,21 @@ namespace Yojowa.WebJobAgency
         /// <param name="jobId">The job identifier.</param>
         /// <param name="clienId">The client identifier.</param>
         /// <param name="percentComplete">The percent complete.</param>
+        /// <param name="timeRemaining">The time remaining.</param>
         public void UpdateJobProgress(
             string jobId,
             string clienId,
-            int percentComplete)
+            int percentComplete,
+            TimeSpan timeRemaining)
         {
             string query = string.Format(
-                "UPDATE {3} SET percent_complete={0} WHERE job_key='{1}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{2}'",
+                "UPDATE {3} SET percent_complete={0},milliseconds_remaining={5} WHERE job_key='{1}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{2}'",
                 percentComplete,
                 jobId,
                 clienId,
                 this.jobsTableName,
-                this.agentsTableName);
+                this.agentsTableName,
+                timeRemaining.TotalMilliseconds);
 
             PGSQLRunner.ExecutePGSQLStatement<int>(
              this.connectionString,
@@ -438,7 +445,7 @@ namespace Yojowa.WebJobAgency
             string query = string.Format(
                 "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
                 "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=NULL WHERE id='{3}';" +
-                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id=NULL,percent_complete=100 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id=NULL,percent_complete=100,milliseconds_remaining=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Running],

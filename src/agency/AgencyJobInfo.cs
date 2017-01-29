@@ -22,13 +22,15 @@ namespace Yojowa.WebJobAgency
         /// <param name="activeClientId">The active client identifier.</param>
         /// <param name="lastUpdated">The last updated.</param>
         /// <param name="percentComplete">The percent complete.</param>
+        /// <param name="timeRemaining">The time remaining.</param>
         public AgencyJobInfo(
             string jobId, 
             string configuration, 
             AgencyJobState jobState, 
             string activeClientId,
             DateTime lastUpdated,
-            int percentComplete)
+            int percentComplete,
+            TimeSpan timeRemaining)
         {
             this.JobId = jobId;
             this.Configuration = configuration;
@@ -36,6 +38,7 @@ namespace Yojowa.WebJobAgency
             this.ActiveClientId = activeClientId;
             this.LastUpdated = lastUpdated;
             this.PercentComplete = percentComplete;
+            this.TimeRemaining = timeRemaining;
         }
 
         /// <summary>
@@ -85,5 +88,13 @@ namespace Yojowa.WebJobAgency
         /// The percent complete.
         /// </value>
         public int PercentComplete { get; private set; }
+
+        /// <summary>
+        /// Gets the time remaining.
+        /// </summary>
+        /// <value>
+        /// The time remaining.
+        /// </value>
+        public TimeSpan TimeRemaining { get; private set; }
     }
 }

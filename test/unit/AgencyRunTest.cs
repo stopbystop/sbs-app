@@ -89,7 +89,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
                 new AgencyJobInfo[]
                 {
-                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 0)
+                    new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 0, TimeSpan.MaxValue)
                 };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -100,7 +100,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
             new AgencyJobInfo[]
             {
-                   new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 10)
+                   new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 10, TimeSpan.FromSeconds(1))
             };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -110,7 +110,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
             new AgencyJobInfo[]
             {
-                  new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 50)
+                  new AgencyJobInfo("j1", "config", AgencyJobState.Running, "acc", DateTime.UtcNow, 50, TimeSpan.FromSeconds(1))
             };
 
             this.dataAccessorWrapper.VerifyAgentsAndJobsState(expectedAgents, expectedJobs);
@@ -120,7 +120,7 @@ namespace Yojowa.StopByStop.UnitTests
             expectedJobs =
             new AgencyJobInfo[]
                 {
-                      new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100)
+                      new AgencyJobInfo("j1", "config", AgencyJobState.Completed, null, DateTime.UtcNow, 100, TimeSpan.Zero)
                 };
             expectedAgents =
                new AgencyClientInfo[]
@@ -202,7 +202,10 @@ namespace Yojowa.StopByStop.UnitTests
             /// </summary>
             /// <param name="configuration">The configuration.</param>
             /// <param name="onPercentCompleteUpdate">The on percent complete update.</param>
-            public void Run(string configuration, Action<int> onPercentCompleteUpdate)
+            /// <returns>
+            /// Success code
+            /// </returns>
+            public int Run(string configuration, Action<int, TimeSpan> onPercentCompleteUpdate)
             {
                 this.jobRunning = true;
                 this.autoResetEvent.Set();
@@ -210,12 +213,14 @@ namespace Yojowa.StopByStop.UnitTests
                 {
                     if (this.percentCompleteToUpdate > 0)
                     {
-                        onPercentCompleteUpdate(this.percentCompleteToUpdate);
+                        onPercentCompleteUpdate(this.percentCompleteToUpdate, TimeSpan.FromSeconds(1));
                         this.percentCompleteToUpdate = -1;
                     }
 
                     Thread.Sleep(100);
                 }
+
+                return 0;
             }
 
             /// <summary>

@@ -6,6 +6,7 @@
 
 namespace Yojowa.WebJobAgency
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -67,10 +68,12 @@ namespace Yojowa.WebJobAgency
         /// <param name="jobId">The job identifier.</param>
         /// <param name="clientId">The client identifier.</param>
         /// <param name="percentComplete">The percent complete.</param>
+        /// <param name="timeRemaining">Time remaining to completion.</param>
         void UpdateJobProgress(
             string jobId,
             string clientId,
-            int percentComplete);
+            int percentComplete,
+            TimeSpan timeRemaining);
 
         /// <summary>
         /// Completes the job.
