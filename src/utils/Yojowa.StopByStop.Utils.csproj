@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ConsoleTraceListenerEx.cs" />
     <Compile Include="CookieUtils.cs" />
+    <Compile Include="DBUtils.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="FunctionRunningUtils.cs" />
     <Compile Include="LocationUtils.cs" />

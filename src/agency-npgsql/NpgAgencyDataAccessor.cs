@@ -211,7 +211,7 @@ namespace Yojowa.WebJobAgency
                         clients.Add(new AgencyClientInfo(
                             (string)reader["id"],
                             StringToClientStateMapping[(string)reader["state"]],
-                            PGSQLRunner.ConvertFromDBVal<string>(reader["job_key"]),
+                            DBUtils.ConvertFromDBVal<string>(reader["job_key"]),
                             (DateTime)reader["updated_date"]));
                     }
 
@@ -271,7 +271,7 @@ namespace Yojowa.WebJobAgency
                             (string)reader["job_key"],
                             (string)reader["configuration"],
                             StringToJobStateMapping[(string)reader["state"]],
-                            PGSQLRunner.ConvertFromDBVal<string>(reader["agent_id"]),
+                            DBUtils.ConvertFromDBVal<string>(reader["agent_id"]),
                             (DateTime)reader["updated_date"],
                             (int)reader["percent_complete"],
                             timeToComplete));
