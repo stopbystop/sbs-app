@@ -63,7 +63,7 @@ namespace Yojowa.StopByStop.Utils
         public static T ExecutePGSQLStatement<T>(
             string connection,
             string commandText,
-            Func<NpgsqlCommand, NpgsqlConnection, T> statement,
+            Func<NpgsqlCommand, NpgsqlConnection, T> statement = null,
             bool flushTelemetryWhenComplete = false)
         {
             using (TelemetryTracker tracker = new TelemetryTracker(flushTelemetryWhenComplete))
@@ -122,7 +122,11 @@ namespace Yojowa.StopByStop.Utils
                    dependencyTelemetry.Target = command.Connection.DataSource;
 
                    dependencyTelemetry.Start();
-                   var result = statement(command, conn);
+                   T result = default(T);
+                   if (statement != null)
+                   {
+                       result = statement(command, conn);
+                   }
                    dependencyTelemetry.Success = true;
                    return result;
                }
