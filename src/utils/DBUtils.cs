@@ -7,7 +7,8 @@
 namespace Yojowa.StopByStop.Utils
 {
     using System;
-    using System.Text.RegularExpressions;
+    using System.Collections;
+    using System.Linq;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -15,21 +16,6 @@ namespace Yojowa.StopByStop.Utils
     /// </summary>
     public static class DBUtils
     {
-        /// <summary>
-        /// Encodes SQL string
-        /// </summary>
-        /// <param name="unsafeString">String to encode</param>
-        /// <returns>Encoded string</returns>
-        public static string GetSafeSqlString(string unsafeString)
-        {
-            if (unsafeString == null)
-            {
-                unsafeString = string.Empty;
-            }
-
-            return unsafeString.Replace("'", "''");
-        }
-
         /// <summary>
         /// Converts from database value.
         /// </summary>
@@ -58,27 +44,7 @@ namespace Yojowa.StopByStop.Utils
             if (val is string)
             {
                 string strVal = (string)val;
-                MatchEvaluator m = match =>
-                {
-                    if (match.Groups[1].Value == "\"")
-                    {
-                        return "\""; // Unescape \"
-                    }
-
-                    if (match.Groups[2].Value == "\"")
-                    {
-                        return "'";  // Replace " with '
-                    }
-
-                    if (match.Groups[2].Value == "'")
-                    {
-                        return "\\'"; // Escape '
-                    }
-
-                    return match.Value;                             // Leave \\ and \' unchanged
-                };
-
-                strVal = Regex.Replace(strVal, @"\\\\|\\(""|')|(""|')", m);
+                strVal = strVal.Replace("'", "''");
                 return "'" + strVal + "'";
             }
 
@@ -87,7 +53,13 @@ namespace Yojowa.StopByStop.Utils
                 var json = JsonConvert.SerializeObject((Array)val);
                 json = json.Replace("[", "{");
                 json = json.Replace("]", "}");
+                json = json.Replace("'", "''");
                 return "'" + json + "'";
+            }
+
+            if (val is IEnumerable)
+            {
+                return EncodeValue(((IEnumerable)val).Cast<object>().ToArray());
             }
 
             return val.ToString();

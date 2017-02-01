@@ -4,16 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAF9A614-9129-44FE-95DD-4363BBEF2662}</ProjectGuid>
+    <ProjectGuid>{6E6D3224-3754-45DE-8514-FB4D75F586AD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yojowa.WebJobAgency.NpgSQL</RootNamespace>
-    <AssemblyName>Yojowa.WebJobAgency.NpgSQL</AssemblyName>
+    <RootNamespace>Yojowa.NpgSQLOM</RootNamespace>
+    <AssemblyName>Yojowa.NpgSQLOM</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +35,10 @@
       <HintPath>..\packages\Npgsql.3.1.9\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj">
+      <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
+      <Name>Yojowa.StopByStop.Utils</Name>
+    </ProjectReference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,27 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NpgAgencyDataAccessor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Settings.StyleCop">
       <Link>Settings.StyleCop</Link>
-      <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj">
-      <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
-      <Name>Yojowa.StopByStop.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\agency\Yojowa.WebJobAgency.csproj">
-      <Project>{bbb31170-d929-4d55-a1f8-30734cfb0c3a}</Project>
-      <Name>Yojowa.WebJobAgency</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
+    <Compile Include="NPGSQLColumn.cs" />
+    <Compile Include="NPGSQLTable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets')" />
@@ -79,11 +65,4 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StyleCop.MSBuild.4.7.55.0\build\StyleCop.MSBuild.Targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -2,6 +2,9 @@
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
       <Value>trie</Value>
+      <Value>upsert</Value>
+      <Value>upserts</Value>
+      <Value>PostgreSQL</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Analyzers>
@@ -9,6 +12,12 @@
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">Yojowa, LLC</StringProperty>
         <StringProperty Name="Copyright">Copyright (c) 2016-2020 All Rights Reserved</StringProperty>
+      </AnalyzerSettings>
+    </Analyzer>
+    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.NamingRules">
+      <AnalyzerSettings>
+        <CollectionProperty Name="Hungarian">
+        </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>
   </Analyzers>
