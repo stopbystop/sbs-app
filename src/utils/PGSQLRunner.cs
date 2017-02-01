@@ -42,6 +42,25 @@ namespace Yojowa.StopByStop.Utils
         /// <summary>
         /// Runs PGSQL command
         /// </summary>
+        /// <param name="connection">PGSQL connection</param>
+        /// <param name="commandText">PGSQL command</param>
+        /// <param name="statement">PGSQL statement to run</param>
+        /// <param name="flushTelemetryWhenComplete">Whether to flush Application Insights telemetry when statement has completed</param>
+        public static void ExecutePGSQLStatement(
+            string connection,
+            string commandText,
+            Func<NpgsqlCommand, NpgsqlConnection, object> statement = null,
+            bool flushTelemetryWhenComplete = false)
+        {
+            using (TelemetryTracker tracker = new TelemetryTracker(flushTelemetryWhenComplete))
+            {
+                ExecutePGSQLStatement<object>(connection, commandText, statement, tracker);
+            }
+        }
+
+        /// <summary>
+        /// Runs PGSQL command
+        /// </summary>
         /// <typeparam name="T">Result type to return</typeparam>
         /// <param name="connection">PGSQL connection</param>
         /// <param name="commandText">PGSQL command</param>
@@ -93,6 +112,10 @@ namespace Yojowa.StopByStop.Utils
                    if (statement != null)
                    {
                        result = statement(command, conn);
+                   }
+                   else
+                   {
+                       command.ExecuteNonQuery();
                    }
 
                    dependencyTelemetry.Success = true;

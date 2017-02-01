@@ -7,6 +7,7 @@
 namespace Yojowa.StopByStop.Utils
 {
     using System;
+    using System.Text.RegularExpressions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -48,13 +49,48 @@ namespace Yojowa.StopByStop.Utils
         }
 
         /// <summary>
-        /// Encodes SQL array type
+        /// Encodes the value.
         /// </summary>
-        /// <param name="arrayObject">The array object.</param>
-        /// <returns>String ready to use in insert statement</returns>
-        public static string EncodePostgreSQLArray(Array arrayObject)
+        /// <param name="val">The value.</param>
+        /// <returns>Encoded value</returns>
+        public static string EncodeValue(object val)
         {
-            return JsonConvert.SerializeObject(arrayObject);
+            if (val is string)
+            {
+                string strVal = (string)val;
+                MatchEvaluator m = match =>
+                {
+                    if (match.Groups[1].Value == "\"")
+                    {
+                        return "\""; // Unescape \"
+                    }
+
+                    if (match.Groups[2].Value == "\"")
+                    {
+                        return "'";  // Replace " with '
+                    }
+
+                    if (match.Groups[2].Value == "'")
+                    {
+                        return "\\'"; // Escape '
+                    }
+
+                    return match.Value;                             // Leave \\ and \' unchanged
+                };
+
+                strVal = Regex.Replace(strVal, @"\\\\|\\(""|')|(""|')", m);
+                return "'" + strVal + "'";
+            }
+
+            if (val is Array)
+            {
+                var json = JsonConvert.SerializeObject((Array)val);
+                json = json.Replace("[", "{");
+                json = json.Replace("]", "}");
+                return "'" + json + "'";
+            }
+
+            return val.ToString();
         }
     }
 }
