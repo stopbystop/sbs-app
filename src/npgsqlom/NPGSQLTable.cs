@@ -91,12 +91,21 @@ namespace Yojowa.StopByStop.Store
         /// <summary>
         /// Gets all the items.
         /// </summary>
-        /// <returns>All the items in the table</returns>
-        public IEnumerable<TContainer> GetAll()
+        /// <param name="whereClause">The where clause.</param>
+        /// <returns>
+        /// All the items in the table
+        /// </returns>
+        public IEnumerable<TContainer> GetAll(string whereClause = null)
         {
+            string selectQuery = "SELECT * FROM " + this.TableName;
+            if (!string.IsNullOrEmpty(whereClause))
+            {
+                selectQuery += " " + whereClause;
+            }
+
             return PGSQLRunner.ExecutePGSQLStatement<IEnumerable<TContainer>>(
                 this.connectionString,
-                "SELECT * FROM " + this.TableName,
+                selectQuery,
                 (cmd, c) =>
                 {
                     using (var reader = cmd.ExecuteReader())
