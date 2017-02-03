@@ -50,8 +50,8 @@ namespace Yojowa.WebJobAgency
         /// <summary>
         /// Cancels the job.
         /// </summary>
-        /// <param name="jobId">The job identifier.</param>
-        void CancelJob(string jobId);
+        /// <param name="jobSerialId">The job serial identifier.</param>
+        void CancelJob(int jobSerialId);
 
         /// <summary>
         /// Starts the running job.

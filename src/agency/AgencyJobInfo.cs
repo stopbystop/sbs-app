@@ -42,6 +42,14 @@ namespace Yojowa.WebJobAgency
         }
 
         /// <summary>
+        /// Gets or sets the job serial identifier.
+        /// </summary>
+        /// <value>
+        /// The job serial identifier.
+        /// </value>
+        public int JobSerialId { get; set; }
+
+        /// <summary>
         /// Gets the job identifier.
         /// </summary>
         /// <value>

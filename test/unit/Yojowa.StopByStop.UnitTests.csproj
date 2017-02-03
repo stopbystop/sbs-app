@@ -71,14 +71,11 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DataAccessorWrapper.cs" />
     <Compile Include="LocationTests.cs" />
     <Compile Include="FunctionRunningUtilsTest.cs" />
     <Compile Include="TrieTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceControllerTest.cs" />
-    <Compile Include="NpgAgencyDataAccessorTest.cs" />
-    <Compile Include="AgencyRunTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\Settings.StyleCop">

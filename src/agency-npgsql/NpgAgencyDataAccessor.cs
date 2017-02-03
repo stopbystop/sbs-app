@@ -107,8 +107,7 @@ namespace Yojowa.WebJobAgency
                "percent_complete int NOT NULL," +
                "milliseconds_remaining bigint NOT NULL," +
                "created_date timestamp without time zone default (now() at time zone 'utc')," +
-               "updated_date timestamp without time zone default (now() at time zone 'utc')," +
-               "UNIQUE(job_key,state)" +
+               "updated_date timestamp without time zone default (now() at time zone 'utc')" +
                ")WITH (OIDS = FALSE);" +
                "CREATE TABLE {1}(" +
                "id varchar(64) NOT NULL PRIMARY KEY," +
@@ -274,7 +273,10 @@ namespace Yojowa.WebJobAgency
                             DBUtils.ConvertFromDBVal<string>(reader["agent_id"]),
                             (DateTime)reader["updated_date"],
                             (int)reader["percent_complete"],
-                            timeToComplete));
+                            timeToComplete)
+                        {
+                            JobSerialId = (int)reader["id"]
+                        });
                     }
 
                     return jobs;
@@ -286,14 +288,13 @@ namespace Yojowa.WebJobAgency
         /// <summary>
         /// Cancels the job.
         /// </summary>
-        /// <param name="jobId">The job identifier.</param>
-        public void CancelJob(string jobId)
+        /// <param name="jobSerialId">The job serial identifier.</param>
+        public void CancelJob(int jobSerialId)
         {
             string query = string.Format(
-                "UPDATE {3} SET updated_date=timezone('utc'::text, now()), state='{0}' WHERE state='{1}' AND job_key='{2}'",
+                "UPDATE {2} SET updated_date=timezone('utc'::text, now()),agent_id=NULL,state='{1}' WHERE id={0}",
+                jobSerialId,
                 JobStateToStringMapping[AgencyJobState.Canceled],
-                JobStateToStringMapping[AgencyJobState.Scheduled],
-                jobId,
                 this.jobsTableName);
 
             PGSQLRunner.ExecutePGSQLStatement<int>(
@@ -381,9 +382,9 @@ namespace Yojowa.WebJobAgency
             string jobId)
         {
             string query = string.Format(
-                "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') WHERE id='{3}';" +
-                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id='{3}',percent_complete=0,milliseconds_remaining=-1 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "DO $$ DECLARE job_id_to_run integer; BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN  SELECT id INTO job_id_to_run FROM {5} WHERE job_key='{0}' AND state='{1}' LIMIT 1; UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=job_id_to_run WHERE id='{3}';" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id='{3}',percent_complete=0,milliseconds_remaining=-1 WHERE id=job_id_to_run;" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Scheduled],
@@ -416,7 +417,7 @@ namespace Yojowa.WebJobAgency
             TimeSpan timeRemaining)
         {
             string query = string.Format(
-                "UPDATE {3} SET percent_complete={0},milliseconds_remaining={5} WHERE job_key='{1}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{2}'",
+                "UPDATE {3} SET percent_complete={0},milliseconds_remaining={5} WHERE job_key='{1}' AND agent_id='{2}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{4}'",
                 percentComplete,
                 jobId,
                 clienId,
@@ -443,9 +444,9 @@ namespace Yojowa.WebJobAgency
             string clientId)
         {
             string query = string.Format(
-                "DO $$ BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
-                "THEN UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=NULL WHERE id='{3}';" +
-                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id=NULL,percent_complete=100,milliseconds_remaining=0 WHERE id=(SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}');" +
+                "DO $$ DECLARE job_id_to_complete integer; BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
+                "THEN SELECT id INTO job_id_to_complete FROM {5} WHERE job_key='{0}' AND state='{1}' AND agent_id='{3}'; UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=NULL WHERE id='{3}';" +
+                "UPDATE {5} SET updated_date=timezone('utc'::text, now()), state='{4}',agent_id=NULL,percent_complete=100,milliseconds_remaining=0 WHERE id=job_id_to_complete;" +
                 "END IF;END $$;",
                 jobId,
                 JobStateToStringMapping[AgencyJobState.Running],
