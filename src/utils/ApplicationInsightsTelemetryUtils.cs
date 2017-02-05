@@ -8,6 +8,7 @@ namespace Yojowa.StopByStop.Utils
 {
     using System;
     using System.Diagnostics;
+    using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DependencyCollector;
     using Microsoft.ApplicationInsights.Extensibility;
@@ -53,6 +54,53 @@ namespace Yojowa.StopByStop.Utils
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new BuildInfoConfigComponentVersionTelemetryInitializer());
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+        }
+
+        /// <summary>
+        /// Starts the timer with "using" construct and logs elapsed milliseconds as metric
+        /// </summary>
+        /// <param name="metricName">Metric name</param>
+        /// <returns>Disposable instance that should be disposed to stop timer</returns>
+        public static IDisposable TimeAndLog(string metricName)
+        {
+            return new TelemetryTimer(metricName);
+        }
+
+        /// <summary>
+        /// Telemetry timer
+        /// </summary>
+        /// <seealso cref="System.IDisposable" />
+        private class TelemetryTimer : IDisposable
+        {
+            /// <summary>
+            /// The stopwatch
+            /// </summary>
+            private Stopwatch stopwatch;
+
+            /// <summary>
+            /// The metric name
+            /// </summary>
+            private string metricName;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TelemetryTimer"/> class.
+            /// </summary>
+            /// <param name="metricName">Name of the metric.</param>
+            public TelemetryTimer(string metricName)
+            {
+                this.metricName = metricName;
+                this.stopwatch = new Stopwatch();
+                this.stopwatch.Start();
+            }
+
+            /// <summary>
+            /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            /// </summary>
+            public void Dispose()
+            {
+                this.stopwatch.Stop();
+                new TelemetryClient().TrackMetric(this.metricName, this.stopwatch.ElapsedMilliseconds);
+            }
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace Yojowa.WebJobAgency
                             var completionState = CompletionState.Failure;
                             try
                             {
-                               completionState = jobDefinition.Run(job.Configuration, (pc, timeRemaining) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc, timeRemaining));
+                               completionState = jobDefinition.Run(clientId, job.Configuration, (pc, timeRemaining) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc, timeRemaining));
                             }
                             catch (Exception ex)
                             {

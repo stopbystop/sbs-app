@@ -24,11 +24,12 @@ namespace Yojowa.WebJobAgency
         /// <summary>
         /// Runs the specified configuration.
         /// </summary>
+        /// <param name="agentId">Agent running the job</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="onPercentCompleteUpdate">Function to call to update on percent complete and time remaining</param>
         /// <returns>
         /// Success code
         /// </returns>
-        CompletionState Run(string configuration, Action<int, TimeSpan> onPercentCompleteUpdate);
+        CompletionState Run(string agentId, string configuration, Action<int, TimeSpan> onPercentCompleteUpdate);
     }
 }
