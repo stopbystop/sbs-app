@@ -80,8 +80,10 @@ namespace Yojowa.WebJobAgency
         /// </summary>
         /// <param name="jobId">The job identifier.</param>
         /// <param name="clientId">The client identifier.</param>
+        /// <param name="completionState">State of the completion.</param>
         void CompleteJob(
             string jobId,
-            string clientId);
+            string clientId,
+            CompletionState completionState);
     }
 }

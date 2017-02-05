@@ -25,13 +25,23 @@ namespace Yojowa.WebJobAgency
         Running = 2,
 
         /// <summary>
-        /// Job completed
+        /// Job completed with failed
         /// </summary>
-        Completed = 4,
+        CompletedFailed = 4,
+
+        /// <summary>
+        /// Job completed with partial success
+        /// </summary>
+        CompletedPartialSuccess = 8,
+
+        /// <summary>
+        /// Job completed successfully
+        /// </summary>
+        CompletedSuccess = 16,
 
         /// <summary>
         /// Job canceled
         /// </summary>
-        Canceled = 8
+        Canceled = 32
     }
 }

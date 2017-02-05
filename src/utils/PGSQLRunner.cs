@@ -143,7 +143,7 @@ namespace Yojowa.StopByStop.Utils
                        DisposeOfCommandAndConnection(ref command, ref conn);
                    }
 
-                   tracker.Track(new MetricTelemetry(TelemetryConstants.METRICGetRouteAttempts, attemptsMade));
+                   tracker.Track(new MetricTelemetry(TelemetryConstants.PGSQLRetryAttempts, attemptsMade));
                }
            },
             (ex) => tracker.Track(new ExceptionTelemetry(ex)),

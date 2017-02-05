@@ -71,8 +71,14 @@ namespace Yojowa.StopByStop.Utils
             {
                 int percentComplete = (int)Math.Ceiling(((double)this.totalUnits - (double)unitsRemaining) / (double)this.totalUnits * 100.00);
                 int completedUnits = this.totalUnits - unitsRemaining;
-                long ticksPerUnit = (DateTime.UtcNow - this.startTime).Ticks / completedUnits;
-                TimeSpan timeRemaining = TimeSpan.FromTicks(unitsRemaining * ticksPerUnit);
+
+                TimeSpan timeRemaining = TimeSpan.MaxValue;
+
+                if (completedUnits > 0)
+                {
+                    long ticksPerUnit = (DateTime.UtcNow - this.startTime).Ticks / completedUnits;
+                    timeRemaining = TimeSpan.FromTicks(unitsRemaining * ticksPerUnit);
+                }
 
                 this.onCompleteUpdate(percentComplete, timeRemaining);
                 this.lastReportTime = DateTime.UtcNow;

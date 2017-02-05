@@ -8,7 +8,9 @@ namespace Yojowa.StopByStop.Utils
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -63,6 +65,32 @@ namespace Yojowa.StopByStop.Utils
             }
 
             return val.ToString();
+        }
+
+        /// <summary>
+        /// Builds the where clause.
+        /// </summary>
+        /// <param name="filters">The filters.</param>
+        /// <returns>Where clause with filters</returns>
+        public static string BuildWhereClause(IList<string> filters)
+        {
+            StringBuilder whereClauseBuilder = new StringBuilder();
+            for (int i = 0; i < filters.Count; i++)
+            {
+                if (i == 0)
+                {
+                    whereClauseBuilder.Append("WHERE ");
+                }
+
+                whereClauseBuilder.Append(filters[i]);
+
+                if (i < filters.Count - 1)
+                {
+                    whereClauseBuilder.Append(" AND ");
+                }
+            }
+
+            return whereClauseBuilder.ToString();
         }
     }
 }

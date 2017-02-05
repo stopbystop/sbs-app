@@ -67,9 +67,9 @@ namespace Yojowa.StopByStop
         public const string METRICRouteDBCheckDuration = "RouteDBCheckDuration";
 
         /// <summary>
-        /// Number of route retrieval attempts made before route was retrieved
+        /// Number of PGSQL command retry attempts
         /// </summary>
-        public const string METRICGetRouteAttempts = "GetRouteAttempts";
+        public const string PGSQLRetryAttempts = "PGSQLRetryAttempts";
 
         /// <summary>
         /// Number of raw data points in the route retrieved from OSM
@@ -80,5 +80,30 @@ namespace Yojowa.StopByStop
         /// Number of readers used to process points
         /// </summary>
         public const string METRICReaderCount = "ReaderCount";
+
+        /// <summary>
+        /// Job agency L metric
+        /// </summary>
+        public const string METRICJobAgencyML = "JobAgencyML";
+
+        /// <summary>
+        /// Job agency S metric
+        /// </summary>
+        public const string METRICJobAgencyMS = "JobAgencyMS";
+
+        /// <summary>
+        /// Job agency agent identifier telemetry property
+        /// </summary>
+        public const string PropertyJobAgencyAgentID = "JobAgencyAgentID";
+
+        /// <summary>
+        /// Job agency configuration telemetry property
+        /// </summary>
+        public const string PropertyJobAgencyConfiguration = "JobAgencyConfiguration";
+
+        /// <summary>
+        /// Job agency job identifier telemetry property
+        /// </summary>
+        public const string PropertyJobAgencyJobID = "JobAgencyJobID";
     }
 }

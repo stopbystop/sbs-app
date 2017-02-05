@@ -44,7 +44,9 @@ namespace Yojowa.WebJobAgency
         {
             { AgencyJobState.Scheduled, "scheduled" },
             { AgencyJobState.Running, "running" },
-            { AgencyJobState.Completed, "completed" },
+            { AgencyJobState.CompletedFailed, "completedfailed" },
+            { AgencyJobState.CompletedPartialSuccess, "completedpartialsuccess" },
+            { AgencyJobState.CompletedSuccess, "completedsuccess" },
             { AgencyJobState.Canceled, "canceled" }
         };
 
@@ -55,7 +57,9 @@ namespace Yojowa.WebJobAgency
         {
             { "scheduled", AgencyJobState.Scheduled },
             { "running", AgencyJobState.Running },
-            { "completed", AgencyJobState.Completed },
+            { "completedfailed", AgencyJobState.CompletedFailed },
+            { "completedpartialsuccess", AgencyJobState.CompletedPartialSuccess },
+            { "completedsuccess", AgencyJobState.CompletedSuccess },
             { "canceled", AgencyJobState.Canceled }
         };
 
@@ -417,7 +421,7 @@ namespace Yojowa.WebJobAgency
             TimeSpan timeRemaining)
         {
             string query = string.Format(
-                "UPDATE {3} SET percent_complete={0},milliseconds_remaining={5} WHERE job_key='{1}' AND agent_id='{2}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{4}'",
+                "UPDATE {3} SET percent_complete={0},milliseconds_remaining={5},updated_date=timezone('utc'::text, now()) WHERE job_key='{1}' AND agent_id='{2}';UPDATE {4} SET updated_date=timezone('utc'::text, now()) WHERE id='{2}'",
                 percentComplete,
                 jobId,
                 clienId,
@@ -439,10 +443,22 @@ namespace Yojowa.WebJobAgency
         /// </summary>
         /// <param name="jobId">The job identifier.</param>
         /// <param name="clientId">The client identifier.</param>
+        /// <param name="completionState">State of the completion.</param>
         public void CompleteJob(
             string jobId,
-            string clientId)
+            string clientId,
+            CompletionState completionState)
         {
+            AgencyJobState state = AgencyJobState.CompletedSuccess;
+            if (completionState == CompletionState.Failure)
+            {
+                state = AgencyJobState.CompletedFailed;
+            }
+            else if (completionState == CompletionState.PartialSuccess)
+            {
+                state = AgencyJobState.CompletedPartialSuccess;
+            }
+
             string query = string.Format(
                 "DO $$ DECLARE job_id_to_complete integer; BEGIN IF EXISTS (SELECT id FROM {5} WHERE job_key='{0}' AND state='{1}') " +
                 "THEN SELECT id INTO job_id_to_complete FROM {5} WHERE job_key='{0}' AND state='{1}' AND agent_id='{3}'; UPDATE {6} SET updated_date=timezone('utc'::text, now()), state='{2}', job_id=NULL WHERE id='{3}';" +
@@ -452,7 +468,7 @@ namespace Yojowa.WebJobAgency
                 JobStateToStringMapping[AgencyJobState.Running],
                 ClientStateToStringMapping[AgencyClientState.Idle],
                 clientId,
-                JobStateToStringMapping[AgencyJobState.Completed],
+                JobStateToStringMapping[state],
                 this.jobsTableName,
                 this.agentsTableName);
 
