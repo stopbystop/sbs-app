@@ -44,9 +44,9 @@ namespace Yojowa.WebJobAgency
             string clientId = this.configuration.ID + "-" + Guid.NewGuid().ToString("N");
             try
             {
+                Trace.TraceInformation("Agency client: starting work loop");
                 while (!this.stopWork)
                 {
-                    Trace.TraceInformation("Client:work loop");
                     this.configuration.DataAccessor.AddOrUpdateClient(clientId);
                     var availableJobs = this.configuration.DataAccessor.GetJobs(AgencyJobState.Scheduled);
                     var knownJobDefinitions = this.configuration.JobDefinitions.ToDictionary(jd => jd.ID);
@@ -61,7 +61,7 @@ namespace Yojowa.WebJobAgency
                             var completionState = CompletionState.Failure;
                             try
                             {
-                               completionState = jobDefinition.Run(clientId, job.Configuration, (pc, timeRemaining) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc, timeRemaining));
+                                completionState = jobDefinition.Run(clientId, job.Configuration, (pc, timeRemaining) => this.configuration.DataAccessor.UpdateJobProgress(job.JobId, clientId, pc, timeRemaining));
                             }
                             catch (Exception ex)
                             {
@@ -78,8 +78,14 @@ namespace Yojowa.WebJobAgency
                     Thread.Sleep(this.configuration.PulseIntervalMilliseconds);
                 }
             }
+            catch (Exception ex)
+            {
+                Trace.TraceError("Agency client: unhandled error: {0}", ex.ToString());
+                throw;
+            }
             finally
             {
+                Trace.TraceInformation("Agency client: removing client");
                 this.configuration.DataAccessor.RemoveClient(clientId);
             }
         }

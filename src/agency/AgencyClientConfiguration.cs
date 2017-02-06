@@ -27,7 +27,7 @@ namespace Yojowa.WebJobAgency
             this.ID = id;
             this.DataAccessor = dataAccessor;
             this.JobDefinitions = jobDefinitions;
-            this.PulseIntervalMilliseconds = 1000;
+            this.PulseIntervalMilliseconds = 3000;
         }
 
         /// <summary>
