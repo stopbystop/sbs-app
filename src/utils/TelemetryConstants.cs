@@ -92,6 +92,11 @@ namespace Yojowa.StopByStop
         public const string METRICJobAgencyMS = "JobAgencyMS";
 
         /// <summary>
+        /// Job agency MSC metric
+        /// </summary>
+        public const string METRICJobAgencyMSC = "JobAgencyMSC";
+
+        /// <summary>
         /// Job agency agent identifier telemetry property
         /// </summary>
         public const string PropertyJobAgencyAgentID = "JobAgencyAgentID";
