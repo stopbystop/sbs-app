@@ -202,7 +202,6 @@
     <Content Include="scripts\tsdef\qunit.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
     <Content Include="bundleconfig.json" />
     <Content Include="html\partials\header.handlebars" />
     <Content Include="html\pages\home.handlebars" />
@@ -211,6 +210,7 @@
     <Content Include="html\partials\footer.handlebars" />
     <Content Include="html\web.handlebars" />
     <Content Include="html\partials\stopSettingsDialog.handlebars" />
+    <Content Include="packages.config" />
     <None Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +258,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Target Name="AfterBuild" Condition="'$(SkipClientAfterBuild)' != true">
-    <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.0.6\tools\tsc.exe" />
+    <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.1.5\tools\tsc.exe" />
     <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-cordova" />
     <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-web" />
     <Exec Command="..\copybundles.cmd" />
