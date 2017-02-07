@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4AA28541-181E-4725-8B7C-2881D4DD267E}</ProjectGuid>
+    <ProjectGuid>{69F312CF-1A2D-4B82-B6D5-4F59FC139A44}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yojowa.StopByStop.UnitTests</RootNamespace>
@@ -161,6 +161,7 @@
   <ItemGroup>
     <Compile Include="LocationTests.cs" />
     <Compile Include="FunctionRunningUtilsTest.cs" />
+    <Compile Include="PoiIDGeneratorTest.cs" />
     <Compile Include="TrieTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceControllerTest.cs" />

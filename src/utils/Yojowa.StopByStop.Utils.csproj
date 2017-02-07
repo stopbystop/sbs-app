@@ -173,6 +173,7 @@
     <Compile Include="FunctionRunningUtils.cs" />
     <Compile Include="LocationUtils.cs" />
     <Compile Include="PGSQLRunner.cs" />
+    <Compile Include="PoiIDGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringCompressor.cs" />
     <Compile Include="TelemetryConstants.cs" />
