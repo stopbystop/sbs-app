@@ -64,6 +64,8 @@
     <Compile Include="Junction.cs" />
     <Compile Include="JunctionDiagnostics.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="ObjectProperty.cs" />
+    <Compile Include="ObjectWithProperties.cs" />
     <Compile Include="Poi.cs" />
     <Compile Include="Poi2.cs" />
     <Compile Include="PoiCategory.cs" />
