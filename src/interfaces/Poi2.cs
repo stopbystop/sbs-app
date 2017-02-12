@@ -30,5 +30,29 @@
 
         [JsonProperty("nh")]
         public string Neighborhood { get; set; }
+
+        [JsonProperty("ds")]
+        public string DiningStyle { get; set; }
+
+        [JsonProperty("mt")]
+        public string[] MealTypes { get; set; }
+
+        [JsonProperty("f")]
+        public string[] Features { get; set; }
+
+        [JsonProperty("gf")]
+        public string[] GoodFoor { get; set; }
+
+        [JsonProperty("oh")]
+        public double[] OpenHours { get; set; }
+
+        [JsonProperty("sa")]
+        public string StreetAddress { get; set; }
+
+        [JsonProperty("ca")]
+        public string CityAddress { get; set; }
+
+        [JsonProperty("ea")]
+        public string ExtendedAddress { get; set; }
     }
 }

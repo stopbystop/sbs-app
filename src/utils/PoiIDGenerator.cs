@@ -24,7 +24,7 @@ namespace Yojowa.StopByStop.Utils
         /// <param name="lat">The latitude</param>
         /// <returns>Generated identifier</returns>
         /// <remarks>
-        ///  Format is V,CCC,OOO,AAA,PPP,PPP,PPP
+        ///  Format is V,CC,OOO,AAA,PPP,PPP,PPPP
         /// </remarks>
         public static long GenerateIDV1(CountryCode countryCode, string phoneNumber, double lon, double lat)
         {
@@ -92,7 +92,7 @@ namespace Yojowa.StopByStop.Utils
                     }
                 }
 
-                if (l == 9)
+                if (l == 10)
                 {
                     break;
                 }
@@ -101,15 +101,15 @@ namespace Yojowa.StopByStop.Utils
             if (l == 0)
             {
                 // substitute phone number with fractional parts of lat and lon
-                id = (long)((lat - (int)lat) * 10000.00) + ((long)((lon - (int)lon) * 10000.00) * 10000);
-                l = 8;
-                multiplier *= 100000000;
+                id = (long)((lat - (int)lat) * 100000.00) + ((long)((lon - (int)lon) * 100000.00) * 100000);
+                l = 10;
+                multiplier *= 10000000000;
             }
 
             // prepend with zeros so the phone number takes 9 digits
-            if (l < 9)
+            if (l < 10)
             {
-                multiplier = multiplier * (long)Math.Pow(10, 9 - l);
+                multiplier = multiplier * (long)Math.Pow(10, 10 - l);
             }
 
             // prepend whole part of latitude
@@ -122,7 +122,7 @@ namespace Yojowa.StopByStop.Utils
 
             // prepend country code
             id += (long)countryCode * multiplier;
-            multiplier *= 1000;
+            multiplier *= 100;
 
             id += version * multiplier;
 

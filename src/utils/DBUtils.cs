@@ -11,6 +11,7 @@ namespace Yojowa.StopByStop.Utils
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Text.RegularExpressions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -29,6 +30,13 @@ namespace Yojowa.StopByStop.Utils
             if (obj == null || obj == DBNull.Value)
             {
                 return default(T); // returns the default value for the type
+            }
+            else if (typeof(T) == typeof(Location))
+            {
+                var coordsText = Regex.Match((string)obj, "POINT\\(([-0-9\\s\\.]+)\\)").Groups[1].Value;
+                var coords = coordsText.Split(' ');
+
+                return (T)(object)new Location(double.Parse(coords[1]), double.Parse(coords[0]));
             }
             else
             {
@@ -62,6 +70,11 @@ namespace Yojowa.StopByStop.Utils
             if (val is IEnumerable)
             {
                 return EncodeValue(((IEnumerable)val).Cast<object>().ToArray());
+            }
+
+            if (val is Location)
+            {
+                return string.Format("ST_GeomFromText('POINT({0} {1})', 4326)", ((Location)val).Lon, ((Location)val).Lat);
             }
 
             return val.ToString();

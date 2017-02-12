@@ -21,11 +21,11 @@ namespace Yojowa.StopByStop.UnitTests
         [TestMethod]
         public void TestIDGeneratorV1()
         {
-            Assert.AreEqual<long>(1001115040123456789, PoiIDGenerator.GenerateIDV1(CountryCode.US, "123456789", -115.00, 40));
-            Assert.AreEqual<long>(1001115040123456789, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+1-123-456-789", -115.1234, 40.789));
-            Assert.AreEqual<long>(1001115040012347890, PoiIDGenerator.GenerateIDV1(CountryCode.US, null, -115.1234, 40.789));
-            Assert.AreEqual<long>(1001115040012347890, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+++++", -115.1234, 40.789));
-            Assert.AreEqual<long>(1001115040123456789, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+1-123-4J6-78z", -115.1234, 40.789));
+            Assert.AreEqual<long>(1011150401234567890, PoiIDGenerator.GenerateIDV1(CountryCode.US, "1234567890", -115.00, 40));
+            Assert.AreEqual<long>(1011150401234567890, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+1-123-456-7890", -115.1234, 40.789));
+            Assert.AreEqual<long>(1011150401234078900, PoiIDGenerator.GenerateIDV1(CountryCode.US, null, -115.1234, 40.789));
+            Assert.AreEqual<long>(1011150401234078900, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+++++", -115.1234, 40.789));
+            Assert.AreEqual<long>(1011150401234567890, PoiIDGenerator.GenerateIDV1(CountryCode.US, "+1-123-4J6-78z0", -115.1234, 40.789));
         }
     }
 }

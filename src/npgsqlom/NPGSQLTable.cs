@@ -97,7 +97,8 @@ namespace Yojowa.StopByStop.Store
         /// </returns>
         public IEnumerable<TContainer> GetAll(string whereClause = null)
         {
-            string selectQuery = "SELECT * FROM " + this.TableName;
+            string columns = string.Join(", ", this.columnsMap.Values.Select(c => c.DBColumnTextToRetrieve));
+            string selectQuery = string.Format("SELECT {0} FROM {1}", columns, this.TableName);
             if (!string.IsNullOrEmpty(whereClause))
             {
                 selectQuery += " " + whereClause;

@@ -30,8 +30,8 @@ namespace Yojowa.StopByStop.Store
             this.DBColumnName = databaseColumnName;
             this.DBColumnInfo = databaseColumnInfo;
             this.Setter = setter;
-
             this.Getter = getter;
+            this.DBColumnTextToRetrieve = databaseColumnName;
         }
 
         /// <summary>
@@ -41,6 +41,14 @@ namespace Yojowa.StopByStop.Store
         /// The name of the database column.
         /// </value>
         public string DBColumnName { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the database column text used in SELECT statement. By default it is set to DBColumnName.
+        /// </summary>
+        /// <value>
+        /// The database column text to retrieve.
+        /// </value>
+        public string DBColumnTextToRetrieve { get; set; }
 
         /// <summary>
         /// Gets the database column information.
