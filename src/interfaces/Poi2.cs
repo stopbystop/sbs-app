@@ -13,9 +13,6 @@
         [JsonProperty("p")]
         public string PhoneNumber { get; set; }
 
-        [JsonProperty("cc")]
-        public CountryCode CountryCode { get; set; }
-
         [JsonProperty("n")]
         public string Name { get; set; }
 
@@ -26,7 +23,7 @@
         /// The price category.
         /// </value>
         [JsonProperty("pc")]
-        public double PriceCategory { get; set; }
+        public double? PriceCategory { get; set; }
 
         [JsonProperty("nh")]
         public string Neighborhood { get; set; }

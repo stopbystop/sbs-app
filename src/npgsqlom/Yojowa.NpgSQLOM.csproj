@@ -35,6 +35,10 @@
       <HintPath>..\packages\Npgsql.3.2.0\lib\net451\Npgsql.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
+      <Project>{a7df5262-9fe9-4191-bb94-9e7b36db0563}</Project>
+      <Name>Yojowa.StopByStop.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj">
       <Project>{74352dd3-952b-40cc-b4f2-82daa8dd0f8a}</Project>
       <Name>Yojowa.StopByStop.Utils</Name>
@@ -52,7 +56,9 @@
     <None Include="..\Settings.StyleCop">
       <Link>Settings.StyleCop</Link>
     </None>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Compile Include="NPGSQLColumn.cs" />
     <Compile Include="NPGSQLTable.cs" />

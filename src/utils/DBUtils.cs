@@ -40,7 +40,8 @@ namespace Yojowa.StopByStop.Utils
             }
             else
             {
-                return (T)obj;
+                Type typeToConvertTo = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+                return (T)Convert.ChangeType(obj, typeToConvertTo);
             }
         }
 
@@ -51,6 +52,11 @@ namespace Yojowa.StopByStop.Utils
         /// <returns>Encoded value</returns>
         public static string EncodeValue(object val)
         {
+            if (val == null)
+            {
+                return "NULL";
+            }
+
             if (val is string)
             {
                 string strVal = (string)val;

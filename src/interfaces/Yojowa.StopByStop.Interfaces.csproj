@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="AreaDiagnostics.cs" />
     <Compile Include="ClientPage.cs" />
-    <Compile Include="CountryCode.cs" />
     <Compile Include="GeoPlace.cs" />
     <Compile Include="IBEStore.cs" />
     <Compile Include="IPlacesService.cs" />

@@ -18,17 +18,19 @@ namespace Yojowa.StopByStop.Utils
         /// <summary>
         /// Generates the identifier (version 1)
         /// </summary>
-        /// <param name="countryCode">The country code.</param>
         /// <param name="phoneNumber">The phone number.</param>
         /// <param name="lon">The longitude</param>
         /// <param name="lat">The latitude</param>
-        /// <returns>Generated identifier</returns>
+        /// <returns>
+        /// Generated identifier
+        /// </returns>
         /// <remarks>
-        ///  Format is V,CC,OOO,AAA,PPP,PPP,PPPP
+        /// Format is V,LL,LLL,LLL,PPP,PPP,PPPP
         /// </remarks>
-        public static long GenerateIDV1(CountryCode countryCode, string phoneNumber, double lon, double lat)
+        public static long GenerateIDV1(string phoneNumber, double lon, double lat)
         {
             long version = 1;
+
             long id = 0;
             long multiplier = 1;
             int l = 0;
@@ -101,9 +103,10 @@ namespace Yojowa.StopByStop.Utils
             if (l == 0)
             {
                 // substitute phone number with fractional parts of lat and lon
-                id = (long)((lat - (int)lat) * 100000.00) + ((long)((lon - (int)lon) * 100000.00) * 100000);
+                id = (long)Math.Ceiling((lat - (int)lat) * 100000.00) + ((long)Math.Ceiling((lon - (int)lon) * 100000.00) * 100000);
                 l = 10;
                 multiplier *= 10000000000;
+                version = 2;
             }
 
             // prepend with zeros so the phone number takes 9 digits
@@ -112,17 +115,9 @@ namespace Yojowa.StopByStop.Utils
                 multiplier = multiplier * (long)Math.Pow(10, 10 - l);
             }
 
-            // prepend whole part of latitude
-            id += (long)lat * multiplier;
-            multiplier *= 1000;
-
-            // prepend whole part of longitude
-            id += (long)lon * multiplier;
-            multiplier *= 1000;
-
-            // prepend country code
-            id += (long)countryCode * multiplier;
-            multiplier *= 100;
+            // add up latitude and longitude and shift 5 positions
+            id += (long)Math.Ceiling((lat + lon) * 100000) * multiplier;
+            multiplier *= 100000000;
 
             id += version * multiplier;
 
