@@ -64,6 +64,11 @@ namespace Yojowa.StopByStop.Utils
                 return "'" + strVal + "'";
             }
 
+            if (val is Guid)
+            {
+                return "'" + ((Guid)val).ToString() + "'";
+            }
+
             if (val is Array)
             {
                 var json = JsonConvert.SerializeObject((Array)val);
