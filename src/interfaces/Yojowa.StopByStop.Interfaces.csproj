@@ -67,6 +67,7 @@
     <Compile Include="ObjectWithProperties.cs" />
     <Compile Include="Poi.cs" />
     <Compile Include="Poi2.cs" />
+    <Compile Include="PoiCategory2.cs" />
     <Compile Include="PoiCategory.cs" />
     <Compile Include="PoiCategoryOccurrence.cs" />
     <Compile Include="PoiDataKind.cs" />

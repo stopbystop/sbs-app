@@ -10,6 +10,9 @@
         [JsonProperty("l")]
         public Location Location { get; set; }
 
+        [JsonProperty("c")]
+        public int[] Categories { get; set; }
+
         [JsonProperty("p")]
         public string PhoneNumber { get; set; }
 
