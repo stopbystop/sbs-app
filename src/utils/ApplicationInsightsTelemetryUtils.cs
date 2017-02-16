@@ -59,11 +59,13 @@ namespace Yojowa.StopByStop.Utils
         /// <summary>
         /// Starts the timer with "using" construct and logs elapsed milliseconds as metric
         /// </summary>
-        /// <param name="metricName">Metric name</param>
-        /// <returns>Disposable instance that should be disposed to stop timer</returns>
-        public static IDisposable TimeAndLog(string metricName)
+        /// <param name="metric">The metric.</param>
+        /// <returns>
+        /// Disposable instance that should be disposed to stop timer
+        /// </returns>
+        public static IDisposable TimeAndLog(Metric metric)
         {
-            return new TelemetryTimer(metricName);
+            return new TelemetryTimer(metric);
         }
 
         /// <summary>
@@ -78,17 +80,17 @@ namespace Yojowa.StopByStop.Utils
             private Stopwatch stopwatch;
 
             /// <summary>
-            /// The metric name
+            /// The metric
             /// </summary>
-            private string metricName;
+            private Metric metric;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="TelemetryTimer"/> class.
+            /// Initializes a new instance of the <see cref="TelemetryTimer" /> class.
             /// </summary>
-            /// <param name="metricName">Name of the metric.</param>
-            public TelemetryTimer(string metricName)
+            /// <param name="metric">The metric to track duration.</param>
+            public TelemetryTimer(Metric metric)
             {
-                this.metricName = metricName;
+                this.metric = metric;
                 this.stopwatch = new Stopwatch();
                 this.stopwatch.Start();
             }
@@ -99,7 +101,7 @@ namespace Yojowa.StopByStop.Utils
             public void Dispose()
             {
                 this.stopwatch.Stop();
-                new TelemetryClient().TrackMetric(this.metricName, this.stopwatch.ElapsedMilliseconds);
+                this.metric.Track(this.stopwatch.ElapsedMilliseconds);
             }
         }
 

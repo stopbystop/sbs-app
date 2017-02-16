@@ -11,6 +11,7 @@ namespace Yojowa.StopByStop.Utils
     using System.Diagnostics;
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
     using Npgsql;
 
     /// <summary>
@@ -18,6 +19,11 @@ namespace Yojowa.StopByStop.Utils
     /// </summary>
     public static class PGSQLRunner
     {
+        /// <summary>
+        /// The attempts count metric
+        /// </summary>
+        private static readonly Metric AttemptsCountMetric = new MetricManager().CreateMetric(TelemetryConstants.PGSQLRetryAttempts);
+
         /// <summary>
         /// Runs PGSQL command
         /// </summary>
@@ -143,7 +149,7 @@ namespace Yojowa.StopByStop.Utils
                        DisposeOfCommandAndConnection(ref command, ref conn);
                    }
 
-                   tracker.Track(new MetricTelemetry(TelemetryConstants.PGSQLRetryAttempts, attemptsMade));
+                   AttemptsCountMetric.Track(attemptsMade);
                }
            },
             (ex) => tracker.Track(new ExceptionTelemetry(ex)),
