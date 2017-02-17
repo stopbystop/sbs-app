@@ -34,7 +34,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
@@ -43,7 +43,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;ADD_SERVICE_REF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -262,6 +262,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup Condition="$(DefineConstants.Contains('ADD_SERVICE_REF'))">
+    <ProjectReference Include="..\..\..\..\sbs\Yojowa.StopByStop.Places\Yojowa.StopByStop.Places.csproj">
+      <Project>{ccef4c42-6fb0-492c-8628-43c7163a6e82}</Project>
+      <Name>Yojowa.StopByStop.Places</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\sbs\Yojowa.StopByStop.Service\Yojowa.StopByStop.Service.csproj">
+      <Project>{81d22cd9-f9b0-4731-9eca-52bddb116a57}</Project>
+      <Name>Yojowa.StopByStop.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj">
