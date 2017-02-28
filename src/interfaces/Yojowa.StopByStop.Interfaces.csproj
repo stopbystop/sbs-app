@@ -58,6 +58,7 @@
     <Compile Include="ClientPage.cs" />
     <Compile Include="GeoPlace.cs" />
     <Compile Include="IBEStore.cs" />
+    <Compile Include="IFlightManager.cs" />
     <Compile Include="IPlacesService.cs" />
     <Compile Include="IRouteService.cs" />
     <Compile Include="Junction.cs" />

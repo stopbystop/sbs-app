@@ -23,7 +23,7 @@
                 throw new InvalidOperationException("Production DEBUG is not supported. Did you forget to update web.config?");
             }
 #endif
-
+            FlightManager.Initialize();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             GlobalFilters.Filters.Add(new JsonHandlerAttribute());
 

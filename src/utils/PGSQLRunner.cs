@@ -32,16 +32,20 @@ namespace Yojowa.StopByStop.Utils
         /// <param name="commandText">PGSQL command</param>
         /// <param name="statement">PGSQL statement to run</param>
         /// <param name="flushTelemetryWhenComplete">Whether to flush Application Insights telemetry when statement has completed</param>
-        /// <returns>Result of specified type</returns>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <returns>
+        /// Result of specified type
+        /// </returns>
         public static T ExecutePGSQLStatement<T>(
             string connection,
             string commandText,
             Func<NpgsqlCommand, NpgsqlConnection, T> statement = null,
-            bool flushTelemetryWhenComplete = false)
+            bool flushTelemetryWhenComplete = false,
+            int commandTimeout = 300)
         {
             using (TelemetryTracker tracker = new TelemetryTracker(flushTelemetryWhenComplete))
             {
-                return ExecutePGSQLStatement(connection, commandText, statement, tracker);
+                return ExecutePGSQLStatement(connection, commandText, statement, tracker, false, commandTimeout);
             }
         }
 
@@ -52,15 +56,17 @@ namespace Yojowa.StopByStop.Utils
         /// <param name="commandText">PGSQL command</param>
         /// <param name="statement">PGSQL statement to run</param>
         /// <param name="flushTelemetryWhenComplete">Whether to flush Application Insights telemetry when statement has completed</param>
+        /// <param name="commandTimeout">The command timeout.</param>
         public static void ExecutePGSQLStatement(
             string connection,
             string commandText,
             Func<NpgsqlCommand, NpgsqlConnection, object> statement = null,
-            bool flushTelemetryWhenComplete = false)
+            bool flushTelemetryWhenComplete = false,
+            int commandTimeout = 300)
         {
             using (TelemetryTracker tracker = new TelemetryTracker(flushTelemetryWhenComplete))
             {
-                ExecutePGSQLStatement<object>(connection, commandText, statement, tracker);
+                ExecutePGSQLStatement<object>(connection, commandText, statement, tracker, false, commandTimeout);
             }
         }
 
@@ -71,15 +77,19 @@ namespace Yojowa.StopByStop.Utils
         /// <param name="connection">PGSQL connection</param>
         /// <param name="commandText">PGSQL command</param>
         /// <param name="statement">SQL statement to run</param>
-        /// <param name="tracker"><see cref="TelemetryTracker"/> instance</param>
+        /// <param name="tracker"><see cref="TelemetryTracker" /> instance</param>
         /// <param name="keepConnection">Whether to keep connection alive. This requires the caller to close and dispose of it</param>
-        /// <returns>Result of specified type</returns>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <returns>
+        /// Result of specified type
+        /// </returns>
         public static T ExecutePGSQLStatement<T>(
             string connection,
             string commandText,
             Func<NpgsqlCommand, NpgsqlConnection, T> statement,
             TelemetryTracker tracker,
-            bool keepConnection = false)
+            bool keepConnection = false,
+            int commandTimeout = 300)
         {
             int attemptsMade = 0;
             T runResult = FunctionRunningUtils.RunWithRetries(
@@ -105,7 +115,7 @@ namespace Yojowa.StopByStop.Utils
                    }
 
                    conn.Open();
-                   command.CommandTimeout = 5 * 60;
+                   command.CommandTimeout = commandTimeout;
                    dependencyTelemetry.Type = "NPGSQL";
                    dependencyTelemetry.Name = "NPGSQL";
                    dependencyTelemetry.Success = false;

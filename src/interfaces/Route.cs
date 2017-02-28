@@ -28,11 +28,13 @@
         [JsonProperty("t")]
         public int TimeInSeconds { get; set; }
 
+        /*
         [JsonProperty("fcat")]
         public PoiCategoryOccurrence[] FoodPoiCategories { get; set; }
 
         [JsonProperty("tfcat")]
         public string[] TopLevelFoodCategories { get; set; }
+        */
 
         [JsonProperty(PropertyName = "diag")]
         public RouteDiagnostics Diagnostics { get; set; }

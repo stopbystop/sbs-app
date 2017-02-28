@@ -43,6 +43,13 @@
                Tuple.Create<string, object>("placeId", placeId));
         }
 
+        public Metadata GetMetadata()
+        {
+            return GetObjectFromRemoteServer<Metadata>(
+                 this.serviceUrl,
+                "getmetadata");
+        }
+
         public PoisWithAreaDiagnostics GetPois(Location poiArea)
         {
             return GetObjectFromRemoteServer<PoisWithAreaDiagnostics>(

@@ -35,18 +35,25 @@ namespace Yojowa.StopByStop.Store
         private string privateKeyColumnName;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NPGSQLTable{TContainer}"/> class.
+        /// The index creation statement
+        /// </summary>
+        private string indexCreationStatement;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NPGSQLTable{TContainer}" /> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <param name="tableName">Name of the table.</param>
         /// <param name="columns">The columns.</param>
         /// <param name="privateKeyColumnName">Name of the private key column.</param>
+        /// <param name="indexCreationStatement">The index creation statement.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">columns - Expecting more than 1 column.</exception>
         public NPGSQLTable(
             string connectionString,
             string tableName,
             IEnumerable<NPGSQLColumn<TContainer>> columns,
-            string privateKeyColumnName)
+            string privateKeyColumnName,
+            string indexCreationStatement = null)
         {
             this.columnsMap = columns.ToDictionary(c => c.DBColumnName, StringComparer.OrdinalIgnoreCase);
 
@@ -58,6 +65,7 @@ namespace Yojowa.StopByStop.Store
             this.connectionString = connectionString;
             this.TableName = tableName;
             this.privateKeyColumnName = privateKeyColumnName;
+            this.indexCreationStatement = indexCreationStatement;
         }
 
         /// <summary>
@@ -137,6 +145,19 @@ namespace Yojowa.StopByStop.Store
             stringBuilder.Append(")WITH (OIDS = FALSE);");
 
             PGSQLRunner.ExecutePGSQLStatement<object>(this.connectionString, stringBuilder.ToString());
+
+            this.CreateIndices();
+        }
+
+        /// <summary>
+        /// Creates the indices.
+        /// </summary>
+        public void CreateIndices()
+        {
+            if (!string.IsNullOrEmpty(this.indexCreationStatement))
+            {
+                PGSQLRunner.ExecutePGSQLStatement<object>(this.connectionString, this.indexCreationStatement);
+            }
         }
 
         /// <summary>

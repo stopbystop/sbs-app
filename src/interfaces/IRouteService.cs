@@ -54,5 +54,11 @@
         /// <param name="poiArea">POI area</param>
         /// <returns></returns>
         PoisWithAreaDiagnostics GetPois(Location poiArea);
+
+        /// <summary>
+        /// Gets the metadata.
+        /// </summary>
+        /// <returns></returns>
+        Metadata GetMetadata();
     }
 }

@@ -170,6 +170,7 @@
     <Compile Include="CookieUtils.cs" />
     <Compile Include="DBUtils.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
+    <Compile Include="FlightManager.cs" />
     <Compile Include="FunctionRunningUtils.cs" />
     <Compile Include="LocationUtils.cs" />
     <Compile Include="PGSQLRunner.cs" />
