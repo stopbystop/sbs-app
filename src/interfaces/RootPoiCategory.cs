@@ -1,4 +1,6 @@
-﻿namespace Yojowa.StopByStop
+﻿using Newtonsoft.Json;
+
+namespace Yojowa.StopByStop
 {
     /*
     public enum RootPoiCategory
@@ -13,10 +15,22 @@
 
     public class RootPoiCategory
     {
+        [JsonProperty("t")]
+        public PoiType2 PoiType { get; set; }
+
+        [JsonProperty("c")]
         public int CategoryID { get; set; }
+
+        [JsonProperty("scf")]
+        public bool ShowSubCategoriesInFilters { get; set; }
+
+        [JsonProperty("n")]
         public string Name { get; set; }
 
+        [JsonProperty("i")]
         public string IconID { get; set; }
-    }
 
+        [JsonPropertyAttribute("p")]
+        public PoiPropertyMetadata[] Properties { get; set; }
+    }
 }

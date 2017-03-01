@@ -1,15 +1,14 @@
 ﻿namespace Yojowa.StopByStop
 {
     using Newtonsoft.Json;
+    using System.Collections.Generic;
 
     public class Metadata
     {
         [JsonProperty("c")]
-        public PoiCategory2[] Categories { get; set; }
+        public Dictionary<int, PoiCategory2> PoiCategories { get; set; }
 
         [JsonProperty("rpc")]
-        public RootPoiCategory[] RootPoiCategories { get; set; }
-
-         
+        public Dictionary<PoiType2, RootPoiCategory> RootPoiCategories { get; set; }
     }
 }
