@@ -74,21 +74,5 @@ namespace Yojowa.StopByStop.Store
         /// The getter.
         /// </value>
         public Func<TContainer, string> Getter { get; private set; }
-
-        /// <summary>
-        /// Creates the column from property.
-        /// </summary>
-        /// <typeparam name="TC">The type of the c.</typeparam>
-        /// <typeparam name="TProp">The type of the property.</typeparam>
-        /// <param name="property">The property.</param>
-        /// <returns>Created column</returns>
-        public static NPGSQLColumn<TC> CreateColumnFromProperty<TC, TProp>(ObjectProperty<TProp> property) where TC : ObjectWithProperties
-        {
-            return new NPGSQLColumn<TC>(
-                    property.Name,
-                    property.DBTypeInfo,
-                    (c, dbVal) => c.SetPropertyValue(property, DBUtils.ConvertFromDBVal<TProp>(dbVal)),
-                    (c) => DBUtils.EncodeValue(c.GetPropertyValue(property)));
-        }
     }
 }

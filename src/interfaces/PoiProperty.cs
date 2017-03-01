@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Yojowa.StopByStop
 {
@@ -15,7 +16,10 @@ namespace Yojowa.StopByStop
         public string IconID { get; set; }
 
         [JsonProperty("v")]
-        public PoiPropertyValueMetadata[] Values { get; set; }
+        public Dictionary<int, PoiPropertyValueMetadata> ValuesByID { get; set; }
+
+        [JsonIgnore]
+        public Dictionary<string, PoiPropertyValueMetadata> ValuesByName { get; set; }
 
         [JsonProperty("fp")]
         public bool IsPrimary { get; set; }

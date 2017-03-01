@@ -1,9 +1,18 @@
 ﻿namespace Yojowa.StopByStop
 {
     using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
 
-    public class Poi2 : ObjectWithProperties
+    public class Poi2
     {
+        private Dictionary<string, Tuple<PoiProperty, object>> properties;
+
+        public Poi2()
+        {
+            this.properties = new Dictionary<string, Tuple<PoiProperty, object>>();
+        }
+
         [JsonProperty("t")]
         public PoiType2 PoiType { get; set; }
 
@@ -25,43 +34,65 @@
         [JsonProperty("oh")]
         public double[] OpenHours { get; set; }
 
-        /*
-        /// <summary>
-        /// Gets or sets the price category expressed in decimals from 0.5 to 5.0
-        /// </summary>
-        /// <value>
-        /// The price category.
-        /// </value>
-        [JsonProperty("pc")]
-        public double? PriceCategory { get; set; }
+        [JsonProperty("pp")]
+        public Dictionary<string, object> PrimaryProperties { get; set; }
 
-        [JsonProperty("mt")]
-        public string[] MealTypes { get; set; }
+        [JsonProperty("sp")]
+        public Dictionary<string, object> SecondaryProperties { get; set; }
 
-        [JsonProperty("f")]
-        public string[] Features { get; set; }
+        public void PopulatePrimaryProperties(Dictionary<string, PoiPropertyMetadata> metadata)
+        {
+            this.PrimaryProperties = new Dictionary<string, object>();
+            foreach (var prop in this.properties.Values)
+            {
+                if ((prop.Item1.AppliesTo & this.PoiType) != 0)
+                {
+                    switch (prop.Item1.PropertyType)
+                    {
+                        case PoiPropertyType.Primary:
+                            this.PrimaryProperties.Add(prop.Item1.ID, prop.Item2);
+                            break;
 
-        [JsonProperty("gf")]
-        public string[] GoodFoor { get; set; }
+                        case PoiPropertyType.PrimaryMultipleChoice:
+                            PoiPropertyMetadata propertyMetadata = metadata[prop.Item1.ID];
+                            string[] values = (string[])prop.Item2;
 
-        */
+                            List<int> ids = new List<int>();
+                            foreach (var val in values)
+                            {
+                                int valId = propertyMetadata.ValuesByName[val].ID;
+                                ids.Add(valId);
+                            }
 
-        #region Additional Properties
+                            this.PrimaryProperties.Add(prop.Item1.ID, ids.ToArray());
 
-        [JsonProperty("nh")]
-        public string Neighborhood { get; set; }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
 
-        [JsonProperty("ds")]
-        public string DiningStyle { get; set; }
+        public void PopulateSecondaryProperties()
+        {
+            throw new NotImplementedException();
+        }
 
-        [JsonProperty("sa")]
-        public string StreetAddress { get; set; }
 
-        [JsonProperty("ca")]
-        public string CityAddress { get; set; }
+        public void SetPropertyValue<T>(PoiProperty<T> property, T value)
+        {
+            this.properties.Add(property.ID, Tuple.Create<PoiProperty, object>(property, value));
+        }
 
-        [JsonProperty("ea")]
-        public string ExtendedAddress { get; set; }
-        #endregion
+        public T GetPropertyValue<T>(PoiProperty<T> property)
+        {
+            if (!this.properties.ContainsKey(property.ID))
+            {
+                return default(T);
+            }
+
+            return ((T)this.properties[property.ID].Item2);
+        }
     }
 }

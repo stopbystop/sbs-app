@@ -10,5 +10,8 @@
 
         [JsonProperty("rpc")]
         public Dictionary<PoiType2, RootPoiCategory> RootPoiCategories { get; set; }
+
+        [JsonProperty("ppm")]
+        public Dictionary<string, PoiPropertyMetadata> PoiPropertyMetadata { get; set; }
     }
 }

@@ -1,21 +1,38 @@
 ﻿namespace Yojowa.StopByStop
 {
-    public class ObjectProperty
+    public class PoiProperty
     {
-        public ObjectProperty(string name, string dbTypeInfo)
+        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.All, PoiPropertyType propertyType = PoiPropertyType.Excluded)
         {
-            this.Name = name;
+            this.DBName = dbName;
             this.DBTypeInfo = dbTypeInfo;
+            this.ID = id;
+            this.AppliesTo = appliesTo;
+            this.PropertyType = propertyType;
         }
-        public string Name { get; private set; }
+        public string DBName { get; private set; }
 
         public string DBTypeInfo { get; private set; }
+
+        public string ID { get; private set; }
+
+        public PoiType2 AppliesTo { get; private set; }
+
+        public PoiPropertyType PropertyType { get; private set; }
     }
 
-    public class ObjectProperty<T> : ObjectProperty
+    public class PoiProperty<T> : PoiProperty
     {
-        public ObjectProperty(string name, string dbTypeInfo) : base(name, dbTypeInfo)
+        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.All, PoiPropertyType propertyType = PoiPropertyType.Excluded) : base(id, dbName, dbTypeInfo, appliesTo, propertyType)
         {
         }
+    }
+
+    public enum PoiPropertyType
+    {
+        Excluded,
+        Primary,
+        PrimaryMultipleChoice,
+        Secondary
     }
 }

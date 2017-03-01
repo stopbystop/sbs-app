@@ -66,7 +66,6 @@
     <Compile Include="Location.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="ObjectProperty.cs" />
-    <Compile Include="ObjectWithProperties.cs" />
     <Compile Include="Poi.cs" />
     <Compile Include="Poi2.cs" />
     <Compile Include="PoiCategory2.cs" />
