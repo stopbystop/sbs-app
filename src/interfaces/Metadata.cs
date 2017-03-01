@@ -6,5 +6,10 @@
     {
         [JsonProperty("c")]
         public PoiCategory2[] Categories { get; set; }
+
+        [JsonProperty("rpc")]
+        public RootPoiCategory[] RootPoiCategories { get; set; }
+
+         
     }
 }

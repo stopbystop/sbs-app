@@ -1,5 +1,6 @@
 ﻿namespace Yojowa.StopByStop
 {
+    /*
     public enum RootPoiCategory
     {
         Active = 5,
@@ -8,4 +9,14 @@
         Hotels = 495,
         Restaurants = 835
     }
+    */
+
+    public class RootPoiCategory
+    {
+        public int CategoryID { get; set; }
+        public string Name { get; set; }
+
+        public string IconID { get; set; }
+    }
+
 }

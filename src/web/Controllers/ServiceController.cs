@@ -98,6 +98,11 @@
             return StopByStopService.RouteServiceInstance.UpdateRouteProgress(routeId, currentLocation);
         }
 
+        Metadata IRouteService.GetMetadata()
+        {
+            return StopByStopService.RouteServiceInstance.GetMetadata();
+        }
+
         #endregion
         #endregion
 
