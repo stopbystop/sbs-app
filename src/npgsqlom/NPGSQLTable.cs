@@ -80,13 +80,26 @@ namespace Yojowa.StopByStop.Store
         /// Gets the items.
         /// </summary>
         /// <param name="reader">The data reader.</param>
-        /// <returns>Collection of items</returns>
-        public IEnumerable<TContainer> Get(NpgsqlDataReader reader)
+        /// <param name="columnNames">The column names.</param>
+        /// <returns>
+        /// Collection of items
+        /// </returns>
+        public IEnumerable<TContainer> Get(NpgsqlDataReader reader, string[] columnNames = null)
         {
+            NPGSQLColumn<TContainer>[] columns = null;
+            if (columnNames == null)
+            {
+                columns = this.columnsMap.Values.ToArray();
+            }
+            else
+            {
+                columns = columnNames.Select(cn => this.columnsMap[cn]).ToArray();
+            }
+
             while (reader.Read())
             {
                 TContainer obj = new TContainer();
-                var columns = this.columnsMap.Values.ToArray();
+
                 for (int i = 0; i < columns.Length; i++)
                 {
                     columns[i].Setter(obj, reader[columns[i].DBColumnName]);
@@ -100,10 +113,11 @@ namespace Yojowa.StopByStop.Store
         /// Gets all the items.
         /// </summary>
         /// <param name="whereClause">The where clause.</param>
+        /// <param name="columnNames">The column names.</param>
         /// <returns>
         /// All the items in the table
         /// </returns>
-        public IEnumerable<TContainer> GetAll(string whereClause = null)
+        public IEnumerable<TContainer> GetAll(string whereClause = null, string[] columnNames = null)
         {
             string columns = string.Join(", ", this.columnsMap.Values.Select(c => c.DBColumnTextToRetrieve));
             string selectQuery = string.Format("SELECT {0} FROM {1}", columns, this.TableName);
