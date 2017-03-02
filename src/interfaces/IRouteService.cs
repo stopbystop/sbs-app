@@ -1,4 +1,6 @@
-﻿namespace Yojowa.StopByStop
+﻿using System.Collections.Generic;
+
+namespace Yojowa.StopByStop
 {
     public interface IRouteService
     {
@@ -49,11 +51,22 @@
         Junction GetJunctionFromOSMID(long osmId, bool populatePOICategories);
 
         /// <summary>
-        /// Gets POIs and diagnostics information about the retrieval
+        /// Gets the pois.
         /// </summary>
-        /// <param name="poiArea">POI area</param>
-        /// <returns></returns>
-        PoisWithAreaDiagnostics GetPois(Location poiArea);
+        /// <param name="poiIds">The poi ids.</param>
+        /// <param name="primaryFieldsOnly">if set to <c>true</c> returns primary fields only, otherwise all fields</param>
+        /// <returns>Poi list</returns>
+        Poi2[] GetPois(long[] poiIds, bool primaryFieldsOnly);
+
+        /// <summary>
+        /// Gets the pois.
+        /// </summary>
+        /// <param name="center">The center.</param>
+        /// <param name="primaryFieldsOnly">if set to <c>true</c> returns primary fields only, otherwise all fields</param>
+        /// <returns>
+        /// Poi list
+        /// </returns>
+        Poi2[] GetPoisInArea(Location center, bool primaryFieldsOnly);
 
         /// <summary>
         /// Gets the metadata.

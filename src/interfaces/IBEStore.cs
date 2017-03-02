@@ -15,6 +15,7 @@
         string GetOverpassJunctionData(Location topLeft);
 
 
+        /*
         /// <summary>
         /// Returns POIs from a single unit defined by top left lat-long coordinate. The grain is 0.1. For example it can be 47.0, 47.1, 48.0, but not 48.15
         /// </summary>
@@ -25,7 +26,7 @@
 
 
         void SavePois(Location location, Poi2[] pois, PoiDataKind dataKind);
-
+        */
 
         /// <summary>
         /// Gets places by name

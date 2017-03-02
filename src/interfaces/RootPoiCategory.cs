@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Yojowa.StopByStop
 {
@@ -15,6 +16,9 @@ namespace Yojowa.StopByStop
 
     public class RootPoiCategory
     {
+        [JsonProperty("id")]
+        public string ID { get; set; }
+
         [JsonProperty("t")]
         public PoiType2 PoiType { get; set; }
 
@@ -27,10 +31,13 @@ namespace Yojowa.StopByStop
         [JsonProperty("n")]
         public string Name { get; set; }
 
-        [JsonProperty("i")]
+        [JsonProperty("iid")]
         public string IconID { get; set; }
 
         [JsonPropertyAttribute("p")]
         public PoiPropertyMetadata[] Properties { get; set; }
+
+        [JsonIgnore]
+        public Func<int, string> SinglePluralLabel { get; set; }
     }
 }

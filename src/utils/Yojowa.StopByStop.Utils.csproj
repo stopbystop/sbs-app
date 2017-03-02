@@ -173,6 +173,7 @@
     <Compile Include="FlightManager.cs" />
     <Compile Include="FunctionRunningUtils.cs" />
     <Compile Include="LocationUtils.cs" />
+    <Compile Include="MutableTuple.cs" />
     <Compile Include="PGSQLRunner.cs" />
     <Compile Include="PoiIDGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

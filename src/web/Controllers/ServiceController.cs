@@ -33,16 +33,29 @@
         }
         #endregion
 
-        #region GetPois
-        public JsonResult GetPois(string poiAreaString)
+        #region GetPoisInArea
+        public JsonResult GetPoisInArea(string poiAreaString, bool primaryFieldsOnly)
         {
             Location poiArea = JsonConvert.DeserializeObject<Location>(poiAreaString);
-            return Json(((IRouteService)this).GetPois(poiArea), JsonRequestBehavior.AllowGet);
+            return Json(((IRouteService)this).GetPoisInArea(poiArea, primaryFieldsOnly), JsonRequestBehavior.AllowGet);
         }
 
-        PoisWithAreaDiagnostics IRouteService.GetPois(Location poiArea)
+        Poi2[] IRouteService.GetPoisInArea(Location center, bool primaryFieldsOnly)
         {
-            return StopByStopService.RouteServiceInstance.GetPois(poiArea);
+            return StopByStopService.RouteServiceInstance.GetPoisInArea(center, primaryFieldsOnly);
+        }
+        #endregion
+
+        #region GetPois
+        public JsonResult GetPois(string poiIdsString, bool primaryFieldsOnly)
+        {
+            long[] poiIds = JsonConvert.DeserializeObject<long[]>(poiIdsString);
+            return Json(((IRouteService)this).GetPois(poiIds, primaryFieldsOnly), JsonRequestBehavior.AllowGet);
+        }
+
+        Poi2[] IRouteService.GetPois(long[] poiIds, bool primaryFieldsOnly)
+        {
+            return StopByStopService.RouteServiceInstance.GetPois(poiIds, primaryFieldsOnly);
         }
         #endregion
 

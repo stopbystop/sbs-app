@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Serialization;
-
-namespace Yojowa.StopByStop.Web
+﻿namespace Yojowa.StopByStop.Web
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Script.Serialization;
+
     public static  class RenderHelper
     {
         private static JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -70,14 +70,6 @@ namespace Yojowa.StopByStop.Web
             }
 
             return starClassName;
-        }
-
-
-        public static IEnumerable<PoiOnJunction> OrderPois(IEnumerable<PoiOnJunction> pois)
-        {
-            return pois
-                .Where(p=>p.Poi.Description != null)
-                .OrderBy(p => p.DistanceFromJunction);
         }
 
         public static string ToJSON(object model)

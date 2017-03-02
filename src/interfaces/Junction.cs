@@ -55,13 +55,5 @@ namespace Yojowa.StopByStop
 
         [JsonProperty(PropertyName = "jd")]
         public JunctionDiagnostics Diagnostics { get; set; }
-
-        /*
-        [JsonProperty("fcat")]
-        public PoiCategoryOccurrence[] FoodPoiCategories { get; set; }
-
-        [JsonProperty("tfcat")]
-        public string[] TopLevelFoodCategories { get; set; }
-        */
     }
 }

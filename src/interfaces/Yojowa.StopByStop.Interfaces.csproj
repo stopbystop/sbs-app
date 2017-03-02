@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AreaDiagnostics.cs" />
     <Compile Include="ClientPage.cs" />
     <Compile Include="GeoPlace.cs" />
     <Compile Include="IBEStore.cs" />
@@ -69,18 +68,17 @@
     <Compile Include="Poi2.cs" />
     <Compile Include="PoiCategory2.cs" />
     <Compile Include="PoiCategory.cs" />
-    <Compile Include="PoiCategoryOccurrence.cs" />
     <Compile Include="PoiDataKind.cs" />
     <Compile Include="PoiImage.cs" />
     <Compile Include="PoiOnJunction.cs" />
     <Compile Include="PoiProperty.cs" />
-    <Compile Include="PoisWithAreaDiagnostics.cs" />
     <Compile Include="PoiType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Review.cs" />
     <Compile Include="ReviewGroup.cs" />
     <Compile Include="RootPoiCategory.cs" />
     <Compile Include="Route.cs" />
+    <Compile Include="RouteData.cs" />
     <Compile Include="RouteDiagnostics.cs" />
     <Compile Include="RouteJunction.cs" />
     <Compile Include="RouteOptions.cs" />

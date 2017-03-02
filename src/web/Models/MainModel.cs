@@ -1,17 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
-
-namespace Yojowa.StopByStop.Web.Models
+﻿namespace Yojowa.StopByStop.Web.Models
 {
+    using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Web;
+    using System.Web.Mvc;
+    using Yojowa.StopByStop.Utils;
+    using System.Linq;
+
+
     public class MainModel
     {
-        public MainModel(UrlHelper urlHelper)
+        private Metadata metadata;
+
+        public MainModel(Metadata metadata, UrlHelper urlHelper)
         {
             this.BaseDataUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
             this.BaseImageUrl = RenderHelper.GetCDNUrl("/client/content/v1/icons/");
+            this.metadata = metadata;
         }
 
         [JsonProperty("p")]
@@ -27,7 +35,7 @@ namespace Yojowa.StopByStop.Web.Models
         public string ExitId { get; set; }
 
         [JsonProperty("pt")]
-        public PoiType PoiType { get; set; }
+        public PoiType2 PoiType { get; set; }
 
         [JsonProperty("durl")]
         public string BaseDataUrl { get; set; }
@@ -57,18 +65,17 @@ namespace Yojowa.StopByStop.Web.Models
                     string toLocation = this.Route.ToLocation.PlaceDescriptionShort;
                     var travelTimeSpan = TimeSpan.FromSeconds(this.Route.TimeInSeconds);
                     string travelTime = string.Format("{0} hours {1} minutes", (int)travelTimeSpan.TotalHours, travelTimeSpan.Minutes);
-                    int rCount = 0;
-                    int gCount = 0;
-                    int exitRCount = 0;
-                    int exitGCount = 0;
+                  
                     long osmId = 0;
                     string exitName = "";
+
+                    Dictionary<PoiType2, MutableTuple<int,int>> categoryCounts = new Dictionary<PoiType2, MutableTuple<int, int>>();
 
                     if (this.Page == ClientPage.Exit)
                     {
                         long.TryParse(Regex.Match(this.ExitId, "osm-(?<id>[0-9]+)").Groups["id"].Value, out osmId);
                     }
-
+                    
                     Array.ForEach(
                     this.Route.RouteSegments, rs => Array.ForEach(
                         rs.RouteJunctions, rj =>
@@ -80,25 +87,21 @@ namespace Yojowa.StopByStop.Web.Models
                                 exitName = rj.Junction.Name;
                             }
 
+
+                          
+
                             Array.ForEach(
                                  rj.Junction.Pois, pj =>
                                  {
-                                     switch (pj.Poi.PoiType)
+                                     if (!categoryCounts.ContainsKey(pj.Poi.PoiType))
                                      {
-                                         case PoiType.Food:
-                                             rCount++;
-                                             if (countPoisInExit)
-                                             {
-                                                 exitRCount++;
-                                             }
-                                             break;
-                                         case PoiType.Gas:
-                                             gCount++;
-                                             if (countPoisInExit)
-                                             {
-                                                 exitGCount++;
-                                             }
-                                             break;
+                                         categoryCounts.Add(pj.Poi.PoiType, MutableTuple<int,int>.Create(0, 0));
+                                     }
+
+                                     categoryCounts[pj.Poi.PoiType].Item1++;
+                                     if (countPoisInExit)
+                                     {
+                                         categoryCounts[pj.Poi.PoiType].Item2++;
                                      }
                                  });
                         }));
@@ -109,24 +112,30 @@ namespace Yojowa.StopByStop.Web.Models
                         fromLocationInDescription = "your location";
                     }
 
+                  
+                    string poiTypeCountDescription = string.Join(" ", categoryCounts
+                        .Select(cc => metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item1)));
+
+
                     if (this.Page == ClientPage.Route)
                     {
                         this.Title = string.Format("{0} to {1} - Stop by Stop", fromLocation, toLocation);
                         this.Description = string.Format("Traveling from {0} to {1}? This route is {2} miles and will take you {3} to drive. " +
-                            "It has {4} restaurants and {5} gas stations within 5 miles from exit",
+                            "It has {4} within 5 miles from exit",
                             fromLocationInDescription,
                             toLocation,
                             (int)this.Route.Distance,
                             travelTime,
-                            rCount,
-                            gCount);
+                            poiTypeCountDescription);
                     }
 
                     if (this.Page == ClientPage.Exit)
                     {
+                        string exitPoiTypeCountDescription = string.Join(" ", categoryCounts
+                         .Select(cc => metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item2)));
                         this.Title = string.Format("{0} on the way from {1} to {2} - Stop by Stop", exitName, fromLocation, toLocation);
-                        this.Description = string.Format("{0} on the way from {1} to {2} has {3} restaurants and {4} gas stations within 5 miles from exit",
-                            exitName, fromLocation, toLocation, exitRCount, exitGCount);
+                        this.Description = string.Format("{0} on the way from {1} to {2} has {4} within 5 miles from exit",
+                            exitName, fromLocation, toLocation, exitPoiTypeCountDescription);
                     }
 
                     break;

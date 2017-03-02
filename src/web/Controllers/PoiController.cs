@@ -18,8 +18,8 @@
                 throw new ArgumentException("InvalidLocation");
             }
 
-            var poisWithDiagnostics = StopByStopService.RouteServiceInstance.GetPois(location);
-            return Json(poisWithDiagnostics.Pois, JsonRequestBehavior.AllowGet);
+            var pois = StopByStopService.RouteServiceInstance.GetPoisInArea(location, true);
+            return Json(pois, JsonRequestBehavior.AllowGet);
         }
 	}
 }

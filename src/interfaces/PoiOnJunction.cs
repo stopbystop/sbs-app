@@ -5,17 +5,17 @@
     public class PoiOnJunction
     {
         [JsonProperty("id")]
-        public string SBSID { get; set; }
+        public long ID { get; set; }
 
         [JsonProperty("dfj")]
         public double DistanceFromJunction { get; set; }
 
         [JsonProperty("p")]
-        public Yojowa.StopByStop.Poi Poi { get; set; }
+        public Poi2 Poi { get; set; }
 
         public override string ToString()
         {
-            return SBSID + " " + Poi.ToString();
+            return ID + " " + Poi.ToString();
         }
 
     }

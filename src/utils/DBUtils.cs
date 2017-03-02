@@ -69,6 +69,11 @@ namespace Yojowa.StopByStop.Utils
                 return "'" + ((Guid)val).ToString() + "'";
             }
 
+            if (val is DateTime)
+            {
+                return "TO_TIMESTAMP('" + ((DateTime)val).ToString("MMddyyyy HH:mm:ss.fff") + "', 'mmddyyyy hh24:mi:ss.ms')::timestamp without time zone";
+            }
+
             if (val is Array)
             {
                 var json = JsonConvert.SerializeObject((Array)val);

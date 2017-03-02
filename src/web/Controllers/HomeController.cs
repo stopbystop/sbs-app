@@ -1,8 +1,9 @@
 ﻿
 namespace Yojowa.StopByStop.Web.Controllers
 {
+    using Service;
     using System.Web.Mvc;
-    using Yojowa.StopByStop.Web.Models;
+    using Models;
 
 
     [NoCache]
@@ -10,7 +11,7 @@ namespace Yojowa.StopByStop.Web.Controllers
     {
         public ActionResult Index(string rf)
         {
-            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+            return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
             {
                 Page = ClientPage.Home
             });
@@ -18,7 +19,7 @@ namespace Yojowa.StopByStop.Web.Controllers
 
         public ActionResult About()
         {
-            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+            return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
             {
                 Page = ClientPage.About
             });

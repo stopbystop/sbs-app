@@ -27,6 +27,7 @@
             long osmId;
             RouteJunction routeJunction = null;
             StopByStop.Route route = GetRouteFromRoutePathId(id);
+            var metadata = StopByStopService.RouteServiceInstance.GetMetadata();
 
             if (route != null)
             {
@@ -63,9 +64,7 @@
                 }
             }
 
-
-            PoiType poiType = PoiType.General;
-            var model = new MainModel(this.Url)
+            var model = new MainModel(metadata, this.Url)
             {
                 Page = ClientPage.Route,
                 RouteId = id,
@@ -73,17 +72,13 @@
                 ExitId = exitId,
             };
 
+            PoiType2 poiType = PoiType2.All;
+
             if (routeJunction != null)
             {
-
-                switch (poiTypeString.ToLowerInvariant())
+                if (!string.IsNullOrEmpty(poiTypeString))
                 {
-                    case "gas":
-                        poiType = PoiType.Gas;
-                        break;
-                    case "food":
-                        poiType = PoiType.Food;
-                        break;
+                    poiType = metadata.RootPoiCategories.First(rpc => rpc.Value.ID == poiTypeString).Key;
                 }
 
                 model.Page = ClientPage.Exit;
@@ -111,7 +106,7 @@
                 }
             }
 
-            return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+            return View("~/client/Views/Main.cshtml", new MainModel(metadata, this.Url)
             {
                 Page = ClientPage.Exit,
                 RouteId = id,
@@ -138,7 +133,7 @@
 
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+                return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
                 {
                     Page = ClientPage.Route,
                     RouteId = pathId,
@@ -164,7 +159,7 @@
             StopByStop.Route route = GetRouteFromRoutePathId(id);
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", new MainModel(this.Url)
+                return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
                 {
                     Page = ClientPage.Route,
                     RouteId = id,
