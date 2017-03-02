@@ -21,10 +21,10 @@
         /// <param name="nWest">North-west coordinate of the region</param>
         /// <param name="dataKind">Kind of data to retrieve</param>
         /// <returns></returns>
-        Yojowa.StopByStop.Poi[] GetPois(Location nWest, PoiDataKind dataKind, DateTime fromTime);
+        Poi2[] GetPois(Location nWest, PoiDataKind dataKind, DateTime fromTime);
 
 
-        void SavePois(Location location, Yojowa.StopByStop.Poi[] pois, PoiDataKind dataKind);
+        void SavePois(Location location, Poi2[] pois, PoiDataKind dataKind);
 
 
         /// <summary>
@@ -66,11 +66,5 @@
 
 
         Junction[] GetJunctionsWithinBounds(decimal south, decimal west, decimal north, decimal east);
-
-        /// <summary>
-        /// Gets all POIs
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<Yojowa.StopByStop.Poi> GetAllPois();
     }
 }

@@ -20,8 +20,6 @@
 
             var poisWithDiagnostics = StopByStopService.RouteServiceInstance.GetPois(location);
             return Json(poisWithDiagnostics.Pois, JsonRequestBehavior.AllowGet);
-        
         }
-
 	}
 }
