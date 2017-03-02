@@ -50,12 +50,22 @@
                 "getmetadata");
         }
 
-        public PoisWithAreaDiagnostics GetPois(Location poiArea)
+        public Poi2[] GetPois(long[] poiIds, bool primaryFieldsOnly)
         {
-            return GetObjectFromRemoteServer<PoisWithAreaDiagnostics>(
+            return GetObjectFromRemoteServer<Poi2[]>(
                 this.serviceUrl,
               "getpois",
-              Tuple.Create<string, object>("poiAreaString", poiArea));
+              Tuple.Create<string, object>("poiIds", poiIds),
+              Tuple.Create<string, object>("primaryFieldsOnly", primaryFieldsOnly));
+        }
+
+        public Poi2[] GetPoisInArea(Location center, bool primaryFieldsOnly)
+        {
+            return GetObjectFromRemoteServer<Poi2[]>(
+                this.serviceUrl,
+              "getpoisinarea",
+              Tuple.Create<string, object>("centerString", center),
+              Tuple.Create<string, object>("primaryFieldsOnly", primaryFieldsOnly));
         }
 
         public Review[] GetReviews(string SBSID)
