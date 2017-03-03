@@ -136,14 +136,9 @@ module StopByStop {
         public routeHeightPx: KnockoutObservable<number> = ko.observable(0);
         public boundElement: KnockoutObservable<Element> = ko.observable(null);
 
-        public applyFilter(filter: FilterViewModel): void {
-            $.each(this.routeSegments(), (indexInArray: number, valueOfElement: RouteSegmentViewModel) => valueOfElement.applyFilter(filter));
-        }
-
         private createSegmentFirstTime(segmentIndex: number) {
 
             var segmentViewModel = new RouteSegmentViewModel(this._route.s[segmentIndex], this._routeStartTime, this._app);
-            segmentViewModel.applyFilter(this._filter);
             this.routeSegments.push(segmentViewModel);
 
 

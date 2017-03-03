@@ -67,13 +67,6 @@ module StopByStop {
         public visible: KnockoutObservable<boolean>;
         public top: KnockoutObservable<string>;
         public title: string;
-
-        public visibleGasPois: KnockoutObservableArray<PoiOnJunctionViewModel>;
-        public visibleFoodPois: KnockoutObservableArray<PoiOnJunctionViewModel>;
-        public closestGasPoiDistance: KnockoutObservable<string>;
-        public closestFoodPoiDistance: KnockoutObservable<string>;
-        public gasPoiCountString: KnockoutObservable<string>;
-        public foodPoiCountString: KnockoutObservable<string>;
         public stops: KnockoutObservableArray<RouteStopViewModel>;
 
         public etaWithoutStops: Date;
@@ -83,12 +76,18 @@ module StopByStop {
         public hasStops: KnockoutComputed<boolean>;
         public description: KnockoutComputed<string>;
 
+        public onPoiVisibilityUpdated(): void {
+        }
+
         public applyFilter(filter: FilterViewModel): void {
             this.visibleGasPois.removeAll();
             this.visibleFoodPois.removeAll();
 
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
+
+
+
                 poi.poi.visible(false);
                 var maxDistanceFromJunction = parseInt(filter.maxDistanceFromJunction(), 10);
                 if (poi.poi.poiType === PoiType.Food && filter.showRestaurants() &&
@@ -140,6 +139,7 @@ module StopByStop {
         }
 
 
-
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+
+
+}

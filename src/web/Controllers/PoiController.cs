@@ -12,6 +12,9 @@
         [Route("poi/{id}")]
         public JsonResult Index(string id)
         {
+            throw new NotImplementedException("TODO: redirect");
+
+            /*
             var location = LocationUtils.CreateCustomLocation(id);
             if (location == null)
             {
@@ -20,6 +23,15 @@
 
             var pois = StopByStopService.RouteServiceInstance.GetPoisInArea(location, true);
             return Json(pois, JsonRequestBehavior.AllowGet);
+            */
         }
-	}
+
+
+        [HttpGet]
+        [Route("poiv2/{id}")]
+        public JsonResult IndexV2(string id)
+        {
+            throw new NotImplementedException("TODO: implement");
+        }
+    }
 }

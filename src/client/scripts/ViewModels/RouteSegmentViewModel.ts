@@ -3,7 +3,6 @@
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="JunctionViewModel.ts"/>
 /// <reference path="LocationViewModel.ts"/>
-/// <reference path="FilterViewModel.ts"/>
 /// <reference path="../Utils.ts"/>
 
 "use strict";
@@ -92,19 +91,11 @@ module StopByStop {
         public instructions: string;
         public instructionsTip: string;
 
-        public applyFilter(filter: FilterViewModel): void {
-            this.layoutJunctions(filter);
-        }
-
-        private layoutJunctions(filter: FilterViewModel = null): void {
+        public onJunctionVisibilityUpdated(): void {
             this.routeVisibleJunctions.removeAll();
             var visibleJunctionIndex = 0;
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var junction = this.routeJunctions[i];
-
-                if (filter) {
-                    junction.applyFilter(filter);
-                }
 
                 if (junction.visible()) {
                     this.routeVisibleJunctions.push(junction);

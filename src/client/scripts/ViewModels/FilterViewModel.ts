@@ -7,35 +7,29 @@
 /// <reference path="PoiTypeFilterViewModel.ts"/>
 
 "use strict";
+
 module StopByStop {
-    export interface ICategoryEnablement {
-        category: PoiCategoryViewModel;
-        count: KnockoutObservable<number>;
-        visible: KnockoutObservable<boolean>;
-        tempCount: number;
-    };
 
     export class FilterViewModel {
         private routeJunctions: IRouteJunction[];
+
         public routeId: string;
-        public typeFilters: PoiTypeFilterViewModel[];
+        public typeFiltersList: PoiTypeFilterViewModel[];
+        public typeFiltersLookup: {[id:number]: PoiTypeFilterViewModel};
 
 
         // this setting is necessary because for Exit page we are not preserving showRestaurants and showGasStations to storage, while for route page we are
         public preserveShowAllSettings: boolean;
 
-        constructor(routeId: string, rjs: IRouteJunction[], preserveShowAllSettings: boolean = true) {
+        constructor(routeId: string, rjs: IRouteJunction[], metadata: IMetadata, preserveShowAllSettings: boolean = true) {
             this.routeId = routeId;
             this.routeJunctions = rjs;
             this.preserveShowAllSettings = preserveShowAllSettings;
-            this.categoriesEnablement = ko.observableArray([]);
 
-            //go through all pois to decide what to include in filters
-
-
+            this.typeFiltersList = [];
+            this.typeFiltersLookup = {};
 
             this.maxDistanceFromJunction = ko.observable("3");
-
             this.maxDistanceFromJunctionIs1 = ko.observable(false);
             this.maxDistanceFromJunctionIs2 = ko.observable(false);
             this.maxDistanceFromJunctionIs3 = ko.observable(true);
@@ -68,14 +62,11 @@ module StopByStop {
                 }).bind(this, selectedmdpair));
             }
 
-            this.update();
-            this.maxDistanceFromJunction.subscribe((newValue) => this.update());
+            this.populate(metadata);
+            this.updateCounts();
+            this.maxDistanceFromJunction.subscribe((newValue) => this.updateCounts());
         }
 
-
-        public showGasStations: KnockoutObservable<boolean>;
-        public showRestaurants: KnockoutObservable<boolean>;
-        public categoriesEnablement: KnockoutObservableArray<ICategoryEnablement>;
         public maxDistanceFromJunction: KnockoutObservable<string>;
 
         public maxDistanceFromJunctionIs1: KnockoutObservable<boolean>;
@@ -84,54 +75,51 @@ module StopByStop {
         public maxDistanceFromJunctionIs4: KnockoutObservable<boolean>;
         public maxDistanceFromJunctionIs5: KnockoutObservable<boolean>;
 
-        private update() {
+        public copyEnablement(filter: FilterViewModel) {
+            for (var i = 0; i < filter.typeFiltersList.length; i++) {
+                var categoriesEnablement = filter.typeFiltersList[i].getCategoriesEnablement();
+                var propertyEnablement = filter.typeFiltersList[i].getPropertiesEnablement();
 
+                this.typeFiltersLookup[filter.typeFiltersList[i].type].setCategoriesEnablement(categoriesEnablement);
+                this.typeFiltersLookup[filter.typeFiltersList[i].type].setPropertiesEnablement(propertyEnablement);
+            }
+        }
+
+        private populate(metadata: IMetadata): void {
+            $.each(this.typeFiltersList, (i, item) => item.resetTempCount());
+            for (var i = 0; i < this.routeJunctions.length; i++) {
+                var rj = this.routeJunctions[i];
+                for (var j = 0; j < rj.j.p.length; j++) {
+                    var poiOnJunction = rj.j.p[j];
+
+                    var poi = poiOnJunction.p;
+                    if (!this.typeFiltersLookup[poi.pt]) {
+                        var typeFilterViewModel = new PoiTypeFilterViewModel(poi.pt, metadata);
+                        this.typeFiltersList.push(typeFilterViewModel);
+                        this.typeFiltersLookup[poi.pt] = typeFilterViewModel;
+                    }
+
+                    this.typeFiltersLookup[poi.pt].addPropertiesFromPoi(poi);
+
+                }
+            }
+        }
+
+
+
+        private updateCounts():void {
             var distance = parseInt(this.maxDistanceFromJunction());
-
-            $.each(this.foodCategoriesEnablement(), (i, item) => item.tempCount = 0);
-
+            $.each(this.typeFiltersList, (i, item) => item.resetTempCount());
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
                     var poiOnJunction = rj.j.p[j];
                     if (poiOnJunction.dfj <= distance) {
-                        if (poiOnJunction.p.pt === PoiType.Food) {
-                            fCount++;
-                            $.each(poiOnJunction.p.c, (i, categoryId) => {
-                                if (this.foodCategoriesEnablementLookup[categoryId]) {
-                                    this.foodCategoriesEnablementLookup[categoryId].tempCount++;
-                                }
-                            });
-
-
-                        } else if (poiOnJunction.p.pt === PoiType.Gas) {
-                            gsCount++;
-                        }
+                        var poi = poiOnJunction.p;
+                        this.typeFiltersLookup[poi.pt].incrementTempCountForPoi(poi);
                     }
                 }
             }
-
-            $.each(this.foodCategoriesEnablement(), (i, item) => {
-
-                item.count(item.tempCount);
-            });
-
-            this.foodCategoriesEnablement.sort((a, b) => b.count() - a.count());
-
-            this.filteredFoodCount(fCount);
-            this.filteredGasStationCount(gsCount);
-
-        };
-
-        private createCategoryEnablement(categoryOccurrence: IPoiCategoryOccurrence): ICategoryEnablement {
-            var categoryEnablement: ICategoryEnablement =
-                {
-                    category: new PoiCategoryViewModel(categoryOccurrence.cat),
-                    count: ko.observable(categoryOccurrence.c),
-                    tempCount: 0,
-                    visible: ko.observable(true)
-                };
-            return categoryEnablement;
         };
     }
 }

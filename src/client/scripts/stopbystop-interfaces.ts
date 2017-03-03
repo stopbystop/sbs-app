@@ -13,14 +13,18 @@ module StopByStop {
 
     export interface IInitUrls {
         BaseUrl: string;
+        BaseImageUrl: string;
         RouteUrl: string;
+
         RouteDataUrl: string;
         PlacesUrl: string;
         PoiUrl: string;
-        MapExitIconUrl: string;
-        MapFoodIconUrl: string;
-        MapGasIconUrl: string;
         PlacesNearbyUrl: string;
+
+        RouteDataUrlV2: string;
+        PlacesUrlV2: string;
+        PoiUrlV2: string;
+        PlacesNearbyUrlV2: string;
         CityImagesUrl: string;
     }
 
@@ -34,6 +38,7 @@ module StopByStop {
         navigationLocation?: ISBSNavigationLocation;
         knownHashChangeInProgress?: boolean;
         historyDisabled?: boolean;
+        metadata: IMetadata;
     }
 
     export interface IWebInitData {
@@ -111,9 +116,9 @@ module StopByStop {
 
     export interface IPoi {
         /** sbsid */
-        id: string;
+        id: number;
         /** poi category ids */
-        c: string[];
+        c: number[];
         /** poi type */
         pt: PoiType;
         /** name */
@@ -122,17 +127,23 @@ module StopByStop {
         d: string;
         /** poi location */
         l: ILocation;
-        /** poi images */
-        i: IPoiImage[];
-        /** reviews */
-        rg: IReviewGroup[];
+        /** phone number */
+        p: string;
+        /** open hours */
+        oh: number[];
+        /** primary properties */
+        pp: { [id: string]: any }
+        /** secondary properties */
+        sp: { [id: string]: any }
     }
 
     export interface IPoiCategory {
         /** sbsid */
-        id: string;
+        id: number;
         /** name */
         n: string;
+        /** poi type */
+        pt: PoiType;
     }
 
     export interface IPoiCategoryOccurrence {
@@ -207,6 +218,8 @@ module StopByStop {
         t: number;
         /** route segments */
         s: IRouteSegment[];
+        /** metadata */
+        m: IMetadata;
     }
 
     export enum SBSPage {
@@ -217,39 +230,39 @@ module StopByStop {
     }
 
     export interface IPageInfo {
-        /** page name **/
+        /** page name */
         pageName: string;
-        /** telemetry page name **/
+        /** telemetry page name */
         telemetryPageName: string;
     }
 
     export interface ISBSNavigationLocation {
-        /** page **/
+        /** page */
         page: SBSPage,
-        /** route id **/
+        /** route id */
         routeId?: string;
-        /** exit id **/
+        /** exit id */
         exitId?: string;
-        /** POI type **/
+        /** POI type */
         poiType?: PoiType;
     }
 
     export interface IPoiPropertyMetadata {
-        id: string;
-        /** name **/
+        id?: string;
+        /** name */
         n: string;
-        /** icon id **/
+        /** icon id */
         i: string;
-        /** values by id **/
-        v: { [id: number]: IPoiPropertyValueMetadata };
-        /** is primary property **/
-        fp: boolean;
+        /** values by id */
+        v?: { [id: number]: IPoiPropertyValueMetadata };
+        /** is primary property */
+        fp?: boolean;
     }
 
     export interface IPoiPropertyValueMetadata {
-        /** id **/
+        /** id */
         id: number;
-        /** name **/
+        /** name */
         n: string;
     }
 
@@ -257,29 +270,35 @@ module StopByStop {
         id: string;
 
         t: PoiType;
-        /** category id **/
+        /** category id */
         c: number;
 
-        /** show subcategories in filters **/
+        /** show subcategories in filters */
         scf: boolean;
 
-        /** name **/
+        /** name */
         n: string;
 
-        /** icon id **/
+        /** icon id */
         iid: string;
 
-        /** property metadata **/
+        /** property metadata */
         p: IPoiPropertyMetadata[];
     }
 
     export interface IMetadata {
         /** category metadata */
         c: { [id: number]: IPoiCategory };
-        /** root categories **/
+        /** root categories by type id */
         rpc: { [id: number]: IRootPoiCategory };
-        /** property metadata */
+        /** all properties by id */
         ppm: { [id: string]: IPoiPropertyMetadata };
+    }
+
+    export enum PoiIconFormat {
+        Light = 1,
+        Dark = 2,
+        Map = 4
     }
 
 }

@@ -23,7 +23,7 @@ module StopByStop {
 
                 $.each(route.s, (i, v: IRouteSegment) => rjs.push(...v.j));
 
-                this.filter = new FilterViewModel(route.rid, rjs, route.fcat, route.tfcat);
+                this.filter = new FilterViewModel(route.rid, rjs);
                 this.routePlan = new RoutePlanViewModel(this._route.rid, this._route.d, new LocationViewModel(route.tl));
 
                 this.isRouteLoading(false);
@@ -39,9 +39,6 @@ module StopByStop {
                 });
 
 
-                ko.computed(() => ko.toJS(this.filter)).subscribe(() => {
-                    this.route.applyFilter(this.filter);
-                });
                 this.title(this.route.title + " - Stop by Stop");
             } else {
                 this.title("See best places to stop on the way to your destination - Stop by Stop");

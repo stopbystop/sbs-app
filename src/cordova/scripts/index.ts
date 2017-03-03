@@ -26,7 +26,8 @@ module StopByStop.Cordova {
                 baseImageUrl: "images/",
                 navigationLocation: { page: SBSPage.home },
                 historyDisabled: true,
-                windowOpenTarget: "_system"
+                windowOpenTarget: "_system",
+                metadata:null
             });
 
             //console.log(device.platform);

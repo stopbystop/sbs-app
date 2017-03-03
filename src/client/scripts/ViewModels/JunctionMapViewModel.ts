@@ -69,10 +69,11 @@ module StopByStop {
                 var poi = <PoiOnJunctionViewModel>valueOfElement;
                 var poiPoint = new google.maps.LatLng(poi.poi.location.lat, poi.poi.location.lon);
 
+                Utils
                 var poiMarker = new google.maps.Marker(
                     {
                         position: poiPoint,
-                        icon: poi.poi.poiType === PoiType.Food ? this.urls.MapFoodIconUrl : this.urls.MapGasIconUrl,
+                        icon: Utils.getPoiIconUrl(poi.poi.poiType, PoiIconFormat.Map, this.urls.BaseImageUrl),
                         map: this.map
                     });
 

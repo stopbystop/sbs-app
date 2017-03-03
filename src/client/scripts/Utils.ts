@@ -56,11 +56,9 @@ module StopByStop {
                                     navigationLocation.exitId = val;
                                     break;
                                 case "poitype":
-                                    navigationLocation.poiType = PoiType.General;
-                                    if (val === "food") {
-                                        navigationLocation.poiType = PoiType.Food;
-                                    } else if (val === "gas") {
-                                        navigationLocation.poiType = PoiType.Gas;
+                                    navigationLocation.poiType = PoiType.All;
+                                    if (val) {
+                                        navigationLocation.poiType = PoiType[val];
                                     }
                                     break;
                             }
@@ -268,6 +266,11 @@ module StopByStop {
             }
         }
 
+        public static getPoiIconUrl(poiType: PoiType, iconFormat: PoiIconFormat, baseImageUrl: string) {
+            var poiTypeString = PoiType[poiType].toLowerCase();
+            return baseImageUrl + "poi/" + poiTypeString + "/" + poiTypeString + "_" + iconFormat.toString() + ".png";
+        }
+
         private static getPlaceNameFromPlaceId(placeId: string) {
             var placeName = "";
             var usIndex = placeId.indexOf("-united-states");
@@ -284,5 +287,7 @@ module StopByStop {
 
             return placeName;
         }
+
+
     }
 }

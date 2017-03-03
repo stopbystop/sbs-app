@@ -130,17 +130,22 @@ module StopByStop {
 
         private static loadRoute(routeId: string): JQueryPromise<any> {
             var deferred = $.Deferred();
-
             if (Init._cachedRoutes[routeId]) {
                 Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
             } else {
+                var withMetadata = !!AppState.current.metadata;
+
                 $.ajax({
-                    url: AppState.current.urls.RouteDataUrl + routeId,
+                    url: AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
                     dataType: 'json',
                     method: 'GET',
                     success: (data) => {
                         Init._cachedRoutes[routeId] = data;
                         Init.onRouteDataLoaded(routeId, data, deferred);
+
+                        if (withMetadata) {
+                            AppState.current.metadata = (<IRoute>data).m;
+                        }
                     }
                 });
             }
@@ -174,7 +179,7 @@ module StopByStop {
                 selectedRouteJunction,
                 appViewModel.filter,
                 appViewModel.routePlan,
-                poiType);
+                AppState.current.metadata);
 
             appViewModel.selectedJunction(junctionAppViewModel);
 

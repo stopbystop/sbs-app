@@ -15,5 +15,8 @@
 
         [JsonProperty("n")]
         public string Name { get; set; }
+
+        [JsonProperty("pt")]
+        public PoiType2 PoiType { get; set; }
     }
 }

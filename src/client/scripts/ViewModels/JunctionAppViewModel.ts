@@ -41,7 +41,6 @@ module StopByStop {
                     });
             }
         }
-
     };
 
     export class JunctionSPAAppViewModel extends JunctionAppBaseViewModel {
@@ -50,18 +49,19 @@ module StopByStop {
             routeJunctionViewModel: RouteJunctionViewModel,
             parentFilter: FilterViewModel,
             routePlan: RoutePlanViewModel,
-            poiTypeToShow: PoiType = PoiType.General
+            metadata: IMetadata,
+            poiTypeToShow: PoiType = PoiType.All
         ) {
             super();
             // TODO: here
 
             this.routePlan = routePlan;
             this.routeJunction = routeJunctionViewModel;
+
             this.filter = new FilterViewModel(
                 parentFilter.routeId,
                 [this.routeJunction.routeJunction],
-                route.fcat,
-                route.tfcat,
+                metadata,
                 false);
 
             // propagate distance and restaurant enablement setting from parent route filter
@@ -78,14 +78,10 @@ module StopByStop {
                 (<KnockoutObservable<boolean>>mdarr[i][0])(mdarr[i][1] === parentFilter.maxDistanceFromJunction());
             }
 
-            $.each(this.filter.foodCategoriesEnablement(), (index: number, item: ICategoryEnablement) => {
-                item.visible(parentFilter.foodCategoriesEnablementLookup[item.category.sbsid].visible());
-            });
+            this.filter.copyEnablement(parentFilter);
 
-            if (poiTypeToShow === PoiType.Food) {
-                this.filter.showGasStations(false);
-            } else if (poiTypeToShow === PoiType.Gas) {
-                this.filter.showRestaurants(false);
+            for (var poiType in this.filter.typeFiltersLookup) {
+                this.filter.typeFiltersLookup[poiType].isOn(parseInt(poiType) === poiTypeToShow);
             }
 
             var junctionLocationViewModel = this.routeJunction.junction.location;
@@ -96,13 +92,6 @@ module StopByStop {
             });
 
             this.loadFullPoiData();
-
-            this.routeJunction.applyFilter(this.filter);
-
-            ko.computed(() => ko.toJS(this.filter)).subscribe(() => {
-                this.routeJunction.applyFilter(this.filter);
-            });
-            
         };
 
         public initMap(mapDiv: Element, mapContainerDiv: Element): JunctionMapViewModel {

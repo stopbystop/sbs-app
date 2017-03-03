@@ -30,5 +30,8 @@
 
         [JsonProperty(PropertyName = "diag")]
         public RouteDiagnostics Diagnostics { get; set; }
+
+        [JsonProperty(PropertyName = "m")]
+        public Metadata Metadata { get; set; }
     }
 }

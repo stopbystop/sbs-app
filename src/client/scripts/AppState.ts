@@ -12,7 +12,8 @@ module StopByStop {
             baseDataUrl: null,
             baseImageUrl: null,
             app: null,
-            windowOpenTarget: "_system"
+            windowOpenTarget: "_system",
+            metadata: null
         };
     }
 }

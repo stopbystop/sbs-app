@@ -26,7 +26,7 @@
         {
             long osmId;
             RouteJunction routeJunction = null;
-            StopByStop.Route route = GetRouteFromRoutePathId(id);
+            StopByStop.Route route = GetRouteFromRoutePathId(id, false);
             var metadata = StopByStopService.RouteServiceInstance.GetMetadata();
 
             if (route != null)
@@ -129,7 +129,7 @@
                (double)random.Next(2500000, 5000000) / 100000.00,
                (double)random.Next(-12500000, -6600000) / 100000.00);
 
-            StopByStop.Route route = GetRouteFromRoutePathId(pathId);
+            StopByStop.Route route = GetRouteFromRoutePathId(pathId, false);
 
             if (route != null)
             {
@@ -144,19 +144,10 @@
             return RedirectToAction("Index", "Home");
         }
 
-
-        [HttpGet]
-        [Route("routedata/{id}")]
-        public JsonResult RouteJsonData(string id)
-        {
-            StopByStop.Route route = GetRouteFromRoutePathId(id);
-            return Json(route, JsonRequestBehavior.AllowGet);
-        }
-
         [Route("route/{id}")]
         public ActionResult Route(string id)
         {
-            StopByStop.Route route = GetRouteFromRoutePathId(id);
+            StopByStop.Route route = GetRouteFromRoutePathId(id, false);
             if (route != null)
             {
                 return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
@@ -176,7 +167,27 @@
         }
 
 
-        private static StopByStop.Route GetRouteFromRoutePathId(string routePathId)
+        [HttpGet]
+        [Route("routedata/{id}")]
+        public JsonResult RouteJsonData(string id)
+        {
+            throw new NotImplementedException("TODO: redirect");
+
+            /*
+            StopByStop.Route route = GetRouteFromRoutePathId(id);
+            return Json(route, JsonRequestBehavior.AllowGet);
+            */
+        }
+
+        [HttpGet]
+        [Route("routedatav2/{id}/metadata/{withmetadata}")]
+        public JsonResult RouteJsonDataV2(string id, bool withMetadata)
+        {
+            StopByStop.Route route = GetRouteFromRoutePathId(id, withMetadata);
+            return Json(route, JsonRequestBehavior.AllowGet);
+        }
+
+        private static StopByStop.Route GetRouteFromRoutePathId(string routePathId, bool withMetadata)
         {
             Location fromLocation, toLocation;
             if (RouteUtils.GetRouteLocationsFromRoutePathId(routePathId, out fromLocation, out toLocation))
@@ -189,6 +200,11 @@
                             {
                                 ExcludeJunctionsWithoutExitInfo = false,
                             });
+
+                if (withMetadata)
+                {
+                    route.Metadata = StopByStopService.RouteServiceInstance.GetMetadata();
+                }
 
                 return route;
             }
