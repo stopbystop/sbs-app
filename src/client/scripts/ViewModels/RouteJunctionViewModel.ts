@@ -3,6 +3,7 @@
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="JunctionViewModel.ts"/>
 /// <reference path="FilterViewModel.ts"/>
+/// <reference path="RouteJunctionPoiTypeViewModel.ts"/>
 /// <reference path="../Utils.ts"/>
 /// <reference path="../AppState.ts"/>
 
@@ -11,24 +12,19 @@ module StopByStop {
     export class RouteJunctionViewModel {
 
         private _obj: IRouteJunction;
+        private _poiTypeViewModels: RouteJunctionPoiTypeViewModel[];
+        private _poiTypeViewModelLookup: { [id: number]: RouteJunctionPoiTypeViewModel };
 
         constructor(obj: IRouteJunction, routeStartTime: Date, app: IAppViewModel) {
             this._obj = this.routeJunction = obj;
             this.distanceFromRouteStartText = ko.observable(Utils.getMileString(this._obj.dfrs));
-
-
-
             this.junction = new JunctionViewModel(this._obj, app);
             this.visible = ko.observable(true);
             this.top = ko.observable("");
-
-            this.visibleGasPois = ko.observableArray([]);
-            this.visibleFoodPois = ko.observableArray([]);
-            this.closestFoodPoiDistance = ko.observable("");
-            this.closestGasPoiDistance = ko.observable("");
-            this.gasPoiCountString = ko.observable("");
-            this.foodPoiCountString = ko.observable("");
             this.stops = ko.observableArray<RouteStopViewModel>();
+            this._poiTypeViewModels = [];
+            this._poiTypeViewModelLookup = {};
+
 
             this.etaWithoutStops = new Date(routeStartTime.getTime() + this._obj.tfrs * 1000);
             this.eta = ko.observable(this.etaWithoutStops);
@@ -40,10 +36,22 @@ module StopByStop {
                 this.title = this.junction.name + " on the way from " + routeTitle;
             }
 
-            // TODO: fix this
-            this.description = ko.computed(() => this.junction.name +
-                ". " + this.gasPoiCountString() + " gas stations, " +
-                this.foodPoiCountString() + " restaurants within 5 mile travel distance.");
+            var rootPoiCategories = AppState.current.metadata.rpc;
+            for (var rpcId in rootPoiCategories) {
+                var rpc = rootPoiCategories[rpcId];
+                var vm = new RouteJunctionPoiTypeViewModel(rpc, this.junction);
+                this._poiTypeViewModels.push(vm);
+                this._poiTypeViewModelLookup[rpc.t] = vm;
+            }
+
+            this.description = ko.computed(() => {
+                var d = this.junction.name + ". ";
+                $.each(this._poiTypeViewModels, (i, item) => {
+                    d += " " + item.poiCountStringWithLabel();
+                });
+                d += " within 5 mile travel distance";
+                return d;
+            });
 
             this.etaString = ko.computed(() => {
                 var s = Utils.getTimeString(this.eta());
@@ -77,69 +85,23 @@ module StopByStop {
         public description: KnockoutComputed<string>;
 
         public onPoiVisibilityUpdated(): void {
-        }
+            $.each(this._poiTypeViewModels, (i, item) => item.visiblePois.removeAll());
 
-        public applyFilter(filter: FilterViewModel): void {
-            this.visibleGasPois.removeAll();
-            this.visibleFoodPois.removeAll();
-
+            var visible = false;
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
-
-
-
-                poi.poi.visible(false);
-                var maxDistanceFromJunction = parseInt(filter.maxDistanceFromJunction(), 10);
-                if (poi.poi.poiType === PoiType.Food && filter.showRestaurants() &&
-                    poi.dfe <= maxDistanceFromJunction) {
-                    var poiFoodCategories = poi.poi.poiCategoryIDs;
-
-                    // in some cases as was discovered poiFoodCategories can be null
-                    // see if categories are specified and if not then add poi anyway
-                    if (poiFoodCategories && poiFoodCategories.length > 0) {
-                        for (var k = 0; k < poiFoodCategories.length; k++) {
-                            if (filter.isFoodCategoryVisible(poiFoodCategories[k])) {
-                                this.visibleFoodPois().push(poi);
-                                poi.poi.visible(true);
-                                break;
-                            }
-                        }
-                    } else {
-                        this.visibleFoodPois().push(poi);
-                        poi.poi.visible(true);
-                    }
-                } else if (poi.poi.poiType === PoiType.Gas && filter.showGasStations() &&
-                    poi.dfe <= maxDistanceFromJunction) {
-                    // TODO: understand why it we may ever end up in this situation
-                    this.visibleGasPois().push(poi);
-                    poi.poi.visible(true);
+                if (poi.poi.visible()) {
+                    this._poiTypeViewModelLookup[poi.type].visiblePois.push(poi);
+                    visible = true;
                 }
             }
 
-            this.visible((this.visibleFoodPois().length > 0 || this.visibleGasPois().length > 0));
-
-            this.closestFoodPoiDistance(this.visibleFoodPois().length > 0 ? Utils.getMileString(this.visibleFoodPois()[0].dfe) : "");
-            this.closestGasPoiDistance(this.visibleGasPois().length > 0 ? Utils.getMileString(this.visibleGasPois()[0].dfe) : "");
-
-            this.gasPoiCountString(this.visibleGasPois().length > 9 ? "9+" : this.visibleGasPois().length.toString());
-            this.foodPoiCountString(this.visibleFoodPois().length > 9 ? "9+" : this.visibleFoodPois().length.toString());
+            $.each(this._poiTypeViewModels, (i,item)=>item.update());
+            this.visible(visible);
         }
 
         public navigateToExitPage(): void {
             Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
         }
-
-        public navigateToExitFoodPage(): void {
-            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), PoiType.Food);
-        }
-
-
-        public navigateToExitGasPage(): void {
-            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString(), PoiType.Gas);
-        }
-
-
     }
-
-
 }

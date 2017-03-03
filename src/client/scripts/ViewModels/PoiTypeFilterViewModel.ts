@@ -10,7 +10,7 @@
 module StopByStop {
     export class PoiTypeFilterViewModel {
         private _metadata: IMetadata;
-
+        private _pois: IPoi[];
 
         constructor(poiType: PoiType, metadata: IMetadata) {
             this._metadata = metadata;
@@ -18,9 +18,15 @@ module StopByStop {
             this.type = poiType;
 
             this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", i: "" });
+            this._pois = [];
         }
 
-        public addPropertiesFromPoi(poi: IPoi): void {
+        public updatePoisVisibility():void{
+
+        }
+
+        public initWithPoi(poi: IPoi): void {
+            
             var categoryValues = poi.c;
             for (var i = 0; i < categoryValues.length; i++) {
                 var category = this._metadata.c[categoryValues[i]];
