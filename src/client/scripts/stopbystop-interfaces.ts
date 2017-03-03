@@ -51,7 +51,7 @@ module StopByStop {
         durl: string;
         /** base image url */
         iurl: string;
-        
+
     }
 
     export interface ILocation {
@@ -131,12 +131,6 @@ module StopByStop {
     export interface IPoiCategory {
         /** sbsid */
         id: string;
-        /** type */
-        t: string;
-        /** yid */
-        yid: string;
-        /** parent IDs */
-        p: string[];
         /** name */
         n: string;
     }
@@ -179,11 +173,6 @@ module StopByStop {
         etr: string;
         /** pois */
         p: IPoiOnJunction[];
-        /** food poi categories */
-        fcat: IPoiCategoryOccurrence[];
-        /** top level food categories */
-        tfcat: string[];
-
     }
 
     export interface IRouteJunction {
@@ -196,9 +185,11 @@ module StopByStop {
     }
 
     export enum PoiType {
-        General = 0,
-        Gas = 1,
-        Food = 2
+        Restaurants = 1,
+        GasStations = 2,
+        Hotels = 4,
+        Sights = 8,
+        All = Restaurants | GasStations | Hotels | Sights
     }
 
     export interface IRoute {
@@ -216,10 +207,6 @@ module StopByStop {
         t: number;
         /** route segments */
         s: IRouteSegment[];
-        /** food poi categories */
-        fcat: IPoiCategoryOccurrence[];
-        /** top level food poi categories */
-        tfcat: string[];
     }
 
     export enum SBSPage {
@@ -246,4 +233,53 @@ module StopByStop {
         /** POI type **/
         poiType?: PoiType;
     }
+
+    export interface IPoiPropertyMetadata {
+        id: string;
+        /** name **/
+        n: string;
+        /** icon id **/
+        i: string;
+        /** values by id **/
+        v: { [id: number]: IPoiPropertyValueMetadata };
+        /** is primary property **/
+        fp: boolean;
+    }
+
+    export interface IPoiPropertyValueMetadata {
+        /** id **/
+        id: number;
+        /** name **/
+        n: string;
+    }
+
+    export interface IRootPoiCategory {
+        id: string;
+
+        t: PoiType;
+        /** category id **/
+        c: number;
+
+        /** show subcategories in filters **/
+        scf: boolean;
+
+        /** name **/
+        n: string;
+
+        /** icon id **/
+        iid: string;
+
+        /** property metadata **/
+        p: IPoiPropertyMetadata[];
+    }
+
+    export interface IMetadata {
+        /** category metadata */
+        c: { [id: number]: IPoiCategory };
+        /** root categories **/
+        rpc: { [id: number]: IRootPoiCategory };
+        /** property metadata */
+        ppm: { [id: string]: IPoiPropertyMetadata };
+    }
+
 }

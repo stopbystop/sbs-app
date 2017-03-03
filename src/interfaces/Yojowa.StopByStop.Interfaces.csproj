@@ -71,7 +71,7 @@
     <Compile Include="PoiDataKind.cs" />
     <Compile Include="PoiImage.cs" />
     <Compile Include="PoiOnJunction.cs" />
-    <Compile Include="PoiProperty.cs" />
+    <Compile Include="PoiPropertyMetadata.cs" />
     <Compile Include="PoiType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Review.cs" />
