@@ -20,7 +20,9 @@ module StopByStop {
         public routeJunction: RouteJunctionViewModel;
         public junctionMapViewModel: JunctionMapViewModel;
 
+        
         protected loadFullPoiData() {
+            /*
             if (this._locationToLoadIndex < this._poiLocations.length) {
                 var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
 
@@ -40,7 +42,9 @@ module StopByStop {
                         this.loadFullPoiData();
                     });
             }
+            */
         }
+
     };
 
     export class JunctionSPAAppViewModel extends JunctionAppBaseViewModel {
@@ -84,6 +88,8 @@ module StopByStop {
                 this.filter.typeFiltersLookup[poiType].isOn(parseInt(poiType) === poiTypeToShow);
             }
 
+            this.filter.onFilterUpdated = ()=>this.routeJunction.onPoiVisibilityUpdated();
+
             var junctionLocationViewModel = this.routeJunction.junction.location;
 
             this._poiLocations = LocationViewModel.getGridLocations({
@@ -93,6 +99,7 @@ module StopByStop {
 
             this.loadFullPoiData();
         };
+
 
         public initMap(mapDiv: Element, mapContainerDiv: Element): JunctionMapViewModel {
             this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);

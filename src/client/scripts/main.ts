@@ -8,7 +8,7 @@
 /// <reference path="WebInit.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
 /// <reference path="ViewModels/IStopPlace.ts"/>
-/// <reference path="ViewModels/PoiCategoryViewModel.ts"/>
+/// <reference path="ViewModels/PoiTypeFilterViewModel.ts"/>
 /// <reference path="ViewModels/FilterViewModel.ts"/>
 /// <reference path="ViewModels/PoiImageViewModel.ts"/>
 /// <reference path="ViewModels/ReviewGroupViewModel.ts"/>
@@ -17,6 +17,7 @@
 /// <reference path="ViewModels/RouteStopViewModel.ts"/>
 /// <reference path="ViewModels/RoutePlanViewModel.ts"/>
 /// <reference path="ViewModels/JunctionViewModel.ts"/>
+/// <reference path="ViewModels/RouteJunctionPoiTypeViewModel.ts"/>
 /// <reference path="ViewModels/RouteJunctionViewModel.ts"/>
 /// <reference path="ViewModels/RouteSegmentViewModel.ts"/>
 /// <reference path="ViewModels/RouteViewModel.ts"/>

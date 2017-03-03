@@ -9,17 +9,10 @@ module StopByStop {
         SPA = 1
     }
 
-
-
     export interface IInitUrls {
         BaseUrl: string;
         BaseImageUrl: string;
         RouteUrl: string;
-
-        RouteDataUrl: string;
-        PlacesUrl: string;
-        PoiUrl: string;
-        PlacesNearbyUrl: string;
 
         RouteDataUrlV2: string;
         PlacesUrlV2: string;
@@ -56,6 +49,8 @@ module StopByStop {
         durl: string;
         /** base image url */
         iurl: string;
+        /** metadata */
+        m: IMetadata;
 
     }
 
@@ -160,6 +155,8 @@ module StopByStop {
         dfj: number;
         /** poi */
         p: IPoi;
+        /** visibility flag */
+        v: boolean;
 
     }
 

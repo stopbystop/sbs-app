@@ -62,8 +62,10 @@ module StopByStop {
         public editedStop: KnockoutObservable<RouteStopViewModel>;
 
         public getOrCreateStop(placeObj: IStopPlace, reloadFromCache: boolean = false): RouteStopViewModel {
+            
             /* Ensure that object only contains members that are part of IStopPlace interface,
                as this is about to be serialized. Is there a better way to do it? */
+
             var place: IStopPlace = {
                 dfe: placeObj.dfe,
                 dtefrs: placeObj.dtefrs,
@@ -73,7 +75,7 @@ module StopByStop {
                 lat: placeObj.lat,
                 lon: placeObj.lon,
                 name: placeObj.name,
-                type: placeObj.type || PoiType.Food
+                type: placeObj.type
             };
 
             var sbsid = place.id;

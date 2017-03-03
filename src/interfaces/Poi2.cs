@@ -55,13 +55,22 @@
 
                         case PoiPropertyType.PrimaryMultipleChoice:
                             PoiPropertyMetadata propertyMetadata = metadata[prop.Item1.ID];
-                            string[] values = (string[])prop.Item2;
 
                             List<int> ids = new List<int>();
-                            foreach (var val in values)
+
+                            string[] values = (string[])prop.Item2;
+
+                            if (values == null)
                             {
-                                int valId = propertyMetadata.ValuesByName[val].ID;
-                                ids.Add(valId);
+                                ids.Add(0);
+                            }
+                            else
+                            {
+                                foreach (var val in values)
+                                {
+                                    int valId = propertyMetadata.ValuesByName[val].ID;
+                                    ids.Add(valId);
+                                }
                             }
 
                             this.PrimaryProperties.Add(prop.Item1.ID, ids.ToArray());

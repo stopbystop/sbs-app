@@ -84,20 +84,22 @@ module StopByStop {
         public hasStops: KnockoutComputed<boolean>;
         public description: KnockoutComputed<string>;
 
-        public onPoiVisibilityUpdated(): void {
+        public onPoiVisibilityUpdated(): boolean {
             $.each(this._poiTypeViewModels, (i, item) => item.visiblePois.removeAll());
-
+            var junctionVisibilityChanged = false;
             var visible = false;
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
-                if (poi.poi.visible()) {
+                if (poi.obj.v) {
                     this._poiTypeViewModelLookup[poi.type].visiblePois.push(poi);
                     visible = true;
                 }
             }
 
             $.each(this._poiTypeViewModels, (i,item)=>item.update());
+            junctionVisibilityChanged =  this.visible() !== visible;
             this.visible(visible);
+            return junctionVisibilityChanged;
         }
 
         public navigateToExitPage(): void {

@@ -13,13 +13,11 @@
 
     public class MainModel
     {
-        private Metadata metadata;
-
         public MainModel(Metadata metadata, UrlHelper urlHelper)
         {
             this.BaseDataUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
             this.BaseImageUrl = RenderHelper.GetCDNUrl("/client/content/v1/icons/");
-            this.metadata = metadata;
+            this.Metadata = metadata;
         }
 
         [JsonProperty("p")]
@@ -48,6 +46,9 @@
 
         [JsonProperty("d")]
         public string Description { get; private set; }
+
+        [JsonProperty("m")]
+        public Metadata Metadata { get; private set; }
 
         public void GenerateTitleAndDescription()
         {
@@ -114,7 +115,7 @@
 
                   
                     string poiTypeCountDescription = string.Join(" ", categoryCounts
-                        .Select(cc => metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item1)));
+                        .Select(cc => Metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item1)));
 
 
                     if (this.Page == ClientPage.Route)
@@ -132,7 +133,7 @@
                     if (this.Page == ClientPage.Exit)
                     {
                         string exitPoiTypeCountDescription = string.Join(" ", categoryCounts
-                         .Select(cc => metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item2)));
+                         .Select(cc => Metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item2)));
                         this.Title = string.Format("{0} on the way from {1} to {2} - Stop by Stop", exitName, fromLocation, toLocation);
                         this.Description = string.Format("{0} on the way from {1} to {2} has {4} within 5 miles from exit",
                             exitName, fromLocation, toLocation, exitPoiTypeCountDescription);

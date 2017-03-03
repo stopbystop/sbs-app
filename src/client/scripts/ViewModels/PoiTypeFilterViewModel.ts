@@ -3,30 +3,57 @@
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="../Telemetry.ts"/>
-/// <reference path="PoiCategoryViewModel.ts"/>
 
 "use strict";
 
 module StopByStop {
     export class PoiTypeFilterViewModel {
         private _metadata: IMetadata;
-        private _pois: IPoi[];
+        private _pois: IPoiOnJunction[];
+        private _maxDistanceFromJunction: number;
+        private _filter: FilterViewModel;
 
-        constructor(poiType: PoiType, metadata: IMetadata) {
+        constructor(poiType: PoiType, metadata: IMetadata, filter: FilterViewModel) {
             this._metadata = metadata;
             this.isOn = ko.observable(true);
             this.type = poiType;
 
-            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", i: "" });
+            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", i: "" }, this);
+            this.propertyEnablementLookup = {};
+            this.propertyList = [];
             this._pois = [];
         }
 
-        public updatePoisVisibility():void{
+        public updatePoisVisibility(maxDistanceFromJunction?: number, notifyParentFilter: boolean = true): void {
+            this._maxDistanceFromJunction = maxDistanceFromJunction || this._maxDistanceFromJunction;
 
+            $.each(this._pois, (i, poi) => {
+                var v = true;
+                if (poi.dfj > maxDistanceFromJunction) {
+                    v = false;
+                } else if (!this.categoryFilter.isOn(poi.p.c)) {
+                    v = false;
+                } else {
+                    $.each(this.propertyList, (i2, prop) => {
+                        if (!prop.isOn(<number[]>poi.p.pp[prop.id])) {
+                            v = false;
+                        }
+                    });
+                }
+
+                poi.v = v;
+
+            });
+
+            if (notifyParentFilter) {
+                this._filter.onFilterUpdated();
+            }
         }
 
-        public initWithPoi(poi: IPoi): void {
-            
+        public initWithPoi(poiOnJuntion: IPoiOnJunction): void {
+            this._pois.push(poiOnJuntion);
+
+            var poi = poiOnJuntion.p;
             var categoryValues = poi.c;
             for (var i = 0; i < categoryValues.length; i++) {
                 var category = this._metadata.c[categoryValues[i]];
@@ -37,13 +64,17 @@ module StopByStop {
 
             // add property
             for (var prop in poi.pp) {
-                if (!this.propertyEnablementLookup[prop]) {
-                    var propertyFilterViewModel = new MultiValueFilterViewModel(this._metadata.ppm[prop]);
-                    this.propertyEnablementLookup[prop] = propertyFilterViewModel;
-                    this.propertyList.push(propertyFilterViewModel);
+                // is it a property described in metadata?
+                if (this._metadata.ppm[prop]) {
+                    if (!this.propertyEnablementLookup[prop]) {
+                        var propertyFilterViewModel = new MultiValueFilterViewModel(this._metadata.ppm[prop], this);
+                        this.propertyEnablementLookup[prop] = propertyFilterViewModel;
+                        this.propertyList.push(propertyFilterViewModel);
+                    }
+                    $.each(poi.pp[prop], (i, propertyValue) => {
+                        this.propertyEnablementLookup[prop].addValue(this._metadata.ppm[prop].v[propertyValue]);
+                    });
                 }
-
-                this.propertyEnablementLookup[prop].addValue(this._metadata.ppm[prop].v[poi.pp[prop]]);
             }
         }
 
@@ -53,7 +84,7 @@ module StopByStop {
         public propertyEnablementLookup: { [id: string]: MultiValueFilterViewModel };
         public propertyList: MultiValueFilterViewModel[];
 
-        public getCategoriesEnablement(): { [id: number]: boolean }{
+        public getCategoriesEnablement(): { [id: number]: boolean } {
             return this.categoryFilter.getValuesEnablement();
         }
 
@@ -61,7 +92,7 @@ module StopByStop {
             this.categoryFilter.setValuesEnablement(enablement);
         }
 
-        public getPropertiesEnablement(): {[id:string]:{ [id: number]: boolean }} {
+        public getPropertiesEnablement(): { [id: string]: { [id: number]: boolean } } {
             var propertiesEnablement: { [id: string]: { [id: number]: boolean } } = {};
             $.each(this.propertyList, (i, item) => propertiesEnablement[item.id] = item.getValuesEnablement());
             return propertiesEnablement;
@@ -93,18 +124,20 @@ module StopByStop {
     }
 
     export class MultiValueFilterViewModel {
+        private _filter: PoiTypeFilterViewModel;
 
-        constructor(p: IPoiPropertyMetadata) {
+        constructor(p: IPoiPropertyMetadata, filter: PoiTypeFilterViewModel) {
             this.valueEnablementLookup = {};
             this.valueList = [];
             this.name = p.n;
             this.iconId = p.i;
             this.id = p.id;
+            this._filter = filter;
         }
 
         public addValue(pv: IPoiPropertyValueMetadata) {
             if (!this.valueEnablementLookup[pv.id]) {
-                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n);
+                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n, this._filter);
                 this.valueEnablementLookup[pv.id] = valueFilterViewModel;
                 this.valueList.push(valueFilterViewModel);
             }
@@ -116,6 +149,18 @@ module StopByStop {
         public allValuesSelected: KnockoutObservable<boolean> = ko.observable(false);
         public valueEnablementLookup: { [id: number]: ValueFilterViewModel };
         public valueList: ValueFilterViewModel[];
+
+        public isOn(values: number[]): boolean {
+            var on: boolean = false;
+
+            $.each(values, (i, val) => {
+                if (this.valueEnablementLookup[val].isOn()) {
+                    on = true;
+                }
+            });
+
+            return on;
+        }
 
         public getValuesEnablement(): { [id: number]: boolean } {
             var valuesEnablement: { [id: number]: boolean } = {};
@@ -154,12 +199,19 @@ module StopByStop {
     }
 
     export class ValueFilterViewModel {
-        constructor(id: number, name:string) {
+
+        private _filter: PoiTypeFilterViewModel;
+
+        constructor(id: number, name: string, filterViewModel: PoiTypeFilterViewModel) {
             this.id = id;
             this.isOn = ko.observable(true);
             this.count = ko.observable(0);
             this.tempCount = 0;
             this.name = name;
+            this._filter = filterViewModel;
+            this.isOn.subscribe((newValue) => {
+                this._filter.updatePoisVisibility();
+            })
         }
 
         public id: number;

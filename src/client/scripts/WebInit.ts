@@ -36,7 +36,8 @@ module StopByStop {
                     routeId: webInitData.rid
                 },
                 historyDisabled: true,
-                windowOpenTarget: "_blank"
+                windowOpenTarget: "_blank",
+                metadata: webInitData.m
             };
 
             Init.initialize(appState);

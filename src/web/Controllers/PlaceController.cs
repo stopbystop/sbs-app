@@ -17,22 +17,18 @@ namespace Yojowa.StopByStop.Web.Controllers
         public JsonResult Index(string id)
         {
             throw new NotImplementedException("TODO: redirect");
-
-            /*
-            if (!string.IsNullOrEmpty(id))
-            {
-                return Json(StopByStopService.PlacesServiceInstance.FindPlacesByPartialMatch(id, 10), JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(new GeoPlace[0], JsonRequestBehavior.AllowGet);
-            */
         }
 
         [HttpGet]
         [Route("placev2/{id}")]
         public JsonResult IndexV2(string id)
         {
-            throw new NotImplementedException("TODO: implement");
+            if (!string.IsNullOrEmpty(id))
+            {
+                return Json(StopByStopService.PlacesServiceInstance.FindPlacesByPartialMatch(id, 10), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new GeoPlace[0], JsonRequestBehavior.AllowGet);
         }
 
 
@@ -41,17 +37,13 @@ namespace Yojowa.StopByStop.Web.Controllers
         public JsonResult PlacesNearby(double lat, double lon)
         {
             throw new NotImplementedException("TODO: redirect");
-
-            /*
-            return Json(StopByStopService.PlacesServiceInstance.FindPlacesInArea(new Location(lat, lon), 10), JsonRequestBehavior.AllowGet);
-            */
         }
 
         [HttpGet]
-        [Route("placesnearbyv2/{id}")]
+        [Route("placesnearbyv2/{lat}/{lon}")]
         public JsonResult PlacesNearbyV2(double lat, double lon)
         {
-            throw new NotImplementedException("TODO: implement");
+            return Json(StopByStopService.PlacesServiceInstance.FindPlacesInArea(new Location(lat, lon), 10), JsonRequestBehavior.AllowGet);
         }
     }
 }

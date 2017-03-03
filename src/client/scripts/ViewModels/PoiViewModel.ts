@@ -14,7 +14,7 @@ module StopByStop {
         constructor(obj: IPoi) {
             this._obj = obj;
 
-            this.sbsid = this._obj.id;
+            this.id = this._obj.id;
             this.poiCategoryIDs = this._obj.c;
             this.poiType = this._obj.pt;
             this.name = this._obj.n;
@@ -22,31 +22,15 @@ module StopByStop {
             this.location = new LocationViewModel(this._obj.l);
             this.visible = ko.observable(true);
 
-            this.telPhoneString = "";
-            if (this.sbsid.indexOf("y_") === 0) {
-                this.telPhoneString = this.sbsid.substr(2);
-            }
+            this.telPhoneString = this._obj.p;
 
             this.isYInfoLoading = ko.observable(true);
             this.yUrl = ko.observable("#");
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
-
-            /*
-            if (this._obj.i) {
-                this.images = ko.observableArray($.map(this._obj.i, (valueOfElement: IPoiImage, indexInArray: number) =>
-                    new PoiImageViewModel(valueOfElement)));
-            }
-            */
-
-            /*
-            if (this._obj.rg) {
-                this.reviewGroups = ko.observableArray($.map(this._obj.rg, (valueOfElement: IReviewGroup, indexInArray: number) =>
-                    new ReviewGroupViewModel(valueOfElement)));
-            }
-            */
         }
 
+        /*
         public updateYInfo(poi: IPoi): void {
             if (poi.rg && poi.rg.length > 0) {
                 this.yUrl(poi.rg[0].u);
@@ -55,9 +39,10 @@ module StopByStop {
                 this.isYInfoLoading(false);
             }
         }
+        */
 
-        public sbsid: string;
-        public poiCategoryIDs: string[];
+        public id: number;
+        public poiCategoryIDs: number[];
         public poiType: PoiType;
         public name: string;
         public description: KnockoutObservable<string>;
@@ -70,10 +55,6 @@ module StopByStop {
         public yStarClass: KnockoutObservable<string>;
         public yReviewCountString: KnockoutObservable<string>;
 
-        /*
-        public images: KnockoutObservableArray<PoiImageViewModel>;  
-        public reviewGroups: KnockoutObservableArray<ReviewGroupViewModel>;
-        */
 
         private static getReviewsString(reviewCount: number):string {
             if (reviewCount === 0) {

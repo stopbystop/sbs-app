@@ -11,24 +11,24 @@
 "use strict";
 module StopByStop {
     export class PoiOnJunctionViewModel implements IStopPlace {
-        private _obj: IPoiOnJunction;
         private _app: IAppViewModel;
 
         constructor(obj: IPoiOnJunction, exit: IRouteJunction, app: IAppViewModel) {
-            this._obj = obj;
+            this.obj = obj;
             this._app = app;
-            this.id = this._obj.id;
-            this.dfe = this._obj.dfj;
+            this.id = this.obj.id;
+            this.dfe = this.obj.dfj;
             this.dtefrs = exit.dfrs;
             this.exitId = exit.j.oid.toString();
             this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " miles from exit";
-            this.poi = new PoiViewModel(this._obj.p);
+            this.poi = new PoiViewModel(this.obj.p);
             this.name = this.poi.name;
             this.lat = this.poi.location.lat;
             this.lon = this.poi.location.lon;
             this.type = obj.p.pt;  
         }
 
+        public obj: IPoiOnJunction;
         public id: string;
         public exitId: string;
         public name: string;

@@ -23,11 +23,12 @@ module StopByStop {
 
                 $.each(route.s, (i, v: IRouteSegment) => rjs.push(...v.j));
 
-                this.filter = new FilterViewModel(route.rid, rjs);
+                this.filter = new FilterViewModel(route.rid, rjs, AppState.current.metadata);
+                this.filter.onFilterUpdated = this.onPoiFilterUpdated;
                 this.routePlan = new RoutePlanViewModel(this._route.rid, this._route.d, new LocationViewModel(route.tl));
 
                 this.isRouteLoading(false);
-                this.route = new RouteViewModel(this._route, this, this.filter, initSettings, () => {
+                this.route = new RouteViewModel(this._route, this, initSettings, () => {
 
                     if (initSettings.app === SBSApp.Web) {
                         this.routePlan.loadStopsFromStorage();
@@ -61,6 +62,22 @@ module StopByStop {
             if (this.route && this.route.sideBar) {
                 this.route.sideBar.postInit();
             }
+        }
+
+        public onPoiFilterUpdated(): void {
+            $.each(this.route.routeSegments(), (i, rs) => {
+                var atLeastOneJunctionVisibilityChanged = false;
+                $.each(rs.routeJunctions, (i2, rj) => {
+                    var junctionVisibilityChanged = rj.onPoiVisibilityUpdated();
+                    if (junctionVisibilityChanged) {
+                        atLeastOneJunctionVisibilityChanged = true;
+                    }
+                });
+
+                if (atLeastOneJunctionVisibilityChanged) {
+                    rs.onJunctionVisibilityUpdated();
+                }
+            });
         }
     }
 }

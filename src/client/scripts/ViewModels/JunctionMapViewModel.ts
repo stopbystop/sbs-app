@@ -31,7 +31,7 @@ module StopByStop {
                         }, 500);
                     }, 300);
                 }
-            } 
+            }
         }
 
         public initMapDiv(): void {
@@ -54,7 +54,7 @@ module StopByStop {
             var junctionMarker = new google.maps.Marker({
                 position: junctionPoint,
                 map: this.map,
-                icon: this.urls.MapExitIconUrl
+                icon: this.urls.BaseImageUrl + "icons/exit_map.png"
             });
 
             this.createPois();
@@ -95,7 +95,7 @@ module StopByStop {
                         });
                         poiMarker["iw"] = gmapsInfoWindow;
 
-                        
+
                         poi.poi.isYInfoLoading.subscribe(() => {
                             ko.cleanNode($("#poiPopupTemplate")[0]);
                             ko.applyBindings(poi, $("#poiPopupTemplate")[0]);

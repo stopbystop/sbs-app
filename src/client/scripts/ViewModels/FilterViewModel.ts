@@ -3,7 +3,6 @@
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
 /// <reference path="../Telemetry.ts"/>
-/// <reference path="PoiCategoryViewModel.ts"/>
 /// <reference path="PoiTypeFilterViewModel.ts"/>
 
 "use strict";
@@ -16,7 +15,7 @@ module StopByStop {
         public routeId: string;
         public typeFiltersList: PoiTypeFilterViewModel[];
         public typeFiltersLookup: {[id:number]: PoiTypeFilterViewModel};
-
+        public onFilterUpdated:()=>void;
 
         // this setting is necessary because for Exit page we are not preserving showRestaurants and showGasStations to storage, while for route page we are
         public preserveShowAllSettings: boolean;
@@ -25,6 +24,7 @@ module StopByStop {
             this.routeId = routeId;
             this.routeJunctions = rjs;
             this.preserveShowAllSettings = preserveShowAllSettings;
+        
 
             this.typeFiltersList = [];
             this.typeFiltersLookup = {};
@@ -64,8 +64,14 @@ module StopByStop {
 
             this.populate(metadata);
             this.updateCounts();
-            this.maxDistanceFromJunction.subscribe((newValue) => this.updateCounts());
+
+            this.maxDistanceFromJunction.subscribe((newValue) => {
+                $.each (this.typeFiltersList, (i,item)=>item.updatePoisVisibility(parseInt(newValue), false));
+                this.updateCounts();
+                this.onFilterUpdated();
+            });
         }
+
 
         public maxDistanceFromJunction: KnockoutObservable<string>;
 
@@ -94,12 +100,12 @@ module StopByStop {
 
                     var poi = poiOnJunction.p;
                     if (!this.typeFiltersLookup[poi.pt]) {
-                        var typeFilterViewModel = new PoiTypeFilterViewModel(poi.pt, metadata);
+                        var typeFilterViewModel = new PoiTypeFilterViewModel(poi.pt, metadata, this);
                         this.typeFiltersList.push(typeFilterViewModel);
                         this.typeFiltersLookup[poi.pt] = typeFilterViewModel;
                     }
 
-                    this.typeFiltersLookup[poi.pt].addPropertiesFromPoi(poi);
+                    this.typeFiltersLookup[poi.pt].initWithPoi(poiOnJunction);
 
                 }
             }

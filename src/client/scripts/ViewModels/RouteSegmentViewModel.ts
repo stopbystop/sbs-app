@@ -67,9 +67,6 @@ module StopByStop {
             this.maneuver = this._obj.m;
             this.instructions = this._obj.i || "";
             this.instructionsTip = this.instructions.replace(/(<([^>]+)>)/ig, "");
-            
-
-            this.layoutJunctions();
         }
 
 
