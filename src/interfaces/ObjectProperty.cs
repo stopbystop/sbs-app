@@ -2,7 +2,7 @@
 {
     public class PoiProperty
     {
-        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.All, PoiPropertyType propertyType = PoiPropertyType.Excluded)
+        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.all, PoiPropertyType propertyType = PoiPropertyType.Excluded)
         {
             this.DBName = dbName;
             this.DBTypeInfo = dbTypeInfo;
@@ -23,7 +23,7 @@
 
     public class PoiProperty<T> : PoiProperty
     {
-        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.All, PoiPropertyType propertyType = PoiPropertyType.Excluded) : base(id, dbName, dbTypeInfo, appliesTo, propertyType)
+        public PoiProperty(string id, string dbName, string dbTypeInfo, PoiType2 appliesTo = PoiType2.all, PoiPropertyType propertyType = PoiPropertyType.Excluded) : base(id, dbName, dbTypeInfo, appliesTo, propertyType)
         {
         }
     }

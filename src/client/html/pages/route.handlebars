@@ -28,12 +28,13 @@
                                 <div class="route-summary-cell">
                                     <span class="route-description-metric-label">Total Time</span>
                                 </div>
+
+                                <!-- ko foreach: filter.typeFiltersList -->
                                 <div class="route-summary-cell">
-                                    <span class="route-description-metric-label">Restaurants</span>
+                                    <span class="route-description-metric-label" data-bind="text:categoryName"></span>
                                 </div>
-                                <div class="route-summary-cell">
-                                    <span class="route-description-metric-label">Gas stations</span>
-                                </div>
+                                <!-- /ko -->
+
                             </div>
                             <div class="route-description2" style="display:table-row">
                                 <div class="route-summary-cell">
@@ -52,14 +53,13 @@
                                         <span>min</span>
                                     </span>
                                 </div>
+                                <!-- ko foreach: filter.typeFiltersList -->
                                 <div class="route-summary-cell">
-                                    <span class="food-icon"></span>
-                                    <span class="route-description-metric" data-bind="text: filter.filteredFoodCount"></span>
+                                    <span data-bind="css:StopByStop.PoiType[type]+'-icon'"></span>
+                                    <span class="route-description-metric" data-bind="text: filteredCount"></span>
                                 </div>
-                                <div class="route-summary-cell">
-                                    <span class="gas-icon"></span>
-                                    <span class="route-description-metric" data-bind="text: filter.filteredGasStationCount"></span>
-                                </div>
+                                <!-- /ko -->
+
                             </div>
                         </div>
                         <div class="route-description2 miles">
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <div class="pois">
                                                     <div data-bind="foreach: poiTypeViewModels">
-                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+categoryId, attr:{'data-type': poiTypeString}">
+                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+poiTypeString, attr:{'data-type': poiTypeString}">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: poiCountString"></div>
                                                                 <div class="poi-distance-label" data-bind="html: closestPoiDistance"></div>

@@ -193,11 +193,11 @@ module StopByStop {
     }
 
     export enum PoiType {
-        Restaurants = 1,
-        GasStations = 2,
-        Hotels = 4,
-        Sights = 8,
-        All = Restaurants | GasStations | Hotels | Sights
+        restaurants = 1,
+        gasstations = 2,
+        hotels = 4,
+        sights = 8,
+        all = restaurants | gasstations | hotels | sights
     }
 
     export interface IRoute {
@@ -248,8 +248,6 @@ module StopByStop {
         id?: string;
         /** name */
         n: string;
-        /** icon id */
-        i: string;
         /** values by id */
         v?: { [id: number]: IPoiPropertyValueMetadata };
         /** is primary property */
@@ -264,9 +262,9 @@ module StopByStop {
     }
 
     export interface IRootPoiCategory {
-        id: string;
-
+        /** poi type */
         t: PoiType;
+
         /** category id */
         c: number;
 
@@ -275,9 +273,6 @@ module StopByStop {
 
         /** name */
         n: string;
-
-        /** icon id */
-        iid: string;
 
         /** property metadata */
         p: IPoiPropertyMetadata[];

@@ -12,9 +12,6 @@ namespace Yojowa.StopByStop
         [JsonProperty("n")]
         public string Name { get; set; }
 
-        [JsonProperty("i")]
-        public string IconID { get; set; }
-
         [JsonProperty("v")]
         public Dictionary<int, PoiPropertyValueMetadata> ValuesByID { get; set; }
 

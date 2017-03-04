@@ -12,16 +12,19 @@ module StopByStop {
         private _pois: IPoiOnJunction[];
         private _maxDistanceFromJunction: number;
         private _filter: FilterViewModel;
+        private _tempCount: number;
 
         constructor(poiType: PoiType, metadata: IMetadata, filter: FilterViewModel) {
             this._metadata = metadata;
+            this.categoryName = metadata.rpc[PoiType[poiType]].n;
             this.isOn = ko.observable(true);
             this.type = poiType;
 
-            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", i: "" }, this);
+            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", id: "" }, this);
             this.propertyEnablementLookup = {};
             this.propertyList = [];
             this._pois = [];
+            this.filteredCount = ko.observable<number>(0);
         }
 
         public updatePoisVisibility(maxDistanceFromJunction?: number, notifyParentFilter: boolean = true): void {
@@ -78,7 +81,9 @@ module StopByStop {
             }
         }
 
+        public categoryName: string;
         public type: PoiType;
+        public filteredCount: KnockoutObservable<number>;
         public isOn: KnockoutObservable<boolean>;
         public categoryFilter: MultiValueFilterViewModel;
         public propertyEnablementLookup: { [id: string]: MultiValueFilterViewModel };
@@ -103,16 +108,19 @@ module StopByStop {
         }
 
         public resetTempCount(): void {
+            this._tempCount = 0;
             this.categoryFilter.resetTempCount();
             $.each(this.propertyList, (i, item) => item.resetTempCount());
         }
 
         public applyTempCount(): void {
+            this.filteredCount(this._tempCount);
             this.categoryFilter.applyTempCount();
             $.each(this.propertyList, (i, item) => item.applyTempCount());
         }
 
         public incrementTempCountForPoi(poi: IPoi) {
+            this._tempCount++;
             this.categoryFilter.incrementTempCount(poi.c);
             for (var prop in poi.pp) {
                 if (this.propertyEnablementLookup[prop]) {
@@ -130,7 +138,6 @@ module StopByStop {
             this.valueEnablementLookup = {};
             this.valueList = [];
             this.name = p.n;
-            this.iconId = p.i;
             this.id = p.id;
             this._filter = filter;
         }
@@ -145,7 +152,6 @@ module StopByStop {
 
         public id: string;
         public name: string;
-        public iconId: string;
         public allValuesSelected: KnockoutObservable<boolean> = ko.observable(false);
         public valueEnablementLookup: { [id: number]: ValueFilterViewModel };
         public valueList: ValueFilterViewModel[];

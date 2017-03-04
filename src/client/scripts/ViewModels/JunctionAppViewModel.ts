@@ -54,7 +54,7 @@ module StopByStop {
             parentFilter: FilterViewModel,
             routePlan: RoutePlanViewModel,
             metadata: IMetadata,
-            poiTypeToShow: PoiType = PoiType.All
+            poiTypeToShow: PoiType = PoiType.all
         ) {
             super();
             // TODO: here

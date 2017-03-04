@@ -7,10 +7,10 @@
     [Flags]
     public enum PoiType2
     {
-        Restaurants = 1,
-        GasStations = 2,
-        Hotels = 4,
-        Sights = 8,
-        All = Restaurants | GasStations | Hotels | Sights
+        restaurants = 1,
+        gasstations = 2,
+        hotels = 4,
+        sights = 8,
+        all = restaurants | gasstations | hotels | sights
     }
 }

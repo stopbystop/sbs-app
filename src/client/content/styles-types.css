@@ -1,19 +1,24 @@
-﻿/*food type*/
-.exit-food .poi-placename {
+﻿/*restaurants type*/
+
+/*1*/
+.exit-restaurants .poi-placename {
     color: #f15b6a;
 }
 
-.poi-placename-food {
-    background-image: url('v1/icons/food.png');
+/*2*/
+.poi-placename-restaurants {
+    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
     background-color: #f15b6a;
 }
 
-.sbs-cdb .poi-placename-food {
-    background-image: url('../images/food.png');
+/*3*/
+.sbs-cdb .poi-placename-restaurants {
+    background-image: url('../images/restaurants_1.png');
 }
 
-.food {
-    background-image: url('v1/icons/food.png');
+/*4*/
+.restaurants{
+    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
     box-shadow: none;
     background-size: 25px;
     background-repeat: no-repeat;
@@ -22,16 +27,15 @@
     border-radius: 50%;
 }
 
-.sbs-cdb .food {
-    background-image: url('../images/food.png');
+/*5*/
+.sbs-cdb .restaurants {
+    background-image: url('../images/restaurants_1.png');
 }
 
-.sidebar-stop.food .heading {
-    color: #f15b6a;
-}
 
-.food-icon {
-    background-image: url('../images/restaurant-icon.png');
+/*6*/
+.restaurants-icon {
+    background-image: url('../images/restaurants_2.png');
     background-size: 90%;
     height: 29px;
     width: 23px;
@@ -41,27 +45,38 @@
     background-position-x: 2px;
 }
 
-.sbs-web .food-icon {
-    background-image: url('v1/icons/restaurant-icon.png');
+/*7*/
+.sbs-web .restaurants-icon {
+    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+}
+
+/*8*/
+.sidebar-stop.restaurants .heading {
+    color: #f15b6a;
 }
 
 
-/*gas type*/
-.exit-gas .poi-placename {
+
+/*gasstations type*/
+/*1*/
+.exit-gasstations .poi-placename {
     color: #4fc0e8;
 }
 
-.poi-placename-gas {
-    background-image: url('v1/icons/gas.png');
+/*2*/
+.poi-placename-gasstations {
+    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
     background-color: #4fc0e8;
 }
 
-.sbs-cdb .poi-placename-gas {
-    background-image: url('../images/gas.png');
+/*3*/
+.sbs-cdb .poi-placename-gasstations {
+    background-image: url('../images/gasstations_1.png');
 }
 
-.gas {
-    background-image: url('v1/icons/gas.png');
+/*4*/
+.gasstations {
+    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
@@ -70,12 +85,14 @@
     box-shadow: none;
 }
 
-.sbs-cdb .gas {
-    background-image: url('../images/gas.png');
+/*5*/
+.sbs-cdb .gasstations {
+    background-image: url('../images/gasstations_1.png');
 }
 
-.gas-icon {
-    background-image: url('../images/gas-icon.png');
+/*6*/
+.gasstations-icon {
+    background-image: url('../images/gasstations_2.png');
     background-size: 90%;
     height: 29px;
     width: 23px;
@@ -85,10 +102,12 @@
     background-position-x: 2px;
 }
 
-.sbs-web .gas-icon {
-    background-image: url('v1/icons/gas-icon.png');
+/*7*/
+.sbs-web .gasstations-icon {
+    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
 }
 
-.sidebar-stop.gas .heading {
+/*8*/
+.sidebar-stop.gasstations .heading {
     color: #4fc0e8;
 }

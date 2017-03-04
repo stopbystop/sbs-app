@@ -72,13 +72,13 @@
                 ExitId = exitId,
             };
 
-            PoiType2 poiType = PoiType2.All;
+            PoiType2 poiType = PoiType2.all;
 
             if (routeJunction != null)
             {
                 if (!string.IsNullOrEmpty(poiTypeString))
                 {
-                    poiType = metadata.RootPoiCategories.First(rpc => rpc.Value.ID == poiTypeString).Key;
+                    poiType = metadata.RootPoiCategories.First(rpc => rpc.Value.PoiType.ToString() == poiTypeString).Key;
                 }
 
                 model.Page = ClientPage.Exit;

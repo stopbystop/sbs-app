@@ -82,7 +82,8 @@ namespace Yojowa.StopByStop.Web
                         "~/client/content/styles-exit.css",
                         "~/client/content/styles-exit-min24.css",
                         "~/client/content/styles-exit-min32.css",
-                        "~/client/content/styles-exit-min48.css"
+                        "~/client/content/styles-exit-min48.css",
+                         "~/client/content/styles-types.css"
                         );
 
 #if !DEBUG

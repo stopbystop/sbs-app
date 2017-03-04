@@ -18,7 +18,6 @@ module StopByStop {
             this.closestPoiDistance = ko.observable("");
             this.poiCountString = ko.observable("");
             this._junctionViewModel = junctionViewModel;
-            this.categoryId = rootPoiCategory.id;
             this.poiTypeString = PoiType[rootPoiCategory.t].toLowerCase();
 
             this.poiCountStringWithLabel = ko.computed(()=>
@@ -28,7 +27,6 @@ module StopByStop {
         }
 
         public poiTypeString: string;
-        public categoryId: string;
         public visiblePois: KnockoutObservableArray<PoiOnJunctionViewModel>;
         public closestPoiDistance: KnockoutObservable<string>;
         public poiCountString: KnockoutObservable<string>;

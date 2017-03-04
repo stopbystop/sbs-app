@@ -92,7 +92,6 @@ module StopByStop {
         }
 
         private populate(metadata: IMetadata): void {
-            $.each(this.typeFiltersList, (i, item) => item.resetTempCount());
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -126,6 +125,8 @@ module StopByStop {
                     }
                 }
             }
+            $.each(this.typeFiltersList, (i, item) => item.applyTempCount());
+
         };
     }
 }

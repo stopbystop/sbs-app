@@ -22,7 +22,7 @@ module StopByStop {
         constructor(stop: RouteStopViewModel, routePlan: RoutePlanViewModel) {
             this.stop = stop;
             this.routePlan = routePlan;
-            this.poiTypeClass = AppState.current.metadata.rpc[stop.stopPlace.type].id;
+            this.poiTypeClass = PoiType[AppState.current.metadata.rpc[stop.stopPlace.type].t];
             this.top = ko.observable("");
             this.left = ko.observable("");
         }

@@ -56,7 +56,7 @@ module StopByStop {
                                     navigationLocation.exitId = val;
                                     break;
                                 case "poitype":
-                                    navigationLocation.poiType = PoiType.All;
+                                    navigationLocation.poiType = PoiType.all;
                                     if (val) {
                                         navigationLocation.poiType = PoiType[val];
                                     }
