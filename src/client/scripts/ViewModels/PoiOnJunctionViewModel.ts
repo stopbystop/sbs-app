@@ -25,7 +25,7 @@ module StopByStop {
             this.name = this.poi.name;
             this.lat = this.poi.location.lat;
             this.lon = this.poi.location.lon;
-            this.type = obj.p.pt;  
+            this.type = obj.p.t;  
         }
 
         public obj: IPoiOnJunction;

@@ -115,7 +115,7 @@ module StopByStop {
         /** poi category ids */
         c: number[];
         /** poi type */
-        pt: PoiType;
+        t: PoiType;
         /** name */
         n: string;
         /** description */

@@ -99,13 +99,13 @@ module StopByStop {
                     var poiOnJunction = rj.j.p[j];
 
                     var poi = poiOnJunction.p;
-                    if (!this.typeFiltersLookup[poi.pt]) {
-                        var typeFilterViewModel = new PoiTypeFilterViewModel(poi.pt, metadata, this);
+                    if (!this.typeFiltersLookup[poi.t]) {
+                        var typeFilterViewModel = new PoiTypeFilterViewModel(poi.t, metadata, this);
                         this.typeFiltersList.push(typeFilterViewModel);
-                        this.typeFiltersLookup[poi.pt] = typeFilterViewModel;
+                        this.typeFiltersLookup[poi.t] = typeFilterViewModel;
                     }
 
-                    this.typeFiltersLookup[poi.pt].initWithPoi(poiOnJunction);
+                    this.typeFiltersLookup[poi.t].initWithPoi(poiOnJunction);
 
                 }
             }
@@ -122,7 +122,7 @@ module StopByStop {
                     var poiOnJunction = rj.j.p[j];
                     if (poiOnJunction.dfj <= distance) {
                         var poi = poiOnJunction.p;
-                        this.typeFiltersLookup[poi.pt].incrementTempCountForPoi(poi);
+                        this.typeFiltersLookup[poi.t].incrementTempCountForPoi(poi);
                     }
                 }
             }

@@ -12,7 +12,6 @@ module StopByStop {
     export class RouteJunctionViewModel {
 
         private _obj: IRouteJunction;
-        private _poiTypeViewModels: RouteJunctionPoiTypeViewModel[];
         private _poiTypeViewModelLookup: { [id: number]: RouteJunctionPoiTypeViewModel };
 
         constructor(obj: IRouteJunction, routeStartTime: Date, app: IAppViewModel) {
@@ -22,7 +21,7 @@ module StopByStop {
             this.visible = ko.observable(true);
             this.top = ko.observable("");
             this.stops = ko.observableArray<RouteStopViewModel>();
-            this._poiTypeViewModels = [];
+            this.poiTypeViewModels = ko.observableArray<RouteJunctionPoiTypeViewModel>();
             this._poiTypeViewModelLookup = {};
 
 
@@ -40,13 +39,13 @@ module StopByStop {
             for (var rpcId in rootPoiCategories) {
                 var rpc = rootPoiCategories[rpcId];
                 var vm = new RouteJunctionPoiTypeViewModel(rpc, this.junction);
-                this._poiTypeViewModels.push(vm);
+                this.poiTypeViewModels.push(vm);
                 this._poiTypeViewModelLookup[rpc.t] = vm;
             }
 
             this.description = ko.computed(() => {
                 var d = this.junction.name + ". ";
-                $.each(this._poiTypeViewModels, (i, item) => {
+                $.each(this.poiTypeViewModels(), (i, item) => {
                     d += " " + item.poiCountStringWithLabel();
                 });
                 d += " within 5 mile travel distance";
@@ -69,6 +68,8 @@ module StopByStop {
                 return new Date(this.eta().getTime() + totalDetourTime * 1000);
             });
         }
+
+        public poiTypeViewModels: KnockoutObservableArray<RouteJunctionPoiTypeViewModel>;
         public routeJunction: IRouteJunction;
         public distanceFromRouteStartText: KnockoutObservable<string>;
         public junction: JunctionViewModel;
@@ -85,18 +86,18 @@ module StopByStop {
         public description: KnockoutComputed<string>;
 
         public onPoiVisibilityUpdated(): boolean {
-            $.each(this._poiTypeViewModels, (i, item) => item.visiblePois.removeAll());
+            $.each(this.poiTypeViewModels(), (i, item) => item.visiblePois.removeAll());
             var junctionVisibilityChanged = false;
             var visible = false;
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
-                if (poi.obj.v) {
+                if (poi.obj.v === undefined || poi.obj.v === true) {
                     this._poiTypeViewModelLookup[poi.type].visiblePois.push(poi);
                     visible = true;
                 }
             }
 
-            $.each(this._poiTypeViewModels, (i,item)=>item.update());
+            $.each(this.poiTypeViewModels(), (i,item)=>item.update());
             junctionVisibilityChanged =  this.visible() !== visible;
             this.visible(visible);
             return junctionVisibilityChanged;

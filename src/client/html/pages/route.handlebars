@@ -99,18 +99,14 @@
                                                     <span class="time_to_junction_marker" data-bind="text: etaString"></span>
                                                 </div>
                                                 <div class="pois">
-                                                    <a data-bind="visible:visibleGasPois().length > 0, click: navigateToExitGasPage" class="poi gas" data-type="servicestations">
-                                                        <div style="position:relative">
-                                                            <div class="poi-count" data-bind="html: gasPoiCountString"></div>
-                                                            <div class="poi-distance-label" data-bind="html: closestGasPoiDistance"></div>
-                                                        </div>
-                                                    </a>
-                                                    <a data-bind="visible:visibleFoodPois().length > 0, click: navigateToExitFoodPage" class="poi food" data-type="restaurants">
-                                                        <div style="position:relative">
-                                                            <div class="poi-count" data-bind="html: foodPoiCountString"></div>
-                                                            <div class="poi-distance-label" data-bind="html: closestFoodPoiDistance"></div>
-                                                        </div>
-                                                    </a>
+                                                    <div data-bind="foreach: poiTypeViewModels">
+                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+categoryId, attr:{'data-type': poiTypeString}">
+                                                            <div style="position:relative">
+                                                                <div class="poi-count" data-bind="html: poiCountString"></div>
+                                                                <div class="poi-distance-label" data-bind="html: closestPoiDistance"></div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                     <div class="clear"></div>
                                                 </div>
                                             </div>

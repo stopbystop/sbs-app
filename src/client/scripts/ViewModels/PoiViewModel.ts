@@ -16,7 +16,7 @@ module StopByStop {
 
             this.id = this._obj.id;
             this.poiCategoryIDs = this._obj.c;
-            this.poiType = this._obj.pt;
+            this.poiType = this._obj.t;
             this.name = this._obj.n;
             this.description = ko.observable(this._obj.d);
             this.location = new LocationViewModel(this._obj.l);

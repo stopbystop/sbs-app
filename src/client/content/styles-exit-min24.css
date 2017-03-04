@@ -1,15 +1,5 @@
 ﻿@media only all and (min-width: 24em) {
 
-    .pois-list fieldset .list-view {
-      
-    }
-
-    .pois-list fieldset .map-view {
-       
-    }
-    .exit-food, .exit-gas {
-    }
-
     .poi-cat {
         font-size: 1em;
         line-height: 1em;

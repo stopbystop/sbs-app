@@ -89,21 +89,22 @@
 
 .poi-count {
     border-radius: 50%;
-    width: .8em;
-    height: .8em;
     color: #ffffff;
     position: absolute;
     right: 0;
     text-align: center;
     line-height: 1em;
     font-family: 'MontReg',Arial;
-    font-size: .3em;
     font-weight: 100;
     background: #202637;
     border: .2em solid #202637;
     top: 0px;
-    left: 40px;
     float: right;
+    left: 27px;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+    white-space:nowrap;
 }
 
 .poi-distance-label {
@@ -461,13 +462,6 @@ svg image {
 
 .gas, .food {
     background-size: 25px;
-}
-
-.poi-count {
-    left: 27px;
-    width: 1em;
-    height: 1em;
-    font-size: 1em;
 }
 
 .sbs-cdb .food {
