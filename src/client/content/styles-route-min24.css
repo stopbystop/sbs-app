@@ -41,15 +41,6 @@
         font-size: 1em;
     }
 
-    .restaurant-group, .gas-group {
-        display: inline-block;
-    }
-
-    .restaurant-group {
-        width: 100px;
-        margin-right: 35px;
-    }
-
     .route-description2 {
         font-size: 0.8em;
     }

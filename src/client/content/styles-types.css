@@ -1,0 +1,94 @@
+﻿/*food type*/
+.exit-food .poi-placename {
+    color: #f15b6a;
+}
+
+.poi-placename-food {
+    background-image: url('v1/icons/food.png');
+    background-color: #f15b6a;
+}
+
+.sbs-cdb .poi-placename-food {
+    background-image: url('../images/food.png');
+}
+
+.food {
+    background-image: url('v1/icons/food.png');
+    box-shadow: none;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f15b6a;
+    border-radius: 50%;
+}
+
+.sbs-cdb .food {
+    background-image: url('../images/food.png');
+}
+
+.sidebar-stop.food .heading {
+    color: #f15b6a;
+}
+
+.food-icon {
+    background-image: url('../images/restaurant-icon.png');
+    background-size: 90%;
+    height: 29px;
+    width: 23px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: 2px;
+}
+
+.sbs-web .food-icon {
+    background-image: url('v1/icons/restaurant-icon.png');
+}
+
+
+/*gas type*/
+.exit-gas .poi-placename {
+    color: #4fc0e8;
+}
+
+.poi-placename-gas {
+    background-image: url('v1/icons/gas.png');
+    background-color: #4fc0e8;
+}
+
+.sbs-cdb .poi-placename-gas {
+    background-image: url('../images/gas.png');
+}
+
+.gas {
+    background-image: url('v1/icons/gas.png');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #4fc0e8;
+    border-radius: 50%;
+    box-shadow: none;
+}
+
+.sbs-cdb .gas {
+    background-image: url('../images/gas.png');
+}
+
+.gas-icon {
+    background-image: url('../images/gas-icon.png');
+    background-size: 90%;
+    height: 29px;
+    width: 23px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: 2px;
+}
+
+.sbs-web .gas-icon {
+    background-image: url('v1/icons/gas-icon.png');
+}
+
+.sidebar-stop.gas .heading {
+    color: #4fc0e8;
+}

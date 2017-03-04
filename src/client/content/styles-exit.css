@@ -82,13 +82,7 @@
 
 
 
-.exit-food .poi-placename {
-    color: #f15b6a;
-}
 
-.exit-gas .poi-placename {
-    color: #4fc0e8;
-}
 
 .poi-wrapper {
     display: inline-block;
@@ -159,23 +153,6 @@
     background-size: 1.2em;
 }
 
-.poi-placename-food {
-    background-image: url('v1/icons/food.png');
-    background-color: #f15b6a;
-}
-
-.sbs-cdb .poi-placename-food {
-    background-image: url('../images/food.png');
-}
-
-.poi-placename-gas {
-    background-image: url('v1/icons/gas.png');
-    background-color: #4fc0e8;
-}
-
-.sbs-cdb .poi-placename-gas {
-    background-image: url('../images/gas.png');
-}
 
 .poi-typeicon {
     position: absolute;
@@ -362,12 +339,12 @@
     width: 80%;
 }
 
-.poi-placename-food, .poi-placename-gas {
+.poi-placename-type {
     width: 20%;
     background-size: 1.5em;
 }
 
-.exit-food, .exit-gas {
+.exit-type{
     left: 20%;
     width: 80%;
     height: 100%;
