@@ -64,12 +64,17 @@ module StopByStop {
             this._pois.push(poiOnJuntion);
 
             var poi = poiOnJuntion.p;
-            var categoryValues = poi.c;
-            for (var i = 0; i < categoryValues.length; i++) {
-                var category = this._metadata.c[categoryValues[i]];
-                var valueMetadata: IPoiPropertyValueMetadata = { id: category.id, n: category.n };
-                var categoryValue = this.categoryFilter.addValue(valueMetadata);
-                categoryValue.tempCount++;
+            var categoryMetadata = this._metadata.rpc[PoiType[this.type]];
+            if (categoryMetadata.scf) {
+                var categoryValues = poi.c;
+                for (var i = 0; i < categoryValues.length; i++) {
+                    var category = this._metadata.c[categoryValues[i]];
+                    if (category.id !== categoryMetadata.c) {
+                        var valueMetadata: IPoiPropertyValueMetadata = { id: category.id, n: category.n };
+                        var categoryValue = this.categoryFilter.addValue(valueMetadata);
+                        categoryValue.tempCount++;
+                    }
+                }
             }
 
 
