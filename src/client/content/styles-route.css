@@ -337,8 +337,34 @@ svg image {
     padding: 5px;
 }
 
-.filter-dlg .ui-header.ui-bar-inherit h2 {
+.filter-dlg .ui-header.ui-bar-inherit h2 
+{
     text-shadow: none;
+}
+
+.filter-list .ui-checkbox.ui-mini
+{
+    width:115px;
+    margin:3px;
+}
+
+.filter-list .ui-checkbox.ui-mini label
+{
+    padding-right:3px;
+}
+
+.filter-value-list{
+    max-height:100px;
+    overflow:scroll;
+}
+
+.filter-list .filter-list-value
+{
+    max-width: 73px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #route .ui-page-theme-a .ui-btn {

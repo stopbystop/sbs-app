@@ -108,6 +108,8 @@ module StopByStop {
 
                 }
             }
+
+            $.each(this.typeFiltersList, (i, item) => item.sortValuesByOccurrence());
         }
 
 

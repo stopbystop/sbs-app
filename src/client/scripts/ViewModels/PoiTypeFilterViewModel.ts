@@ -20,32 +20,39 @@ module StopByStop {
             this.isOn = ko.observable(true);
             this.type = poiType;
 
-            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", id: "" }, this);
+            this.categoryFilter = new MultiValueFilterViewModel({ n: "Categories", id: "categories" }, this);
             this.propertyEnablementLookup = {};
             this.propertyList = [];
             this._pois = [];
             this.filteredCount = ko.observable<number>(0);
+            this._maxDistanceFromJunction = 3;
+            this._filter = filter;
+
+            this.isOn.subscribe((newValue) => this.updatePoisVisibility());
         }
 
         public updatePoisVisibility(maxDistanceFromJunction?: number, notifyParentFilter: boolean = true): void {
             this._maxDistanceFromJunction = maxDistanceFromJunction || this._maxDistanceFromJunction;
 
             $.each(this._pois, (i, poi) => {
-                var v = true;
-                if (poi.dfj > maxDistanceFromJunction) {
-                    v = false;
-                } else if (!this.categoryFilter.isOn(poi.p.c)) {
-                    v = false;
-                } else {
-                    $.each(this.propertyList, (i2, prop) => {
-                        if (!prop.isOn(<number[]>poi.p.pp[prop.id])) {
-                            v = false;
-                        }
-                    });
+
+                var v = this.isOn();
+
+                if (v) {
+                    if (poi.dfj > maxDistanceFromJunction) {
+                        v = false;
+                    } else if (!this.categoryFilter.isOn(poi.p.c)) {
+                        v = false;
+                    } else {
+                        $.each(this.propertyList, (i2, prop) => {
+                            if (!prop.isOn(<number[]>poi.p.pp[prop.id])) {
+                                v = false;
+                            }
+                        });
+                    }
                 }
 
                 poi.v = v;
-
             });
 
             if (notifyParentFilter) {
@@ -61,7 +68,8 @@ module StopByStop {
             for (var i = 0; i < categoryValues.length; i++) {
                 var category = this._metadata.c[categoryValues[i]];
                 var valueMetadata: IPoiPropertyValueMetadata = { id: category.id, n: category.n };
-                this.categoryFilter.addValue(valueMetadata);
+                var categoryValue = this.categoryFilter.addValue(valueMetadata);
+                categoryValue.tempCount++;
             }
 
 
@@ -75,11 +83,19 @@ module StopByStop {
                         this.propertyList.push(propertyFilterViewModel);
                     }
                     $.each(poi.pp[prop], (i, propertyValue) => {
-                        this.propertyEnablementLookup[prop].addValue(this._metadata.ppm[prop].v[propertyValue]);
+                        var valueViewModel = this.propertyEnablementLookup[prop].addValue(this._metadata.ppm[prop].v[propertyValue]);
+                        valueViewModel.tempCount++;
                     });
                 }
             }
         }
+
+        public sortValuesByOccurrence(): void {
+            this.categoryFilter.sortByOccurrence();
+            $.each(this.propertyList, (i, item) => item.sortByOccurrence());
+        }
+
+      
 
         public categoryName: string;
         public type: PoiType;
@@ -142,12 +158,18 @@ module StopByStop {
             this._filter = filter;
         }
 
-        public addValue(pv: IPoiPropertyValueMetadata) {
+        public addValue(pv: IPoiPropertyValueMetadata): ValueFilterViewModel {
             if (!this.valueEnablementLookup[pv.id]) {
-                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n, this._filter);
+                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n, this, this._filter);
                 this.valueEnablementLookup[pv.id] = valueFilterViewModel;
                 this.valueList.push(valueFilterViewModel);
             }
+
+            return this.valueEnablementLookup[pv.id];
+        }
+
+        public sortByOccurrence(): void {
+            this.valueList.sort((a, b) => b.tempCount - a.tempCount);
         }
 
         public id: string;
@@ -208,18 +230,21 @@ module StopByStop {
 
         private _filter: PoiTypeFilterViewModel;
 
-        constructor(id: number, name: string, filterViewModel: PoiTypeFilterViewModel) {
+        constructor(id: number, name: string, parentCategory: MultiValueFilterViewModel, filterViewModel: PoiTypeFilterViewModel) {
+            this.parentCategory = parentCategory;
             this.id = id;
             this.isOn = ko.observable(true);
             this.count = ko.observable(0);
             this.tempCount = 0;
             this.name = name;
             this._filter = filterViewModel;
+
             this.isOn.subscribe((newValue) => {
                 this._filter.updatePoisVisibility();
             })
         }
 
+        public parentCategory: MultiValueFilterViewModel;
         public id: number;
         public isOn: KnockoutObservable<boolean>;
         public count: KnockoutObservable<number>;
