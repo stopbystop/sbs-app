@@ -63,6 +63,7 @@ module StopByStop {
             }
 
             this.populate(metadata);
+            $.each(this.typeFiltersList, (i, item) => item.updatePoisVisibility(parseInt(this.maxDistanceFromJunction()), false));
             this.updateCounts();
 
             this.maxDistanceFromJunction.subscribe((newValue) => {

@@ -27,6 +27,8 @@ module StopByStop {
             this.propertyList = [];
             this._pois = [];
             this.filteredCount = ko.observable<number>(0);
+            this.filteredCountWithFeatures = ko.observable<number>(0);
+
             this._maxDistanceFromJunction = 3;
             this._filter = filter;
 
@@ -36,12 +38,13 @@ module StopByStop {
         public updatePoisVisibility(maxDistanceFromJunction?: number, notifyParentFilter: boolean = true): void {
             this._maxDistanceFromJunction = maxDistanceFromJunction || this._maxDistanceFromJunction;
 
+            var filteredWithFeatures = 0;
             $.each(this._pois, (i, poi) => {
 
                 var v = this.isOn();
 
                 if (v) {
-                    if (poi.dfj > maxDistanceFromJunction) {
+                    if (poi.dfj > this._maxDistanceFromJunction) {
                         v = false;
                     } else if (this.rootCategory.scf && !this.categoryFilter.isOn(poi.p.c)) {
                         v = false;
@@ -55,7 +58,12 @@ module StopByStop {
                 }
 
                 poi.v = v;
+                if (v) {
+                    filteredWithFeatures++;
+                }
             });
+
+            this.filteredCountWithFeatures(filteredWithFeatures);
 
             if (notifyParentFilter) {
                 this._filter.onFilterUpdated();
@@ -109,6 +117,7 @@ module StopByStop {
         public categoryName: string;
         public type: PoiType;
         public filteredCount: KnockoutObservable<number>;
+        public filteredCountWithFeatures: KnockoutObservable<number>;
         public isOn: KnockoutObservable<boolean>;
         public categoryFilter: MultiValueFilterViewModel;
         public propertyEnablementLookup: { [id: string]: MultiValueFilterViewModel };
@@ -185,7 +194,6 @@ module StopByStop {
         public id: string;
         public name: string;
         public isCollapsed: KnockoutObservable<boolean> = ko.observable(true);
-        public allValuesSelected: KnockoutObservable<boolean> = ko.observable(false);
         public valueEnablementLookup: { [id: number]: ValueFilterViewModel };
         public valueList: ValueFilterViewModel[];
 
@@ -220,12 +228,33 @@ module StopByStop {
         }
 
         public selectAll(): void {
-            $.each(this.valueList, (i, item) => item.isOn(true));
-            this.allValuesSelected(true);
+            
+            $.each(this.valueList, (i, item) => {
+                item.processingBulkUpdate = true;
+                try {
+                    item.isOn(true);
+                }
+                finally {
+                    item.processingBulkUpdate = false;
+                }
+            });
+
+            this.filter.updatePoisVisibility();
         }
+
         public unselectAll(): void {
-            $.each(this.valueList, (i, item) => item.isOn(false));
-            this.allValuesSelected(false);
+
+            $.each(this.valueList, (i, item) => {
+                item.processingBulkUpdate = true;
+                try {
+                    item.isOn(false);
+                }
+                finally {
+                    item.processingBulkUpdate = false;
+                }
+            });
+
+            this.filter.updatePoisVisibility();
         }
 
         public resetTempCount(): void {
@@ -257,9 +286,12 @@ module StopByStop {
             this.tempCount = 0;
             this.name = name;
             this._filter = filterViewModel;
+            this.processingBulkUpdate = false;
 
             this.isOn.subscribe((newValue) => {
-                this._filter.updatePoisVisibility();
+                if (!this.processingBulkUpdate) {
+                    this._filter.updatePoisVisibility();
+                }
             })
         }
 
@@ -269,5 +301,6 @@ module StopByStop {
         public count: KnockoutObservable<number>;
         public tempCount: number;
         public name: string;
+        public processingBulkUpdate: boolean;
     }
 }

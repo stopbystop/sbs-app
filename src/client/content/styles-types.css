@@ -58,88 +58,88 @@
 /*9: feature icons*/
 
 /* category */
-.restaurants-c-icon-w{
+.restaurants-c-icon-w, .ui-icon-restaurants-c-icon-w:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
 }
 
-.sbs-cdb .restaurants-c-icon-w {
+.sbs-cdb .restaurants-c-icon-w, .sbs-cdb .ui-icon-restaurants-c-icon-w:after  {
     background-image: url('../images/restaurants_1.png');
 }
 
-.restaurants-c-icon-a{
+.restaurants-c-icon-a, .ui-icon-restaurants-c-icon-a:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
 }
 
-.sbs-cdb .restaurants-c-icon-a {
+.sbs-cdb .restaurants-c-icon-a, .sbs-cdb .ui-icon-restaurants-c-icon-a:after  {
     background-image: url('../images/restaurants_2.png');
 }
 
 
 /* feature:mt*/
-.restaurants-p-mt-icon-w{
+.restaurants-p-mt-icon-w, .ui-icon-restaurants-p-mt-icon-w:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_mt_1.png');
 }
 
-.sbs-cdb .restaurants-p-mt-icon-w {
+.sbs-cdb .restaurants-p-mt-icon-w, .sbs-cdb .ui-icon-restaurants-p-mt-icon-w:after  {
     background-image: url('../images/restaurants_mt_1.png');
 }
 
-.restaurants-p-mt-icon-a{
+.restaurants-p-mt-icon-a, .ui-icon-restaurants-p-mt-icon-a:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_mt_2.png');
 }
 
-.sbs-cdb .restaurants-p-mt-icon-a {
+.sbs-cdb .restaurants-p-mt-icon-a, .sbs-cdb .ui-icon-restaurants-p-mt-icon-a:after  {
     background-image: url('../images/restaurants_mt_2.png');
 }
 
 /* feature:f*/
-.restaurants-p-f-icon-w{
+.restaurants-p-f-icon-w, .ui-icon-restaurants-p-f-icon-w:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_f_1.png');
 }
 
-.sbs-cdb .restaurants-p-f-icon-w {
+.sbs-cdb .restaurants-p-f-icon-w, .sbs-cdb .ui-icon-restaurants-p-f-icon-w:after  {
     background-image: url('../images/restaurants_f_1.png');
 }
 
-.restaurants-p-f-icon-a{
+.restaurants-p-f-icon-a, .ui-icon-restaurants-p-f-icon-a:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_f_2.png');
 }
 
-.sbs-cdb .restaurants-p-f-icon-a {
+.sbs-cdb .restaurants-p-f-icon-a, .sbs-cdb .ui-icon-restaurants-p-f-icon-a:after  {
     background-image: url('../images/restaurants_f_2.png');
 }
 
 /* feature:gf*/
-.restaurants-p-gf-icon-w{
+.restaurants-p-gf-icon-w, .ui-icon-restaurants-p-gf-icon-w:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_gf_1.png');
 }
 
-.sbs-cdb .restaurants-p-gf-icon-w {
+.sbs-cdb .restaurants-p-gf-icon-w, .sbs-cdb .ui-icon-restaurants-p-gf-icon-w:after  {
     background-image: url('../images/restaurants_gf_1.png');
 }
 
-.restaurants-p-gf-icon-a{
+.restaurants-p-gf-icon-a, .ui-icon-restaurants-p-gf-icon-a:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_gf_2.png');
 }
 
-.sbs-cdb .restaurants-p-gf-icon-a {
+.sbs-cdb .restaurants-p-gf-icon-a, .sbs-cdb .ui-icon-restaurants-p-gf-icon-a:after  {
     background-image: url('../images/restaurants_gf_2.png');
 }
 
 /* feature:pc*/
-.restaurants-p-pc-icon-w{
+.restaurants-p-pc-icon-w, .ui-icon-restaurants-p-pc-icon-w:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_pc_1.png');
 }
 
-.sbs-cdb .restaurants-p-pc-icon-w {
+.sbs-cdb .restaurants-p-pc-icon-w, .sbs-cdb .ui-icon-restaurants-p-pc-icon-w:after  {
     background-image: url('../images/restaurants_pc_1.png');
 }
 
-.restaurants-p-pc-icon-a{
+.restaurants-p-pc-icon-a, .ui-icon-restaurants-p-pc-icon-a:after {
     background-image: url('v1/icons/poi/restaurants/restaurants_pc_2.png');
 }
 
-.sbs-cdb .restaurants-p-pc-icon-a {
+.sbs-cdb .restaurants-p-pc-icon-a, .sbs-cdb .ui-icon-restaurants-p-pc-icon-a:after  {
     background-image: url('../images/restaurants_pc_2.png');
 }
 
