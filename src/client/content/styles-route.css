@@ -104,7 +104,7 @@
     width: 1em;
     height: 1em;
     font-size: 1em;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .poi-distance-label {
@@ -337,34 +337,38 @@ svg image {
     padding: 5px;
 }
 
-.filter-dlg .ui-header.ui-bar-inherit h2 
-{
+.filter-dlg .ui-header.ui-bar-inherit h2 {
     text-shadow: none;
 }
 
-.filter-list .ui-checkbox.ui-mini
-{
-    width:115px;
-    margin:3px;
+.filter-list .ui-checkbox.ui-mini {
+    width: 115px;
+    margin: 3px;
 }
 
-.filter-list .ui-checkbox.ui-mini label
-{
-    padding-right:3px;
+    .filter-list .ui-checkbox.ui-mini label {
+        padding-right: 3px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+.filter-value-list {
+    max-height: 100px;
+    overflow: scroll;
 }
 
-.filter-value-list{
-    max-height:100px;
-    overflow:scroll;
-}
-
-.filter-list .filter-list-value
-{
+.filter-list .filter-list-value {
     max-width: 73px;
+    height: 34px;
     display: inline-block;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.filter-prop-hideshow {
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding-left: 50px;
 }
 
 #route .ui-page-theme-a .ui-btn {
@@ -790,7 +794,7 @@ div.ui-slider {
     text-transform: capitalize;
     overflow: visible;
     white-space: normal;
-    word-wrap:normal;
+    word-wrap: normal;
 }
 
 #sidebar .end-icon {
@@ -850,7 +854,7 @@ div.ui-slider {
     background-image: url('../images/filter-icon.png');
 }
 
- .filter-dlg .filter-apply-btn {
+.filter-dlg .filter-apply-btn {
     width: 100%;
     background-color: #ff9c00;
     color: #fff;
@@ -885,7 +889,7 @@ div.ui-slider {
         border-radius: 0;
         font-weight: 300;
         font-family: 'MontReg',Arial;
-        margin:0 auto;
+        margin: 0 auto;
     }
 
         .letsgo-container .letsgo-button:hover, .letsgo-container .letsgo-button.active {

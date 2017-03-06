@@ -16,7 +16,9 @@ module StopByStop {
 
         constructor(poiType: PoiType, metadata: IMetadata, filter: FilterViewModel) {
             this._metadata = metadata;
-            this.categoryName = metadata.rpc[PoiType[poiType]].n;
+            this.rootCategory = metadata.rpc[PoiType[poiType]];
+            this.categoryName = this.rootCategory.n;
+            this.typeName = PoiType[poiType].toLowerCase();
             this.isOn = ko.observable(true);
             this.type = poiType;
 
@@ -41,7 +43,7 @@ module StopByStop {
                 if (v) {
                     if (poi.dfj > maxDistanceFromJunction) {
                         v = false;
-                    } else if (!this.categoryFilter.isOn(poi.p.c)) {
+                    } else if (this.rootCategory.scf && !this.categoryFilter.isOn(poi.p.c)) {
                         v = false;
                     } else {
                         $.each(this.propertyList, (i2, prop) => {
@@ -64,16 +66,17 @@ module StopByStop {
             this._pois.push(poiOnJuntion);
 
             var poi = poiOnJuntion.p;
-            var categoryMetadata = this._metadata.rpc[PoiType[this.type]];
-            if (categoryMetadata.scf) {
+
+            if (this.rootCategory.scf) {
                 var categoryValues = poi.c;
                 for (var i = 0; i < categoryValues.length; i++) {
                     var category = this._metadata.c[categoryValues[i]];
-                    if (category.id !== categoryMetadata.c) {
-                        var valueMetadata: IPoiPropertyValueMetadata = { id: category.id, n: category.n };
-                        var categoryValue = this.categoryFilter.addValue(valueMetadata);
-                        categoryValue.tempCount++;
-                    }
+                    var categoryName = (category.id === this.rootCategory.c) ? "All other" : category.n;
+
+                    var valueMetadata: IPoiPropertyValueMetadata = { id: category.id, n: categoryName };
+                    var categoryValue = this.categoryFilter.addValue(valueMetadata);
+                    categoryValue.tempCount++;
+
                 }
             }
 
@@ -100,8 +103,9 @@ module StopByStop {
             $.each(this.propertyList, (i, item) => item.sortByOccurrence());
         }
 
-      
 
+        public typeName: string;
+        public rootCategory: IRootPoiCategory;
         public categoryName: string;
         public type: PoiType;
         public filteredCount: KnockoutObservable<number>;
@@ -153,19 +157,19 @@ module StopByStop {
     }
 
     export class MultiValueFilterViewModel {
-        private _filter: PoiTypeFilterViewModel;
+        
 
         constructor(p: IPoiPropertyMetadata, filter: PoiTypeFilterViewModel) {
             this.valueEnablementLookup = {};
             this.valueList = [];
             this.name = p.n;
             this.id = p.id;
-            this._filter = filter;
+            this.filter = filter;
         }
 
         public addValue(pv: IPoiPropertyValueMetadata): ValueFilterViewModel {
             if (!this.valueEnablementLookup[pv.id]) {
-                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n, this, this._filter);
+                var valueFilterViewModel = new ValueFilterViewModel(pv.id, pv.n, this, this.filter);
                 this.valueEnablementLookup[pv.id] = valueFilterViewModel;
                 this.valueList.push(valueFilterViewModel);
             }
@@ -177,11 +181,21 @@ module StopByStop {
             this.valueList.sort((a, b) => b.tempCount - a.tempCount);
         }
 
+        public filter: PoiTypeFilterViewModel;
         public id: string;
         public name: string;
+        public isCollapsed: KnockoutObservable<boolean> = ko.observable(true);
         public allValuesSelected: KnockoutObservable<boolean> = ko.observable(false);
         public valueEnablementLookup: { [id: number]: ValueFilterViewModel };
         public valueList: ValueFilterViewModel[];
+
+        public expand(): void {
+            this.isCollapsed(false);
+        }
+
+        public collapse(): void {
+            this.isCollapsed(true);
+        }
 
         public isOn(values: number[]): boolean {
             var on: boolean = false;

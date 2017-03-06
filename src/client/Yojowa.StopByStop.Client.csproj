@@ -100,6 +100,14 @@
     <Content Include="content\v1\icons\poi\gasstations\gasstations_2.png" />
     <Content Include="content\v1\icons\poi\hotels\hotels_1.png" />
     <Content Include="content\v1\icons\poi\hotels\hotels_2.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_gf_1.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_f_1.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_mt_1.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_pc_1.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_gf_2.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_f_2.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_mt_2.png" />
+    <Content Include="content\v1\icons\poi\restaurants\restaurants_pc_2.png" />
     <Content Include="content\v1\icons\poi\restaurants\restaurants_2.png" />
     <Content Include="content\v1\icons\poi\restaurants\restaurants_1.png" />
     <Content Include="content\v1\icons\poi\restaurants\restaurants_4.png" />

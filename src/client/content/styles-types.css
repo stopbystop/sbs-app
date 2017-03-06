@@ -55,7 +55,93 @@
     color: #f15b6a;
 }
 
+/*9: feature icons*/
 
+/* category */
+.restaurants-c-icon-w{
+    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+}
+
+.sbs-cdb .restaurants-c-icon-w {
+    background-image: url('../images/restaurants_1.png');
+}
+
+.restaurants-c-icon-a{
+    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+}
+
+.sbs-cdb .restaurants-c-icon-a {
+    background-image: url('../images/restaurants_2.png');
+}
+
+
+/* feature:mt*/
+.restaurants-p-mt-icon-w{
+    background-image: url('v1/icons/poi/restaurants/restaurants_mt_1.png');
+}
+
+.sbs-cdb .restaurants-p-mt-icon-w {
+    background-image: url('../images/restaurants_mt_1.png');
+}
+
+.restaurants-p-mt-icon-a{
+    background-image: url('v1/icons/poi/restaurants/restaurants_mt_2.png');
+}
+
+.sbs-cdb .restaurants-p-mt-icon-a {
+    background-image: url('../images/restaurants_mt_2.png');
+}
+
+/* feature:f*/
+.restaurants-p-f-icon-w{
+    background-image: url('v1/icons/poi/restaurants/restaurants_f_1.png');
+}
+
+.sbs-cdb .restaurants-p-f-icon-w {
+    background-image: url('../images/restaurants_f_1.png');
+}
+
+.restaurants-p-f-icon-a{
+    background-image: url('v1/icons/poi/restaurants/restaurants_f_2.png');
+}
+
+.sbs-cdb .restaurants-p-f-icon-a {
+    background-image: url('../images/restaurants_f_2.png');
+}
+
+/* feature:gf*/
+.restaurants-p-gf-icon-w{
+    background-image: url('v1/icons/poi/restaurants/restaurants_gf_1.png');
+}
+
+.sbs-cdb .restaurants-p-gf-icon-w {
+    background-image: url('../images/restaurants_gf_1.png');
+}
+
+.restaurants-p-gf-icon-a{
+    background-image: url('v1/icons/poi/restaurants/restaurants_gf_2.png');
+}
+
+.sbs-cdb .restaurants-p-gf-icon-a {
+    background-image: url('../images/restaurants_gf_2.png');
+}
+
+/* feature:pc*/
+.restaurants-p-pc-icon-w{
+    background-image: url('v1/icons/poi/restaurants/restaurants_pc_1.png');
+}
+
+.sbs-cdb .restaurants-p-pc-icon-w {
+    background-image: url('../images/restaurants_pc_1.png');
+}
+
+.restaurants-p-pc-icon-a{
+    background-image: url('v1/icons/poi/restaurants/restaurants_pc_2.png');
+}
+
+.sbs-cdb .restaurants-p-pc-icon-a {
+    background-image: url('../images/restaurants_pc_2.png');
+}
 
 /*gasstations type*/
 /*1*/
