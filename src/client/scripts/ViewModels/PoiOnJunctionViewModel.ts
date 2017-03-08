@@ -25,9 +25,11 @@ module StopByStop {
             this.name = this.poi.name;
             this.lat = this.poi.location.lat;
             this.lon = this.poi.location.lon;
-            this.type = obj.p.t;  
+            this.type = obj.p.t;
+            this.poiTypeString = PoiType[this.type].toLowerCase();
         }
 
+        public poiTypeString:string;
         public obj: IPoiOnJunction;
         public id: string;
         public exitId: string;

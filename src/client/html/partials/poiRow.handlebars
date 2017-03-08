@@ -3,8 +3,8 @@
         {{#if isMapPopup}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
            style="text-align:left;" onclick="window.showPoiOptionsForMapPopup()" data-bind="attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-            <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
-            <div data-bind="css:' exit-type exit-'+{{poiType}}">
+            <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div data-bind="css:'exit-type exit-'+poiTypeString">
                 <div class="poi-placename">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
@@ -17,16 +17,18 @@
         {{else}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
            style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
-            <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+{{poiType}}" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
-            <div data-bind="css:'exit-type exit-'+{{poiType}}">
+            <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+            <div data-bind="css:'exit-type exit-'+poiTypeString">
                 <div class="poi-placename">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
+                <!--
                 {{#if showCategories}}
                 <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
                     <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
                 </div>
                 {{/if}}
+                    -->
                 <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
                 <div class="poi-table-cell-go">
                     <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />

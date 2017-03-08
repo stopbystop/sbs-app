@@ -26,23 +26,15 @@
                                     <span class="route-description-metric-label">Distance</span>
                                 </div>
                                 <div class="route-summary-cell">
-                                    <span class="route-description-metric-label">Total Time</span>
-                                </div>
-
-                                <!-- ko foreach: filter.typeFiltersList -->
-                                <div class="route-summary-cell">
-                                    <span class="route-description-metric-label" data-bind="text:categoryName"></span>
-                                </div>
-                                <!-- /ko -->
-
-                            </div>
-                            <div class="route-description2" style="display:table-row">
-                                <div class="route-summary-cell">
                                     <span class="route-description-metric">
                                         <span data-bind="text: route.distance"></span>
                                         <span>mi</span>
                                     </span>
                                 </div>
+                                <div class="route-summary-cell">
+                                    <span class="route-description-metric-label">Total Time</span>
+                                </div>
+
                                 <div class="route-summary-cell">
                                     <span class="route-description-metric">
                                         <span data-bind="if:(route.tripTimeHours() > 0)">
@@ -53,20 +45,11 @@
                                         <span>min</span>
                                     </span>
                                 </div>
-                                <!-- ko foreach: filter.typeFiltersList -->
-                                <div class="route-summary-cell">
-                                    <span data-bind="css:StopByStop.PoiType[type]+'-icon'"></span>
-                                    <span class="route-description-metric" data-bind="text: filteredCount"></span>
-                                </div>
-                                <!-- /ko -->
-
                             </div>
                         </div>
-                        <div class="route-description2 miles">
-                            <span class="route-description-metric-label">within</span>
-                            <span class="route-description-metric" data-bind="text: filter.maxDistanceFromJunction"></span>
-                            <span class="route-description-metric-label">mile(s) from exit</span>
-                        </div>
+                        <!-- ko with: filter -->
+                       {{>routeSummaryTable}}
+                        <!-- /ko -->
                     </div>
                     <p></p>
                     <!-- route -->

@@ -37,12 +37,9 @@
 .restaurants-icon {
     background-image: url('../images/restaurants_2.png');
     background-size: 90%;
-    height: 29px;
-    width: 23px;
     display: inline-block;
     background-repeat: no-repeat;
-    background-position-y: 4px;
-    background-position-x: 2px;
+    background-position:center;
 }
 
 /*7*/
@@ -180,12 +177,9 @@
 .gasstations-icon {
     background-image: url('../images/gasstations_2.png');
     background-size: 90%;
-    height: 29px;
-    width: 23px;
     display: inline-block;
     background-repeat: no-repeat;
-    background-position-y: 4px;
-    background-position-x: 2px;
+    background-position: center;
 }
 
 /*7*/

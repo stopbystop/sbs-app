@@ -24,18 +24,7 @@
                     <label>
                         <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:isOn" />
                         <span style="display:inline-block;padding-top:10px;" data-bind="text:'Show '+categoryName"></span>
-
-                        <div style="float:right;display:table">
-                            <div style="display:table-row;font-size:1.5em">
-                                <div class="sbs-color-accent" style="display:table-cell;padding-right:20px;font-weight:normal; text-align:center;"><span data-bind="text:filteredCount"></span></div>
-                                <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;"><span data-bind="text:filteredCountWithFeatures"></span></div>
-                            </div>
-                            <div style="display:table-row;font-size:0.5em;">
-                                <div style="display:table-cell;padding-right:20px;text-align:center;">in range</div>
-                                <div style="display:table-cell;text-align:center;">match</div>
-                            </div>
-                        </div>
-
+                        {{>poiCountTable isHorizontalLayout='true'}}
                     </label>
                     <div data-bind="visible:isOn">
                         <div data-bind="visible:rootCategory.scf">

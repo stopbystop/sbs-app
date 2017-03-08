@@ -1,0 +1,40 @@
+<div style="float:right;display:table">
+    {{#if isHorizontalLayout}}
+    <div style="display:table-row;font-size:1.5em">
+        <div class="sbs-color-accent" style="display:table-cell;padding-right:20px;font-weight:normal; text-align:center;"><span data-bind="text:filteredCount"></span></div>
+        <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;"><span data-bind="text:filteredCountWithFeatures"></span></div>
+    </div>
+    <div style="display:table-row;font-size:0.5em;">
+        <div style="display:table-cell;padding-right:20px;text-align:center;">in range</div>
+        <div style="display:table-cell;text-align:center;">match</div>
+    </div>
+    {{else}}
+    <div style="display:table">
+        <div style="display:table-row">
+            <div style="display:table-cell;vertical-align:middle;">
+               
+                    <span data-bind="css:StopByStop.PoiType[type]+'-icon poi-count-table-icon'"></span>
+                
+            </div>
+            <div style="display:table-cell">
+                <div style="display:table-row;font-size:1.5em">
+                    <div class="sbs-color-accent" style="display:table-cell;font-weight:normal; text-align:center;">
+                        <span data-bind="text:filteredCount"></span>
+                    </div>
+                </div>
+                <div style="display:table-row;font-size:0.5em">
+                    <div style="display:table-cell;text-align:center;">in range</div>
+                </div>
+                <div style="display:table-row;font-size:1.5em;">
+                    <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;">
+                        <span data-bind="text:filteredCountWithFeatures"></span>
+                    </div>
+                </div>
+                <div style="display:table-row;font-size:0.5em">
+                    <div style="display:table-cell;text-align:center;">match</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>

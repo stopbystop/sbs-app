@@ -26,32 +26,12 @@
                     <div class="main_inner">
                         <div class="route-summary">
                             <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
-                            <div class="route-summary-table">
-                                <div class="route-description2" style="display:table-row">
-                                    <div class="route-summary-cell">
-                                        <span class="route-description-metric-label">Restaurants</span>
-                                    </div>
-                                    <div class="route-summary-cell">
-                                        <span class="route-description-metric-label">Gas stations</span>
-                                    </div>
-                                </div>
-                                <div class="route-description2" style="display:table-row">
-                                    <div class="route-summary-cell">
-                                        <span class="food-icon"></span>
-                                        <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredFoodCount"></span>
-                                    </div>
-                                    <div class="route-summary-cell">
-                                        <span class="gas-icon"></span>
-                                        <span class="route-description-metric" data-bind="text: selectedJunction().filter.filteredGasStationCount"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="route-description2 miles">
-                                <span class="route-description-metric-label">within</span>
-                                <span class="route-description-metric" data-bind="text: selectedJunction().filter.maxDistanceFromJunction"></span>
-                                <span class="route-description-metric-label">mile(s) from exit</span>
-                            </div>
+                            
+                            <!-- ko with: selectedJunction().filter -->
+                            {{>routeSummaryTable}}
+                            <!-- /ko -->
                         </div>
+                        
                         <div class="pois-list">
                             <div>
                                 <div class="pois-list-filters-container">
@@ -66,18 +46,14 @@
                                 </fieldset>
                             </div>
 
-                            <!-- start food POI list-->
-                            <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleFoodPois">
-                                {{>poiRow showCategories=true isMapPopup=false poiType='\'food\''}}
+                            <!-- start POI list-->
+                            <!-- ko foreach: selectedJunction().routeJunction.poiTypeViewModels-->
+                            <div class="poi-table" data-bind="foreach: visiblePois()">
+                                {{>poiRow showCategories=true isMapPopup=false}}
                             </div>
-                            <!-- /poi-table -->
-                            <!-- end food POI list-->
-                            <!-- start gas POI list-->
-                            <div class="poi-table" data-bind="foreach: selectedJunction().routeJunction.visibleGasPois">
-                                {{>poiRow showCategories=false isMapPopup=false poiType='\'gas\''}}
-                            </div>
-                            <!-- /poi-table -->
-                            <!-- end gas POI list-->
+                            <!--/ko-->
+                            <!-- end POI list-->
+                           
 
 
                             <div class="poi-map">

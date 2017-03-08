@@ -337,8 +337,8 @@ svg image {
     overflow: scroll;
 }
 
-.filter-ok-container{
-    margin:0 35px 0 0;
+.filter-ok-container {
+    margin: 0 35px 0 0;
 }
 
 .ui-content.stop-settings-dialog.ui-popup.ui-body-inherit div[role=main] {
@@ -378,6 +378,11 @@ svg image {
     background-size: 30px;
     background-repeat: no-repeat;
     background-position: 5px center;
+}
+
+.poi-count-table-icon {
+    width: 70px;
+    height: 70px;
 }
 
 #route .ui-page-theme-a .ui-btn {
@@ -581,6 +586,7 @@ svg image {
     border-radius: 4px;
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
     font-size: 0.7em;
+    color:#fff;
 }
 
 .route-summary-table {
@@ -591,8 +597,8 @@ svg image {
 
 .route-summary-cell {
     display: table-cell;
-    padding: 5px;
-    vertical-align: bottom;
+    padding: 2px;
+    vertical-align: middle;
 }
 
 .route-loading {

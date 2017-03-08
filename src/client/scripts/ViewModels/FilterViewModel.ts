@@ -87,8 +87,10 @@ module StopByStop {
                 var categoriesEnablement = filter.typeFiltersList[i].getCategoriesEnablement();
                 var propertyEnablement = filter.typeFiltersList[i].getPropertiesEnablement();
 
-                this.typeFiltersLookup[filter.typeFiltersList[i].type].setCategoriesEnablement(categoriesEnablement);
-                this.typeFiltersLookup[filter.typeFiltersList[i].type].setPropertiesEnablement(propertyEnablement);
+                if (this.typeFiltersLookup[filter.typeFiltersList[i].type]) {
+                    this.typeFiltersLookup[filter.typeFiltersList[i].type].setCategoriesEnablement(categoriesEnablement);
+                    this.typeFiltersLookup[filter.typeFiltersList[i].type].setPropertiesEnablement(propertyEnablement);
+                }
             }
         }
 

@@ -1,0 +1,17 @@
+<div>
+  <div class="route-summary-table">
+    <div class="route-description2" style="display:table-row">
+      <!-- ko foreach: typeFiltersList -->
+      <div class="route-summary-cell">
+        {{>poiCountTable isHorizontalLayout=false}}
+      </div>
+      <!-- /ko -->
+    </div>
+  </div>
+
+  <div class="route-description2 miles">
+    <span class="route-description-metric-label">within</span>
+    <span class="route-description-metric" data-bind="text: maxDistanceFromJunction"></span>
+    <span class="route-description-metric-label">mile(s) from exit</span>
+  </div>
+</div>
