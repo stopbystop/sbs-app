@@ -179,7 +179,8 @@ module StopByStop {
                 selectedRouteJunction,
                 appViewModel.filter,
                 appViewModel.routePlan,
-                AppState.current.metadata);
+                AppState.current.metadata,
+                poiType);
 
             appViewModel.selectedJunction(junctionAppViewModel);
 

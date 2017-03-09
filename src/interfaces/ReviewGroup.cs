@@ -4,8 +4,14 @@
 
     public class ReviewGroup
     {
+        [JsonProperty("id")]
+        public string ID { get; set; }
+
         [JsonProperty("n")]
         public string Name { get; set; }
+
+        [JsonProperty("iu")]
+        public string ImageUrl { get; set; }
 
         [JsonProperty("i")]
         public string Icon { get; set; }

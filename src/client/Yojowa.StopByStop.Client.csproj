@@ -205,7 +205,9 @@
     <Content Include="html\partials\poiCountTable.handlebars" />
     <None Include="html\partials\sidebar.handlebars" />
     <None Include="html\partials\poiRow.handlebars" />
-    <None Include="html\partials\routeSummaryTable.handlebars" />
+    <None Include="html\partials\routeSummaryTable.handlebars">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="outscripts\sbsbundle.js" />
     <Content Include="outscripts\sbsbundle.js.min.js" />
     <Content Include="outscripts\webBundle.js" />

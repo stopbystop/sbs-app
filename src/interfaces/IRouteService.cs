@@ -73,5 +73,12 @@ namespace Yojowa.StopByStop
         /// </summary>
         /// <returns></returns>
         Metadata GetMetadata();
+
+        /// <summary>
+        /// Gets the poi review data.
+        /// </summary>
+        /// <param name="center">The center.</param>
+        /// <returns>POI review data</returns>
+        ReviewGroup[] GetPoiReviewData(Location center);
     }
 }

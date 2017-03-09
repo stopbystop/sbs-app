@@ -15,7 +15,7 @@ module StopByStop {
             this._obj = obj;
 
             this.id = this._obj.id;
-            this.poiCategoryIDs = this._obj.c;
+            this.categories = this._obj.c.map((value, index, arr) => AppState.current.metadata.c[value]);
             this.poiType = this._obj.t;
             this.name = this._obj.n;
             this.description = ko.observable(this._obj.d);
@@ -41,8 +41,8 @@ module StopByStop {
         }
         */
 
+        public categories: IPoiCategory[];
         public id: number;
-        public poiCategoryIDs: number[];
         public poiType: PoiType;
         public name: string;
         public description: KnockoutObservable<string>;

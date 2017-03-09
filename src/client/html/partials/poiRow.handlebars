@@ -22,13 +22,13 @@
                 <div class="poi-placename">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
-                <!--
-                {{#if showCategories}}
-                <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.poiCategoryIDs">
-                    <span class="poi-cat" data-bind="text: $root.filter.getCategoryName($data)"></span>
+                
+               
+                <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.categories">
+                    <span class="poi-cat sbs-color-accent" data-bind="text: $data.n"></span>
                 </div>
-                {{/if}}
-                    -->
+                
+                  
                 <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
                 <div class="poi-table-cell-go">
                     <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />

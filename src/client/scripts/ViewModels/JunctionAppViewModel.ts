@@ -84,8 +84,9 @@ module StopByStop {
 
             this.filter.copyEnablement(parentFilter);
 
+            
             for (var poiType in this.filter.typeFiltersLookup) {
-                this.filter.typeFiltersLookup[poiType].isOn(parseInt(poiType) === poiTypeToShow);
+                this.filter.typeFiltersLookup[poiType].isOn(poiTypeToShow === PoiType.all || parseInt(poiType) === poiTypeToShow);
             }
 
             this.filter.onFilterUpdated = ()=>this.routeJunction.onPoiVisibilityUpdated();
