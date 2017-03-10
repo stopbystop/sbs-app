@@ -117,6 +117,20 @@
         }
 
         #endregion
+
+        #region GetPoiReviewData
+        public JsonResult GetPoiReviewData(string areaString)
+        {
+            Location area = JsonConvert.DeserializeObject<Location>(areaString);
+            return Json(((IRouteService)this).GetPoiReviewData(area), JsonRequestBehavior.AllowGet);
+        }
+
+        ReviewGroup[] IRouteService.GetPoiReviewData(Location area)
+        {
+            return StopByStopService.RouteServiceInstance.GetPoiReviewData(area);
+        }
+        #endregion
+
         #endregion
 
         #region IPlacesService
@@ -166,6 +180,8 @@
         {
             return StopByStopService.PlacesServiceInstance.GetLocationFromPlaceId(placeId);
         }
+
+
         #endregion
 
         #endregion

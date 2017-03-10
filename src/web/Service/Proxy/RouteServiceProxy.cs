@@ -50,6 +50,14 @@
                 "getmetadata");
         }
 
+        public ReviewGroup[] GetPoiReviewData(Location area)
+        {
+            return GetObjectFromRemoteServer<ReviewGroup[]>(
+                this.serviceUrl,
+                "getpoireviewdata",
+                Tuple.Create<string, object>("areaString", area));
+        }
+
         public Poi2[] GetPois(long[] poiIds, bool primaryFieldsOnly)
         {
             return GetObjectFromRemoteServer<Poi2[]>(

@@ -1,7 +1,6 @@
 ﻿/// <reference path="../tsdef/jquery.d.ts"/>
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="PoiImageViewModel.ts"/>
 /// <reference path="LocationViewModel.ts"/>
 /// <reference path="ReviewGroupViewModel.ts"/>
 /// <reference path="FilterViewModel.ts"/>
@@ -30,16 +29,14 @@ module StopByStop {
             this.yReviewCountString = ko.observable("");
         }
 
-        /*
-        public updateYInfo(poi: IPoi): void {
-            if (poi.rg && poi.rg.length > 0) {
-                this.yUrl(poi.rg[0].u);
-                this.yStarClass(PoiViewModel.getYStarClass(poi.rg[0].r));
-                this.yReviewCountString(PoiViewModel.getReviewsString(poi.rg[0].rc));
-                this.isYInfoLoading(false);
-            }
+
+        public updateYInfo(reviewDataItem: IReviewGroup): void {
+            this.yUrl(reviewDataItem.u);
+            this.yStarClass(PoiViewModel.getYStarClass(reviewDataItem.r));
+            this.yReviewCountString(PoiViewModel.getReviewsString(reviewDataItem.rc));
+            this.isYInfoLoading(false);
         }
-        */
+
 
         public categories: IPoiCategory[];
         public id: number;
@@ -56,7 +53,7 @@ module StopByStop {
         public yReviewCountString: KnockoutObservable<string>;
 
 
-        private static getReviewsString(reviewCount: number):string {
+        private static getReviewsString(reviewCount: number): string {
             if (reviewCount === 0) {
                 return "no reviews";
             } else if (reviewCount === 1) {

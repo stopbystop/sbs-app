@@ -22,27 +22,26 @@ module StopByStop {
 
         
         protected loadFullPoiData() {
-            /*
+            
             if (this._locationToLoadIndex < this._poiLocations.length) {
                 var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
 
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
 
-                $.ajax(AppState.current.urls.PoiUrl + latStr + "," + lonStr)
-                    .done((data: IPoi[]) => {
+                $.ajax(AppState.current.urls.PoiUrlV2 + latStr + "," + lonStr)
+                    .done((data: IReviewGroup[]) => {
 
                         for (var i = 0; i < data.length; i++) {
                             var p = data[i];
-                            if (this.routeJunction.junction.poiLookup[p.id]) {
-                                this.routeJunction.junction.poiLookup[p.id].poi.updateYInfo(p);
+                            if (this.routeJunction.junction.poiLookup[p.id2]) {
+                                this.routeJunction.junction.poiLookup[p.id2].poi.updateYInfo(p);
                             }
                         }
 
                         this.loadFullPoiData();
                     });
             }
-            */
         }
 
     };

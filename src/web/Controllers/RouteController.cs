@@ -201,7 +201,7 @@
                                 ExcludeJunctionsWithoutExitInfo = false,
                             });
 
-                if (withMetadata)
+                if (route != null && withMetadata)
                 {
                     route.Metadata = StopByStopService.RouteServiceInstance.GetMetadata();
                 }

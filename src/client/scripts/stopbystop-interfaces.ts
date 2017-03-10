@@ -89,8 +89,14 @@ module StopByStop {
     }
 
     export interface IReviewGroup {
+        /** id */
+        id: string;
+        /** id2 */
+        id2: string;
         /** name */
         n: string;
+        /** image url */
+        iu: string;
         /** icon */
         i: string;
         /** review count */
@@ -101,13 +107,11 @@ module StopByStop {
         riu: string;
         /** rating */
         r: number;
+        /** lat */
+        lat: number;
+        /** lon */
+        lon: number;
     }
-
-    export interface IPoiImage {
-        /** image url */
-        u: string;
-    }
-
 
     export interface IPoi {
         /** sbsid */

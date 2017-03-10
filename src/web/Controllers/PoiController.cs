@@ -31,7 +31,13 @@
         [Route("poiv2/{id}")]
         public JsonResult IndexV2(string id)
         {
-            throw new NotImplementedException("TODO: implement");
+            var location = LocationUtils.CreateCustomLocation(id);
+            if (location == null)
+            {
+                throw new ArgumentException("InvalidLocation");
+            }
+            var reviewData = StopByStopService.RouteServiceInstance.GetPoiReviewData(location);
+            return Json(reviewData, JsonRequestBehavior.AllowGet);
         }
     }
 }

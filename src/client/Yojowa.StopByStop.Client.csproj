@@ -50,7 +50,6 @@
     <TypeScriptCompile Include="scripts\ViewModels\JunctionViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\LocationViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\MetadataViewModel.ts" />
-    <TypeScriptCompile Include="scripts\ViewModels\PoiImageViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\PoiOnJunctionViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\PoiTypeFilterViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\PoiViewModel.ts" />

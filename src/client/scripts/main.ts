@@ -10,7 +10,6 @@
 /// <reference path="ViewModels/IStopPlace.ts"/>
 /// <reference path="ViewModels/PoiTypeFilterViewModel.ts"/>
 /// <reference path="ViewModels/FilterViewModel.ts"/>
-/// <reference path="ViewModels/PoiImageViewModel.ts"/>
 /// <reference path="ViewModels/ReviewGroupViewModel.ts"/>
 /// <reference path="ViewModels/PoiViewModel.ts"/>
 /// <reference path="ViewModels/PoiOnJunctionViewModel.ts"/>

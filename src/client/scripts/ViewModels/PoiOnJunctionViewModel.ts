@@ -1,7 +1,6 @@
 ﻿/// <reference path="../tsdef/jquery.d.ts"/>
 /// <reference path="../tsdef/knockout-3.3.d.ts"/>
 /// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="PoiImageViewModel.ts"/>
 /// <reference path="LocationViewModel.ts"/>
 /// <reference path="ReviewGroupViewModel.ts"/>
 /// <reference path="PoiViewModel.ts"/>
