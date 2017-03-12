@@ -54,7 +54,8 @@ QUnit.begin(() => {
         pageInfo: {
             pageName: "TestPageName",
             telemetryPageName: "TestPageName"
-        }
+        },
+        metadata: null
     };
 });
 
@@ -79,7 +80,7 @@ QUnit.test("RoutePlanViewModel: add stop test", (assert) => {
         exitId: "exitid",
         lat: 42,
         lon: -170,
-        type: StopByStop.PoiType.Food
+        type: StopByStop.PoiType.restaurants
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
     assert.ok(routeStopViewModel);
@@ -104,7 +105,7 @@ QUnit.test("RoutePlanViewModel: change stop duration time test", (assert) => {
         exitId: "exitid",
         lat: 42,
         lon: -170,
-        type: StopByStop.PoiType.Food
+        type: StopByStop.PoiType.restaurants
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
     routePlanViewModel.addStopToRoute(routeStopViewModel);
@@ -133,7 +134,7 @@ QUnit.test("RoutePlanViewModel: remove stop test", (assert) => {
         exitId: "exitid",
         lat: 42,
         lon: -170,
-        type: StopByStop.PoiType.Food
+        type: StopByStop.PoiType.restaurants
     };
     var routeStopViewModel = routePlanViewModel.getOrCreateStop(poiOnJunctionViewModel);
     routePlanViewModel.addStopToRoute(routeStopViewModel);
@@ -156,7 +157,7 @@ QUnit.test("RoutePlanViewModel: restore stop data from storage test", (assert) =
         exitId: "exitid",
         lat: 42,
         lon: -170,
-        type: StopByStop.PoiType.Food
+        type: StopByStop.PoiType.restaurants
     };
 
     routePlanViewModel = new StopByStop.RoutePlanViewModel("testrouteid", 1000, null, myStorage);
