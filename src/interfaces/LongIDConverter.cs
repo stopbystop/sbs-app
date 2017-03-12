@@ -13,7 +13,14 @@ namespace Yojowa.StopByStop
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return long.Parse((string)existingValue);
+            if (existingValue is long)
+            {
+                return (long)existingValue;
+            }
+            else
+            {
+                return long.Parse((string)existingValue);
+            }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
