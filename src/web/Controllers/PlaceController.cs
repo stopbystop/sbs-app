@@ -14,9 +14,9 @@ namespace Yojowa.StopByStop.Web.Controllers
     {
         [HttpGet]
         [Route("place/{id}")]
-        public JsonResult Index(string id)
+        public ContentResult Index(string id)
         {
-            throw new NotImplementedException("TODO: redirect");
+            return VersionRedirector.Instance.Get(string.Format("place/{0}", id));
         }
 
         [HttpGet]

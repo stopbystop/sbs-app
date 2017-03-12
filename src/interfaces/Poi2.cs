@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
 
+
     public class Poi2
     {
         private Dictionary<string, Tuple<PoiProperty, object>> properties;
@@ -17,6 +18,7 @@
         public PoiType2 PoiType { get; set; }
 
         [JsonProperty("id")]
+        [JsonConverter(typeof(LongIDConverter))]
         public long ID { get; set; }
 
         [JsonProperty("l")]

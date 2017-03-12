@@ -91,8 +91,6 @@ module StopByStop {
     export interface IReviewGroup {
         /** id */
         id: string;
-        /** id2 */
-        id2: string;
         /** name */
         n: string;
         /** image url */
@@ -107,15 +105,11 @@ module StopByStop {
         riu: string;
         /** rating */
         r: number;
-        /** lat */
-        lat: number;
-        /** lon */
-        lon: number;
     }
 
     export interface IPoi {
         /** sbsid */
-        id: number;
+        id: string;
         /** poi category ids */
         c: number[];
         /** poi type */

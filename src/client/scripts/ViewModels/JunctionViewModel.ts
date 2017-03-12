@@ -30,10 +30,10 @@ module StopByStop {
                 for (var i = 0; i < this._obj.p.length; i++) {
                     var poiOnJunctionViewModel = new PoiOnJunctionViewModel(this._obj.p[i], robj, this._app);
                     this.pois.push(poiOnJunctionViewModel);
-                    if (poiOnJunctionViewModel.poi.telPhoneString) {
-                        var normalizedPhoneNumberString = JunctionViewModel.normalizePhoneNumber(poiOnJunctionViewModel.poi.telPhoneString);
-                        this.poiLookup[normalizedPhoneNumberString] = poiOnJunctionViewModel;
-                    }
+                    //if (poiOnJunctionViewModel.poi.telPhoneString) {
+                    //var normalizedPhoneNumberString = JunctionViewModel.normalizePhoneNumber(poiOnJunctionViewModel.poi.telPhoneString);
+                    this.poiLookup[this._obj.p[i].id] = poiOnJunctionViewModel;
+                    //}
                 }
             }
 
@@ -54,6 +54,11 @@ module StopByStop {
         public pois: KnockoutObservableArray<PoiOnJunctionViewModel>;
         public exitName: KnockoutComputed<string>;
         public poiLookup: { [id: string]: PoiOnJunctionViewModel } = {};
+        public completeYDataLoad() {
+            for (var i = 0; i < this._obj.p.length; i++) {
+                this.poiLookup[this._obj.p[i].id].poi.updateYInfo(null);
+            }
+        }
 
         private static normalizePhoneNumber(phoneNumberString) {
             phoneNumberString = phoneNumberString.replace(/[^0-9]/g, "");

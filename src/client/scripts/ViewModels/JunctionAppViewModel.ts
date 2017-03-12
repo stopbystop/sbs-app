@@ -34,13 +34,15 @@ module StopByStop {
 
                         for (var i = 0; i < data.length; i++) {
                             var p = data[i];
-                            if (this.routeJunction.junction.poiLookup[p.id2]) {
-                                this.routeJunction.junction.poiLookup[p.id2].poi.updateYInfo(p);
+                            if (this.routeJunction.junction.poiLookup[p.id]) {
+                                this.routeJunction.junction.poiLookup[p.id].poi.updateYInfo(p);
                             }
                         }
 
                         this.loadFullPoiData();
                     });
+            } else {
+                this.routeJunction.junction.completeYDataLoad();
             }
         }
 

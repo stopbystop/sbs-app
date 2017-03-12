@@ -63,6 +63,7 @@
     <Compile Include="Junction.cs" />
     <Compile Include="JunctionDiagnostics.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="LongIDConverter.cs" />
     <Compile Include="Metadata.cs" />
     <Compile Include="ObjectProperty.cs" />
     <Compile Include="Poi2.cs" />

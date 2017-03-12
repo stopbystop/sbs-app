@@ -7,9 +7,6 @@
         [JsonProperty("id")]
         public string ID { get; set; }
 
-        [JsonProperty("id2")]
-        public string ID2 { get; set; }
-
         [JsonProperty("n")]
         public string Name { get; set; }
 
@@ -31,11 +28,5 @@
 
         [JsonProperty("r")]
         public double Rating { get; set; }
-
-        [JsonProperty("lat")]
-        public double Lat { get; set; }
-
-        [JsonProperty("lon")]
-        public double Lon { get; set; }
     }
 }

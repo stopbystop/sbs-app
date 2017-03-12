@@ -5,6 +5,7 @@
     public class PoiOnJunction
     {
         [JsonProperty("id")]
+        [JsonConverter(typeof(LongIDConverter))]
         public long ID { get; set; }
 
         [JsonProperty("dfj")]
@@ -17,6 +18,5 @@
         {
             return ID + " " + Poi.ToString();
         }
-
     }
 }

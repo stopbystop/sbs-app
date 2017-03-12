@@ -2,7 +2,7 @@
     <div class="poi-table-cell poi-details-cell">
         {{#if isMapPopup}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
-           style="text-align:left;" onclick="window.showPoiOptionsForMapPopup()" data-bind="attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
+           style="text-align:left;" onclick="window.showPoiOptionsForMapPopup()" data-bind="attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
             <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
             <div data-bind="css:'exit-type exit-'+poiTypeString">
                 <div class="poi-placename">
@@ -16,7 +16,7 @@
         </a>
         {{else}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
-           style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon}">
+           style="text-align:left;" data-bind="click:addToRouteOptionsClick, attr:{'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
             <div data-bind="css:'poi-typeicon poi-placename-type poi-placename-'+poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
             <div data-bind="css:'exit-type exit-'+poiTypeString">
                 <div class="poi-placename">
@@ -38,7 +38,7 @@
         {{/if}}
     </div>
     <div class="poi-table-cell poi-yelp-cell">
-        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
+        <a href="#" data-bind="attr:{href:poi.yUrl}, visible:poi.isYInfoVisible" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
             <div>
                 <img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
                      alt="Yelp" />

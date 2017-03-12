@@ -9,6 +9,7 @@
 module StopByStop {
     export class PoiViewModel {
         private _obj: IPoi;
+        private _reviewDataItem: IReviewGroup;
 
         constructor(obj: IPoi) {
             this._obj = obj;
@@ -24,6 +25,7 @@ module StopByStop {
             this.telPhoneString = this._obj.p;
 
             this.isYInfoLoading = ko.observable(true);
+            this.isYInfoVisible = ko.observable(true);
             this.yUrl = ko.observable("#");
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
@@ -31,15 +33,20 @@ module StopByStop {
 
 
         public updateYInfo(reviewDataItem: IReviewGroup): void {
-            this.yUrl(reviewDataItem.u);
-            this.yStarClass(PoiViewModel.getYStarClass(reviewDataItem.r));
-            this.yReviewCountString(PoiViewModel.getReviewsString(reviewDataItem.rc));
-            this.isYInfoLoading(false);
+            if (reviewDataItem) {
+                this.yUrl(reviewDataItem.u);
+                this.yStarClass(PoiViewModel.getYStarClass(reviewDataItem.r));
+                this.yReviewCountString(PoiViewModel.getReviewsString(reviewDataItem.rc));
+                this.isYInfoLoading(false);
+                this._reviewDataItem = reviewDataItem;
+            } else if (!this._reviewDataItem) {
+                this.isYInfoVisible(false);
+            }
         }
 
 
         public categories: IPoiCategory[];
-        public id: number;
+        public id: string;
         public poiType: PoiType;
         public name: string;
         public description: KnockoutObservable<string>;
@@ -47,6 +54,7 @@ module StopByStop {
         public visible: KnockoutObservable<boolean>;
         public telPhoneString: string;
         public isYInfoLoading: KnockoutObservable<boolean>;
+        public isYInfoVisible: KnockoutObservable<boolean>;
 
         public yUrl: KnockoutObservable<string>;
         public yStarClass: KnockoutObservable<string>;

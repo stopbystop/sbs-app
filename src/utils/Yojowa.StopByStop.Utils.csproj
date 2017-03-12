@@ -172,6 +172,7 @@
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="FlightManager.cs" />
     <Compile Include="FunctionRunningUtils.cs" />
+    <Compile Include="HttpUtils.cs" />
     <Compile Include="LocationUtils.cs" />
     <Compile Include="MutableTuple.cs" />
     <Compile Include="PGSQLRunner.cs" />
