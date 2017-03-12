@@ -1,59 +1,58 @@
  <!-- stop settings dialog start-->
-    <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
-        <div data-bind="with:routePlan">
-            <div data-role="header">
-                <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
-            </div>
-            <div role="main" style="padding:5px;background-color:#fff;">
-                <div class="containing-element">
-                    <p style="text-align:center;">How long would you like to stop there?</p>
-                    <div data-bind="with:editedStop" style="display:table;margin-left:13%;margin-bottom:7%;">
-                        <div style="display:table-row">
-                            <div style="display:table-cell">
-                                <a data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;background-color:#eb65a0;"
-                                    href="#" data-role="button" data-icon="minus"></a>
-                            </div>
+<div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
+    <div data-bind="with:routePlan">
+        <div data-role="header">
+            <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
+        </div>
+        <div role="main" style="padding:5px;background-color:#fff;">
+            <div class="containing-element">
+                <p style="text-align:center;">How long would you like to stop there?</p>
+                <div data-bind="with:editedStop" style="display:table;margin-left:13%;margin-bottom:7%;">
+                    <div style="display:table-row">
+                        <div style="display:table-cell">
+                            <a class="sbs-bgcolor-accent" data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;"
+                               href="#" data-role="button" data-icon="minus"></a>
+                        </div>
 
-                            <div style="display:table-cell;vertical-align:middle;position:relative;">
-                                <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationHours"></span>
-                                <div style="position:absolute;font-variant:small-caps;left:11px;">
-                                    hr
-                                </div>
-                            </div>
-                            <div style="display:table-cell;vertical-align:middle;position:relative;">
-                                <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationMinutes"></span>
-                                <div style="position:absolute;font-variant:small-caps;left:9px;">
-                                    min
-                                </div>
-                            </div>
-
-                            <div style="display:table-cell">
-                                <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;background-color:#ff9c00;" href="#"
-                                    data-role="button" data-icon="plus"></a>
+                        <div style="display:table-cell;vertical-align:middle;position:relative;">
+                            <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationHours"></span>
+                            <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                hr
                             </div>
                         </div>
-                    </div>
-                    <div style="margin-left:5%;">
-                        <a data-bind="click:addEditedStopToRoute" href="#" class=" exit-add ui-btn ui-btn-inline ui-corner-all" style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;"
-                            data-rel="back">
-                            <span style="display:inline-block;margin-top:10px;">
-                                {{{addToRouteText}}}
-                            </span>
+                        <div style="display:table-cell;vertical-align:middle;position:relative;">
+                            <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationMinutes"></span>
+                            <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                min
+                            </div>
+                        </div>
 
-                        </a>
-                        <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class=" exit-navigate ui-btn ui-btn-inline ui-corner-all"
-                            style="width:40%;margin:2px;padding:5px;height:63px;background-color:#5bb12f;color:#fff;">
-                            <span>Navigate<br />there<br />now</span>
-                        </a>
+                        <div style="display:table-cell">
+                            <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;" href="#" class="sbs-bgcolor-accent" data-role="button" data-icon="plus"></a>
+                        </div>
                     </div>
-                    <div>
+                </div>
+                <div style="margin-left:5%;">
+                    <a data-bind="click:addEditedStopToRoute" href="#" class="exit-add ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent" style="width:40%;margin:2px;padding:5px;height:63px;"
+                       data-rel="back">
+                        <span style="display:inline-block;margin-top:10px;">
+                            {{{addToRouteText}}}
+                        </span>
 
-                    </div>
-                    <div style="margin-left:4%;">
-                        <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="exit-action ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
-                    </div>
+                    </a>
+                    <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="exit-navigate ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent"
+                       style="width:40%;margin:2px;padding:5px;height:63px;color:#fff;">
+                        <span>Navigate<br />there<br />now</span>
+                    </a>
+                </div>
+                <div>
+
+                </div>
+                <div style="margin-left:4%;">
+                    <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="exit-action ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- stop settings dialog end-->
+</div>
+<!-- stop settings dialog end-->

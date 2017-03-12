@@ -181,7 +181,6 @@
     width: 30%;
     padding: 0;
     margin: 0;
-    background: #A0D468;
     border-radius: 0 0 0 10px;
 }
 
@@ -214,10 +213,6 @@
 
 .ui-page-theme-a .exit-action.ui-btn, #exit .ui-icon-plus, #exit .ui-icon-minus {
     background-color: #ff9c00 !important;
-}
-
-.ui-page-theme-a .exit-navigate.ui-btn, .ui-page-theme-a .exit-add.ui-btn {
-    background-color: #a0d468 !important;
 }
 
 .pois-list-filters-container {

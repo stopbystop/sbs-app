@@ -1152,8 +1152,13 @@ input {
 }
 
 
-.sbs-color-accent {
+.sbs .sbs-color-accent {
     color: #ff9c00;
+}
+
+.sbs .sbs-bgcolor-accent {
+    background-color: #ff9c00;
+    color: #fff;
 }
 
 
