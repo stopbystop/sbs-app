@@ -34,9 +34,9 @@ namespace Yojowa.StopByStop.Web.Controllers
 
         [HttpGet]
         [Route("placesnearby/{lat}/{lon}")]
-        public JsonResult PlacesNearby(double lat, double lon)
+        public ContentResult PlacesNearby(double lat, double lon)
         {
-            throw new NotImplementedException("TODO: redirect");
+            return VersionRedirector.Instance.Get(string.Format("placesnearby/{0}/{1}", lat, lon));
         }
 
         [HttpGet]

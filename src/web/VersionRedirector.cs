@@ -10,7 +10,7 @@
 
         static VersionRedirector()
         {
-            instance = new VersionRedirector("http://stopbystop-ver1.azurewebsites.net/");
+            instance = new VersionRedirector("https://stopbystop-ver1.azurewebsites.net/");
         }
 
         public static VersionRedirector Instance

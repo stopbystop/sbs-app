@@ -10,20 +10,9 @@
     {
         [HttpGet]
         [Route("poi/{id}")]
-        public JsonResult Index(string id)
+        public ContentResult Index(string id)
         {
-            throw new NotImplementedException("TODO: redirect");
-
-            /*
-            var location = LocationUtils.CreateCustomLocation(id);
-            if (location == null)
-            {
-                throw new ArgumentException("InvalidLocation");
-            }
-
-            var pois = StopByStopService.RouteServiceInstance.GetPoisInArea(location, true);
-            return Json(pois, JsonRequestBehavior.AllowGet);
-            */
+            return VersionRedirector.Instance.Get(string.Format("poi/{0}", id));
         }
 
 

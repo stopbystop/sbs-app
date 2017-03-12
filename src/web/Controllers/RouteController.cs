@@ -169,14 +169,9 @@
 
         [HttpGet]
         [Route("routedata/{id}")]
-        public JsonResult RouteJsonData(string id)
+        public ContentResult RouteJsonData(string id)
         {
-            throw new NotImplementedException("TODO: redirect");
-
-            /*
-            StopByStop.Route route = GetRouteFromRoutePathId(id);
-            return Json(route, JsonRequestBehavior.AllowGet);
-            */
+            return VersionRedirector.Instance.Get(string.Format("routedata/{0}", id));
         }
 
         [HttpGet]
