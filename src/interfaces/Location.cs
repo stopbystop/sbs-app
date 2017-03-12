@@ -15,6 +15,7 @@
             this.Lat = lat;
             this.Lon = lon;
             this.PlaceDescription = placeDescription;
+            this.IsCustom = this.PlaceDescription == null;
         }
 
         public static readonly Location Unknown = new Location() { IsCustom = true, PlaceDescription = string.Empty };

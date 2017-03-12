@@ -22,12 +22,12 @@ namespace Yojowa.StopByStop.UnitTests
         /// <summary>
         /// Seattle location
         /// </summary>
-        public static readonly Location LOCATIONSeattle = new Location(47.606210, -122.332070);
+        public static readonly Location LOCATIONSeattle = new Location(47.606210, -122.332070, "Seattle");
 
         /// <summary>
         /// Tacoma location
         /// </summary>
-        public static readonly Location LOCATIONTacoma = new Location(47.252880, -122.444290);
+        public static readonly Location LOCATIONTacoma = new Location(47.252880, -122.444290, "Tacoma");
 
         /// <summary>
         /// StopByStop service url
