@@ -17,7 +17,7 @@
     "gulp-uglify": "^2.0.0",
     "merge-stream": "^1.0.0",
     "openssl": "^1.1.0",
-    "typescript": "^2.0.6"
+    "typescript": "^2.2.1"
   },
   "scripts": {
     "build": "cd ./src/client && tsc -p . && gulp build-cordova && gulp build-web && cd ../cordova/scripts && tsc -p . && cd ../../../test/qunit && tsc -p .",

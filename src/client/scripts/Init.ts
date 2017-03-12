@@ -12,19 +12,21 @@
 /// <reference path="ViewModels/RouteViewModel.ts" />
 /// <reference path="ViewModels/JunctionAppViewModel.ts" />
 
+"use strict";
 
 module StopByStop {
 
     export class Init {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
-        private static _initSPAOnce = Utils.runOnce(Init.initSPA);
+        private static _initSPAOnce: (...args: any[]) => void;
 
         private static _loadRoutePromise: JQueryPromise<any> = null;
 
 
         public static _cachedRoutes: { [id: string]: IRoute } = {};
         public static initialize(settings: IAppState): void {
+            this._initSPAOnce = Utils.runOnce(Init.initSPA);
             AppState.current = settings;
             AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable<AppViewModel>(new AppViewModel(null, AppState.current, ""));

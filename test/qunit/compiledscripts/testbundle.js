@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 /// <reference path="tsdef/jquery.d.ts"/>
 "use strict";
 var StopByStop;
@@ -1144,6 +1149,7 @@ var StopByStop;
                     //if (poiOnJunctionViewModel.poi.telPhoneString) {
                     //var normalizedPhoneNumberString = JunctionViewModel.normalizePhoneNumber(poiOnJunctionViewModel.poi.telPhoneString);
                     this.poiLookup[this._obj.p[i].id] = poiOnJunctionViewModel;
+                    //}
                 }
             }
             this.pois.sort(function (l, r) { return l.dfe - r.dfe; });
@@ -2162,6 +2168,7 @@ var StopByStop;
                     lastJunctionTop = $(roadLineElement).offset().top.toString();
                     _this.routeJunctionElementLookup[elem.getAttribute("osmid")] = { top: $(elem).offset().top - $(roadLineElement).offset().top };
                 });
+                // Telemetry.logToConsole("recaldRoadLine: " + this.roadLineHeight() + ". last junction top: " + lastJunctionTop);
             }
         };
         RouteViewModel.prototype.createSegmentFirstTime = function (segmentIndex) {
@@ -2505,6 +2512,7 @@ var StopByStop;
 /// <reference path="ViewModels/AppViewModel.ts" />
 /// <reference path="ViewModels/RouteViewModel.ts" />
 /// <reference path="ViewModels/JunctionAppViewModel.ts" />
+"use strict";
 var StopByStop;
 (function (StopByStop) {
     var Init = (function () {
@@ -2512,6 +2520,7 @@ var StopByStop;
         }
         Init.initialize = function (settings) {
             var _this = this;
+            this._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
             StopByStop.AppState.current = settings;
             StopByStop.AppState.current.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable(new StopByStop.AppViewModel(null, StopByStop.AppState.current, ""));
@@ -2845,7 +2854,6 @@ var StopByStop;
         };
         return Init;
     }());
-    Init._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
     Init._loadRoutePromise = null;
     Init._cachedRoutes = {};
     StopByStop.Init = Init;
