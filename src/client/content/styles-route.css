@@ -351,7 +351,9 @@ svg image {
 }
 
 .filter-list .ui-checkbox.ui-mini {
-    width: 115px;
+    width: 93px;
+    height:34px;
+    overflow:hidden;
     margin: 3px;
 }
 
@@ -378,6 +380,15 @@ svg image {
     background-size: 30px;
     background-repeat: no-repeat;
     background-position: 5px center;
+}
+
+.filter-value-count{
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    padding: 4px;
+    border-radius:50%;
 }
 
 .poi-count-table-icon {

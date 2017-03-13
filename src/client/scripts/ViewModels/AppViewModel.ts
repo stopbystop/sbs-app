@@ -21,7 +21,7 @@ module StopByStop {
                 this._route = route;
                 var rjs: IRouteJunction[] = [];
 
-                $.each(route.s, (i, v: IRouteSegment) => rjs.push(...v.j));
+                $.each(route.s, (i, v: IRouteSegment) => { rjs.push(...v.j); });
 
                 this.filter = new FilterViewModel(route.rid, rjs, AppState.current.metadata);
                 this.filter.onFilterUpdated = this.onPoiFilterUpdated.bind(this);

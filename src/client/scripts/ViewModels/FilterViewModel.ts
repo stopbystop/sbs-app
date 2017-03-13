@@ -63,11 +63,11 @@ module StopByStop {
             }
 
             this.populate(metadata);
-            $.each(this.typeFiltersList, (i, item) => item.updatePoisVisibility(parseInt(this.maxDistanceFromJunction()), false));
+            $.each(this.typeFiltersList, (i, item) => { item.updatePoisVisibility(parseInt(this.maxDistanceFromJunction()), false); });
             this.updateCounts();
 
             this.maxDistanceFromJunction.subscribe((newValue) => {
-                $.each (this.typeFiltersList, (i,item)=>item.updatePoisVisibility(parseInt(newValue), false));
+                $.each(this.typeFiltersList, (i, item) => { item.updatePoisVisibility(parseInt(newValue), false); });
                 this.updateCounts();
                 this.onFilterUpdated();
             });
@@ -112,14 +112,14 @@ module StopByStop {
                 }
             }
 
-            $.each(this.typeFiltersList, (i, item) => item.sortValuesByOccurrence());
+            $.each(this.typeFiltersList, (i, item) => { item.sortValuesByOccurrence(); });
         }
 
 
 
         private updateCounts():void {
             var distance = parseInt(this.maxDistanceFromJunction());
-            $.each(this.typeFiltersList, (i, item) => item.resetTempCount());
+            $.each(this.typeFiltersList, (i, item) => { item.resetTempCount(); });
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -130,7 +130,7 @@ module StopByStop {
                     }
                 }
             }
-            $.each(this.typeFiltersList, (i, item) => item.applyTempCount());
+            $.each(this.typeFiltersList, (i, item) => { item.applyTempCount(); });
 
         };
     }

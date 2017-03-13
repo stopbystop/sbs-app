@@ -51,7 +51,7 @@ module StopByStop {
             this.title = this.fromLocation.placeDescription + " to " + this.toLocation.placeDescription;
 
             var exitCount = 0;
-            $.each(route.s, (i, v: IRouteSegment) => exitCount += v.j.length);
+            $.each(route.s, (i, v: IRouteSegment) => { exitCount += v.j.length; });
 
             this.description =
                 "Traveling by car from "

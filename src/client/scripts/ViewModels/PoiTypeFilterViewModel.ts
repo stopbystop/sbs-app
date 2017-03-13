@@ -108,7 +108,7 @@ module StopByStop {
 
         public sortValuesByOccurrence(): void {
             this.categoryFilter.sortByOccurrence();
-            $.each(this.propertyList, (i, item) => item.sortByOccurrence());
+            $.each(this.propertyList, (i, item) => { item.sortByOccurrence(); });
         }
 
 
@@ -133,24 +133,24 @@ module StopByStop {
 
         public getPropertiesEnablement(): { [id: string]: { [id: number]: boolean } } {
             var propertiesEnablement: { [id: string]: { [id: number]: boolean } } = {};
-            $.each(this.propertyList, (i, item) => propertiesEnablement[item.id] = item.getValuesEnablement());
+            $.each(this.propertyList, (i, item) => { propertiesEnablement[item.id] = item.getValuesEnablement(); });
             return propertiesEnablement;
         }
 
         public setPropertiesEnablement(enablement: { [id: string]: { [id: number]: boolean } }): void {
-            $.each(this.propertyList, (i, item) => item.setValuesEnablement(enablement[item.id]));
+            $.each(this.propertyList, (i, item) => { item.setValuesEnablement(enablement[item.id]); });
         }
 
         public resetTempCount(): void {
             this._tempCount = 0;
             this.categoryFilter.resetTempCount();
-            $.each(this.propertyList, (i, item) => item.resetTempCount());
+            $.each(this.propertyList, (i, item) => { item.resetTempCount(); });
         }
 
         public applyTempCount(): void {
             this.filteredCount(this._tempCount);
             this.categoryFilter.applyTempCount();
-            $.each(this.propertyList, (i, item) => item.applyTempCount());
+            $.each(this.propertyList, (i, item) => { item.applyTempCount(); });
         }
 
         public incrementTempCountForPoi(poi: IPoi) {
@@ -219,12 +219,16 @@ module StopByStop {
 
         public getValuesEnablement(): { [id: number]: boolean } {
             var valuesEnablement: { [id: number]: boolean } = {};
-            $.each(this.valueList, (i, item) => valuesEnablement[item.id] = item.isOn());
+            $.each(this.valueList, (i, item) => {
+                valuesEnablement[item.id] = item.isOn();
+            });
             return valuesEnablement;
         }
 
         public setValuesEnablement(enablement: { [id: number]: boolean }): void {
-            $.each(this.valueList, (i, item) => item.isOn(enablement[item.id]));
+            $.each(this.valueList, (i, item) => {
+                item.isOn(enablement[item.id]);
+            });
         }
 
         public selectAll(): void {
@@ -258,11 +262,11 @@ module StopByStop {
         }
 
         public resetTempCount(): void {
-            $.each(this.valueList, (i, item) => item.tempCount = 0);
+            $.each(this.valueList, (i, item) => { item.tempCount = 0; });
         }
 
         public applyTempCount(): void {
-            $.each(this.valueList, (i, item) => item.count(item.tempCount));
+            $.each(this.valueList, (i, item) => { item.count(item.tempCount); });
         }
 
         public incrementTempCount(propertyValues: number[]): void {

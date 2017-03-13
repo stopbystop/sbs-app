@@ -35,14 +35,17 @@ module StopByStop {
             Init.enableUAMatch();
 
 
+            // move it back to pageinit for jqm-demos
+            if (AppState.current.app === SBSApp.SPA) {
+                Init._initSPAOnce();
+            }
+
+
+
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {
                 var page = $(this);
 
-
-                if (AppState.current.app === SBSApp.SPA) {
-                    Init._initSPAOnce();
-                }
 
 
                 /* For Web app initialize menu programmatically*/
@@ -58,7 +61,7 @@ module StopByStop {
 
             /* home page initialization */
             $(document).on("pageinit", ".sbs-homePG", function (event) {
-                InitHome.wireup();
+                // InitHome.wireup();
             });
             /* end of home page initialization */
 
@@ -334,6 +337,8 @@ module StopByStop {
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+
+            InitHome.wireup();
         }
 
         private static animateFiltersTrigger() {

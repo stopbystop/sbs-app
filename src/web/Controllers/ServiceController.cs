@@ -110,6 +110,14 @@
         {
             return StopByStopService.RouteServiceInstance.UpdateRouteProgress(routeId, currentLocation);
         }
+        #endregion
+
+        #region GetMetadata
+
+        public JsonResult GetMetadata()
+        {
+            return Json(((IRouteService)this).GetMetadata(), JsonRequestBehavior.AllowGet);
+        }
 
         Metadata IRouteService.GetMetadata()
         {

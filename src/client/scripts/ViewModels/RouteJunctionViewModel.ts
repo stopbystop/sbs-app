@@ -86,7 +86,7 @@ module StopByStop {
         public description: KnockoutComputed<string>;
 
         public onPoiVisibilityUpdated(): boolean {
-            $.each(this.poiTypeViewModels(), (i, item) => item.visiblePois.removeAll());
+            $.each(this.poiTypeViewModels(), (i, item) => { item.visiblePois.removeAll(); });
             var junctionVisibilityChanged = false;
             var visible = false;
             for (var i = 0; i < this.junction.pois().length; i++) {
@@ -97,7 +97,7 @@ module StopByStop {
                 }
             }
 
-            $.each(this.poiTypeViewModels(), (i,item)=>item.update());
+            $.each(this.poiTypeViewModels(), (i, item) => { item.update(); });
             junctionVisibilityChanged =  this.visible() !== visible;
             this.visible(visible);
             return junctionVisibilityChanged;
