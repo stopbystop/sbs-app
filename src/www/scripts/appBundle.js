@@ -2523,10 +2523,6 @@ var StopByStop;
             Init._app = ko.observable(new StopByStop.AppViewModel(null, StopByStop.AppState.current, ""));
             ko.options.deferUpdates = true;
             Init.enableUAMatch();
-            // move it back to pageinit for jqm-demos
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.SPA) {
-                Init._initSPAOnce();
-            }
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", function (event) {
                 var page = $(_this);
@@ -2541,7 +2537,7 @@ var StopByStop;
             /* end of common initialiazation for all pages */
             /* home page initialization */
             $(document).on("pageinit", ".sbs-homePG", function (event) {
-                // InitHome.wireup();
+                StopByStop.InitHome.wireup();
             });
             /* end of home page initialization */
             /* route page initialization */
@@ -2586,6 +2582,9 @@ var StopByStop;
             if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
                 window.onpopstate = onBrowserHistoryChanged;
             }
+            if (StopByStop.AppState.current.app === StopByStop.SBSApp.SPA) {
+                Init._initSPAOnce();
+            }
             /* trigger initial hash change */
             onBrowserHistoryChanged();
         };
@@ -2595,17 +2594,17 @@ var StopByStop;
                 Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
             }
             else {
-                var withMetadata = !!StopByStop.AppState.current.metadata;
+                var withMetadata = !StopByStop.AppState.current.metadata;
                 $.ajax({
                     url: StopByStop.AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
                     dataType: 'json',
                     method: 'GET',
                     success: function (data) {
                         Init._cachedRoutes[routeId] = data;
-                        Init.onRouteDataLoaded(routeId, data, deferred);
                         if (withMetadata) {
                             StopByStop.AppState.current.metadata = data.m;
                         }
+                        Init.onRouteDataLoaded(routeId, data, deferred);
                     }
                 });
             }
@@ -2739,7 +2738,6 @@ var StopByStop;
                     StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
-            StopByStop.InitHome.wireup();
         };
         Init.animateFiltersTrigger = function () {
             window.setTimeout(function () {
@@ -2878,6 +2876,13 @@ var StopByStop;
             Application.initialize = initialize;
             function onDeviceReady() {
                 console.log("in onDeviceReady");
+                //console.log(device.platform);
+                // FastClick lib: https://github.com/ftlabs/fastclick
+                var attachFastClick = window["Origami"].fastclick;
+                attachFastClick(document.body);
+                // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
+                var viewPortScale = 1 / window.devicePixelRatio;
+                $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
                 StopByStop.Init.initialize({
                     app: StopByStop.SBSApp.SPA,
                     baseDataUrl: "https://www.stopbystop.com/",
@@ -2887,13 +2892,11 @@ var StopByStop;
                     windowOpenTarget: "_system",
                     metadata: null
                 });
-                //console.log(device.platform);
-                // FastClick lib: https://github.com/ftlabs/fastclick
-                var attachFastClick = window["Origami"].fastclick;
-                attachFastClick(document.body);
-                // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
-                var viewPortScale = 1 / window.devicePixelRatio;
-                $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
+                StopByStop.AppState.current.pageInfo = {
+                    pageName: "sbs-homePG",
+                    telemetryPageName: "Home"
+                };
+                StopByStop.InitHome.wireup();
             }
             function onPause() {
                 // TODO: This application has been suspended. Save application state here.
@@ -2904,7 +2907,8 @@ var StopByStop;
         })(Application = Cordova.Application || (Cordova.Application = {}));
         var snippet = {
             config: {
-                instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
+                // instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
+                instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245" //prod instrumentation key
             }
         };
         var init = new Microsoft.ApplicationInsights.Initialization(snippet);

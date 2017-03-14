@@ -20,16 +20,6 @@ module StopByStop.Cordova {
         function onDeviceReady() {
             console.log("in onDeviceReady");
 
-            StopByStop.Init.initialize({
-                app: SBSApp.SPA,
-                baseDataUrl: "https://www.stopbystop.com/",
-                baseImageUrl: "images/",
-                navigationLocation: { page: SBSPage.home },
-                historyDisabled: true,
-                windowOpenTarget: "_system",
-                metadata:null
-            });
-
             //console.log(device.platform);
             // FastClick lib: https://github.com/ftlabs/fastclick
             var attachFastClick = window["Origami"].fastclick;
@@ -38,6 +28,23 @@ module StopByStop.Cordova {
             // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
             var viewPortScale = 1 / window.devicePixelRatio;
             $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
+
+            StopByStop.Init.initialize({
+                app: SBSApp.SPA,
+                baseDataUrl: "https://www.stopbystop.com/",
+                baseImageUrl: "images/",
+                navigationLocation: { page: SBSPage.home },
+                historyDisabled: true,
+                windowOpenTarget: "_system",
+                metadata: null
+            });
+
+            AppState.current.pageInfo = {
+                pageName: "sbs-homePG",
+                telemetryPageName: "Home"
+            };
+
+            InitHome.wireup();
         }
 
         function onPause() {
@@ -52,8 +59,8 @@ module StopByStop.Cordova {
 
     var snippet = {
         config: {
-            instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
-            //instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"//prod instrumentation key
+            // instrumentationKey: "866f136d-4f4a-47bc-8377-fb086bfddb10" // dev instrumentation key
+            instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"//prod instrumentation key
         }
     };
     var init = new (<any>Microsoft.ApplicationInsights).Initialization(snippet);

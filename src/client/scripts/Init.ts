@@ -35,19 +35,9 @@ module StopByStop {
             Init.enableUAMatch();
 
 
-            // move it back to pageinit for jqm-demos
-            if (AppState.current.app === SBSApp.SPA) {
-                Init._initSPAOnce();
-            }
-
-
-
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {
                 var page = $(this);
-
-
-
                 /* For Web app initialize menu programmatically*/
                 if (AppState.current.app === SBSApp.Web) {
                     $(".jqm-navmenu-panel ul").listview();
@@ -55,13 +45,12 @@ module StopByStop {
                         (<any>page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)")).panel().panel("open");
                     });
                 }
-
             });
             /* end of common initialiazation for all pages */
 
             /* home page initialization */
             $(document).on("pageinit", ".sbs-homePG", function (event) {
-                // InitHome.wireup();
+                InitHome.wireup();
             });
             /* end of home page initialization */
 
@@ -128,6 +117,9 @@ module StopByStop {
             if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
                 window.onpopstate = onBrowserHistoryChanged;
             }
+            if (AppState.current.app === SBSApp.SPA) {
+                Init._initSPAOnce();
+            }
 
             /* trigger initial hash change */
             onBrowserHistoryChanged();
@@ -138,7 +130,7 @@ module StopByStop {
             if (Init._cachedRoutes[routeId]) {
                 Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
             } else {
-                var withMetadata = !!AppState.current.metadata;
+                var withMetadata = !AppState.current.metadata;
 
                 $.ajax({
                     url: AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
@@ -146,11 +138,11 @@ module StopByStop {
                     method: 'GET',
                     success: (data) => {
                         Init._cachedRoutes[routeId] = data;
-                        Init.onRouteDataLoaded(routeId, data, deferred);
-
                         if (withMetadata) {
-                            AppState.current.metadata = (<IRoute>data).m;
+                            StopByStop.AppState.current.metadata = data.m;
                         }
+
+                        Init.onRouteDataLoaded(routeId, data, deferred);
                     }
                 });
             }
@@ -337,8 +329,6 @@ module StopByStop {
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
-
-            InitHome.wireup();
         }
 
         private static animateFiltersTrigger() {
