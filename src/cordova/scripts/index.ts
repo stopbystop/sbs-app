@@ -14,37 +14,40 @@ module StopByStop.Cordova {
     export module Application {
         export function initialize() {
             document.addEventListener('deviceready', onDeviceReady, false);
-
         }
 
         function onDeviceReady() {
             console.log("in onDeviceReady");
 
-            //console.log(device.platform);
-            // FastClick lib: https://github.com/ftlabs/fastclick
-            var attachFastClick = window["Origami"].fastclick;
-            attachFastClick(document.body);
+            try {
+                // FastClick lib: https://github.com/ftlabs/fastclick
+                var attachFastClick = window["Origami"].fastclick;
+                attachFastClick(document.body);
 
-            // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
-            var viewPortScale = 1 / window.devicePixelRatio;
-            $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
+                // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
+                var viewPortScale = 1 / window.devicePixelRatio;
+                $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
 
-            StopByStop.Init.initialize({
-                app: SBSApp.SPA,
-                baseDataUrl: "https://www.stopbystop.com/",
-                baseImageUrl: "images/",
-                navigationLocation: { page: SBSPage.home },
-                historyDisabled: true,
-                windowOpenTarget: "_system",
-                metadata: null
-            });
+                StopByStop.Init.initialize({
+                    app: SBSApp.SPA,
+                    baseDataUrl: "https://www.stopbystop.com/",
+                    baseImageUrl: "images/",
+                    navigationLocation: { page: SBSPage.home },
+                    historyDisabled: true,
+                    windowOpenTarget: "_system",
+                    metadata: null
+                });
 
-            AppState.current.pageInfo = {
-                pageName: "sbs-homePG",
-                telemetryPageName: "Home"
-            };
+                AppState.current.pageInfo = {
+                    pageName: "sbs-homePG",
+                    telemetryPageName: "Home"
+                };
 
-            InitHome.wireup();
+                InitHome.wireup();
+            }
+            catch (e) {
+                alert("Error trying to initialize application: "+ e);
+            }
         }
 
         function onPause() {
@@ -54,7 +57,6 @@ module StopByStop.Cordova {
         function onResume() {
             // TODO: This application has been reactivated. Restore application state here.
         }
-
     }
 
     var snippet = {
@@ -63,10 +65,9 @@ module StopByStop.Cordova {
             instrumentationKey: "6abbda64-056b-42f3-b87b-e9bfab2a3245"//prod instrumentation key
         }
     };
+
     var init = new (<any>Microsoft.ApplicationInsights).Initialization(snippet);
     Telemetry._appInsights = init.loadAppInsights();
-
-
     try {
         window.fbAsyncInit = function () {
             FB.init({
@@ -86,9 +87,5 @@ module StopByStop.Cordova {
     $.mobile.allowCrossDomainPages = true;
     $.support.cors = true;
 
-
-
-    window.onload = function () {
-        Application.initialize();
-    }
+    Application.initialize();
 }

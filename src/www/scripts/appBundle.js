@@ -2876,27 +2876,31 @@ var StopByStop;
             Application.initialize = initialize;
             function onDeviceReady() {
                 console.log("in onDeviceReady");
-                //console.log(device.platform);
-                // FastClick lib: https://github.com/ftlabs/fastclick
-                var attachFastClick = window["Origami"].fastclick;
-                attachFastClick(document.body);
-                // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
-                var viewPortScale = 1 / window.devicePixelRatio;
-                $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
-                StopByStop.Init.initialize({
-                    app: StopByStop.SBSApp.SPA,
-                    baseDataUrl: "https://www.stopbystop.com/",
-                    baseImageUrl: "images/",
-                    navigationLocation: { page: StopByStop.SBSPage.home },
-                    historyDisabled: true,
-                    windowOpenTarget: "_system",
-                    metadata: null
-                });
-                StopByStop.AppState.current.pageInfo = {
-                    pageName: "sbs-homePG",
-                    telemetryPageName: "Home"
-                };
-                StopByStop.InitHome.wireup();
+                try {
+                    // FastClick lib: https://github.com/ftlabs/fastclick
+                    var attachFastClick = window["Origami"].fastclick;
+                    attachFastClick(document.body);
+                    // instead of target-density-dpi: http://stackoverflow.com/questions/11592015/support-for-target-densitydpi-is-removed-from-webkit
+                    var viewPortScale = 1 / window.devicePixelRatio;
+                    $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
+                    StopByStop.Init.initialize({
+                        app: StopByStop.SBSApp.SPA,
+                        baseDataUrl: "https://www.stopbystop.com/",
+                        baseImageUrl: "images/",
+                        navigationLocation: { page: StopByStop.SBSPage.home },
+                        historyDisabled: true,
+                        windowOpenTarget: "_system",
+                        metadata: null
+                    });
+                    StopByStop.AppState.current.pageInfo = {
+                        pageName: "sbs-homePG",
+                        telemetryPageName: "Home"
+                    };
+                    StopByStop.InitHome.wireup();
+                }
+                catch (e) {
+                    alert("Error trying to initialize application: " + e);
+                }
             }
             function onPause() {
                 // TODO: This application has been suspended. Save application state here.
@@ -2929,9 +2933,7 @@ var StopByStop;
         $.mobile.ajaxEnabled = true;
         $.mobile.allowCrossDomainPages = true;
         $.support.cors = true;
-        window.onload = function () {
-            Application.initialize();
-        };
+        Application.initialize();
     })(Cordova = StopByStop.Cordova || (StopByStop.Cordova = {}));
 })(StopByStop || (StopByStop = {}));
 //# sourceMappingURL=appBundle.js.map

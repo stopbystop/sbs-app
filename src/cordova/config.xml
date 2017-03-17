@@ -18,6 +18,8 @@
   <allow-intent href="sms:*" />
   <allow-intent href="mailto:*" />
   <allow-intent href="geo:*" />
+  <!-- not recommended -->
+  <allow-intent href="*" />
   <allow-navigation href="*" />
   <platform name="android">
     <allow-intent href="market:*" />
