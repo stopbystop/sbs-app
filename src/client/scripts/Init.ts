@@ -30,7 +30,7 @@ module StopByStop {
 
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {
-                Init._wireUpOnce();
+                Init.wireupAndBindOnce();
             });
             /* end of common initialiazation for all pages */
 
@@ -70,6 +70,10 @@ module StopByStop {
             AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
             Init._app = ko.observable<AppViewModel>(new AppViewModel(null, AppState.current, ""));
             Init.wireupHashChange();
+        }
+
+        public static wireupAndBindOnce(): void {
+            Init._wireUpOnce();
         }
 
         private static wireupAndBind() {

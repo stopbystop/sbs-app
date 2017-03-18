@@ -28,7 +28,7 @@ module StopByStop.Cordova {
                 var viewPortScale = 1 / window.devicePixelRatio;
                 $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
 
-                StopByStop.Init.initialize({
+                StopByStop.Init.startup({
                     baseDataUrl: "https://www.stopbystop.com/",
                     baseImageUrl: "images/",
                     navigationLocation: { page: SBSPage.home },
@@ -37,12 +37,15 @@ module StopByStop.Cordova {
                     metadata: null
                 });
 
+                
                 AppState.current.pageInfo = {
                     pageName: "sbs-homePG",
                     telemetryPageName: "Home"
                 };
 
+                Init.wireupAndBindOnce();
                 InitHome.wireup();
+                
             }
             catch (e) {
                 alert("Error trying to initialize application: "+ e);
