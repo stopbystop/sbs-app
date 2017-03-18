@@ -15,7 +15,7 @@
 
 module StopByStop {
     export class WebInit {
-        public static initialize(webInitData: IWebInitData): void {
+        public static startup(webInitData: IWebInitData): void {
 
             if (webInitData.r) {
                 Init._cachedRoutes[webInitData.rid] = webInitData.r;
@@ -26,7 +26,6 @@ module StopByStop {
             }
 
             var appState: IAppState = {
-                app: SBSApp.SPA,
                 baseDataUrl: webInitData.durl,
                 baseImageUrl: webInitData.iurl,
                 navigationLocation: {
@@ -40,7 +39,7 @@ module StopByStop {
                 metadata: webInitData.m
             };
 
-            Init.initialize(appState);
+            Init.startup(appState);
 
             if (!location.hash) {
                 var hash = Utils.getHashFromNavigationLocation(appState.navigationLocation);

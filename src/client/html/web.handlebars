@@ -84,19 +84,21 @@
 
     @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
 
-    <script type="text/javascript">
-        StopByStop.WebInit.initialize(
-        @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))
-        );
-        $("body").css({ opacity: "1.0" });
-    </script>
-
     @if (System.Configuration.ConfigurationManager.AppSettings["envtype"] == "production")
     {
     <script type="text/javascript">
         window.isProduction = true;
     </script>
     }
+
+    <script type="text/javascript">
+        
+
+        StopByStop.WebInit.startup(
+            @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))
+            );
+        $("body").css({ opacity: "1.0" });
+    </script>
 
 
 </head>
@@ -117,9 +119,14 @@
         {{>mappoipopup}}
     </div>
 
+    <script type="text/javascript">
+    
+    </script>
+
 
     @* Delay loading*@
     <script type="text/javascript">
+
         $(window).on("load", function () {
             window.setTimeout(function () {
                 $("head").append('<link rel="stylesheet" type="text/css" href="@(System.Web.Optimization.Styles.Url("~/client/content/sbscssdelayedbundle"))" />');

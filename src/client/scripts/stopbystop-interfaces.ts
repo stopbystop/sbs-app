@@ -3,12 +3,6 @@
 "use strict";
 
 module StopByStop {
-
-    export enum SBSApp {
-        Web = 0,
-        SPA = 1
-    }
-
     export interface IInitUrls {
         BaseUrl: string;
         BaseImageUrl: string;
@@ -25,7 +19,6 @@ module StopByStop {
         baseDataUrl: string;
         baseImageUrl: string;
         windowOpenTarget: string;
-        app: SBSApp;
         urls?: IInitUrls;
         pageInfo?: IPageInfo;
         navigationLocation?: ISBSNavigationLocation;

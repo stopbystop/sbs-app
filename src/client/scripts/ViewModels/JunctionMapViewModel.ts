@@ -21,17 +21,6 @@ module StopByStop {
             this.mapDiv = mapDiv;
             this.mapContainerDiv = mapContainerDiv;
             this.urls = urls;
-
-            if (AppState.current.app === SBSApp.Web) {
-                if (this.mapDiv && this.mapContainerDiv) {
-                    window.setTimeout(() => {
-                        this.initMapDiv();
-                        window.setTimeout(() => {
-                            $(this.mapContainerDiv).hide();
-                        }, 500);
-                    }, 300);
-                }
-            }
         }
 
         public initMapDiv(): void {

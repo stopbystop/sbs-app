@@ -24,10 +24,6 @@
     <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
     <script src="scripts/ai_1.0.2_min.js"></script>
     <script src="scripts/fb_min.js"></script>
-    <!-- TODO: change to min.js-->
-    <script src="scripts/sbsbundle.js"></script>
-    <script src="scripts/appBundle.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
     <title>See best places to stop on the way to your destination - Stop by Stop</title>
 </head>
 <body class="sbs">
@@ -46,5 +42,16 @@
     <div style="display:none">
         {{>mappoipopup}}
     </div>
+
+    <!-- TODO: change to min.js-->
+    <!-- 
+        TODO (3/18/2017): moved the following scripts to under content, because when initialization was happening required sbsroot element
+        wasn't present for web UI. I cannot understand how come it works for Cordova UI, however
+        with next release this should be investigated 
+        -->
+    <script src="scripts/sbsbundle.js"></script>
+    <script src="scripts/appBundle.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
+
 </body>
 </html>

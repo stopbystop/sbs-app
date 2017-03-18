@@ -19,32 +19,18 @@ module StopByStop {
     export class Init {
         private static _app: KnockoutObservable<AppViewModel>;
         private static _currentRouteId: string;
-        private static _initSPAOnce: (...args: any[]) => void;
-
         private static _loadRoutePromise: JQueryPromise<any> = null;
-
-
         public static _cachedRoutes: { [id: string]: IRoute } = {};
-        public static initialize(settings: IAppState): void {
-            this._initSPAOnce = Utils.runOnce(Init.initSPA);
-            AppState.current = settings;
-            AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
-            Init._app = ko.observable<AppViewModel>(new AppViewModel(null, AppState.current, ""));
+        private static _wireUpOnce: any;
 
+        public static startup(settings: IAppState): void {
             (<any>ko).options.deferUpdates = true;
             Init.enableUAMatch();
-
+            Init._wireUpOnce = Utils.runOnce(Init.wireupAndBind);
 
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", (event) => {
-                var page = $(this);
-                /* For Web app initialize menu programmatically*/
-                if (AppState.current.app === SBSApp.Web) {
-                    $(".jqm-navmenu-panel ul").listview();
-                    $(".jqm-navmenu-link").on("click", () => {
-                        (<any>page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)")).panel().panel("open");
-                    });
-                }
+                Init._wireUpOnce();
             });
             /* end of common initialiazation for all pages */
 
@@ -70,7 +56,6 @@ module StopByStop {
 
             /* poi group page initialization */
             $(document).on("pageinit", ".poigroup-page", function (event) {
-
                 var poiGroupInitialized = false;
                 $(document).scroll(function () {
                     if (!poiGroupInitialized) {
@@ -81,142 +66,31 @@ module StopByStop {
             });
             /* end of poi group page initialization */
 
-            /* handle unknown hash change */
-            var scheduledUnknownChange = false;
-
-            var onBrowserHistoryChanged = () => {
-
-                if (!scheduledUnknownChange) {
-                    scheduledUnknownChange = true;
-                    window.setTimeout(() => {
-                        if (!AppState.current.knownHashChangeInProgress) {
-                            var newHash = location.hash;
-                            var oldPage = AppState.current.navigationLocation.page;
-
-                            Utils.updateNavigationLocation(newHash, AppState.current.navigationLocation);
-                            if (oldPage !== AppState.current.navigationLocation.page) {
-                                Utils.spaPageNavigate(
-                                    AppState.current.navigationLocation.page,
-                                    AppState.current.navigationLocation.routeId,
-                                    AppState.current.navigationLocation.exitId,
-                                    AppState.current.navigationLocation.poiType,
-                                    false);
-
-                            }
-                        }
-
-                        AppState.current.knownHashChangeInProgress = false;
-                        scheduledUnknownChange = false;
-                    }, 100);
-                }
-            };
-
-
-            (<any>$(window)).hashchange(onBrowserHistoryChanged);
-
-            if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
-                window.onpopstate = onBrowserHistoryChanged;
-            }
-            if (AppState.current.app === SBSApp.SPA) {
-                Init._initSPAOnce();
-            }
-
-            /* trigger initial hash change */
-            onBrowserHistoryChanged();
+            AppState.current = settings;
+            AppState.current.urls = new InitUrls(settings.baseDataUrl, settings.baseImageUrl);
+            Init._app = ko.observable<AppViewModel>(new AppViewModel(null, AppState.current, ""));
+            Init.wireupHashChange();
         }
 
-        private static loadRoute(routeId: string): JQueryPromise<any> {
-            var deferred = $.Deferred();
-            if (Init._cachedRoutes[routeId]) {
-                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
-            } else {
-                var withMetadata = !AppState.current.metadata;
-
-                $.ajax({
-                    url: AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
-                    dataType: 'json',
-                    method: 'GET',
-                    success: (data) => {
-                        Init._cachedRoutes[routeId] = data;
-                        if (withMetadata) {
-                            StopByStop.AppState.current.metadata = data.m;
-                        }
-
-                        Init.onRouteDataLoaded(routeId, data, deferred);
-                    }
-                });
-            }
-
-            return deferred.promise();
-        }
-
-        private static onRouteDataLoaded(routeId: string, data: IRoute, done: JQueryDeferred<any>): void {
-
-            if (routeId === Init._currentRouteId) {
-                var route = data;
-                var app = new AppViewModel(route, AppState.current, Utils.getRouteTitleFromRouteId(routeId),
-                    () => {
-                        done.resolve();
-                    });
-
-                Init._app(app);
-            } else {
-                done.reject();
-            }
-        }
-
-        private static completeExitPageInit(): void {
-            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
-            var poiType = AppState.current.navigationLocation.poiType;
-
-            var appViewModel = Init._app();
-
-            var junctionAppViewModel = new JunctionSPAAppViewModel(
-                appViewModel.route.route,
-                selectedRouteJunction,
-                appViewModel.filter,
-                appViewModel.routePlan,
-                AppState.current.metadata,
-                poiType);
-
-            appViewModel.selectedJunction(junctionAppViewModel);
-
-            Init.initJunctionMapWhenReady(junctionAppViewModel).then((jmmv) => {
-                // to ensure the switch between map and list view is initialized
-                $(".view-mode-switch").controlgroup();
-                $(".view-mode-switch").trigger("create");
-                Init.wireupPOIGroup(jmmv);
-
-            })
-
-            Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
-            Init._app().title(junctionAppViewModel.routeJunction.title);
-            document.title = Init._app().title();
-            Init.animateFiltersTrigger();
-        }
-
-        private static initSPA(): void {
-            /* apply root bindings for Cordova app */
-            var sbsRootNode = $("#sbsRoot")[0];
-            ko.applyBindings(Init._app, sbsRootNode);
+        private static wireupAndBind() {
+            Init.wireupOnShow();
             $(".jqm-navmenu-link").click(() => Init.openNavigationMenu());
-
-            // Initialize breadcrumb on applicable pages
-            jQuery(document).ready(() => {
-                (<any>jQuery(".breadCrumb")).jBreadCrumb();
-            })
-
+            (<any>jQuery(".breadCrumb")).jBreadCrumb();
             // wire up click on the social button
             $(".social-btn").click(() => {
                 Telemetry.trackEvent(TelemetryEvent.SocialButtonClick);
             });
-
             $(".filters-trigger").click(() => {
                 Telemetry.trackEvent(TelemetryEvent.FilterButtonClick);
                 Init.openFilterPopup();
             });
 
+            /* apply root bindings for Cordova app */
+            var sbsRootNode = $("#sbsRoot")[0];
+            ko.applyBindings(Init._app, sbsRootNode);
+        }
 
+        private static wireupOnShow() {
             /* initialize page navigation events */
             var pageBeforeShowTime: number;
             var navigationAbandoned = false;
@@ -329,6 +203,118 @@ module StopByStop {
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+        }
+
+        private static wireupHashChange(): void {
+
+            /* handle unknown hash change */
+            var scheduledUnknownChange = false;
+
+            var onBrowserHistoryChanged = () => {
+                if (!scheduledUnknownChange) {
+                    scheduledUnknownChange = true;
+                    window.setTimeout(() => {
+                        if (!AppState.current.knownHashChangeInProgress) {
+                            var newHash = location.hash;
+                            var oldPage = AppState.current.navigationLocation.page;
+
+                            Utils.updateNavigationLocation(newHash, AppState.current.navigationLocation);
+                            if (oldPage !== AppState.current.navigationLocation.page) {
+                                Utils.spaPageNavigate(
+                                    AppState.current.navigationLocation.page,
+                                    AppState.current.navigationLocation.routeId,
+                                    AppState.current.navigationLocation.exitId,
+                                    AppState.current.navigationLocation.poiType,
+                                    false);
+
+                            }
+                        }
+
+                        AppState.current.knownHashChangeInProgress = false;
+                        scheduledUnknownChange = false;
+                    }, 100);
+                }
+            };
+
+
+            (<any>$(window)).hashchange(onBrowserHistoryChanged);
+
+            if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
+                window.onpopstate = onBrowserHistoryChanged;
+            }
+
+            /* trigger initial hash change */
+            onBrowserHistoryChanged();
+        }
+
+        private static loadRoute(routeId: string): JQueryPromise<any> {
+            var deferred = $.Deferred();
+            if (Init._cachedRoutes[routeId]) {
+                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
+            } else {
+                var withMetadata = !AppState.current.metadata;
+
+                $.ajax({
+                    url: AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
+                    dataType: 'json',
+                    method: 'GET',
+                    success: (data) => {
+                        Init._cachedRoutes[routeId] = data;
+                        if (withMetadata) {
+                            StopByStop.AppState.current.metadata = data.m;
+                        }
+
+                        Init.onRouteDataLoaded(routeId, data, deferred);
+                    }
+                });
+            }
+
+            return deferred.promise();
+        }
+
+        private static onRouteDataLoaded(routeId: string, data: IRoute, done: JQueryDeferred<any>): void {
+
+            if (routeId === Init._currentRouteId) {
+                var route = data;
+                var app = new AppViewModel(route, AppState.current, Utils.getRouteTitleFromRouteId(routeId),
+                    () => {
+                        done.resolve();
+                    });
+
+                Init._app(app);
+            } else {
+                done.reject();
+            }
+        }
+
+        private static completeExitPageInit(): void {
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
+            var poiType = AppState.current.navigationLocation.poiType;
+
+            var appViewModel = Init._app();
+
+            var junctionAppViewModel = new JunctionSPAAppViewModel(
+                appViewModel.route.route,
+                selectedRouteJunction,
+                appViewModel.filter,
+                appViewModel.routePlan,
+                AppState.current.metadata,
+                poiType);
+
+            appViewModel.selectedJunction(junctionAppViewModel);
+
+            Init.initJunctionMapWhenReady(junctionAppViewModel).then((jmmv) => {
+                // to ensure the switch between map and list view is initialized
+                $(".view-mode-switch").controlgroup();
+                $(".view-mode-switch").trigger("create");
+                Init.wireupPOIGroup(jmmv);
+
+            })
+
+            Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
+            Init._app().title(junctionAppViewModel.routeJunction.title);
+            document.title = Init._app().title();
+            Init.animateFiltersTrigger();
         }
 
         private static animateFiltersTrigger() {

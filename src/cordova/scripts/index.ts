@@ -29,7 +29,6 @@ module StopByStop.Cordova {
                 $('#viewport').attr('content', 'user-scalable=no, initial-scale=' + viewPortScale + ', width=device-width');
 
                 StopByStop.Init.initialize({
-                    app: SBSApp.SPA,
                     baseDataUrl: "https://www.stopbystop.com/",
                     baseImageUrl: "images/",
                     navigationLocation: { page: SBSPage.home },

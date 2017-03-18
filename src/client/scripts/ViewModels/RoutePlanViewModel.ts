@@ -62,7 +62,7 @@ module StopByStop {
         public editedStop: KnockoutObservable<RouteStopViewModel>;
 
         public getOrCreateStop(placeObj: IStopPlace, reloadFromCache: boolean = false): RouteStopViewModel {
-            
+
             /* Ensure that object only contains members that are part of IStopPlace interface,
                as this is about to be serialized. Is there a better way to do it? */
 
@@ -89,14 +89,14 @@ module StopByStop {
             return stop;
         }
 
-        public addEditedStopToRoute():void {
+        public addEditedStopToRoute(): void {
             this.addStopToRoute(this.editedStop());
             Utils.spaPageNavigate(
                 SBSPage.route,
                 AppState.current.navigationLocation.routeId);
         }
 
-        public removeEditedStop():void {
+        public removeEditedStop(): void {
             this.removeStop(this.editedStop());
             this.closeStopSettings();
         }
@@ -120,43 +120,16 @@ module StopByStop {
             });
 
             if (!alreadyAdded) {
-                this.stops.push(this._stopDictionary[place.id]);   
+                this.stops.push(this._stopDictionary[place.id]);
                 var routeJunctionViewModel = this.junctionMap[place.exitId];
 
                 if (routeJunctionViewModel) {
                     routeJunctionViewModel.stops.push(routeStopViewModel);
                 } else {
-                    Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);                      
+                    Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);
                 }
 
-                              
-                if (AppState.current.app === SBSApp.Web) {
-                    // legacy path: we'll remove it completely, once fully migrated to SPA mode
-                    // add to stop collection bound to UI
-                    if (AppState.current.pageInfo.pageName === "route-page") {
-                        var routeJunctionViewModel = this.junctionMap[place.exitId];
-                        if (routeJunctionViewModel) {
-                            routeJunctionViewModel.stops.push(routeStopViewModel);
-                        }
-                        else {
-                            alert("Couldn't find routeJunctionViewModel");
-                        }
-                    }
 
-                    // update storage item for persistence
-                    place.duration = routeStopViewModel.stopDuration();
-
-                    this._storageItem[this._routeId].stops[place.id] = place;
-              
-                    // subscribe for duration updates
-                    routeStopViewModel.stopDuration.subscribe((newValue: number) => {
-                        this._storageItem[this._routeId].stops[place.id].duration = newValue;
-                        this.saveRouteToStorage();
-
-                    });
-
-                    this.saveRouteToStorage();
-                }
             }
         }
 
@@ -175,10 +148,6 @@ module StopByStop {
 
                 delete this._stopDictionary[sbsid];
 
-                if (AppState.current.app === SBSApp.Web) {
-                    delete this._storageItem[this._routeId].stops[sbsid];
-                    this.saveRouteToStorage();
-                }
             }
         }
 
@@ -186,9 +155,7 @@ module StopByStop {
             Telemetry.trackEvent(TelemetryEvent.ShowStopSettingsPopup);
             this.editedStop(plannedStop);
 
-            var stopSettingsDialog = AppState.current.app === SBSApp.SPA ?
-                $("." + AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
-                $("#stopSettingsDialog");
+            var stopSettingsDialog = $("." + AppState.current.pageInfo.pageName + " .stop-settings-dialog");
 
             stopSettingsDialog.on('popupafteropen', function () {
                 var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
@@ -213,9 +180,8 @@ module StopByStop {
         }
 
         private closeStopSettings() {
-            var stopSettingsDialog = AppState.current.app === SBSApp.SPA ?
-                $("." + AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
-                $("#stopSettingsDialog");
+            var stopSettingsDialog =
+                $("." + AppState.current.pageInfo.pageName + " .stop-settings-dialog");
             stopSettingsDialog.popup("close");
         }
 
@@ -266,9 +232,7 @@ module StopByStop {
         };
 
         private saveRouteToStorage(): void {
-            if (AppState.current.app === SBSApp.Web) {
-                this._storage.setItem(ROUTE_PLAN_STORAGE_KEY, JSON.stringify(this._storageItem));
-            }
+
         }
     }
 }
