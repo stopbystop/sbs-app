@@ -78,7 +78,11 @@
             {
                 if (!string.IsNullOrEmpty(poiTypeString))
                 {
-                    poiType = metadata.RootPoiCategories.First(rpc => rpc.Value.PoiType.ToString() == poiTypeString).Key;
+                    PoiType2 parsedPoiType;
+                    if (Enum.TryParse<PoiType2>(poiTypeString, out parsedPoiType))
+                    {
+                        poiType = parsedPoiType;
+                    } 
                 }
 
                 model.Page = ClientPage.Exit;

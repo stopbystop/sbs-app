@@ -275,7 +275,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Target Name="AfterBuild" Condition="'$(SkipClientAfterBuild)' != true">
-    <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.1.5\tools\tsc.exe" />
+    <Exec Command="..\packages\Microsoft.TypeScript.Compiler.2.2.1\tools\tsc.exe" />
     <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-cordova" />
     <Exec Command="..\..\node_modules\.bin\gulp -b . --color --gulpfile gulpfile.js build-web" />
     <Exec Command="..\copybundles.cmd" />

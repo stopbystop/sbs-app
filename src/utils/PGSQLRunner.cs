@@ -97,7 +97,10 @@ namespace Yojowa.StopByStop.Utils
                 (int attemptIndex) =>
            {
                var conn = new NpgsqlConnection(connection);
+               
                var command = new NpgsqlCommand(commandText, conn);
+               command.CommandTimeout = commandTimeout;
+               
                DependencyTelemetry dependencyTelemetry = new DependencyTelemetry();
                try
                {

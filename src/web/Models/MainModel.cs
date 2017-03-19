@@ -66,17 +66,17 @@
                     string toLocation = this.Route.ToLocation.PlaceDescriptionShort;
                     var travelTimeSpan = TimeSpan.FromSeconds(this.Route.TimeInSeconds);
                     string travelTime = string.Format("{0} hours {1} minutes", (int)travelTimeSpan.TotalHours, travelTimeSpan.Minutes);
-                  
+
                     long osmId = 0;
                     string exitName = "";
 
-                    Dictionary<PoiType2, MutableTuple<int,int>> categoryCounts = new Dictionary<PoiType2, MutableTuple<int, int>>();
+                    Dictionary<PoiType2, MutableTuple<int, int>> categoryCounts = new Dictionary<PoiType2, MutableTuple<int, int>>();
 
                     if (this.Page == ClientPage.Exit)
                     {
                         long.TryParse(Regex.Match(this.ExitId, "osm-(?<id>[0-9]+)").Groups["id"].Value, out osmId);
                     }
-                    
+
                     Array.ForEach(
                     this.Route.RouteSegments, rs => Array.ForEach(
                         rs.RouteJunctions, rj =>
@@ -89,14 +89,14 @@
                             }
 
 
-                          
+
 
                             Array.ForEach(
                                  rj.Junction.Pois, pj =>
                                  {
                                      if (!categoryCounts.ContainsKey(pj.Poi.PoiType))
                                      {
-                                         categoryCounts.Add(pj.Poi.PoiType, MutableTuple<int,int>.Create(0, 0));
+                                         categoryCounts.Add(pj.Poi.PoiType, MutableTuple<int, int>.Create(0, 0));
                                      }
 
                                      categoryCounts[pj.Poi.PoiType].Item1++;
@@ -113,9 +113,19 @@
                         fromLocationInDescription = "your location";
                     }
 
-                  
+
+
                     string poiTypeCountDescription = string.Join(" ", categoryCounts
-                        .Select(cc => Metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item1)));
+                        .Select((cc) =>
+                        {
+                            var singlePluralLabel = Metadata.RootPoiCategories[cc.Key].SinglePluralLabel;
+                            if (singlePluralLabel == null)
+                            {
+                                return cc.Value.Item1 + " item(s)";
+                            }
+
+                            return singlePluralLabel(cc.Value.Item1);
+                        }));
 
 
                     if (this.Page == ClientPage.Route)
@@ -133,9 +143,19 @@
                     if (this.Page == ClientPage.Exit)
                     {
                         string exitPoiTypeCountDescription = string.Join(" ", categoryCounts
-                         .Select(cc => Metadata.RootPoiCategories[cc.Key].SinglePluralLabel(cc.Value.Item2)));
+                            .Select((cc) =>
+                            {
+                                var singlePluralLabel = Metadata.RootPoiCategories[cc.Key].SinglePluralLabel;
+                                if (singlePluralLabel == null)
+                                {
+                                    return cc.Value.Item2 + " item(s)";
+                                }
+
+                                return singlePluralLabel(cc.Value.Item2);
+                            }));
+
                         this.Title = string.Format("{0} on the way from {1} to {2} - Stop by Stop", exitName, fromLocation, toLocation);
-                        this.Description = string.Format("{0} on the way from {1} to {2} has {4} within 5 miles from exit",
+                        this.Description = string.Format("{0} on the way from {1} to {2} has {3} within 5 miles from exit",
                             exitName, fromLocation, toLocation, exitPoiTypeCountDescription);
                     }
 
