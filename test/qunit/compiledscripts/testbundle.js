@@ -12,11 +12,6 @@ var __extends = (this && this.__extends) || (function () {
 "use strict";
 var StopByStop;
 (function (StopByStop) {
-    var SBSApp;
-    (function (SBSApp) {
-        SBSApp[SBSApp["Web"] = 0] = "Web";
-        SBSApp[SBSApp["SPA"] = 1] = "SPA";
-    })(SBSApp = StopByStop.SBSApp || (StopByStop.SBSApp = {}));
     ;
     var PoiType;
     (function (PoiType) {
@@ -268,7 +263,7 @@ var StopByStop;
         };
         PoiTypeFilterViewModel.prototype.sortValuesByOccurrence = function () {
             this.categoryFilter.sortByOccurrence();
-            $.each(this.propertyList, function (i, item) { return item.sortByOccurrence(); });
+            $.each(this.propertyList, function (i, item) { item.sortByOccurrence(); });
         };
         PoiTypeFilterViewModel.prototype.getCategoriesEnablement = function () {
             return this.categoryFilter.getValuesEnablement();
@@ -278,21 +273,21 @@ var StopByStop;
         };
         PoiTypeFilterViewModel.prototype.getPropertiesEnablement = function () {
             var propertiesEnablement = {};
-            $.each(this.propertyList, function (i, item) { return propertiesEnablement[item.id] = item.getValuesEnablement(); });
+            $.each(this.propertyList, function (i, item) { propertiesEnablement[item.id] = item.getValuesEnablement(); });
             return propertiesEnablement;
         };
         PoiTypeFilterViewModel.prototype.setPropertiesEnablement = function (enablement) {
-            $.each(this.propertyList, function (i, item) { return item.setValuesEnablement(enablement[item.id]); });
+            $.each(this.propertyList, function (i, item) { item.setValuesEnablement(enablement[item.id]); });
         };
         PoiTypeFilterViewModel.prototype.resetTempCount = function () {
             this._tempCount = 0;
             this.categoryFilter.resetTempCount();
-            $.each(this.propertyList, function (i, item) { return item.resetTempCount(); });
+            $.each(this.propertyList, function (i, item) { item.resetTempCount(); });
         };
         PoiTypeFilterViewModel.prototype.applyTempCount = function () {
             this.filteredCount(this._tempCount);
             this.categoryFilter.applyTempCount();
-            $.each(this.propertyList, function (i, item) { return item.applyTempCount(); });
+            $.each(this.propertyList, function (i, item) { item.applyTempCount(); });
         };
         PoiTypeFilterViewModel.prototype.incrementTempCountForPoi = function (poi) {
             this._tempCount++;
@@ -345,11 +340,15 @@ var StopByStop;
         };
         MultiValueFilterViewModel.prototype.getValuesEnablement = function () {
             var valuesEnablement = {};
-            $.each(this.valueList, function (i, item) { return valuesEnablement[item.id] = item.isOn(); });
+            $.each(this.valueList, function (i, item) {
+                valuesEnablement[item.id] = item.isOn();
+            });
             return valuesEnablement;
         };
         MultiValueFilterViewModel.prototype.setValuesEnablement = function (enablement) {
-            $.each(this.valueList, function (i, item) { return item.isOn(enablement[item.id]); });
+            $.each(this.valueList, function (i, item) {
+                item.isOn(enablement[item.id]);
+            });
         };
         MultiValueFilterViewModel.prototype.selectAll = function () {
             $.each(this.valueList, function (i, item) {
@@ -376,10 +375,10 @@ var StopByStop;
             this.filter.updatePoisVisibility();
         };
         MultiValueFilterViewModel.prototype.resetTempCount = function () {
-            $.each(this.valueList, function (i, item) { return item.tempCount = 0; });
+            $.each(this.valueList, function (i, item) { item.tempCount = 0; });
         };
         MultiValueFilterViewModel.prototype.applyTempCount = function () {
-            $.each(this.valueList, function (i, item) { return item.count(item.tempCount); });
+            $.each(this.valueList, function (i, item) { item.count(item.tempCount); });
         };
         MultiValueFilterViewModel.prototype.incrementTempCount = function (propertyValues) {
             $.each(this.valueList, function (i, item) {
@@ -459,10 +458,10 @@ var StopByStop;
                 }).bind(this, selectedmdpair));
             }
             this.populate(metadata);
-            $.each(this.typeFiltersList, function (i, item) { return item.updatePoisVisibility(parseInt(_this.maxDistanceFromJunction()), false); });
+            $.each(this.typeFiltersList, function (i, item) { item.updatePoisVisibility(parseInt(_this.maxDistanceFromJunction()), false); });
             this.updateCounts();
             this.maxDistanceFromJunction.subscribe(function (newValue) {
-                $.each(_this.typeFiltersList, function (i, item) { return item.updatePoisVisibility(parseInt(newValue), false); });
+                $.each(_this.typeFiltersList, function (i, item) { item.updatePoisVisibility(parseInt(newValue), false); });
                 _this.updateCounts();
                 _this.onFilterUpdated();
             });
@@ -491,11 +490,11 @@ var StopByStop;
                     this.typeFiltersLookup[poi.t].initWithPoi(poiOnJunction);
                 }
             }
-            $.each(this.typeFiltersList, function (i, item) { return item.sortValuesByOccurrence(); });
+            $.each(this.typeFiltersList, function (i, item) { item.sortValuesByOccurrence(); });
         };
         FilterViewModel.prototype.updateCounts = function () {
             var distance = parseInt(this.maxDistanceFromJunction());
-            $.each(this.typeFiltersList, function (i, item) { return item.resetTempCount(); });
+            $.each(this.typeFiltersList, function (i, item) { item.resetTempCount(); });
             for (var i = 0; i < this.routeJunctions.length; i++) {
                 var rj = this.routeJunctions[i];
                 for (var j = 0; j < rj.j.p.length; j++) {
@@ -506,7 +505,7 @@ var StopByStop;
                     }
                 }
             }
-            $.each(this.typeFiltersList, function (i, item) { return item.applyTempCount(); });
+            $.each(this.typeFiltersList, function (i, item) { item.applyTempCount(); });
         };
         ;
         return FilterViewModel;
@@ -1113,7 +1112,6 @@ var StopByStop;
     AppState.current = {
         baseDataUrl: null,
         baseImageUrl: null,
-        app: null,
         windowOpenTarget: "_system",
         metadata: null
     };
@@ -1264,7 +1262,7 @@ var StopByStop;
             });
         }
         RouteJunctionViewModel.prototype.onPoiVisibilityUpdated = function () {
-            $.each(this.poiTypeViewModels(), function (i, item) { return item.visiblePois.removeAll(); });
+            $.each(this.poiTypeViewModels(), function (i, item) { item.visiblePois.removeAll(); });
             var junctionVisibilityChanged = false;
             var visible = false;
             for (var i = 0; i < this.junction.pois().length; i++) {
@@ -1274,7 +1272,7 @@ var StopByStop;
                     visible = true;
                 }
             }
-            $.each(this.poiTypeViewModels(), function (i, item) { return item.update(); });
+            $.each(this.poiTypeViewModels(), function (i, item) { item.update(); });
             junctionVisibilityChanged = this.visible() !== visible;
             this.visible(visible);
             return junctionVisibilityChanged;
@@ -1369,7 +1367,6 @@ var StopByStop;
             this.editedStop().navigate();
         };
         RoutePlanViewModel.prototype.addStopToRoute = function (routeStopViewModel, reloadFromCache) {
-            var _this = this;
             if (reloadFromCache === void 0) { reloadFromCache = false; }
             StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.AddStopToRoute, [{ k: StopByStop.TelemetryProperty.LoadStopsFromCache, v: reloadFromCache.toString() }]);
             var place = routeStopViewModel.stopPlace;
@@ -1389,28 +1386,6 @@ var StopByStop;
                 else {
                     StopByStop.Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);
                 }
-                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                    // legacy path: we'll remove it completely, once fully migrated to SPA mode
-                    // add to stop collection bound to UI
-                    if (StopByStop.AppState.current.pageInfo.pageName === "route-page") {
-                        var routeJunctionViewModel = this.junctionMap[place.exitId];
-                        if (routeJunctionViewModel) {
-                            routeJunctionViewModel.stops.push(routeStopViewModel);
-                        }
-                        else {
-                            alert("Couldn't find routeJunctionViewModel");
-                        }
-                    }
-                    // update storage item for persistence
-                    place.duration = routeStopViewModel.stopDuration();
-                    this._storageItem[this._routeId].stops[place.id] = place;
-                    // subscribe for duration updates
-                    routeStopViewModel.stopDuration.subscribe(function (newValue) {
-                        _this._storageItem[_this._routeId].stops[place.id].duration = newValue;
-                        _this.saveRouteToStorage();
-                    });
-                    this.saveRouteToStorage();
-                }
             }
         };
         RoutePlanViewModel.prototype.removeStop = function (stop) {
@@ -1424,18 +1399,12 @@ var StopByStop;
                     routeJunctionViewModel.stops.remove(stop);
                 }
                 delete this._stopDictionary[sbsid];
-                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                    delete this._storageItem[this._routeId].stops[sbsid];
-                    this.saveRouteToStorage();
-                }
             }
         };
         RoutePlanViewModel.prototype.showStopSettings = function (plannedStop) {
             StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.ShowStopSettingsPopup);
             this.editedStop(plannedStop);
-            var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
-                $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
-                $("#stopSettingsDialog");
+            var stopSettingsDialog = $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog");
             stopSettingsDialog.on('popupafteropen', function () {
                 var hCenter = ($(window).width() - stopSettingsDialog.width()) / 2;
                 var vCenter = ($(window).height() - stopSettingsDialog.height()) / 2;
@@ -1454,9 +1423,7 @@ var StopByStop;
             stopSettingsDialog.popup("open");
         };
         RoutePlanViewModel.prototype.closeStopSettings = function () {
-            var stopSettingsDialog = StopByStop.AppState.current.app === StopByStop.SBSApp.SPA ?
-                $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog") :
-                $("#stopSettingsDialog");
+            var stopSettingsDialog = $("." + StopByStop.AppState.current.pageInfo.pageName + " .stop-settings-dialog");
             stopSettingsDialog.popup("close");
         };
         RoutePlanViewModel.prototype.navigate = function () {
@@ -1494,9 +1461,6 @@ var StopByStop;
         };
         ;
         RoutePlanViewModel.prototype.saveRouteToStorage = function () {
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                this._storage.setItem(StopByStop.ROUTE_PLAN_STORAGE_KEY, JSON.stringify(this._storageItem));
-            }
         };
         return RoutePlanViewModel;
     }());
@@ -1556,61 +1520,59 @@ var StopByStop;
         If an image is not available, it is shown as a blank div
         */
         InitHome.addImagesDynamically = function (prevPlace, currentLocationString) {
-            if (StopByStop.AppState.current.app !== StopByStop.SBSApp.Web) {
-                var prevPlace = $('#Images').data('prevPlace');
-                var place = $('#from').data('place');
-                if (place === null) {
-                    return true;
-                }
-                if (prevPlace && prevPlace.n === place.n) {
-                    // Dont proceed further as the same place is being selected
-                    return true;
-                }
-                // Continue with the processing if the previous place doesnt match with the current returned place
-                $('#Images').data('prevPlace', place);
-                //Remove any div contents from the previous population before adding new divs
-                $("#Images").empty();
-                var placesNearbyUrl = "";
-                //If the place returned is the current location, the processing should be different, 
-                //should be picked up from place.i
-                if (place.n === currentLocationString) {
-                    var modifiedCurrentLocation = place.i.replace(",", "/");
-                    placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + modifiedCurrentLocation;
-                }
-                else {
-                    placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + place.l.a + '/' + place.l.o;
-                }
-                $.ajax({
-                    url: placesNearbyUrl,
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (result) {
-                        var imageDiv = $("#Images"), myDivs = [], divIndex = 0, numOfDivs = result.length;
-                        if (numOfDivs > 10 && window.screen.width > 480) {
-                            numOfDivs = 10; //Restrict results to 10 for a desktop screen
-                        }
-                        if (numOfDivs > 6 && window.screen.width < 480) {
-                            numOfDivs = 6; //Restrict results to 6 for a mobile screen
-                        }
-                        for (divIndex; divIndex < numOfDivs; divIndex += 1) {
-                            var divId = "appendedImagediv" + divIndex;
-                            var imageId = "appendedImageId" + divIndex;
-                            myDivs.push(InitHome.createDiv(divIndex, result[divIndex]));
-                            $(myDivs[divIndex]).data('place', result[divIndex]);
-                            $("#Images").append(myDivs[divIndex]);
-                            $(myDivs[divIndex]).on('click', function () {
-                                $("#to").val($(this).data('place').n);
-                                var placeData = { n: $(this).data('place').n, i: $(this).data('place').i };
-                                $("#to").data('place', placeData);
-                                $("#view_trip").removeClass("ui-disabled");
-                            });
-                            var imgurl = StopByStop.AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
-                            $('#appendedImagediv' + divIndex).css('background-image', 'url(' + imgurl + ')');
-                        }
-                        InitHome.moveImageInBackground();
-                    }
-                });
+            var prevPlace = $('#Images').data('prevPlace');
+            var place = $('#from').data('place');
+            if (place === null) {
+                return true;
             }
+            if (prevPlace && prevPlace.n === place.n) {
+                // Dont proceed further as the same place is being selected
+                return true;
+            }
+            // Continue with the processing if the previous place doesnt match with the current returned place
+            $('#Images').data('prevPlace', place);
+            //Remove any div contents from the previous population before adding new divs
+            $("#Images").empty();
+            var placesNearbyUrl = "";
+            //If the place returned is the current location, the processing should be different, 
+            //should be picked up from place.i
+            if (place.n === currentLocationString) {
+                var modifiedCurrentLocation = place.i.replace(",", "/");
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + modifiedCurrentLocation;
+            }
+            else {
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + place.l.a + '/' + place.l.o;
+            }
+            $.ajax({
+                url: placesNearbyUrl,
+                dataType: 'json',
+                method: 'GET',
+                success: function (result) {
+                    var imageDiv = $("#Images"), myDivs = [], divIndex = 0, numOfDivs = result.length;
+                    if (numOfDivs > 10 && window.screen.width > 480) {
+                        numOfDivs = 10; //Restrict results to 10 for a desktop screen
+                    }
+                    if (numOfDivs > 6 && window.screen.width < 480) {
+                        numOfDivs = 6; //Restrict results to 6 for a mobile screen
+                    }
+                    for (divIndex; divIndex < numOfDivs; divIndex += 1) {
+                        var divId = "appendedImagediv" + divIndex;
+                        var imageId = "appendedImageId" + divIndex;
+                        myDivs.push(InitHome.createDiv(divIndex, result[divIndex]));
+                        $(myDivs[divIndex]).data('place', result[divIndex]);
+                        $("#Images").append(myDivs[divIndex]);
+                        $(myDivs[divIndex]).on('click', function () {
+                            $("#to").val($(this).data('place').n);
+                            var placeData = { n: $(this).data('place').n, i: $(this).data('place').i };
+                            $("#to").data('place', placeData);
+                            $("#view_trip").removeClass("ui-disabled");
+                        });
+                        var imgurl = StopByStop.AppState.current.urls.CityImagesUrl + result[divIndex].i + '.jpg';
+                        $('#appendedImagediv' + divIndex).css('background-image', 'url(' + imgurl + ')');
+                    }
+                    InitHome.moveImageInBackground();
+                }
+            });
         };
         InitHome.moveImageInBackground = function () {
             InitHome.yIncrement = InitHome.yIncrement + 1;
@@ -1755,17 +1717,7 @@ var StopByStop;
                 var $to = $('#to');
                 var startlocation = $from.data('place');
                 var endlocation = $to.data('place');
-                if (startlocation != undefined && endlocation != undefined) {
-                    if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                        var url = StopByStop.AppState.current.urls.RouteUrl + startlocation.i + '-to-' + endlocation.i;
-                        $("#view_trip").addClass("ui-disabled");
-                        /* navigate without using AJAX navigation */
-                        window.location.assign(url);
-                    }
-                    else {
-                        StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, startlocation.i + '-to-' + endlocation.i);
-                    }
-                }
+                StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, startlocation.i + '-to-' + endlocation.i);
             });
             if ($("#from").data('place') && $("#to").data('place')) {
                 $("#view_trip").removeClass("ui-disabled");
@@ -1867,7 +1819,7 @@ var StopByStop;
         function SideBarStopViewModel(stop, routePlan) {
             this.stop = stop;
             this.routePlan = routePlan;
-            this.poiTypeClass = StopByStop.PoiType[StopByStop.AppState.current.metadata.rpc[stop.stopPlace.type].t];
+            this.poiTypeClass = StopByStop.PoiType[stop.stopPlace.type];
             this.top = ko.observable("");
             this.left = ko.observable("");
         }
@@ -1902,15 +1854,9 @@ var StopByStop;
                 $(_this._routeContentSelector).bind("touchmove", function (e) {
                     _this.onTouchMove(e, e.originalEvent["touches"][0].pageY);
                 });
-                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                    _this._headerHeight = $(".ui-header").outerHeight();
-                    _this._footerHeight = $(".ui-footer").outerHeight();
-                }
-                else {
-                    // we have multiple copies of header and footer on SPA app
-                    _this._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                    _this._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-                }
+                // we have multiple copies of header and footer on SPA app
+                _this._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+                _this._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
                 _this.sideBarHeight($(window).height());
                 _this.sideBarInnerHeight($(window).height());
                 _this.sideBarInnerTop($(".sidebar-top").outerHeight());
@@ -1936,11 +1882,6 @@ var StopByStop;
                     _this._scrollProcessingScheduled = true;
                 }
             });
-            // in web app, run postInit, right away
-            // in Cordova app it will be called in postRender
-            if (initSettings.app === StopByStop.SBSApp.Web) {
-                this.postInit();
-            }
         }
         SideBarViewModel.prototype.postInit = function () {
             this._sideBarInit();
@@ -2062,15 +2003,9 @@ var StopByStop;
             // Telemetry.logToConsole(sideBarStopItems.length.toString() + " stops on sidebar updated");
         };
         SideBarViewModel.recalculateSideBarPosition = function (sbvm) {
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                sbvm._headerHeight = $(".ui-header").outerHeight();
-                sbvm._footerHeight = $(".ui-footer").outerHeight();
-            }
-            else {
-                // we have multiple copies of header and footer on SPA app
-                sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
-                sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
-            }
+            // we have multiple copies of header and footer on SPA app
+            sbvm._headerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-header").outerHeight();
+            sbvm._footerHeight = $("." + StopByStop.AppState.current.pageInfo.pageName + " .ui-footer").outerHeight();
             sbvm._thumbHeight = $("#sidebar-thumb").outerHeight();
             var sidebarTopInfoHeight = $(".sidebar-top").outerHeight();
             var sidebarBottomInfoHeight = $(".sidebar-bottom").outerHeight();
@@ -2127,7 +2062,7 @@ var StopByStop;
             }
             this.title = this.fromLocation.placeDescription + " to " + this.toLocation.placeDescription;
             var exitCount = 0;
-            $.each(route.s, function (i, v) { return exitCount += v.j.length; });
+            $.each(route.s, function (i, v) { exitCount += v.j.length; });
             this.description =
                 "Traveling by car from "
                     + this.fromLocation.placeDescription.toString()
@@ -2254,7 +2189,7 @@ var StopByStop;
             if (route) {
                 this._route = route;
                 var rjs = [];
-                $.each(route.s, function (i, v) { return rjs.push.apply(rjs, v.j); });
+                $.each(route.s, function (i, v) { rjs.push.apply(rjs, v.j); });
                 this.filter = new StopByStop.FilterViewModel(route.rid, rjs, StopByStop.AppState.current.metadata);
                 this.filter.onFilterUpdated = this.onPoiFilterUpdated.bind(this);
                 this.routePlan = new StopByStop.RoutePlanViewModel(this._route.rid, this._route.d, new StopByStop.LocationViewModel(route.tl));
@@ -2327,22 +2262,11 @@ var StopByStop;
 (function (StopByStop) {
     var JunctionMapViewModel = (function () {
         function JunctionMapViewModel(mapDiv, mapContainerDiv, junction, urls) {
-            var _this = this;
             this.mapDivInitialized = false;
             this.junction = junction;
             this.mapDiv = mapDiv;
             this.mapContainerDiv = mapContainerDiv;
             this.urls = urls;
-            if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                if (this.mapDiv && this.mapContainerDiv) {
-                    window.setTimeout(function () {
-                        _this.initMapDiv();
-                        window.setTimeout(function () {
-                            $(_this.mapContainerDiv).hide();
-                        }, 500);
-                    }, 300);
-                }
-            }
         }
         JunctionMapViewModel.prototype.initMapDiv = function () {
             if (!this.mapDivInitialized) {
@@ -2518,27 +2442,13 @@ var StopByStop;
     var Init = (function () {
         function Init() {
         }
-        Init.initialize = function (settings) {
-            var _this = this;
-            this._initSPAOnce = StopByStop.Utils.runOnce(Init.initSPA);
-            StopByStop.AppState.current = settings;
-            StopByStop.AppState.current.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
-            Init._app = ko.observable(new StopByStop.AppViewModel(null, StopByStop.AppState.current, ""));
+        Init.startup = function (settings) {
             ko.options.deferUpdates = true;
             Init.enableUAMatch();
+            Init._wireUpOnce = StopByStop.Utils.runOnce(Init.wireupAndBind);
             /* common initialization for all pages */
             $(document).on("pageinit", ".jqm-demos", function (event) {
-                var page = $(_this);
-                if (StopByStop.AppState.current.app === StopByStop.SBSApp.SPA) {
-                    Init._initSPAOnce();
-                }
-                /* For Web app initialize menu programmatically*/
-                if (StopByStop.AppState.current.app === StopByStop.SBSApp.Web) {
-                    $(".jqm-navmenu-panel ul").listview();
-                    $(".jqm-navmenu-link").on("click", function () {
-                        page.find(".jqm-navmenu-panel:not(.jqm-panel-page-nav)").panel().panel("open");
-                    });
-                }
+                Init.wireupAndBindOnce();
             });
             /* end of common initialiazation for all pages */
             /* home page initialization */
@@ -2565,93 +2475,18 @@ var StopByStop;
                 });
             });
             /* end of poi group page initialization */
-            /* handle unknown hash change */
-            var scheduledUnknownChange = false;
-            var onBrowserHistoryChanged = function () {
-                if (!scheduledUnknownChange) {
-                    scheduledUnknownChange = true;
-                    window.setTimeout(function () {
-                        if (!StopByStop.AppState.current.knownHashChangeInProgress) {
-                            var newHash = location.hash;
-                            var oldPage = StopByStop.AppState.current.navigationLocation.page;
-                            StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
-                            if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
-                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
-                            }
-                        }
-                        StopByStop.AppState.current.knownHashChangeInProgress = false;
-                        scheduledUnknownChange = false;
-                    }, 100);
-                }
-            };
-            $(window).hashchange(onBrowserHistoryChanged);
-            if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
-                window.onpopstate = onBrowserHistoryChanged;
-            }
-            /* trigger initial hash change */
-            onBrowserHistoryChanged();
+            StopByStop.AppState.current = settings;
+            StopByStop.AppState.current.urls = new StopByStop.InitUrls(settings.baseDataUrl, settings.baseImageUrl);
+            Init._app = ko.observable(new StopByStop.AppViewModel(null, StopByStop.AppState.current, ""));
+            Init.wireupHashChange();
         };
-        Init.loadRoute = function (routeId) {
-            var deferred = $.Deferred();
-            if (Init._cachedRoutes[routeId]) {
-                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
-            }
-            else {
-                var withMetadata = !!StopByStop.AppState.current.metadata;
-                $.ajax({
-                    url: StopByStop.AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
-                    dataType: 'json',
-                    method: 'GET',
-                    success: function (data) {
-                        Init._cachedRoutes[routeId] = data;
-                        Init.onRouteDataLoaded(routeId, data, deferred);
-                        if (withMetadata) {
-                            StopByStop.AppState.current.metadata = data.m;
-                        }
-                    }
-                });
-            }
-            return deferred.promise();
+        Init.wireupAndBindOnce = function () {
+            Init._wireUpOnce();
         };
-        Init.onRouteDataLoaded = function (routeId, data, done) {
-            if (routeId === Init._currentRouteId) {
-                var route = data;
-                var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, StopByStop.Utils.getRouteTitleFromRouteId(routeId), function () {
-                    done.resolve();
-                });
-                Init._app(app);
-            }
-            else {
-                done.reject();
-            }
-        };
-        Init.completeExitPageInit = function () {
-            var selectedRouteJunction = Init._app().routePlan.junctionMap[StopByStop.AppState.current.navigationLocation.exitId];
-            var poiType = StopByStop.AppState.current.navigationLocation.poiType;
-            var appViewModel = Init._app();
-            var junctionAppViewModel = new StopByStop.JunctionSPAAppViewModel(appViewModel.route.route, selectedRouteJunction, appViewModel.filter, appViewModel.routePlan, StopByStop.AppState.current.metadata, poiType);
-            appViewModel.selectedJunction(junctionAppViewModel);
-            Init.initJunctionMapWhenReady(junctionAppViewModel).then(function (jmmv) {
-                // to ensure the switch between map and list view is initialized
-                $(".view-mode-switch").controlgroup();
-                $(".view-mode-switch").trigger("create");
-                Init.wireupPOIGroup(jmmv);
-            });
-            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation));
-            Init._app().title(junctionAppViewModel.routeJunction.title);
-            document.title = Init._app().title();
-            Init.animateFiltersTrigger();
-        };
-        Init.initSPA = function () {
-            var _this = this;
-            /* apply root bindings for Cordova app */
-            var sbsRootNode = $("#sbsRoot")[0];
-            ko.applyBindings(Init._app, sbsRootNode);
+        Init.wireupAndBind = function () {
+            Init.wireupOnShow();
             $(".jqm-navmenu-link").click(function () { return Init.openNavigationMenu(); });
-            // Initialize breadcrumb on applicable pages
-            jQuery(document).ready(function () {
-                jQuery(".breadCrumb").jBreadCrumb();
-            });
+            jQuery(".breadCrumb").jBreadCrumb();
             // wire up click on the social button
             $(".social-btn").click(function () {
                 StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.SocialButtonClick);
@@ -2660,6 +2495,12 @@ var StopByStop;
                 StopByStop.Telemetry.trackEvent(StopByStop.TelemetryEvent.FilterButtonClick);
                 Init.openFilterPopup();
             });
+            /* apply root bindings for Cordova app */
+            var sbsRootNode = $("#sbsRoot")[0];
+            ko.applyBindings(Init._app, sbsRootNode);
+        };
+        Init.wireupOnShow = function () {
+            var _this = this;
             /* initialize page navigation events */
             var pageBeforeShowTime;
             var navigationAbandoned = false;
@@ -2741,6 +2582,84 @@ var StopByStop;
                     StopByStop.Telemetry.trackPageView(StopByStop.AppState.current.pageInfo.telemetryPageName, "#" + StopByStop.AppState.current.pageInfo.pageName, (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+        };
+        Init.wireupHashChange = function () {
+            /* handle unknown hash change */
+            var scheduledUnknownChange = false;
+            var onBrowserHistoryChanged = function () {
+                if (!scheduledUnknownChange) {
+                    scheduledUnknownChange = true;
+                    window.setTimeout(function () {
+                        if (!StopByStop.AppState.current.knownHashChangeInProgress) {
+                            var newHash = location.hash;
+                            var oldPage = StopByStop.AppState.current.navigationLocation.page;
+                            StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
+                            if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
+                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
+                            }
+                        }
+                        StopByStop.AppState.current.knownHashChangeInProgress = false;
+                        scheduledUnknownChange = false;
+                    }, 100);
+                }
+            };
+            $(window).hashchange(onBrowserHistoryChanged);
+            if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
+                window.onpopstate = onBrowserHistoryChanged;
+            }
+            /* trigger initial hash change */
+            onBrowserHistoryChanged();
+        };
+        Init.loadRoute = function (routeId) {
+            var deferred = $.Deferred();
+            if (Init._cachedRoutes[routeId]) {
+                Init.onRouteDataLoaded(routeId, Init._cachedRoutes[routeId], deferred);
+            }
+            else {
+                var withMetadata = !StopByStop.AppState.current.metadata;
+                $.ajax({
+                    url: StopByStop.AppState.current.urls.RouteDataUrlV2 + routeId + "/metadata/" + withMetadata.toString().toLowerCase(),
+                    dataType: 'json',
+                    method: 'GET',
+                    success: function (data) {
+                        Init._cachedRoutes[routeId] = data;
+                        if (withMetadata) {
+                            StopByStop.AppState.current.metadata = data.m;
+                        }
+                        Init.onRouteDataLoaded(routeId, data, deferred);
+                    }
+                });
+            }
+            return deferred.promise();
+        };
+        Init.onRouteDataLoaded = function (routeId, data, done) {
+            if (routeId === Init._currentRouteId) {
+                var route = data;
+                var app = new StopByStop.AppViewModel(route, StopByStop.AppState.current, StopByStop.Utils.getRouteTitleFromRouteId(routeId), function () {
+                    done.resolve();
+                });
+                Init._app(app);
+            }
+            else {
+                done.reject();
+            }
+        };
+        Init.completeExitPageInit = function () {
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[StopByStop.AppState.current.navigationLocation.exitId];
+            var poiType = StopByStop.AppState.current.navigationLocation.poiType;
+            var appViewModel = Init._app();
+            var junctionAppViewModel = new StopByStop.JunctionSPAAppViewModel(appViewModel.route.route, selectedRouteJunction, appViewModel.filter, appViewModel.routePlan, StopByStop.AppState.current.metadata, poiType);
+            appViewModel.selectedJunction(junctionAppViewModel);
+            Init.initJunctionMapWhenReady(junctionAppViewModel).then(function (jmmv) {
+                // to ensure the switch between map and list view is initialized
+                $(".view-mode-switch").controlgroup();
+                $(".view-mode-switch").trigger("create");
+                Init.wireupPOIGroup(jmmv);
+            });
+            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation));
+            Init._app().title(junctionAppViewModel.routeJunction.title);
+            document.title = Init._app().title();
+            Init.animateFiltersTrigger();
         };
         Init.animateFiltersTrigger = function () {
             window.setTimeout(function () {
@@ -2900,7 +2819,6 @@ var StopByStop;
 ;
 QUnit.begin(function () {
     StopByStop.AppState.current = {
-        app: StopByStop.SBSApp.Web,
         baseDataUrl: "",
         baseImageUrl: "",
         windowOpenTarget: "_system",
