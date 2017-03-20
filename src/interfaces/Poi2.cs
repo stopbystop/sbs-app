@@ -3,7 +3,7 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-
+    using System.Text.RegularExpressions;
 
     public class Poi2
     {
@@ -29,6 +29,9 @@
 
         [JsonProperty("n")]
         public string Name { get; set; }
+
+        [JsonProperty("un")]
+        public string UrlName { get; set; }
 
         [JsonProperty("p")]
         public string PhoneNumber { get; set; }
@@ -88,6 +91,16 @@
         public void PopulateSecondaryProperties()
         {
             throw new NotImplementedException();
+        }
+
+        public void GenerateUrlName(string name, string address)
+        {
+            name = name ?? "";
+            address = address ?? "";
+            string urlName = name + "-" + address.ToLowerInvariant();
+
+            urlName = Regex.Match(urlName, "[a-z0-9\\s-]+").Value.Replace(" ", "-");
+            this.UrlName = urlName;
         }
 
 

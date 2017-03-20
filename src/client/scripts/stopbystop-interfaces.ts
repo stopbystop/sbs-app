@@ -115,6 +115,8 @@ module StopByStop {
         l: ILocation;
         /** phone number */
         p: string;
+        /** url name */
+        un: string;
         /** open hours */
         oh: number[];
         /** primary properties */
