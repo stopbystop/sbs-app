@@ -37,10 +37,10 @@ module StopByStop {
             //should be picked up from place.i
             if (place.n === currentLocationString) {
                 var modifiedCurrentLocation = place.i.replace(",", "/");
-                placesNearbyUrl = AppState.current.urls.PlacesNearbyUrlV2 + modifiedCurrentLocation;
+                placesNearbyUrl = AppState.current.urls.PlacesNearbyDataUrlV2 + modifiedCurrentLocation;
             }
             else {
-                placesNearbyUrl = AppState.current.urls.PlacesNearbyUrlV2 + place.l.a + '/' + place.l.o;
+                placesNearbyUrl = AppState.current.urls.PlacesNearbyDataUrlV2 + place.l.a + '/' + place.l.o;
             }
             $.ajax({
                 url: placesNearbyUrl,
@@ -185,7 +185,7 @@ module StopByStop {
 
 
                     $.ajax({
-                        url: AppState.current.urls.PlacesUrlV2 + value,
+                        url: AppState.current.urls.PlacesDataUrlV2 + value,
                         dataType: 'json',
                         method: 'GET',
                         success: function (data) {

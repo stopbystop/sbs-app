@@ -29,6 +29,7 @@ module StopByStop {
             this.yUrl = ko.observable("#");
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
+            this.urlName = this._obj.un;
         }
 
 
@@ -44,7 +45,7 @@ module StopByStop {
             }
         }
 
-
+        public urlName: string;
         public categories: IPoiCategory[];
         public id: string;
         public poiType: PoiType;

@@ -75,7 +75,7 @@
                                     <div data-bind="foreach: routeVisibleJunctions">
                                         <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
                                             <div class="exit_marker">
-                                                <a href="#" class="junction" data-bind="click: navigateToExitPage">
+                                                <a class="junction" data-bind="click: navigateToExitPage, attr:{href:url, alt:junction.name}">
                                                     <div class="junction-name" data-bind="html: junction.ref, attr: {title:junction.name}"></div>
                                                 </a>
                                                 <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
@@ -83,7 +83,7 @@
                                                 </div>
                                                 <div class="pois">
                                                     <div data-bind="foreach: poiTypeViewModels">
-                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+poiTypeString, attr:{'data-type': poiTypeString}">
+                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+poiTypeString, attr:{href:url, 'data-type': poiTypeString}">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: poiCountString"></div>
                                                                 <div class="poi-distance-label" data-bind="html: closestPoiDistance"></div>

@@ -11,5 +11,6 @@ module StopByStop {
     export interface IAppViewModel {
         filter: FilterViewModel;
         routePlan: RoutePlanViewModel;
+        routeId: string;
     }
 }

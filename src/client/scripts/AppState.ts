@@ -9,6 +9,7 @@ module StopByStop {
 
     export class AppState {
         public static current: IAppState = {
+            basePortalUrl: null,
             baseDataUrl: null,
             baseImageUrl: null,
             windowOpenTarget: "_system",

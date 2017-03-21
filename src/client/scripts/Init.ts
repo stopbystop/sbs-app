@@ -155,7 +155,7 @@ module StopByStop {
                         return;
                     }
 
-                    var shareUrl = Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation);
+                    var shareUrl = Utils.getShareUrl(AppState.current.basePortalUrl, AppState.current.navigationLocation);
                     Init._app().url(shareUrl);
 
                     if (!AppState.current.historyDisabled && Utils.isHistoryAPISupported()) {
@@ -315,7 +315,7 @@ module StopByStop {
 
             })
 
-            Init._app().url(Utils.getShareUrl(AppState.current.baseDataUrl, AppState.current.navigationLocation));
+            Init._app().url(Utils.getShareUrl(AppState.current.basePortalUrl, AppState.current.navigationLocation));
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
             Init.animateFiltersTrigger();

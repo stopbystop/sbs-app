@@ -28,6 +28,7 @@ module StopByStop {
             var appState: IAppState = {
                 baseDataUrl: webInitData.durl,
                 baseImageUrl: webInitData.iurl,
+                basePortalUrl: webInitData.purl,
                 navigationLocation: {
                     page: webInitData.p,
                     exitId: webInitData.exd,

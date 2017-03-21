@@ -1,12 +1,21 @@
 ﻿namespace Yojowa.StopByStop.Web
 {
     using System;
+    using System.Web.Configuration;
     using Yojowa.StopByStop.Utils;
     using Yojowa.StopByStop.Web.Service;
 
 
     internal class RouteUtils
     {
+        public static bool ProxyService
+        {
+            get
+            {
+                return WebConfigurationManager.AppSettings["proxyservice"] == "true";
+            }
+        }
+
         public static bool GetRouteLocationsFromRoutePathId(
             string routePathId,
             out Location fromLocation,

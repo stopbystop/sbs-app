@@ -95,12 +95,31 @@
 
         public void GenerateUrlName(string name, string address)
         {
-            name = name ?? "";
-            address = address ?? "";
-            string urlName = name + "-" + address.ToLowerInvariant();
+            name = (name ?? "").Trim();
+            name = name.ToLowerInvariant();
+            
+            // remove invalid characters
+            name = Regex.Replace(name, "[^a-z0-9\\s-]", string.Empty);
 
-            urlName = Regex.Match(urlName, "[a-z0-9\\s-]+").Value.Replace(" ", "-");
-            this.UrlName = urlName;
+            // reaplace spaces with -
+            name = name.Replace(" ", "-");
+            if (string.IsNullOrEmpty(name))
+            {
+                name = "place";
+            }
+
+            address = (address ?? "").Trim();
+            address = address.ToLowerInvariant();
+
+            // remove invalid characters and replace spaces up to first invalid character
+            address = Regex.Match(address, "[a-z0-9\\s-']+")
+                .Value.Replace("'", "")
+                .Replace(" ", "-");
+
+
+            this.UrlName = string.IsNullOrEmpty(address) ?
+                name :
+                name + "-" + address;
         }
 
 

@@ -15,7 +15,7 @@ module StopByStop {
         constructor(route: IRoute, initSettings: IAppState, routeTitle: string, routeInitializationComplete: () => void = null) {
             this.isRouteLoading(true);
             this.routeLoadingMessage("Loading route " + routeTitle + " ...");
-            this.url(Utils.getShareUrl(initSettings.baseDataUrl, initSettings.navigationLocation));
+            this.url(Utils.getShareUrl(initSettings.basePortalUrl, initSettings.navigationLocation));
 
             if (route) {
                 this._route = route;
@@ -28,6 +28,7 @@ module StopByStop {
                 this.routePlan = new RoutePlanViewModel(this._route.rid, this._route.d, new LocationViewModel(route.tl));
 
                 this.isRouteLoading(false);
+                this.routeId = route.rid;
                 this.route = new RouteViewModel(this._route, this, initSettings, () => {
 
                     /*
@@ -57,6 +58,7 @@ module StopByStop {
             window.document.title = this.title();
         }
 
+        public routeId: string;
         public route: RouteViewModel = null;
         public url: KnockoutObservable<string> = ko.observable("");
         public title: KnockoutObservable<string> = ko.observable("");

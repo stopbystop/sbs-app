@@ -207,8 +207,8 @@ module StopByStop {
                 pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         }
 
-        public static getShareUrl(hostName: string, navLocation: ISBSNavigationLocation) {
-            var shareUrl = hostName;
+        public static getShareUrl(basePortalUrl: string, navLocation: ISBSNavigationLocation) {
+            var shareUrl = basePortalUrl;
             if (shareUrl.substr(shareUrl.length - 1) !== "/") {
                 shareUrl += "/";
             }
@@ -220,6 +220,10 @@ module StopByStop {
 
                     if (navLocation.page === SBSPage.exit) {
                         shareUrl += "/exit/osm-" + navLocation.exitId;
+
+                        if (navLocation.poiType) {
+                            shareUrl += "/" + PoiType[navLocation.poiType];
+                        }
                     }
                     break;
             }

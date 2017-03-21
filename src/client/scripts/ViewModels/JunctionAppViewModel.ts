@@ -19,7 +19,7 @@ module StopByStop {
         public routePlan: RoutePlanViewModel;
         public routeJunction: RouteJunctionViewModel;
         public junctionMapViewModel: JunctionMapViewModel;
-
+        public routeId: string;
         
         protected loadFullPoiData() {
             
@@ -29,7 +29,7 @@ module StopByStop {
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
 
-                $.ajax(AppState.current.urls.PoiUrlV2 + latStr + "," + lonStr)
+                $.ajax(AppState.current.urls.PoiDataUrlV2 + latStr + "," + lonStr)
                     .done((data: IReviewGroup[]) => {
 
                         for (var i = 0; i < data.length; i++) {
@@ -60,6 +60,7 @@ module StopByStop {
             super();
             // TODO: here
 
+            this.routeId = route.rid;
             this.routePlan = routePlan;
             this.routeJunction = routeJunctionViewModel;
 

@@ -38,7 +38,7 @@ module StopByStop {
             var rootPoiCategories = AppState.current.metadata.rpc;
             for (var rpcId in rootPoiCategories) {
                 var rpc = rootPoiCategories[rpcId];
-                var vm = new RouteJunctionPoiTypeViewModel(rpc, this.junction);
+                var vm = new RouteJunctionPoiTypeViewModel(rpc, this.junction, app);
                 this.poiTypeViewModels.push(vm);
                 this._poiTypeViewModelLookup[rpc.t] = vm;
             }
@@ -67,6 +67,14 @@ module StopByStop {
                 }
                 return new Date(this.eta().getTime() + totalDetourTime * 1000);
             });
+            
+            this.url = Utils.getShareUrl(
+                AppState.current.basePortalUrl,
+                {
+                    page: SBSPage.exit,
+                    routeId: app.routeId,
+                    exitId: this.routeJunction.j.oid.toString()
+                });
         }
 
         public poiTypeViewModels: KnockoutObservableArray<RouteJunctionPoiTypeViewModel>;
@@ -76,6 +84,7 @@ module StopByStop {
         public visible: KnockoutObservable<boolean>;
         public top: KnockoutObservable<string>;
         public title: string;
+        public url: string;
         public stops: KnockoutObservableArray<RouteStopViewModel>;
 
         public etaWithoutStops: Date;

@@ -56,7 +56,7 @@
         private static IRouteService CreateRouteServiceInstance()
         {
             IRouteService service = null;
-            if (WebConfigurationManager.AppSettings["proxyservice"] == "false")
+            if (!RouteUtils.ProxyService)
             {
                 var serviceAssembly = Assembly.Load("Yojowa.StopByStop.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var serviceType = serviceAssembly.GetType("Yojowa.StopByStop.Service.StopByStopService");

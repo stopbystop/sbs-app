@@ -6,16 +6,18 @@ module StopByStop {
     export interface IInitUrls {
         BaseUrl: string;
         BaseImageUrl: string;
-        RouteUrl: string;
 
         RouteDataUrlV2: string;
-        PlacesUrlV2: string;
-        PoiUrlV2: string;
-        PlacesNearbyUrlV2: string;
+        PlacesDataUrlV2: string;
+        PoiDataUrlV2: string;
+        PlacesNearbyDataUrlV2: string;
+
+        //image urls
         CityImagesUrl: string;
     }
 
     export interface IAppState {
+        basePortalUrl: string;
         baseDataUrl: string;
         baseImageUrl: string;
         windowOpenTarget: string;
@@ -42,6 +44,8 @@ module StopByStop {
         durl: string;
         /** base image url */
         iurl: string;
+        /** base portal url */
+        purl: string;
         /** metadata */
         m: IMetadata;
 

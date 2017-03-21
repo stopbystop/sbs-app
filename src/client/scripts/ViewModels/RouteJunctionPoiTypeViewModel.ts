@@ -12,13 +12,21 @@ module StopByStop {
         private _rpc: IRootPoiCategory;
         private _junctionViewModel:JunctionViewModel;
 
-        constructor(rootPoiCategory: IRootPoiCategory, junctionViewModel:JunctionViewModel) {
+        constructor(rootPoiCategory: IRootPoiCategory, junctionViewModel: JunctionViewModel, app: IAppViewModel) {
             this._rpc = rootPoiCategory;
             this.visiblePois = ko.observableArray([]);
             this.closestPoiDistance = ko.observable("");
             this.poiCountString = ko.observable("");
             this._junctionViewModel = junctionViewModel;
             this.poiTypeString = PoiType[rootPoiCategory.t].toLowerCase();
+            this.url = Utils.getShareUrl(
+                AppState.current.basePortalUrl,
+                {
+                    page: SBSPage.exit,
+                    routeId: app.routeId,
+                    exitId: this._junctionViewModel.osmid.toString(),
+                    poiType: this._rpc.t
+                });
 
             this.poiCountStringWithLabel = ko.computed(()=>
             {
@@ -26,6 +34,7 @@ module StopByStop {
             });
         }
 
+        public url: string;
         public poiTypeString: string;
         public visiblePois: KnockoutObservableArray<PoiOnJunctionViewModel>;
         public closestPoiDistance: KnockoutObservable<string>;

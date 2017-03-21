@@ -15,7 +15,11 @@
     {
         public MainModel(Metadata metadata, UrlHelper urlHelper)
         {
-            this.BaseDataUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
+            this.BaseDataUrl = RouteUtils.ProxyService ?
+                "https://www.stopbystop.com/" :
+                HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
+
+            this.BasePortalUrl = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
             this.BaseImageUrl = RenderHelper.GetCDNUrl("/client/content/v1/icons/");
             this.Metadata = metadata;
         }
@@ -34,6 +38,9 @@
 
         [JsonProperty("pt")]
         public PoiType2 PoiType { get; set; }
+
+         [JsonProperty("purl")]
+        public string BasePortalUrl { get; set; }
 
         [JsonProperty("durl")]
         public string BaseDataUrl { get; set; }

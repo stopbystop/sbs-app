@@ -30,6 +30,7 @@ module StopByStop.Cordova {
 
                 StopByStop.Init.startup({
                     baseDataUrl: "https://www.stopbystop.com/",
+                    basePortalUrl: "https://www.stopbystop.com/",
                     baseImageUrl: "images/",
                     navigationLocation: { page: SBSPage.home },
                     historyDisabled: true,
