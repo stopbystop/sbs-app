@@ -113,7 +113,12 @@ module StopByStop {
         }
 
         public navigateToExitPage(): void {
-            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
+            Utils.spaPageNavigate(
+                {
+                    page: SBSPage.exit,
+                    routeId: AppState.current.navigationLocation.routeId,
+                    exitId: this.junction.osmid.toString()
+                });
         }
     }
 }

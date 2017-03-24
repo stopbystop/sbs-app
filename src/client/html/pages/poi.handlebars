@@ -1,1 +1,45 @@
-﻿
+﻿<!-- poi page-->
+<div id="poi" data-role="page" class="jqm-demos poi-page" data-page-name="poi-page" data-telemetry-page-name="Poi">
+    {{>header renderFilterButton=false}}
+    <div role="main" class="ui-content jqm-content">
+        <div class="page-content-inner">
+            <div class="breadCrumbHolder module">
+                <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
+                    <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span></a>
+                        </li>
+                        <!--
+                        <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#route">
+                                <span itemprop="name" data-bind="text:route.title"></span>
+                            </a>
+                        </li>
+                        -->
+                    </ul>
+
+                </div>
+                <div class="main_inner" data-bind="if:isRouteLoading">
+                    <div class="route-loading">
+                        <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                    </div>
+                </div>
+                <div data-bind="if:selectedJunction">
+                    <div class="main_inner">
+                      
+
+                      
+                    </div>
+                    <!-- /main_inner -->
+                </div>
+                <!-- /if selectedJunction -->
+            </div>
+            <!-- /breadCrumbHolder module -->
+        </div>
+        <!-- /page-content-inner -->
+    </div>
+    <!-- /main -->
+    {{>navpanel}}
+    {{>footer}}
+</div>
+<!-- end of poi page -->

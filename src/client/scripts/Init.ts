@@ -129,13 +129,7 @@ module StopByStop {
                     // are we loading correct page?
                     var pageBeingLoaded = ui.toPage[0].id;
                     if (SBSPage[AppState.current.navigationLocation.page] !== pageBeingLoaded) {
-                        Utils.spaPageNavigate(
-                            AppState.current.navigationLocation.page,
-                            AppState.current.navigationLocation.routeId,
-                            AppState.current.navigationLocation.exitId,
-                            AppState.current.navigationLocation.poiType,
-                            false);
-
+                        Utils.spaPageNavigate(AppState.current.navigationLocation, false);
                         navigationAbandoned = true;
                     }
 
@@ -224,13 +218,7 @@ module StopByStop {
 
                             Utils.updateNavigationLocation(newHash, AppState.current.navigationLocation);
                             if (oldPage !== AppState.current.navigationLocation.page) {
-                                Utils.spaPageNavigate(
-                                    AppState.current.navigationLocation.page,
-                                    AppState.current.navigationLocation.routeId,
-                                    AppState.current.navigationLocation.exitId,
-                                    AppState.current.navigationLocation.poiType,
-                                    false);
-
+                                Utils.spaPageNavigate(AppState.current.navigationLocation, false);
                             }
                         }
 

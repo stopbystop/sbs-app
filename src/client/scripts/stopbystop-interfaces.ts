@@ -220,7 +220,8 @@ module StopByStop {
         home = 0,
         route = 1,
         exit = 2,
-        about = 3
+        poi = 3,
+        about = 4
     }
 
     export interface IPageInfo {
@@ -239,6 +240,10 @@ module StopByStop {
         exitId?: string;
         /** POI type */
         poiType?: PoiType;
+        /** POI id */
+        poiId?: string;
+        /** POI path */
+        poiPath?: string;
     }
 
     export interface IPoiPropertyMetadata {

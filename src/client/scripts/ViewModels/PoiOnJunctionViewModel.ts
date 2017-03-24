@@ -20,12 +20,13 @@ module StopByStop {
             this.dtefrs = exit.dfrs;
             this.exitId = exit.j.oid.toString();
             this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " miles from exit";
-            this.poi = new PoiViewModel(this.obj.p);
+            this.poi = new PoiViewModel(this.obj.p, app, this);
             this.name = this.poi.name;
             this.lat = this.poi.location.lat;
             this.lon = this.poi.location.lon;
             this.type = obj.p.t;
             this.poiTypeString = PoiType[this.type].toLowerCase();
+   
         }
 
         public poiTypeString:string;
@@ -42,11 +43,5 @@ module StopByStop {
         public lat: number;
         public lon: number;
         public type: PoiType;
-
-
-        public addToRouteOptionsClick(): void {
-            var plannedStop = this._app.routePlan.getOrCreateStop(this);
-            this._app.routePlan.showStopSettings(plannedStop);
-        }
     }
 }   

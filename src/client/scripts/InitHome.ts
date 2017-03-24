@@ -255,7 +255,11 @@ module StopByStop {
                 var $to = $('#to');
                 var startlocation = $from.data('place');
                 var endlocation = $to.data('place');
-                Utils.spaPageNavigate(SBSPage.route, startlocation.i + '-to-' + endlocation.i);
+                Utils.spaPageNavigate(
+                    {
+                        page: SBSPage.route,
+                        routeId: startlocation.i + '-to-' + endlocation.i
+                    });
             });
 
         if($("#from").data('place') && $("#to").data('place')) {

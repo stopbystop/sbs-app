@@ -10,10 +10,14 @@ module StopByStop {
     export class PoiViewModel {
         private _obj: IPoi;
         private _reviewDataItem: IReviewGroup;
+        private _navLocation: ISBSNavigationLocation;
+        private _app: IAppViewModel;
+        private _stopPlace: IStopPlace;
 
-        constructor(obj: IPoi) {
+        constructor(obj: IPoi, app: IAppViewModel, stopPlace: IStopPlace = null) {
             this._obj = obj;
-
+            this._app = app;
+            this._stopPlace = stopPlace;
             this.id = this._obj.id;
             this.categories = this._obj.c.map((value, index, arr) => AppState.current.metadata.c[value]);
             this.poiType = this._obj.t;
@@ -30,6 +34,16 @@ module StopByStop {
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
             this.urlName = this._obj.un;
+            this._navLocation = {
+                page: SBSPage.poi,
+                routeId: AppState.current.navigationLocation.routeId,
+                exitId: AppState.current.navigationLocation.exitId,
+                poiId: this.id,
+                poiPath: this.id + "-" + this.urlName
+            };
+
+
+            this.url = Utils.getShareUrl(AppState.current.basePortalUrl, this._navLocation);
         }
 
 
@@ -50,6 +64,7 @@ module StopByStop {
         public id: string;
         public poiType: PoiType;
         public name: string;
+        public url: string;
         public description: KnockoutObservable<string>;
         public location: LocationViewModel;
         public visible: KnockoutObservable<boolean>;
@@ -107,6 +122,15 @@ module StopByStop {
             }
 
             return starClassName;
+        }
+
+        public navigateToPoiPageClick(): void {
+            Utils.spaPageNavigate(this._navLocation);
+        }
+
+        public addToRouteOptionsClick(): void {
+            var plannedStop = this._app.routePlan.getOrCreateStop(this._stopPlace);
+            this._app.routePlan.showStopSettings(plannedStop);
         }
     }
 }   

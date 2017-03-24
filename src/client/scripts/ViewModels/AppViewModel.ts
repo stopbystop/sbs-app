@@ -68,6 +68,7 @@ module StopByStop {
         public isRouteLoading: KnockoutObservable<boolean> = ko.observable(false);
         public routeLoadingMessage: KnockoutObservable<string> = ko.observable("");
         public selectedJunction: KnockoutObservable<JunctionAppBaseViewModel> = ko.observable(null);
+        public selectedPoi: KnockoutObservable<PoiViewModel> = ko.observable(null);
 
         public initSideBar(): void {
             if (this.route && this.route.sideBar) {

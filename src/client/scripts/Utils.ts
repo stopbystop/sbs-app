@@ -55,6 +55,8 @@ module StopByStop {
                                 case "exitid":
                                     navigationLocation.exitId = val;
                                     break;
+                                case "poiid":
+                                    navigationLocation.poiId = val;
                                 case "poitype":
                                     navigationLocation.poiType = PoiType.all;
                                     if (val) {
@@ -83,6 +85,10 @@ module StopByStop {
 
             if (navigationLocation.exitId && navigationLocation.page === SBSPage.exit) {
                 loc += ("&exitid=" + navigationLocation.exitId);
+            }
+
+            if (navigationLocation.poiId && navigationLocation.page === SBSPage.poi) {
+                loc += ("&poiid=" + navigationLocation.poiId);
             }
 
             if (navigationLocation.poiType && navigationLocation.page === SBSPage.exit && PoiType[navigationLocation.poiType]) {
@@ -173,14 +179,19 @@ module StopByStop {
             };
         };
 
-        public static spaPageNavigate(page: SBSPage, routeId?: string, exitId?: string, poiType?: PoiType, changeHash: boolean = true): void {
+        public static spaPageNavigate(
+            navigationLocation: ISBSNavigationLocation,
+            changeHash: boolean = true): void {
             var pageId = "#home";
-            switch (page) {
+            switch (navigationLocation.page) {
                 case SBSPage.about:
                     pageId = "#about";
                     break;
                 case SBSPage.exit:
                     pageId = "#exit";
+                    break;
+                case SBSPage.poi:
+                    pageId = "#poi";
                     break;
                 case SBSPage.route:
                     pageId = "#route";
@@ -188,17 +199,20 @@ module StopByStop {
             }
 
             var dataUrl = pageId;
-            if (routeId) {
-                dataUrl += "&routeid=" + routeId;
+            if (navigationLocation.routeId) {
+                dataUrl += "&routeid=" + navigationLocation.routeId;
             }
-            if (exitId) {
-                dataUrl += "&exitid=" + exitId;
+            if (navigationLocation.exitId) {
+                dataUrl += "&exitid=" + navigationLocation.exitId;
             }
-            if (poiType) {
-                dataUrl += "&poitype=" + PoiType[poiType].toLowerCase();
+            if (navigationLocation.poiType) {
+                dataUrl += "&poitype=" + PoiType[navigationLocation.poiType].toLowerCase();
+            }
+            if (navigationLocation.poiId) {
+                dataUrl += "&poiId=" + navigationLocation.poiId;
             }
 
-            var reverse = (AppState.current.navigationLocation && AppState.current.navigationLocation.page > page);
+            var reverse = (AppState.current.navigationLocation && AppState.current.navigationLocation.page > navigationLocation.page);
 
             AppState.current.knownHashChangeInProgress = true;
 
@@ -225,6 +239,9 @@ module StopByStop {
                             shareUrl += "/" + PoiType[navLocation.poiType];
                         }
                     }
+                    break;
+                case SBSPage.poi:
+                    shareUrl += "poi/" + navLocation.poiPath;
                     break;
             }
 

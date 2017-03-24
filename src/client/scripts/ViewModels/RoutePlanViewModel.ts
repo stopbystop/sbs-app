@@ -92,8 +92,10 @@ module StopByStop {
         public addEditedStopToRoute(): void {
             this.addStopToRoute(this.editedStop());
             Utils.spaPageNavigate(
-                SBSPage.route,
-                AppState.current.navigationLocation.routeId);
+                {
+                    page: SBSPage.route,
+                    routeId: AppState.current.navigationLocation.routeId
+                });
         }
 
         public removeEditedStop(): void {

@@ -49,6 +49,7 @@ QUnit.begin(() => {
     StopByStop.AppState.current = {
         baseDataUrl: "",
         baseImageUrl: "",
+        basePortalUrl: "",
         windowOpenTarget: "_system",
         pageInfo: {
             pageName: "TestPageName",

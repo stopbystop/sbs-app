@@ -26,7 +26,8 @@ var StopByStop;
         SBSPage[SBSPage["home"] = 0] = "home";
         SBSPage[SBSPage["route"] = 1] = "route";
         SBSPage[SBSPage["exit"] = 2] = "exit";
-        SBSPage[SBSPage["about"] = 3] = "about";
+        SBSPage[SBSPage["poi"] = 3] = "poi";
+        SBSPage[SBSPage["about"] = 4] = "about";
     })(SBSPage = StopByStop.SBSPage || (StopByStop.SBSPage = {}));
     var PoiIconFormat;
     (function (PoiIconFormat) {
@@ -654,36 +655,42 @@ var StopByStop;
             };
         };
         ;
-        Utils.spaPageNavigate = function (page, routeId, exitId, poiType, changeHash) {
+        Utils.spaPageNavigate = function (navigationLocation, changeHash) {
             if (changeHash === void 0) { changeHash = true; }
             var pageId = "#home";
-            switch (page) {
+            switch (navigationLocation.page) {
                 case StopByStop.SBSPage.about:
                     pageId = "#about";
                     break;
                 case StopByStop.SBSPage.exit:
                     pageId = "#exit";
                     break;
+                case StopByStop.SBSPage.poi:
+                    pageId = "#poi";
+                    break;
                 case StopByStop.SBSPage.route:
                     pageId = "#route";
                     break;
             }
             var dataUrl = pageId;
-            if (routeId) {
-                dataUrl += "&routeid=" + routeId;
+            if (navigationLocation.routeId) {
+                dataUrl += "&routeid=" + navigationLocation.routeId;
             }
-            if (exitId) {
-                dataUrl += "&exitid=" + exitId;
+            if (navigationLocation.exitId) {
+                dataUrl += "&exitid=" + navigationLocation.exitId;
             }
-            if (poiType) {
-                dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
+            if (navigationLocation.poiType) {
+                dataUrl += "&poitype=" + StopByStop.PoiType[navigationLocation.poiType].toLowerCase();
             }
-            var reverse = (StopByStop.AppState.current.navigationLocation && StopByStop.AppState.current.navigationLocation.page > page);
+            if (navigationLocation.poiId) {
+                dataUrl += "&poiId=" + navigationLocation.poiId;
+            }
+            var reverse = (StopByStop.AppState.current.navigationLocation && StopByStop.AppState.current.navigationLocation.page > navigationLocation.page);
             StopByStop.AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         };
-        Utils.getShareUrl = function (hostName, navLocation) {
-            var shareUrl = hostName;
+        Utils.getShareUrl = function (basePortalUrl, navLocation) {
+            var shareUrl = basePortalUrl;
             if (shareUrl.substr(shareUrl.length - 1) !== "/") {
                 shareUrl += "/";
             }
@@ -693,7 +700,13 @@ var StopByStop;
                     shareUrl += "route/" + navLocation.routeId;
                     if (navLocation.page === StopByStop.SBSPage.exit) {
                         shareUrl += "/exit/osm-" + navLocation.exitId;
+                        if (navLocation.poiType) {
+                            shareUrl += "/" + StopByStop.PoiType[navLocation.poiType];
+                        }
                     }
+                    break;
+                case StopByStop.SBSPage.poi:
+                    shareUrl += "poi/" + navLocation.poiId;
                     break;
             }
             return shareUrl;
@@ -904,6 +917,7 @@ var StopByStop;
             this.yUrl = ko.observable("#");
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
+            this.urlName = this._obj.un;
         }
         PoiViewModel.prototype.updateYInfo = function (reviewDataItem) {
             if (reviewDataItem) {
@@ -997,7 +1011,17 @@ var StopByStop;
             this.lon = this.poi.location.lon;
             this.type = obj.p.t;
             this.poiTypeString = StopByStop.PoiType[this.type].toLowerCase();
+            this._navLocation = {
+                page: StopByStop.SBSPage.poi,
+                routeId: StopByStop.AppState.current.navigationLocation.routeId,
+                exitId: StopByStop.AppState.current.navigationLocation.exitId,
+                poiId: this.id
+            };
+            this.url = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, this._navLocation);
         }
+        PoiOnJunctionViewModel.prototype.navigateToPoiPageClick = function () {
+            StopByStop.Utils.spaPageNavigate(this._navLocation);
+        };
         PoiOnJunctionViewModel.prototype.addToRouteOptionsClick = function () {
             var plannedStop = this._app.routePlan.getOrCreateStop(this);
             this._app.routePlan.showStopSettings(plannedStop);
@@ -1110,6 +1134,7 @@ var StopByStop;
         return AppState;
     }());
     AppState.current = {
+        basePortalUrl: null,
         baseDataUrl: null,
         baseImageUrl: null,
         windowOpenTarget: "_system",
@@ -1177,7 +1202,7 @@ var StopByStop;
 var StopByStop;
 (function (StopByStop) {
     var RouteJunctionPoiTypeViewModel = (function () {
-        function RouteJunctionPoiTypeViewModel(rootPoiCategory, junctionViewModel) {
+        function RouteJunctionPoiTypeViewModel(rootPoiCategory, junctionViewModel, app) {
             var _this = this;
             this._rpc = rootPoiCategory;
             this.visiblePois = ko.observableArray([]);
@@ -1185,6 +1210,12 @@ var StopByStop;
             this.poiCountString = ko.observable("");
             this._junctionViewModel = junctionViewModel;
             this.poiTypeString = StopByStop.PoiType[rootPoiCategory.t].toLowerCase();
+            this.url = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, {
+                page: StopByStop.SBSPage.exit,
+                routeId: app.routeId,
+                exitId: this._junctionViewModel.osmid.toString(),
+                poiType: this._rpc.t
+            });
             this.poiCountStringWithLabel = ko.computed(function () {
                 return _this.poiCountString() + " " + _this._rpc.n + "(s)";
             });
@@ -1195,7 +1226,12 @@ var StopByStop;
             this.poiCountString(this.visiblePois().length > 9 ? "9+" : this.visiblePois().length.toString());
         };
         RouteJunctionPoiTypeViewModel.prototype.navigateToExitPage = function () {
-            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.exit, StopByStop.AppState.current.navigationLocation.routeId, this._junctionViewModel.osmid.toString(), this._rpc.t);
+            StopByStop.Utils.spaPageNavigate({
+                page: StopByStop.SBSPage.exit,
+                routeId: StopByStop.AppState.current.navigationLocation.routeId,
+                exitId: this._junctionViewModel.osmid.toString(),
+                poiType: this._rpc.t
+            });
         };
         return RouteJunctionPoiTypeViewModel;
     }());
@@ -1234,7 +1270,7 @@ var StopByStop;
             var rootPoiCategories = StopByStop.AppState.current.metadata.rpc;
             for (var rpcId in rootPoiCategories) {
                 var rpc = rootPoiCategories[rpcId];
-                var vm = new StopByStop.RouteJunctionPoiTypeViewModel(rpc, this.junction);
+                var vm = new StopByStop.RouteJunctionPoiTypeViewModel(rpc, this.junction, app);
                 this.poiTypeViewModels.push(vm);
                 this._poiTypeViewModelLookup[rpc.t] = vm;
             }
@@ -1260,6 +1296,11 @@ var StopByStop;
                 }
                 return new Date(_this.eta().getTime() + totalDetourTime * 1000);
             });
+            this.url = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, {
+                page: StopByStop.SBSPage.exit,
+                routeId: app.routeId,
+                exitId: this.routeJunction.j.oid.toString()
+            });
         }
         RouteJunctionViewModel.prototype.onPoiVisibilityUpdated = function () {
             $.each(this.poiTypeViewModels(), function (i, item) { item.visiblePois.removeAll(); });
@@ -1278,7 +1319,11 @@ var StopByStop;
             return junctionVisibilityChanged;
         };
         RouteJunctionViewModel.prototype.navigateToExitPage = function () {
-            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.exit, StopByStop.AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
+            StopByStop.Utils.spaPageNavigate({
+                page: StopByStop.SBSPage.exit,
+                routeId: StopByStop.AppState.current.navigationLocation.routeId,
+                exitId: this.junction.osmid.toString()
+            });
         };
         return RouteJunctionViewModel;
     }());
@@ -1357,7 +1402,10 @@ var StopByStop;
         };
         RoutePlanViewModel.prototype.addEditedStopToRoute = function () {
             this.addStopToRoute(this.editedStop());
-            StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, StopByStop.AppState.current.navigationLocation.routeId);
+            StopByStop.Utils.spaPageNavigate({
+                page: StopByStop.SBSPage.route,
+                routeId: StopByStop.AppState.current.navigationLocation.routeId
+            });
         };
         RoutePlanViewModel.prototype.removeEditedStop = function () {
             this.removeStop(this.editedStop());
@@ -1486,15 +1534,10 @@ var StopByStop;
             }
             this.BaseImageUrl = baseImageUrl;
             this.BaseUrl = baseUrl;
-            this.RouteUrl = baseUrl + "route/";
-            this.PlacesUrl = baseUrl + "place/";
-            this.RouteDataUrl = baseUrl + "routedata/";
-            this.PoiUrl = baseUrl + "poi/";
-            this.PlacesNearbyUrl = baseUrl + "placesnearby/";
-            this.PlacesUrlV2 = baseUrl + "placev2/";
+            this.PlacesDataUrlV2 = baseUrl + "placev2/";
             this.RouteDataUrlV2 = baseUrl + "routedatav2/";
-            this.PoiUrlV2 = baseUrl + "poiv2/";
-            this.PlacesNearbyUrlV2 = baseUrl + "placesnearbyv2/";
+            this.PoiDataUrlV2 = baseUrl + "poiv2/";
+            this.PlacesNearbyDataUrlV2 = baseUrl + "placesnearbyv2/";
             this.CityImagesUrl = "https://az804061.vo.msecnd.net/client/content/city_images/";
         }
         return InitUrls;
@@ -1538,10 +1581,10 @@ var StopByStop;
             //should be picked up from place.i
             if (place.n === currentLocationString) {
                 var modifiedCurrentLocation = place.i.replace(",", "/");
-                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + modifiedCurrentLocation;
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyDataUrlV2 + modifiedCurrentLocation;
             }
             else {
-                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + place.l.a + '/' + place.l.o;
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyDataUrlV2 + place.l.a + '/' + place.l.o;
             }
             $.ajax({
                 url: placesNearbyUrl,
@@ -1659,7 +1702,7 @@ var StopByStop;
                 if (value) {
                     $wrapper.append("<div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div>");
                     $.ajax({
-                        url: StopByStop.AppState.current.urls.PlacesUrlV2 + value,
+                        url: StopByStop.AppState.current.urls.PlacesDataUrlV2 + value,
                         dataType: 'json',
                         method: 'GET',
                         success: function (data) {
@@ -1717,7 +1760,10 @@ var StopByStop;
                 var $to = $('#to');
                 var startlocation = $from.data('place');
                 var endlocation = $to.data('place');
-                StopByStop.Utils.spaPageNavigate(StopByStop.SBSPage.route, startlocation.i + '-to-' + endlocation.i);
+                StopByStop.Utils.spaPageNavigate({
+                    page: StopByStop.SBSPage.route,
+                    routeId: startlocation.i + '-to-' + endlocation.i
+                });
             });
             if ($("#from").data('place') && $("#to").data('place')) {
                 $("#view_trip").removeClass("ui-disabled");
@@ -2185,7 +2231,7 @@ var StopByStop;
             this.selectedJunction = ko.observable(null);
             this.isRouteLoading(true);
             this.routeLoadingMessage("Loading route " + routeTitle + " ...");
-            this.url(StopByStop.Utils.getShareUrl(initSettings.baseDataUrl, initSettings.navigationLocation));
+            this.url(StopByStop.Utils.getShareUrl(initSettings.basePortalUrl, initSettings.navigationLocation));
             if (route) {
                 this._route = route;
                 var rjs = [];
@@ -2194,6 +2240,7 @@ var StopByStop;
                 this.filter.onFilterUpdated = this.onPoiFilterUpdated.bind(this);
                 this.routePlan = new StopByStop.RoutePlanViewModel(this._route.rid, this._route.d, new StopByStop.LocationViewModel(route.tl));
                 this.isRouteLoading(false);
+                this.routeId = route.rid;
                 this.route = new StopByStop.RouteViewModel(this._route, this, initSettings, function () {
                     /*
                     if (initSettings.app === SBSApp.Web) {
@@ -2361,7 +2408,7 @@ var StopByStop;
                 var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
-                $.ajax(StopByStop.AppState.current.urls.PoiUrlV2 + latStr + "," + lonStr)
+                $.ajax(StopByStop.AppState.current.urls.PoiDataUrlV2 + latStr + "," + lonStr)
                     .done(function (data) {
                     for (var i = 0; i < data.length; i++) {
                         var p = data[i];
@@ -2386,6 +2433,7 @@ var StopByStop;
             if (poiTypeToShow === void 0) { poiTypeToShow = StopByStop.PoiType.all; }
             var _this = _super.call(this) || this;
             // TODO: here
+            _this.routeId = route.rid;
             _this.routePlan = routePlan;
             _this.routeJunction = routeJunctionViewModel;
             _this.filter = new StopByStop.FilterViewModel(parentFilter.routeId, [_this.routeJunction.routeJunction], metadata, false);
@@ -2526,7 +2574,7 @@ var StopByStop;
                     // are we loading correct page?
                     var pageBeingLoaded = ui.toPage[0].id;
                     if (StopByStop.SBSPage[StopByStop.AppState.current.navigationLocation.page] !== pageBeingLoaded) {
-                        StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
+                        StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation, false);
                         navigationAbandoned = true;
                     }
                     $(pageIdSelector).css({
@@ -2540,7 +2588,7 @@ var StopByStop;
                     if (navigationAbandoned) {
                         return;
                     }
-                    var shareUrl = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation);
+                    var shareUrl = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, StopByStop.AppState.current.navigationLocation);
                     Init._app().url(shareUrl);
                     if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
                         var newHistoryState = history.state;
@@ -2595,7 +2643,7 @@ var StopByStop;
                             var oldPage = StopByStop.AppState.current.navigationLocation.page;
                             StopByStop.Utils.updateNavigationLocation(newHash, StopByStop.AppState.current.navigationLocation);
                             if (oldPage !== StopByStop.AppState.current.navigationLocation.page) {
-                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation.page, StopByStop.AppState.current.navigationLocation.routeId, StopByStop.AppState.current.navigationLocation.exitId, StopByStop.AppState.current.navigationLocation.poiType, false);
+                                StopByStop.Utils.spaPageNavigate(StopByStop.AppState.current.navigationLocation, false);
                             }
                         }
                         StopByStop.AppState.current.knownHashChangeInProgress = false;
@@ -2656,7 +2704,7 @@ var StopByStop;
                 $(".view-mode-switch").trigger("create");
                 Init.wireupPOIGroup(jmmv);
             });
-            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation));
+            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, StopByStop.AppState.current.navigationLocation));
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
             Init.animateFiltersTrigger();
@@ -2821,6 +2869,7 @@ QUnit.begin(function () {
     StopByStop.AppState.current = {
         baseDataUrl: "",
         baseImageUrl: "",
+        basePortalUrl: "",
         windowOpenTarget: "_system",
         pageInfo: {
             pageName: "TestPageName",
