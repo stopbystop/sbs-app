@@ -200,6 +200,7 @@
     <Content Include="html\partials\filterButton.handlebars" />
     <Content Include="html\partials\favicon.handlebars" />
     <Content Include="html\partials\filterDialog.handlebars" />
+    <Content Include="html\pages\poi.handlebars" />
     <None Include="html\partials\mappoipopup.handlebars" />
     <Content Include="html\partials\poiCountTable.handlebars" />
     <None Include="html\partials\sidebar.handlebars" />
