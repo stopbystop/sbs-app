@@ -37,7 +37,7 @@ module StopByStop {
             this._navLocation = {
                 page: SBSPage.poi,
                 routeId: AppState.current.navigationLocation.routeId,
-                exitId: AppState.current.navigationLocation.exitId,
+                exitId: stopPlace ? stopPlace.exitId : null,
                 poiId: this.id,
                 poiPath: this.id + "-" + this.urlName
             };
@@ -125,6 +125,7 @@ module StopByStop {
         }
 
         public navigateToPoiPageClick(): void {
+            this._app.selectedPoi(this);
             Utils.spaPageNavigate(this._navLocation);
         }
 

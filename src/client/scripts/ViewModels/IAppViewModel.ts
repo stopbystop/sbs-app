@@ -12,5 +12,6 @@ module StopByStop {
         filter: FilterViewModel;
         routePlan: RoutePlanViewModel;
         routeId: string;
+        selectedPoi: KnockoutObservable<PoiViewModel>;
     }
 }

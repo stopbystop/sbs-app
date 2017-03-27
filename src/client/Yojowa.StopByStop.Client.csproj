@@ -42,7 +42,7 @@
     <TypeScriptCompile Include="scripts\tsdef\qunit.d.ts" />
     <TypeScriptCompile Include="scripts\Utils.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\FilterViewModel.ts" />
-    <TypeScriptCompile Include="scripts\ViewModels\JunctionAppViewModel.ts" />
+    <TypeScriptCompile Include="scripts\ViewModels\ExitPageViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\AppViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\IAppViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\IStopPlace.ts" />

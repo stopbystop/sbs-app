@@ -23,5 +23,5 @@
 /// <reference path="ViewModels/IAppViewModel.ts"/>
 /// <reference path="ViewModels/AppViewModel.ts"/>
 /// <reference path="ViewModels/JunctionMapViewModel.ts"/>
-/// <reference path="ViewModels/JunctionAppViewModel.ts"/>
+/// <reference path="ViewModels/ExitPageViewModel.ts"/>
 /// <reference path="ViewModels/SideBarViewModel.ts"/>

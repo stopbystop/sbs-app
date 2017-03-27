@@ -83,7 +83,8 @@ module StopByStop {
                 loc += ("&routeid=" + navigationLocation.routeId);
             }
 
-            if (navigationLocation.exitId && navigationLocation.page === SBSPage.exit) {
+            if (navigationLocation.exitId &&
+                (navigationLocation.page === SBSPage.exit || navigationLocation.page === SBSPage.poi)) {
                 loc += ("&exitid=" + navigationLocation.exitId);
             }
 

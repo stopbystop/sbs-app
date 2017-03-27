@@ -24,15 +24,15 @@
                         <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
                     </div>
                 </div>
-                <div data-bind="if:selectedJunction">
-                    <div class="main_inner">
-                      
+                <div data-bind="if:selectedPoi">
+                    <div class="main_inner" data-bind="with:selectedPoi()">
+                      <h2 class="description_title" data-bind="name">hello</h2>
 
                       
                     </div>
                     <!-- /main_inner -->
                 </div>
-                <!-- /if selectedJunction -->
+                <!-- /if selectedPoi -->
             </div>
             <!-- /breadCrumbHolder module -->
         </div>

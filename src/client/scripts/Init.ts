@@ -10,7 +10,7 @@
 /// <reference path="ViewModels/IAppViewModel.ts" />
 /// <reference path="ViewModels/AppViewModel.ts" />
 /// <reference path="ViewModels/RouteViewModel.ts" />
-/// <reference path="ViewModels/JunctionAppViewModel.ts" />
+/// <reference path="ViewModels/ExitPageViewModel.ts" />
 
 "use strict";
 
@@ -162,6 +162,7 @@ module StopByStop {
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
+                        case SBSPage.poi:
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
                                 Init._app(new AppViewModel(null, AppState.current, Utils.getRouteTitleFromRouteId(AppState.current.navigationLocation.routeId)));
@@ -170,23 +171,33 @@ module StopByStop {
 
                                 Init._loadRoutePromise.done((callback: JQueryPromiseCallback<any>) => {
 
-                                    if (AppState.current.navigationLocation.page === SBSPage.exit) {
-                                        Init.completeExitPageInit();
-                                    } else {
-                                        this._app().route.sideBar.recalculatePosition();
-                                        Init.animateFiltersTrigger();
+                                    switch (AppState.current.navigationLocation.page) {
+                                        case SBSPage.route:
+                                            this._app().route.sideBar.recalculatePosition();
+                                            Init.animateFiltersTrigger();
+                                            break;
+                                        case SBSPage.exit:
+                                            Init.completeExitPageInit();
+                                            break;
+                                        case SBSPage.poi:
+                                            Init.completePoiPageInit();
+                                            break;
                                     }
                                 });
                             } else {
-                                if (AppState.current.navigationLocation.page === SBSPage.route) {
-
-                                    this._app().route.recalcRoadLine($(".route")[0]);
-                                    this._app().title(this._app().route.shortDescription);
-                                    this._app().route.sideBar.recalculatePosition();
-                                    Init.animateFiltersTrigger();
-
-                                } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
-                                    Init.completeExitPageInit();
+                                switch (AppState.current.navigationLocation.page) {
+                                    case SBSPage.route:
+                                        this._app().route.recalcRoadLine($(".route")[0]);
+                                        this._app().title(this._app().route.shortDescription);
+                                        this._app().route.sideBar.recalculatePosition();
+                                        Init.animateFiltersTrigger();
+                                        break;
+                                    case SBSPage.exit:
+                                        Init.completeExitPageInit();
+                                        break;
+                                    case SBSPage.poi:
+                                        Init.completePoiPageInit();
+                                        break;
                                 }
                             }
                             break;
@@ -279,13 +290,25 @@ module StopByStop {
             }
         }
 
+        private static completePoiPageInit(): void {
+            var selectedPoiId = AppState.current.navigationLocation.poiId;
+
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
+            var selectedPoi = selectedRouteJunction.junction.pois()
+                .filter((value: PoiOnJunctionViewModel, index: number, arr: PoiOnJunctionViewModel[]) => {
+                return value.id === selectedPoiId;
+            })[0];
+
+            Init._app().selectedPoi(selectedPoi.poi);
+        }
+
         private static completeExitPageInit(): void {
             var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
             var poiType = AppState.current.navigationLocation.poiType;
 
             var appViewModel = Init._app();
 
-            var junctionAppViewModel = new JunctionSPAAppViewModel(
+            var junctionAppViewModel = new ExitPageViewModel(
                 appViewModel.route.route,
                 selectedRouteJunction,
                 appViewModel.filter,
@@ -317,7 +340,7 @@ module StopByStop {
             }, 50);
         }
 
-        private static initJunctionMapWhenReady(junctionAppViewModel: JunctionSPAAppViewModel): JQueryPromise<JunctionMapViewModel> {
+        private static initJunctionMapWhenReady(junctionAppViewModel: ExitPageViewModel): JQueryPromise<JunctionMapViewModel> {
             var dfd = jQuery.Deferred();
             var mapElement = $("#map")[0];
             var mapContainerElement = $(".poi-map")[0];
