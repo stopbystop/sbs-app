@@ -1152,9 +1152,18 @@ input {
 }
 
 
+
 .sbs .sbs-bgcolor
 {
      background-color: #32394c;
+     color:#fff;
+}
+
+/* TODO: change */
+.sbs .sbs-bgcolor-dk
+{
+    background-color:#2b3244;
+    color:#fff;
 }
 
 .sbs .sbs-color-accent {

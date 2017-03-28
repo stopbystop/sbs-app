@@ -26,9 +26,21 @@
                 </div>
                 <div data-bind="if:selectedPoi">
                     <div class="main_inner" data-bind="with:selectedPoi()">
-                      <h2 class="description_title" data-bind="name">hello</h2>
+                        <div class="poi-header sbs-bgcolor">
+                            <div style="float:left;">
+                                <div data-bind="text:name"></div>
+                                <div>
+                                    <span>0.9 miles from exit 165b</span><br />
+                                    <span>you will be there by 9:30am</span>
+                                </div>
+                            </div>
+                            <div style="float:right">
 
-                      
+                            </div>
+                        </div>
+
+
+
                     </div>
                     <!-- /main_inner -->
                 </div>

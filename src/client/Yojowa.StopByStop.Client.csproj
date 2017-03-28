@@ -71,6 +71,7 @@
     <Content Include="content\rrssb.css" />
     <Content Include="content\sbsbundle.css" />
     <Content Include="content\sbsbundle.css.min.css" />
+    <Content Include="content\styles-poi.css" />
     <Content Include="content\styles-types.css" />
     <Content Include="content\styles-exit-min48.css" />
     <Content Include="content\styles-exit-min32.css" />
