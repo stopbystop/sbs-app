@@ -96,6 +96,7 @@
     <Content Include="content\v1\icons\car.png" />
     <Content Include="content\v1\icons\exit.png" />
     <Content Include="content\v1\icons\exit_map.png" />
+    <Content Include="content\v1\icons\add-to-route-ff.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_1.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_2.png" />
     <Content Include="content\v1\icons\poi\hotels\hotels_1.png" />
@@ -229,7 +230,9 @@
     <Content Include="html\partials\footer.handlebars" />
     <Content Include="html\web.handlebars" />
     <Content Include="html\partials\stopSettingsDialog.handlebars" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>

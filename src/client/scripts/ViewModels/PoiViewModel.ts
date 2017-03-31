@@ -42,6 +42,8 @@ module StopByStop {
                 poiPath: this.id + "-" + this.urlName
             };
 
+            this.poiTypeString = PoiType[this.poiType].toLowerCase();
+
 
             this.url = Utils.getShareUrl(AppState.current.basePortalUrl, this._navLocation);
         }
@@ -59,6 +61,7 @@ module StopByStop {
             }
         }
 
+        public poiTypeString: string;
         public urlName: string;
         public categories: IPoiCategory[];
         public id: string;

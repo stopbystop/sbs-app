@@ -352,8 +352,8 @@ svg image {
 
 .filter-list .ui-checkbox.ui-mini {
     width: 93px;
-    height:34px;
-    overflow:hidden;
+    height: 34px;
+    overflow: hidden;
     margin: 3px;
 }
 
@@ -382,18 +382,22 @@ svg image {
     background-position: 5px center;
 }
 
-.filter-value-count{
+.filter-value-count {
     display: block;
     position: absolute;
     top: 0px;
     right: 0;
     padding: 4px;
-    border-radius:50%;
+    border-radius: 50%;
 }
 
 .poi-count-table-icon {
     width: 70px;
     height: 70px;
+    background-size: 90%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #route .ui-page-theme-a .ui-btn {
@@ -490,6 +494,14 @@ svg image {
     cursor: pointer;
     float: left;
     margin: 3px;
+}
+
+.poi-route-icon {
+    box-shadow: none;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
 }
 
 .current-loc {
@@ -597,7 +609,7 @@ svg image {
     border-radius: 4px;
     box-shadow: 4px 4px 8px rgba(32,38,55,0.8);
     font-size: 0.7em;
-    color:#fff;
+    color: #fff;
 }
 
 .route-summary-table {

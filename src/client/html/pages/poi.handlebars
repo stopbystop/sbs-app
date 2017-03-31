@@ -27,20 +27,22 @@
                 <div data-bind="if:selectedPoi">
                     <div class="main_inner" data-bind="with:selectedPoi()">
                         <div class="poi-header sbs-bgcolor">
+                            <div style="float:left">
+                                <div data-bind="css:'poi-header-icon poi-header-type-icon poi-type-' + poiTypeString">
+                                </div>
+                            </div>
                             <div style="float:left;">
-                                <div data-bind="text:name"></div>
-                                <div>
-                                    <span>0.9 miles from exit 165b</span><br />
+                                <div class="poi-name" data-bind="text:name"></div>
+                                <div class="poi-header-details">
+                                    <span>0.9 miles from exit 165b</span>
+                                    <br />
                                     <span>you will be there by 9:30am</span>
                                 </div>
                             </div>
                             <div style="float:right">
-
+                                <a href="#" class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
                             </div>
                         </div>
-
-
-
                     </div>
                     <!-- /main_inner -->
                 </div>

@@ -4,6 +4,33 @@
     padding: 30px;
 }
 
-.poi-name{
+.poi-header-details {
+    font-size: 0.8em;
+    line-height: 1.1em;
+}
 
+.poi-header-icon {
+    box-shadow: none;
+    background-size: 35px;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 25px;
+    display: block;
+    border-radius: 3px;
+}
+
+.poi-header-type-icon{
+    margin:4px 15px 0 0;
+}
+
+.poi-header-add {
+    background-image: url('v1/icons/add-to-route-ff.png');
+    margin: 5px 40px;
+}
+
+.sbs-cdb .poi-header-add {
+    background-image: url('../images/add-to-route-ff.png');
+}
+
+.poi-name {
 }
