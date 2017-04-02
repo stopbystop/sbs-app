@@ -334,8 +334,9 @@
 }
 
 .poi-placename-type {
-    width: 20%;
-    background-size: 1.5em;
+    width: 45px;
+    background-size: 60%;
+    background-position:center;
 }
 
 .exit-type{

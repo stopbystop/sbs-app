@@ -19,7 +19,7 @@ module StopByStop {
             this.dfe = this.obj.dfj;
             this.dtefrs = exit.dfrs;
             this.exitId = exit.j.oid.toString();
-            this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " miles from exit";
+           
             this.poi = new PoiViewModel(this.obj.p, app, this);
             this.name = this.poi.name;
             this.lat = this.poi.location.lat;
@@ -37,7 +37,7 @@ module StopByStop {
         public location: LocationViewModel;
         public dfe: number;
         public dtefrs: number;
-        public distanceFromJunctionText: string;
+       
         public poi: PoiViewModel;
         public duration: number;
         public lat: number;

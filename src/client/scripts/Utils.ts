@@ -15,6 +15,18 @@ module StopByStop {
     export const ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
 
     export class Utils {
+        public static getETAString(stop: IStopPlace): string{
+            var drivingTimeToPlaceInSeconds = Utils.getDrivingTimeToPlaceInSeconds(stop.dfe);
+            var stopEta = new Date(this.exitEta().getTime() + drivingTimeToPlaceInSeconds * 1000);
+            var stopEtd = new Date(stopEta.getTime() + this.stopDuration() * 60 * 1000);
+            return Utils.getTimeString(stopEta) + "-" + Utils.getTimeString(stopEtd);
+        }
+
+        public static getDrivingTimeToPlaceInSeconds(distanceFromExit:number): number {
+            // for now let's assume 20mph non-highway speed
+            return distanceFromExit / 20 * 3600;
+        }
+
         public static updateNavigationLocation(hash: string, navigationLocation: ISBSNavigationLocation): void {
             if (!hash) {
                 hash = "#home";

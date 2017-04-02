@@ -25,12 +25,22 @@
 
 .poi-header-add {
     background-image: url('v1/icons/add-to-route-ff.png');
-    margin: 5px 40px;
+    margin: 0 25px 0 0;
+
 }
 
 .sbs-cdb .poi-header-add {
     background-image: url('../images/add-to-route-ff.png');
 }
 
-.poi-name {
+.poi-header-main{
+    float:left;
+    width:60%;
+}
+
+.poi-header-name {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-size:1.2em;
 }

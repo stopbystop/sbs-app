@@ -8,10 +8,8 @@
                 <div data-bind="css:'poi-placename poi-type-color-'+poi.poiTypeString">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
-                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
-                <div class="poi-table-cell-go">
-                    <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />
-                </div>
+                <div class="poi-details distance" data-bind="html:poi.distanceFromJunctionText"></div>
+               
             </div>
         </a>
         {{else}}
@@ -25,10 +23,8 @@
                 <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.categories">
                     <span class="poi-cat sbs-color-accent" data-bind="text: $data.n"></span>
                 </div>
-                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
-                <div class="poi-table-cell-go">
-                    <img src='{{{getImage "add_to_route.png"}}}' alt="Add to route" />
-                </div>
+                <div class="poi-details distance" data-bind="html:poi.distanceFromJunctionText"></div>
+                
             </div>
         </a>
         {{/if}}

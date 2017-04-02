@@ -10,9 +10,9 @@
 
         <div id="sidebar-inner" data-bind="style:{height:route.sideBar.sideBarInnerHeight()+'px', top:route.sideBar.sideBarInnerTop()+'px'}">
             <div data-bind="foreach: route.sideBar.stops">
-                <div class="sidebar-stop" data-bind="css:'poi ui-link '+ poiTypeClass+' sidebar-stop', style:{top:top,left:left}, click:click">
+                <div class="sidebar-stop" data-bind="css:'poi ui-link poi-type-'+ poiTypeClass+' sidebar-stop', style:{top:top,left:left}, click:click">
                     <div class="sidebar-stop-time">
-                        <span data-bind="css:'heading poi-type-color' + poiTypeClass,text:stop.name"></span>
+                        <span data-bind="css:'heading poi-type-color-' + poiTypeClass,text:stop.name"></span>
                         <br />
                         <span data-bind="text:stop.etaString"></span>
                     </div>

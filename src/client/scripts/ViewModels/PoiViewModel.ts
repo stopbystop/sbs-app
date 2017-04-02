@@ -46,6 +46,10 @@ module StopByStop {
 
 
             this.url = Utils.getShareUrl(AppState.current.basePortalUrl, this._navLocation);
+
+            if (stopPlace) {
+                this.distanceFromJunctionText = Utils.getMileString(stopPlace.dfe) + " miles from exit";
+            }
         }
 
 
@@ -61,6 +65,7 @@ module StopByStop {
             }
         }
 
+        public distanceFromJunctionText: string;
         public poiTypeString: string;
         public urlName: string;
         public categories: IPoiCategory[];
