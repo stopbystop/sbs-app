@@ -7,7 +7,6 @@
 /// <reference path="Init.ts"/>
 /// <reference path="WebInit.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
-/// <reference path="ViewModels/IStopPlace.ts"/>
 /// <reference path="ViewModels/PoiTypeFilterViewModel.ts"/>
 /// <reference path="ViewModels/FilterViewModel.ts"/>
 /// <reference path="ViewModels/ReviewGroupViewModel.ts"/>

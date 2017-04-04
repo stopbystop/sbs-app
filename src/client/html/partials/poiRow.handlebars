@@ -8,13 +8,13 @@
                 <div data-bind="css:'poi-placename poi-type-color-'+poi.poiTypeString">
                     <span itemprop="name" data-bind="text:poi.name"></span>
                 </div>
-                <div class="poi-details distance" data-bind="html:poi.distanceFromJunctionText"></div>
+                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
                
             </div>
         </a>
         {{else}}
         <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
-           style="text-align:left;" data-bind="click:poi.navigateToPoiPageClick.bind(poi), attr:{url:poi.url,'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
+           style="text-align:left;" data-bind="click:navigateToPoiPageClick.bind($data), attr:{url:poi.url,'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
             <div data-bind="css:'poi-typeicon poi-placename-type poi-type-'+poi.poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
             <div data-bind="css:'exit-type exit-'+poi.poiTypeString">
                 <div data-bind="css:'poi-placename poi-type-color-'+poi.poiTypeString">
@@ -23,7 +23,7 @@
                 <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.categories">
                     <span class="poi-cat sbs-color-accent" data-bind="text: $data.n"></span>
                 </div>
-                <div class="poi-details distance" data-bind="html:poi.distanceFromJunctionText"></div>
+                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
                 
             </div>
         </a>

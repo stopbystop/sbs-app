@@ -12,20 +12,13 @@
 "use strict";
 module StopByStop {
 
-    export interface IRoutePlan {
-        stops: { [id: string]: IStopPlace };
-    };
-
     export class RoutePlanViewModel {
         private _stopDictionary: { [id: string]: RouteStopViewModel } = {};
-        private _storage: Storage = window.sessionStorage;
-        private _storageItem: { [id: string]: IRoutePlan } = {};
         private _routeId: string;
         private _destination: LocationViewModel;
 
-        constructor(routeId: string, routeDistance: number, destination: LocationViewModel, storageOverride: Storage = null) {
+        constructor(routeId: string, routeDistance: number, destination: LocationViewModel) {
             this.routeDistance = routeDistance;
-            this._storage = storageOverride || window.sessionStorage;
             this._routeId = routeId;
             this.stops = ko.observableArray([]);
             this.editedStop = ko.observable<RouteStopViewModel>(null);
@@ -33,59 +26,19 @@ module StopByStop {
             this._destination = destination;
         }
 
-        public loadStopsFromStorage(): void {
-            this.stops([]);
-            this._stopDictionary = {};
-            if (this._storage.getItem(ROUTE_PLAN_STORAGE_KEY)) {
-                this._storageItem = JSON.parse(this._storage.getItem(ROUTE_PLAN_STORAGE_KEY));
-            } else {
-                this._storageItem = {};
-            }
-
-            if (!this._storageItem[this._routeId]) {
-                this._storageItem[this._routeId] = { stops: {} };
-            } else {
-                var stops = this._storageItem[this._routeId].stops;
-
-                for (var id in stops) {
-                    var routeStopViewModel = this.getOrCreateStop(stops[id]);
-                    this.addStopToRoute(routeStopViewModel, true);
-                }
-            }
-
-            this.saveRouteToStorage();
-        }
-
         public junctionMap: { [id: string]: RouteJunctionViewModel } = {};
         public routeDistance: number;
         public stops: KnockoutObservableArray<RouteStopViewModel>;
         public editedStop: KnockoutObservable<RouteStopViewModel>;
 
-        public getOrCreateStop(placeObj: IStopPlace, reloadFromCache: boolean = false): RouteStopViewModel {
-
-            /* Ensure that object only contains members that are part of IStopPlace interface,
-               as this is about to be serialized. Is there a better way to do it? */
-
-            var place: IStopPlace = {
-                dfe: placeObj.dfe,
-                dtefrs: placeObj.dtefrs,
-                duration: placeObj.duration,
-                exitId: placeObj.exitId,
-                id: placeObj.id,
-                lat: placeObj.lat,
-                lon: placeObj.lon,
-                name: placeObj.name,
-                type: placeObj.type
-            };
-
-            var sbsid = place.id;
-
-            if (!this._stopDictionary[sbsid]) {
-                var routeStopViewModel = new RouteStopViewModel(place);
-                this._stopDictionary[sbsid] = routeStopViewModel;
+        public getOrCreateStop(poi: PoiOnJunctionViewModel): RouteStopViewModel {
+            var id = poi.poi.id;
+            if (!this._stopDictionary[id]) {
+                var routeStopViewModel = new RouteStopViewModel(poi);
+                this._stopDictionary[id] = routeStopViewModel;
             }
 
-            var stop = this._stopDictionary[sbsid];
+            var stop = this._stopDictionary[id];
             return stop;
         }
 
@@ -110,40 +63,34 @@ module StopByStop {
         public addStopToRoute(routeStopViewModel: RouteStopViewModel, reloadFromCache: boolean = false): void {
             Telemetry.trackEvent(TelemetryEvent.AddStopToRoute, [{ k: TelemetryProperty.LoadStopsFromCache, v: reloadFromCache.toString() }]);
 
-
-            var place = routeStopViewModel.stopPlace;
-
             // only add it to stops if it is not already in the collection
             var alreadyAdded = false;
             $.each(this.stops(), (index: number, value: RouteStopViewModel) => {
-                if (value.sbsid === place.id) {
+                if (value.poiOnJunction.poi.id === routeStopViewModel.poiOnJunction.poi.id) {
                     alreadyAdded = true;
                 }
             });
 
             if (!alreadyAdded) {
-                this.stops.push(this._stopDictionary[place.id]);
-                var routeJunctionViewModel = this.junctionMap[place.exitId];
-
+                this.stops.push(this._stopDictionary[routeStopViewModel.poiOnJunction.poi.id]);
+                var routeJunctionViewModel = this.junctionMap[routeStopViewModel.poiOnJunction.exitId];
                 if (routeJunctionViewModel) {
                     routeJunctionViewModel.stops.push(routeStopViewModel);
                 } else {
                     Telemetry.trackError(new Error("RouteStopViewModel.addStopToRoute.0"), null, null);
                 }
-
-
             }
         }
 
         public removeStop(stop: RouteStopViewModel) {
             Telemetry.trackEvent(TelemetryEvent.RemoveStopFromRoute);
-            var sbsid = stop.sbsid;
+            var sbsid = stop.poiOnJunction.poi.id;
 
             if (this._stopDictionary[sbsid]) {
                 var stop = this._stopDictionary[sbsid];
                 this.stops.remove(stop);
 
-                var routeJunctionViewModel = this.junctionMap[stop.stopPlace.exitId];
+                var routeJunctionViewModel = this.junctionMap[stop.poiOnJunction.exitId];
                 if (routeJunctionViewModel) {
                     routeJunctionViewModel.stops.remove(stop);
                 }
@@ -201,7 +148,7 @@ module StopByStop {
                             if (i > 0) {
                                 daddrStr += "+to:";
                             }
-                            daddrStr += (this.stops()[i].location.lat + "," + this.stops()[i].location.lon);
+                            daddrStr += (this.stops()[i].poiOnJunction.poi.location.lat + "," + this.stops()[i].poiOnJunction.poi.location.lon);
                         }
 
                         if (daddrStr !== "") {
@@ -232,9 +179,5 @@ module StopByStop {
                     });
             }
         };
-
-        private saveRouteToStorage(): void {
-
-        }
     }
 }

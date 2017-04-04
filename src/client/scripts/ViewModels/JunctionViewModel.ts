@@ -32,7 +32,7 @@ module StopByStop {
                     this.pois.push(poiOnJunctionViewModel);
                     //if (poiOnJunctionViewModel.poi.telPhoneString) {
                     //var normalizedPhoneNumberString = JunctionViewModel.normalizePhoneNumber(poiOnJunctionViewModel.poi.telPhoneString);
-                    this.poiLookup[this._obj.p[i].id] = poiOnJunctionViewModel;
+                    this.poiLookup[this._obj.p[i].p.id] = poiOnJunctionViewModel;
                     //}
                 }
             }
@@ -56,7 +56,7 @@ module StopByStop {
         public poiLookup: { [id: string]: PoiOnJunctionViewModel } = {};
         public completeYDataLoad() {
             for (var i = 0; i < this._obj.p.length; i++) {
-                this.poiLookup[this._obj.p[i].id].poi.updateYInfo(null);
+                this.poiLookup[this._obj.p[i].p.id].poi.updateYInfo(null);
             }
         }
 

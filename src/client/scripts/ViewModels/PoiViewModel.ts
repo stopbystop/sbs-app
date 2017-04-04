@@ -10,14 +10,13 @@ module StopByStop {
     export class PoiViewModel {
         private _obj: IPoi;
         private _reviewDataItem: IReviewGroup;
-        private _navLocation: ISBSNavigationLocation;
         private _app: IAppViewModel;
-        private _stopPlace: IStopPlace;
+        private _poiOnJunction: PoiOnJunctionViewModel;
 
-        constructor(obj: IPoi, app: IAppViewModel, stopPlace: IStopPlace = null) {
+        constructor(obj: IPoi, app: IAppViewModel, poiOnJunction: PoiOnJunctionViewModel = null) {
+            this._poiOnJunction = poiOnJunction;
             this._obj = obj;
             this._app = app;
-            this._stopPlace = stopPlace;
             this.id = this._obj.id;
             this.categories = this._obj.c.map((value, index, arr) => AppState.current.metadata.c[value]);
             this.poiType = this._obj.t;
@@ -34,24 +33,27 @@ module StopByStop {
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
             this.urlName = this._obj.un;
-            this._navLocation = {
-                page: SBSPage.poi,
-                routeId: AppState.current.navigationLocation.routeId,
-                exitId: stopPlace ? stopPlace.exitId : null,
-                poiId: this.id,
-                poiPath: this.id + "-" + this.urlName
-            };
-
             this.poiTypeString = PoiType[this.poiType].toLowerCase();
 
+            if (this._poiOnJunction) {
+                this.stop = this._app.routePlan.getOrCreateStop(this._poiOnJunction);
+            }
 
+            /*
             this.url = Utils.getShareUrl(AppState.current.basePortalUrl, this._navLocation);
 
+            
             if (stopPlace) {
                 this.distanceFromJunctionText = Utils.getMileString(stopPlace.dfe) + " miles from exit";
             }
+            */
         }
 
+        public addToRouteOptionsClick(): void {
+            if (this.stop) {
+                this._app.routePlan.showStopSettings(this.stop);
+            }
+        }
 
         public updateYInfo(reviewDataItem: IReviewGroup): void {
             if (reviewDataItem) {
@@ -65,6 +67,7 @@ module StopByStop {
             }
         }
 
+        public stop: RouteStopViewModel;
         public distanceFromJunctionText: string;
         public poiTypeString: string;
         public urlName: string;
@@ -79,7 +82,6 @@ module StopByStop {
         public telPhoneString: string;
         public isYInfoLoading: KnockoutObservable<boolean>;
         public isYInfoVisible: KnockoutObservable<boolean>;
-
         public yUrl: KnockoutObservable<string>;
         public yStarClass: KnockoutObservable<string>;
         public yReviewCountString: KnockoutObservable<string>;
@@ -130,16 +132,6 @@ module StopByStop {
             }
 
             return starClassName;
-        }
-
-        public navigateToPoiPageClick(): void {
-            this._app.selectedPoi(this);
-            Utils.spaPageNavigate(this._navLocation);
-        }
-
-        public addToRouteOptionsClick(): void {
-            var plannedStop = this._app.routePlan.getOrCreateStop(this._stopPlace);
-            this._app.routePlan.showStopSettings(plannedStop);
         }
     }
 }   

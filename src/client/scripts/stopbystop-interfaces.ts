@@ -146,8 +146,6 @@ module StopByStop {
     }
 
     export interface IPoiOnJunction {
-        /** sbsid */
-        id: string;
         /** distance from junction */
         dfj: number;
         /** poi */

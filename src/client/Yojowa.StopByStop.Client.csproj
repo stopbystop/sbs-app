@@ -45,7 +45,6 @@
     <TypeScriptCompile Include="scripts\ViewModels\ExitPageViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\AppViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\IAppViewModel.ts" />
-    <TypeScriptCompile Include="scripts\ViewModels\IStopPlace.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\JunctionMapViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\JunctionViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\LocationViewModel.ts" />

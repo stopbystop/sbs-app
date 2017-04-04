@@ -101,7 +101,7 @@ module StopByStop {
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
                 if (poi.obj.v === undefined || poi.obj.v === true) {
-                    this._poiTypeViewModelLookup[poi.type].visiblePois.push(poi);
+                    this._poiTypeViewModelLookup[poi.poi.poiType].visiblePois.push(poi);
                     visible = true;
                 }
             }

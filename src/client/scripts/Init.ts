@@ -296,7 +296,7 @@ module StopByStop {
             var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
             var selectedPoi = selectedRouteJunction.junction.pois()
                 .filter((value: PoiOnJunctionViewModel, index: number, arr: PoiOnJunctionViewModel[]) => {
-                return value.id === selectedPoiId;
+                    return value.poi.id === selectedPoiId;
             })[0];
 
             Init._app().selectedPoi(selectedPoi.poi);
