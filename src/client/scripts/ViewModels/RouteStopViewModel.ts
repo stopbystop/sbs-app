@@ -22,7 +22,7 @@ module StopByStop {
            
             this.etaToStopString = ko.computed(() => {
                 var stopEta = new Date(this.exitEta().getTime() + Utils.getNonHighwayDrivingTimeToPlaceInSeconds(this.poiOnJunction.dfe) * 1000);
-                return Utils.getTimeString(stopEta);
+                return "you will be there by " + Utils.getTimeString(stopEta);
             });
 
 

@@ -14,6 +14,7 @@ module StopByStop {
             this._obj = robj.j;
             this._app = app;
 
+            this.dfrs = robj.dfrs;
             this.name = this._obj.n;
             this.index = this._obj.i;
             this.osmid = this._obj.oid;
@@ -28,7 +29,7 @@ module StopByStop {
                 this.pois = ko.observableArray<PoiOnJunctionViewModel>();
 
                 for (var i = 0; i < this._obj.p.length; i++) {
-                    var poiOnJunctionViewModel = new PoiOnJunctionViewModel(this._obj.p[i], robj, this._app);
+                    var poiOnJunctionViewModel = new PoiOnJunctionViewModel(this._obj.p[i], this, this._app);
                     this.pois.push(poiOnJunctionViewModel);
                     //if (poiOnJunctionViewModel.poi.telPhoneString) {
                     //var normalizedPhoneNumberString = JunctionViewModel.normalizePhoneNumber(poiOnJunctionViewModel.poi.telPhoneString);
@@ -42,6 +43,7 @@ module StopByStop {
             
         }
 
+        public dfrs: number;
         public name: string;
         public index: number;
         public osmid: number;
@@ -52,7 +54,6 @@ module StopByStop {
         public exitToLeft: string;
         public exitToRight: string;
         public pois: KnockoutObservableArray<PoiOnJunctionViewModel>;
-        public exitName: KnockoutComputed<string>;
         public poiLookup: { [id: string]: PoiOnJunctionViewModel } = {};
         public completeYDataLoad() {
             for (var i = 0; i < this._obj.p.length; i++) {

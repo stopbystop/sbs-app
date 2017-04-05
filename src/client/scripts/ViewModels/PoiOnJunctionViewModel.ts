@@ -12,15 +12,16 @@ module StopByStop {
         private _app: IAppViewModel;
         private _navLocation: ISBSNavigationLocation;
 
-        constructor(obj: IPoiOnJunction, exit: IRouteJunction, app: IAppViewModel) {
+        constructor(obj: IPoiOnJunction, exit: JunctionViewModel, app: IAppViewModel) {
             this.obj = obj;
             this._app = app;
             this.dfe = this.obj.dfj;
             this.dtefrs = exit.dfrs;
-            this.exitId = exit.j.oid.toString();
-           
-            this.poi = new PoiViewModel(this.obj.p, app);
-            this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " miles from exit"; 
+            this.exitId = exit.osmid.toString();
+
+            this.poi = new PoiViewModel(this.obj.p, app, this);
+            this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " from exit";
+            this.distanceFromJunctionTextFull = Utils.getMileString(this.dfe) + " from " + exit.name;
 
             this._navLocation = {
                 page: SBSPage.poi,
@@ -32,13 +33,14 @@ module StopByStop {
 
         }
 
-        
+
         public obj: IPoiOnJunction;
         public exitId: string;
         public dfe: number;
         public dtefrs: number;
         public poi: PoiViewModel;
         public distanceFromJunctionText: string;
+        public distanceFromJunctionTextFull: string;
 
         public navigateToPoiPageClick(): void {
             this._app.selectedPoi(this.poi);

@@ -2,7 +2,7 @@
 <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
     <div data-bind="with:routePlan">
         <div data-role="header">
-            <h2 style="margin:0 5%;" data-bind="html:editedStop().name"></h2>
+            <h2 style="margin:0 5%;" data-bind="html:editedStop().poiOnJunction.poi.name"></h2>
         </div>
         <div role="main" style="padding:5px;background-color:#fff;">
             <div class="containing-element">

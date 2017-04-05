@@ -1,7 +1,8 @@
 ﻿.poi-header {
     width: 100%;
+    margin-left: -3%;
     display: inline-block;
-    padding: 30px;
+    padding: 10px;
 }
 
 .poi-header-details {
@@ -19,28 +20,38 @@
     border-radius: 3px;
 }
 
-.poi-header-type-icon{
-    margin:4px 15px 0 0;
+.poi-header-type-icon {
+    margin: 4px 15px 0 0;
 }
 
 .poi-header-add {
     background-image: url('v1/icons/add-to-route-ff.png');
-    margin: 0 25px 0 0;
-
 }
 
 .sbs-cdb .poi-header-add {
     background-image: url('../images/add-to-route-ff.png');
 }
 
-.poi-header-main{
-    float:left;
-    width:60%;
+.poi-header-main {
+    float: left;
+    width: 60%;
 }
 
 .poi-header-name {
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    font-size:1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.2em;
+}
+
+.poi-header-right {
+    float: right;
+}
+
+.poi-page-cat-icon {
+    width: 50px;
+    height: 50px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }

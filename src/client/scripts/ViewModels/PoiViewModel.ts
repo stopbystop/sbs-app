@@ -15,6 +15,7 @@ module StopByStop {
 
         constructor(obj: IPoi, app: IAppViewModel, poiOnJunction: PoiOnJunctionViewModel = null) {
             this._poiOnJunction = poiOnJunction;
+            this._poiOnJunction.poi = this;
             this._obj = obj;
             this._app = app;
             this.id = this._obj.id;

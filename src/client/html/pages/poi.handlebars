@@ -33,16 +33,28 @@
                             </div>
                             <div class="poi-header-main">
                                 <div class="poi-header-name" data-bind="text:name"></div>
-                                <div class="poi-header-details">
-                                    <span>0.9 miles from exit 165b</span>
+                                <div class="poi-header-details" data-bind="with:stop">
+                                    <span data-bind="text:poiOnJunction.distanceFromJunctionTextFull" ></span>
                                     <br />
-                                    <span>you will be there by 9:30am</span>
+                                    <span data-bind="text:etaToStopString"></span>
                                 </div>
                             </div>
-                            <div style="float:right">
+                            <div class="poi-header-right">
                                 <a href="#" data-bind="click: addToRouteOptionsClick"  class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
                             </div>
                         </div>
+
+                        <!-- categories-->
+                        <div>
+                            <div style="float:left">
+                                <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
+                            </div>
+                            <div style="float:right">
+
+                            </div>
+                        </div>
+
+                        <!-- properties-->
                     </div>
                     <!-- /main_inner -->
                 </div>
