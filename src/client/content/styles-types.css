@@ -140,3 +140,20 @@
 .sbs-cdb .poi-type-accent-gasstations {
     background-image: url('../images/gasstations_2.png');
 }
+
+/* category */
+.gasstations-c-icon-w, .ui-icon-gasstations-c-icon-w:after {
+    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+}
+
+.sbs-cdb .gasstations-c-icon-w, .sbs-cdb .ui-icon-gasstations-c-icon-w:after  {
+    background-image: url('../images/gasstations_1.png');
+}
+
+.gasstations-c-icon-a, .ui-icon-gasstations-c-icon-a:after {
+    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
+}
+
+.sbs-cdb .gasstations-c-icon-a, .sbs-cdb .ui-icon-gasstations-c-icon-a:after  {
+    background-image: url('../images/gasstations_2.png');
+}

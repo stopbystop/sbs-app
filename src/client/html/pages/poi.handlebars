@@ -34,13 +34,13 @@
                             <div class="poi-header-main">
                                 <div class="poi-header-name" data-bind="text:name"></div>
                                 <div class="poi-header-details" data-bind="with:stop">
-                                    <span data-bind="text:poiOnJunction.distanceFromJunctionTextFull" ></span>
+                                    <span data-bind="text:poiOnJunction.distanceFromJunctionTextFull"></span>
                                     <br />
                                     <span data-bind="text:etaToStopString"></span>
                                 </div>
                             </div>
                             <div class="poi-header-right">
-                                <a href="#" data-bind="click: addToRouteOptionsClick"  class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
+                                <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
                             </div>
                         </div>
 
@@ -56,6 +56,21 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- ko foreach: properties -->
+                            <div style="display:table-row">
+                                <div style="display:table-cell;width:20%;">
+                                   
+                                    <div data-bind="css:poiTypeString+'-p-' + id + '-icon-w poi-page-cat-icon'"></div>
+                                      
+                                </div>
+                                <div style="display:table-cell;width:80%;vertical-align:middle;">
+                                    <div data-bind="foreach: values" style="text-align:center;">
+                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent" style="padding:10px;" data-bind="text: $data"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /ko -->
                         </div>
 
                         <!-- properties-->

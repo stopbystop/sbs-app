@@ -7,6 +7,44 @@
 
 "use strict";
 module StopByStop {
+
+    export interface IPoiPropertyViewModel {
+        id: string;
+        poiTypeString: string;
+        name: string;
+        values: string[];
+    }
+
+    export class PoiSimplePropertyViewModel implements IPoiPropertyViewModel {
+        constructor(id:string, poiTypeString:string, name: string, propertyValues: string[]) {
+            this.name = name;
+            this.values = propertyValues;
+            this.id = id;
+            this.poiTypeString = poiTypeString;
+        }
+
+        public id: string;
+        public poiTypeString: string;
+        public name: string;
+        public values: string[];
+    }
+
+    export class PoiMetadataPropertyViewModel implements IPoiPropertyViewModel {
+        constructor(poiTypeString: string, metadata: IPoiPropertyMetadata, propertyValues: number[]) {
+            this.id = metadata.id;
+            this.poiTypeString = poiTypeString;
+            this.metadata = metadata;
+            this.name = metadata.n;
+            this.values = propertyValues.map((value: number, index: number, array: number[]) => metadata.v[value].n);
+        }
+
+        public id: string;
+        public poiTypeString: string;
+        public metadata: IPoiPropertyMetadata;
+        public name: string;
+        public values: string[];
+    }
+
     export class PoiViewModel {
         private _obj: IPoi;
         private _reviewDataItem: IReviewGroup;
@@ -40,14 +78,18 @@ module StopByStop {
                 this.stop = this._app.routePlan.getOrCreateStop(this._poiOnJunction);
             }
 
-            /*
-            this.url = Utils.getShareUrl(AppState.current.basePortalUrl, this._navLocation);
+            this.properties = [];
+            var metadata = AppState.current.metadata;
 
-            
-            if (stopPlace) {
-                this.distanceFromJunctionText = Utils.getMileString(stopPlace.dfe) + " miles from exit";
+            for (var p in this._obj.pp) {
+                if (this._obj.pp[p]) {
+                    var propertyMetadata = metadata.ppm[p];
+                    if (propertyMetadata) {
+                        var values = this._obj.pp[p];
+                        this.properties.push(new PoiMetadataPropertyViewModel(this.poiTypeString, propertyMetadata, values));
+                    }
+                }
             }
-            */
         }
 
         public addToRouteOptionsClick(): void {
@@ -86,7 +128,7 @@ module StopByStop {
         public yUrl: KnockoutObservable<string>;
         public yStarClass: KnockoutObservable<string>;
         public yReviewCountString: KnockoutObservable<string>;
-
+        public properties: IPoiPropertyViewModel[];
 
         private static getReviewsString(reviewCount: number): string {
             if (reviewCount === 0) {

@@ -278,7 +278,7 @@ module StopByStop {
         p: IPoiPropertyMetadata[];
     }
 
-    export interface IMetadata {
+        export interface IMetadata {
         /** category metadata */
         c: { [id: number]: IPoiCategory };
         /** root categories by type id */
