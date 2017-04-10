@@ -45,14 +45,14 @@
                         </div>
 
                         <!-- categories-->
-                        <div style="display:table;width:100%;">
+                        <div style="display:table;width:100%;font-size:0.9em;">
                             <div style="display:table-row">
                                 <div style="display:table-cell;width:20%;">
                                     <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
                                 </div>
-                                <div style="display:table-cell;width:80%;vertical-align:middle;">
-                                    <div data-bind="foreach: categories" style="text-align:center;">
-                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent" style="padding:10px;" data-bind="text: $data.n"></span>
+                                <div class="poi-page-cat-item-cell">
+                                    <div data-bind="foreach: categories" class="poi-page-cat-item-container">
+                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data.n"></span>
                                     </div>
                                 </div>
                             </div>
@@ -64,9 +64,9 @@
                                     <div data-bind="css:poiTypeString+'-p-' + id + '-icon-w poi-page-cat-icon'"></div>
                                       
                                 </div>
-                                <div style="display:table-cell;width:80%;vertical-align:middle;">
-                                    <div data-bind="foreach: values" style="text-align:center;">
-                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent" style="padding:10px;" data-bind="text: $data"></span>
+                                <div class="poi-page-cat-item-cell">
+                                    <div data-bind="foreach: values" class="poi-page-cat-item-container">
+                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data"></span>
                                     </div>
                                 </div>
                             </div>
