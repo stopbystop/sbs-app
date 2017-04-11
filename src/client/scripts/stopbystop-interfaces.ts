@@ -183,7 +183,7 @@ module StopByStop {
     export interface IRouteJunction {
         /** distance from route start */
         dfrs: number;
-        /** time from rout start */
+        /** time from route start */
         tfrs: number;
         /** junction */
         j: IJunction;

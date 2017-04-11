@@ -56,6 +56,7 @@ namespace Yojowa.StopByStop.Utils
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
         }
 
+        /*
         /// <summary>
         /// Starts the timer with "using" construct and logs elapsed milliseconds as metric
         /// </summary>
@@ -66,6 +67,19 @@ namespace Yojowa.StopByStop.Utils
         public static IDisposable TimeAndLog(Metric metric)
         {
             return new TelemetryTimer(metric);
+        }
+        */
+
+        /// <summary>
+        /// Starts the timer with "using" construct and logs elapsed milliseconds as metric
+        /// </summary>
+        /// <param name="metricName">Name of the metric.</param>
+        /// <returns>
+        /// Disposable instance that should be disposed to stop timer
+        /// </returns>
+        public static IDisposable TimeAndLog(string metricName)
+        {
+            return new TelemetryTimer(metricName);
         }
 
         /// <summary>
@@ -79,6 +93,12 @@ namespace Yojowa.StopByStop.Utils
             /// </summary>
             private Stopwatch stopwatch;
 
+            /// <summary>
+            /// The metric name
+            /// </summary>
+            private string metricName;
+
+            /*
             /// <summary>
             /// The metric
             /// </summary>
@@ -94,6 +114,18 @@ namespace Yojowa.StopByStop.Utils
                 this.stopwatch = new Stopwatch();
                 this.stopwatch.Start();
             }
+            */
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TelemetryTimer"/> class.
+            /// </summary>
+            /// <param name="metricName">Name of the metric.</param>
+            public TelemetryTimer(string metricName)
+            {
+                this.metricName = metricName;
+                this.stopwatch = new Stopwatch();
+                this.stopwatch.Start();
+            }
 
             /// <summary>
             /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
@@ -101,7 +133,7 @@ namespace Yojowa.StopByStop.Utils
             public void Dispose()
             {
                 this.stopwatch.Stop();
-                this.metric.Track(this.stopwatch.ElapsedMilliseconds);
+                new TelemetryClient().TrackMetric(this.metricName, this.stopwatch.ElapsedMilliseconds);
             }
         }
 
