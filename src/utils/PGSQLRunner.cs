@@ -19,10 +19,12 @@ namespace Yojowa.StopByStop.Utils
     /// </summary>
     public static class PGSQLRunner
     {
+        /*
         /// <summary>
         /// The attempts count metric
         /// </summary>
         private static readonly Metric AttemptsCountMetric = new MetricManager().CreateMetric(TelemetryConstants.PGSQLRetryAttempts);
+        */
 
         /// <summary>
         /// Runs PGSQL command
@@ -162,7 +164,11 @@ namespace Yojowa.StopByStop.Utils
                        DisposeOfCommandAndConnection(ref command, ref conn);
                    }
 
+                   tracker.Track(new MetricTelemetry(TelemetryConstants.PGSQLRetryAttempts, attemptsMade));
+                   
+                   /*
                    AttemptsCountMetric.Track(attemptsMade);
+                   */
                }
            },
             (ex) => tracker.Track(new ExceptionTelemetry(ex)),
