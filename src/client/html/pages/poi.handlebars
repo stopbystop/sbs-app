@@ -44,9 +44,15 @@
                             </div>
                         </div>
 
-                        <!-- categories-->
-                        <div style="display:table;width:100%;font-size:0.9em;">
-                            <div style="display:table-row">
+                        <div data-role="controlgroup" data-type="horizontal" style="height:50px;">
+                            <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-add-acc" data-role="button">Add to route</a>
+                            <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
+                        </div>
+
+                       
+                        <div class="poi-page-properties-table">
+                            <!-- categories-->
+                             <div style="display:table-row">
                                 <div style="display:table-cell;width:20%;">
                                     <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
                                 </div>
@@ -60,9 +66,9 @@
                             <!-- ko foreach: properties -->
                             <div style="display:table-row">
                                 <div style="display:table-cell;width:20%;">
-                                   
+
                                     <div data-bind="css:poiTypeString+'-p-' + id + '-icon-w poi-page-cat-icon'"></div>
-                                      
+
                                 </div>
                                 <div class="poi-page-cat-item-cell">
                                     <div data-bind="foreach: values" class="poi-page-cat-item-container">

@@ -32,6 +32,23 @@
     background-image: url('../images/add-to-route-ff.png');
 }
 
+.poi-header-add-acc {
+    background-image: url('v1/icons/add-to-route-acc.png');
+}
+
+.sbs-cdb .poi-header-add-acc {
+    background-image: url('../images/add-to-route-acc.png');
+}
+
+.poi-header-navigate-acc {
+    background-image: url('v1/icons/navigate-acc.png');
+}
+
+.sbs-cdb .poi-header-navigate-acc {
+    background-image: url('../images/navigate-acc.png');
+}
+
+
 .poi-header-main {
     float: left;
     width: 60%;
@@ -72,3 +89,21 @@
 .poi-page-cat-item{
     padding: 2px 10px 2px 10px;
 }
+
+.poi-page-action-btn{
+    float:left;
+    width:40%;
+    margin:2px;
+    background-size:10%;
+    background-repeat:no-repeat;
+    background-position:6% 46%;
+}
+
+.poi-page-properties-table{
+    display:table;
+    width:100%;
+    font-size:0.9em;
+    margin-top:20px;
+}
+
+

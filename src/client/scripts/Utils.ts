@@ -65,7 +65,7 @@ module StopByStop {
                                 case "poitype":
                                     navigationLocation.poiType = PoiType.all;
                                     if (val) {
-                                        navigationLocation.poiType = PoiType[val];
+                                        navigationLocation.poiType = PoiType[val] || navigationLocation.poiType;
                                     }
                                     break;
                             }
@@ -296,6 +296,47 @@ module StopByStop {
         public static getPoiIconUrl(poiType: PoiType, iconFormat: PoiIconFormat, baseImageUrl: string) {
             var poiTypeString = PoiType[poiType].toLowerCase();
             return baseImageUrl + "poi/" + poiTypeString + "/" + poiTypeString + "_" + iconFormat.toString() + ".png";
+        }
+
+        public static getNavigationUrlFromCurrentLocation(...stops: ILocation[]): JQueryPromise<string> {
+            var deferred = $.Deferred<string>();
+            if (stops && stops.length > 0) {
+                if (navigator && navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position: Position) => {
+                            var srcLat = position.coords.latitude;
+                            var srcLon = position.coords.longitude;
+
+                            var daddrStr = "";
+                            for (var i = 0; i < stops.length - 1; i++) {
+                                if (i > 0) {
+                                    daddrStr += "+to:";
+                                }
+                                daddrStr += (stops[i].a + "," + stops[i].o);
+                            }
+
+                            if (daddrStr !== "") {
+                                daddrStr += "+to:";
+                            }
+
+                            var destination = stops[stops.length - 1];
+                            daddrStr += destination.a + "," + destination.o;
+                            var navigationUrl = "https://maps.google.com/maps?saddr="
+                                + srcLat + ","
+                                + srcLon + "&daddr="
+                                + daddrStr;
+                            deferred.resolve(navigationUrl);
+                        },
+                        (positionError: PositionError) => {
+                            Telemetry.trackError(new Error("getCurrentPositionError"));
+                            window.alert("Please allow StopByStop.com to share your location.");
+                            deferred.reject("getCurrentPositionError");
+                        });
+                }
+            } else {
+                deferred.reject();
+            }
+            return deferred.promise();
         }
 
         private static getPlaceNameFromPlaceId(placeId: string) {

@@ -51,6 +51,11 @@ To run you can use http-server. It is already installed into dev dependencies af
 * Run `http-server -S`  from repo root
 * Navigate to https://localhost:8080/src/cordova/www/
 
+## Running client unit tests
+Run unit tests using http-server.
+* Run `http-server -S`  from repo root
+* Navigate to https://localhost:8080/test/qunit/all.html
+
 ### Building with Visual Studio 2015
 You can build and run local version of the server and MVC mode UI by opening and building:
 * src\StopByStop-web.sln (includes Cordova project)

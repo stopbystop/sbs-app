@@ -40,6 +40,7 @@
     <TypeScriptCompile Include="scripts\tsdef\jquerymobile.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\knockout-3.3.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\qunit.d.ts" />
+    <TypeScriptCompile Include="scripts\tsdef\sinon.d.ts" />
     <TypeScriptCompile Include="scripts\Utils.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\FilterViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\ExitPageViewModel.ts" />
@@ -96,6 +97,8 @@
     <Content Include="content\v1\icons\exit.png" />
     <Content Include="content\v1\icons\exit_map.png" />
     <Content Include="content\v1\icons\add-to-route-ff.png" />
+    <Content Include="content\v1\icons\add-to-route-acc.png" />
+    <Content Include="content\v1\icons\navigate-acc.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_1.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_2.png" />
     <Content Include="content\v1\icons\poi\hotels\hotels_1.png" />
