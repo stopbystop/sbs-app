@@ -19,7 +19,7 @@ module StopByStop {
 
             this.exitEta = ko.observable(new Date());
 
-           
+
             this.etaToStopString = ko.computed(() => {
                 var stopEta = new Date(this.exitEta().getTime() + Utils.getNonHighwayDrivingTimeToPlaceInSeconds(this.poiOnJunction.dfe) * 1000);
                 return "you will be there by " + Utils.getTimeString(stopEta);
@@ -69,37 +69,19 @@ module StopByStop {
 
         public navigate(): void {
             Telemetry.trackEvent(TelemetryEvent.StopPopupNavigateClick, null, null, true);
-            if (navigator && navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position: Position) => {
+            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(this.poiOnJunction.poi.location);
+            getNavUrlPromise.done((navigationUrl: string) => {
 
-                        var srcLat = position.coords.latitude;
-                        var srcLon = position.coords.longitude;
-                        var navigationUrl = "https://maps.google.com/maps?saddr="
-                            + srcLat + ","
-                            + srcLon + "&daddr="
-                            + this.poiOnJunction.poi.location.lat.toString() + ","
-                            + this.poiOnJunction.poi.location.lon.toString();
+                Telemetry.trackEvent(
+                    TelemetryEvent.StopPopupNavigateBeforeDirect,
+                    [
+                        { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
+                    ],
+                    null,
+                    true);
 
-
-                        Telemetry.trackEvent(
-                            TelemetryEvent.StopPopupNavigateBeforeDirect,
-                            [
-                                { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
-                            ],
-                            null,
-                            true);
-
-                        Utils.windowOpen(navigationUrl);
-                    },
-                    (positionError: PositionError) => {
-                        try {
-                            Telemetry.trackError(new Error("getCurrentPositionError"));
-                        }
-                        catch (ex) { }
-                        window.alert("Please allow StopByStop.com to share your location.");
-                    });
-            }
+                Utils.windowOpen(navigationUrl);
+            });
         };
 
         public poiOnJunction: PoiOnJunctionViewModel;

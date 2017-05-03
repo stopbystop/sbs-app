@@ -94,7 +94,27 @@ module StopByStop {
 
         public addToRouteOptionsClick(): void {
             if (this.stop) {
+                Telemetry.trackEvent(TelemetryEvent.POIPageAddToRouteClick, null, null, false);
                 this._app.routePlan.showStopSettings(this.stop);
+            }
+        }
+
+        public navigateNowClick(): void {
+            if (this.stop) {
+                Telemetry.trackEvent(TelemetryEvent.POIPageNavigateClick, null, null, false);
+                var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(this.stop.poiOnJunction.poi.location);
+                getNavUrlPromise.done((navigationUrl: string) => {
+
+                    Telemetry.trackEvent(
+                        TelemetryEvent.POIPageNavigateBeforeDirect,
+                        [
+                            { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
+                        ],
+                        null,
+                        true);
+
+                    Utils.windowOpen(navigationUrl);
+                });
             }
         }
 

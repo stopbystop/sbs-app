@@ -136,48 +136,21 @@ module StopByStop {
 
         public navigate(): void {
             Telemetry.trackEvent(TelemetryEvent.RoutePlanNavigateClick, null, null, true);
-            if (this._destination && navigator && navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position: Position) => {
+            var stopLocations: ILocation[] = this.stops().map(rsvm => rsvm.poiOnJunction.poi.location);
+            stopLocations.push(this._destination);
+            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(stopLocations);
+            getNavUrlPromise.done((navigationUrl: string) => {
+                Telemetry.trackEvent(
+                    TelemetryEvent.RoutePlanNavigateBeforeDirect,
+                    [
+                        { k: TelemetryProperty.StopCount, v: this.stops().length.toString() },
+                        { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
+                    ],
+                    null,
+                    true);
 
-                        var srcLat = position.coords.latitude;
-                        var srcLon = position.coords.longitude;
-
-                        var daddrStr = "";
-                        for (var i = 0; i < this.stops().length; i++) {
-                            if (i > 0) {
-                                daddrStr += "+to:";
-                            }
-                            daddrStr += (this.stops()[i].poiOnJunction.poi.location.lat + "," + this.stops()[i].poiOnJunction.poi.location.lon);
-                        }
-
-                        if (daddrStr !== "") {
-                            daddrStr += "+to:";
-                        }
-
-                        daddrStr += this._destination.lat + "," + this._destination.lon;
-                        var navigationUrl = "https://maps.google.com/maps?saddr="
-                            + srcLat + ","
-                            + srcLon + "&daddr="
-                            + daddrStr;
-
-                        Telemetry.trackEvent(
-                            TelemetryEvent.RoutePlanNavigateBeforeDirect,
-                            [
-                                { k: TelemetryProperty.StopCount, v: this.stops().length.toString() },
-                                { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
-                            ],
-                            null,
-                            true);
-
-                        Utils.windowOpen(navigationUrl);
-
-                    },
-                    (positionError: PositionError) => {
-                        Telemetry.trackError(new Error("getCurrentPositionError"));
-                        window.alert("Please allow StopByStop.com to share your location.");
-                    });
-            }
+                Utils.windowOpen(navigationUrl);
+            });
         };
     }
 }

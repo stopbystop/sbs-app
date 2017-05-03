@@ -58,27 +58,83 @@ module StopByStop {
     });
 
     QUnit.test("Utils: getNavigationUrlFromCurrentLocation test", (assert) => {
-        var navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition");
-        var fakeSuccessGetCurrentPosition = (successCallback: PositionCallback, errorCallback?: PositionErrorCallback, options?: PositionOptions): void => {
+        var fakeSuccessGetCurrentPosition = (
+            successCallback: PositionCallback,
+            errorCallback?: PositionErrorCallback,
+            options?: PositionOptions): void => {
             successCallback(<Position>{
                 coords: <Coordinates>{
-                    latitude: 1.0,
-                    longitude: 1.0
+                    latitude: 45.0,
+                    longitude: -100.0
                 }
             });
         };
-        var navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition").callsFake(fakeSuccessGetCurrentPosition);
+
+        var fakeFailGetCurrentPosition = (
+            successCallback: PositionCallback,
+            errorCallback?: PositionErrorCallback,
+            options?: PositionOptions): void => {
+            errorCallback({
+                code: 1,
+                message: "Unavailable",
+                PERMISSION_DENIED: 0,
+                POSITION_UNAVAILABLE: 0,
+                TIMEOUT: 0
+            });
+        };
+
+
+        var loc1: ILocation = {
+            a: 44,
+            o: -100
+        };
+
+        var loc2: ILocation = {
+            a: 43,
+            o: -100
+        };
+
+        var navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeSuccessGetCurrentPosition);
+        var d1 = assert.async();
+        Utils.getNavigationUrlFromCurrentLocation(loc1).then((val: string) => {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100");
+            assert.equal(navLocationStub.callCount, 1);
+            d1();
+        });
+
+        var d2 = assert.async();
+        Utils.getNavigationUrlFromCurrentLocation(loc1, loc2).then((val: string) => {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100+to:43,-100");
+            assert.equal(navLocationStub.callCount, 2);
+            d2();
+        });
+
+        navLocationStub.restore();
+        navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeFailGetCurrentPosition);
+        var d3 = assert.async();
+
+        var successCb = sinon.spy();
+        var errorCb = sinon.spy();
+
+        Utils.getNavigationUrlFromCurrentLocation(loc1)
+            .done(successCb)
+            .fail(errorCb)
+            .always((val: string) => {
+                assert.equal(val, "Unavailable");
+                assert.equal(navLocationStub.callCount, 1);
+                assert.equal(successCb.callCount, 0);
+                assert.equal(errorCb.callCount, 1);
+                d3();
+            });
+
+        navLocationStub.restore();
+
+
     });
 
-            
-            
-        .
-});
-
-function updateAndVerifyNavigationLocation(assert: QUnitAssert, hash: string, inputLocation: ISBSNavigationLocation, expectedLocation: ISBSNavigationLocation): void {
-    Utils.updateNavigationLocation(hash, inputLocation);
-    assert.deepEqual(inputLocation, expectedLocation);
-}
-
+    function updateAndVerifyNavigationLocation(assert: QUnitAssert, hash: string, inputLocation: ISBSNavigationLocation, expectedLocation: ISBSNavigationLocation): void {
+        Utils.updateNavigationLocation(hash, inputLocation);
+        assert.deepEqual(inputLocation, expectedLocation);
+    }
 }
 

@@ -9,13 +9,6 @@
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span></a>
                         </li>
-                        <!--
-                        <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
-                            <a itemprop="item" href="#route">
-                                <span itemprop="name" data-bind="text:route.title"></span>
-                            </a>
-                        </li>
-                        -->
                     </ul>
 
                 </div>
@@ -46,7 +39,7 @@
 
                         <div data-role="controlgroup" data-type="horizontal" style="height:50px;">
                             <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-add-acc" data-role="button">Add to route</a>
-                            <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
+                            <a href="#" data-bind="click: navigateNowClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
                         </div>
 
                        

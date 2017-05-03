@@ -439,9 +439,10 @@ var StopByStop;
                             + daddrStr;
                         deferred.resolve(navigationUrl);
                     }, function (positionError) {
-                        StopByStop.Telemetry.trackError(new Error("getCurrentPositionError"));
-                        window.alert("Please allow StopByStop.com to share your location.");
-                        deferred.reject("getCurrentPositionError");
+                        var error = positionError.message;
+                        StopByStop.Telemetry.trackError(new Error("getCurrentPositionError: " + error));
+                        console.error("Please allow StopByStop.com to share your location.");
+                        deferred.reject(error);
                     });
                 }
             }
@@ -558,7 +559,60 @@ var StopByStop;
         assert.equal(callback.callCount, 1);
     });
     QUnit.test("Utils: getNavigationUrlFromCurrentLocation test", function (assert) {
-        //sinon.
+        var fakeSuccessGetCurrentPosition = function (successCallback, errorCallback, options) {
+            successCallback({
+                coords: {
+                    latitude: 45.0,
+                    longitude: -100.0
+                }
+            });
+        };
+        var fakeFailGetCurrentPosition = function (successCallback, errorCallback, options) {
+            errorCallback({
+                code: 1,
+                message: "Unavailable",
+                PERMISSION_DENIED: 0,
+                POSITION_UNAVAILABLE: 0,
+                TIMEOUT: 0
+            });
+        };
+        var loc1 = {
+            a: 44,
+            o: -100
+        };
+        var loc2 = {
+            a: 43,
+            o: -100
+        };
+        var navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeSuccessGetCurrentPosition);
+        var d1 = assert.async();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1).then(function (val) {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100");
+            assert.equal(navLocationStub.callCount, 1);
+            d1();
+        });
+        var d2 = assert.async();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1, loc2).then(function (val) {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100+to:43,-100");
+            assert.equal(navLocationStub.callCount, 2);
+            d2();
+        });
+        navLocationStub.restore();
+        navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeFailGetCurrentPosition);
+        var d3 = assert.async();
+        var successCb = sinon.spy();
+        var errorCb = sinon.spy();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1)
+            .done(successCb)
+            .fail(errorCb)
+            .always(function (val) {
+            assert.equal(val, "Unavailable");
+            assert.equal(navLocationStub.callCount, 1);
+            assert.equal(successCb.callCount, 1);
+            assert.equal(errorCb.callCount, 1);
+            d3();
+        });
+        navLocationStub.restore();
     });
     function updateAndVerifyNavigationLocation(assert, hash, inputLocation, expectedLocation) {
         StopByStop.Utils.updateNavigationLocation(hash, inputLocation);

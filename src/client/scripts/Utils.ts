@@ -328,9 +328,10 @@ module StopByStop {
                             deferred.resolve(navigationUrl);
                         },
                         (positionError: PositionError) => {
-                            Telemetry.trackError(new Error("getCurrentPositionError"));
-                            window.alert("Please allow StopByStop.com to share your location.");
-                            deferred.reject("getCurrentPositionError");
+                            var error = positionError.message;
+                            Telemetry.trackError(new Error("getCurrentPositionError: " + error));
+                            console.error("Please allow StopByStop.com to share your location.");
+                            deferred.reject(error);
                         });
                 }
             } else {
