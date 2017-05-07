@@ -138,7 +138,7 @@ module StopByStop {
             Telemetry.trackEvent(TelemetryEvent.RoutePlanNavigateClick, null, null, true);
             var stopLocations: ILocation[] = this.stops().map(rsvm => rsvm.poiOnJunction.poi.location);
             stopLocations.push(this._destination);
-            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(stopLocations);
+            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(null, stopLocations);
             getNavUrlPromise.done((navigationUrl: string) => {
                 Telemetry.trackEvent(
                     TelemetryEvent.RoutePlanNavigateBeforeDirect,

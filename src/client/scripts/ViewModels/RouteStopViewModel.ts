@@ -69,7 +69,7 @@ module StopByStop {
 
         public navigate(): void {
             Telemetry.trackEvent(TelemetryEvent.StopPopupNavigateClick, null, null, true);
-            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation.apply(this.poiOnJunction.poi.location);
+            var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation(this.poiOnJunction.poi.location);
             getNavUrlPromise.done((navigationUrl: string) => {
 
                 Telemetry.trackEvent(

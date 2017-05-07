@@ -9,6 +9,16 @@
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span></a>
                         </li>
+                        <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#route">
+                                <span itemprop="name" data-bind="text:route.title"></span>
+                            </a>
+                        </li>
+                        <li data-bind="if:selectedJunction" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#route">
+                                <span itemprop="name" data-bind="text:route.title"></span>
+                            </a>
+                        </li>
                     </ul>
 
                 </div>

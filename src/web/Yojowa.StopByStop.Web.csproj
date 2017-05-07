@@ -23,7 +23,7 @@
     <IISExpressUseClassicPipelineMode />
     <ApplicationInsightsResourceId>/subscriptions/fc521fab-583c-41a1-9e5c-970dd9178490/resourcegroups/Default-ApplicationInsights-CentralUS/providers/microsoft.insights/components/Yojowa.StopByStop.Web</ApplicationInsightsResourceId>
     <UseGlobalApplicationHostFile />
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
