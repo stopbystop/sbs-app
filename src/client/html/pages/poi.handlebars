@@ -7,16 +7,20 @@
                 <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
                     <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
                         <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
-                            <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span></a>
+                            <a itemprop="item" href="#home">
+                                <span itemprop="name">Home</span>
+                                <span><img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span>
+                            </a>
                         </li>
                         <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
                             <a itemprop="item" href="#route">
-                                <span itemprop="name" data-bind="text:route.title"></span>
+                                <span class="middle-item" itemprop="name" data-bind="text:route.title"></span>
+                                <span><img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span>
                             </a>
                         </li>
                         <li data-bind="if:selectedJunction" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
-                            <a itemprop="item" href="#route">
-                                <span itemprop="name" data-bind="text:route.title"></span>
+                            <a itemprop="item" href="#exit">
+                                <span itemprop="name" data-bind="text:selectedJunction().routeJunction.junction.name"></span>
                             </a>
                         </li>
                     </ul>
@@ -52,10 +56,10 @@
                             <a href="#" data-bind="click: navigateNowClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
                         </div>
 
-                       
+
                         <div class="poi-page-properties-table">
                             <!-- categories-->
-                             <div style="display:table-row">
+                            <div style="display:table-row">
                                 <div style="display:table-cell;width:20%;">
                                     <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
                                 </div>

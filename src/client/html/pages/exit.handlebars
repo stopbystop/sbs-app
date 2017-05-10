@@ -26,12 +26,12 @@
                     <div class="main_inner">
                         <div class="route-summary">
                             <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
-                            
+
                             <!-- ko with: selectedJunction().filter -->
                             {{>routeSummaryTable}}
                             <!-- /ko -->
                         </div>
-                        
+
                         <div class="pois-list">
                             <div>
                                 <div class="pois-list-filters-container">
@@ -48,12 +48,14 @@
 
                             <!-- start POI list-->
                             <!-- ko foreach: selectedJunction().routeJunction.poiTypeViewModels-->
-                            <div class="poi-table" data-bind="foreach: visiblePois()">
+                            <!-- ko foreach: visiblePois()-->
+                            <div class="poi-table">
                                 {{>poiRow showCategories=true isMapPopup=false}}
                             </div>
                             <!--/ko-->
+                            <!--/ko-->
                             <!-- end POI list-->
-                           
+
 
 
                             <div class="poi-map">

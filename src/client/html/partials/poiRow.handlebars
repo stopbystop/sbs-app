@@ -29,8 +29,8 @@
         </a>
         {{/if}}
     </div>
-    <div class="poi-table-cell poi-yelp-cell">
-        <a href="#" data-bind="attr:{href:poi.yUrl}, visible:poi.isYInfoVisible" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
+    <div class="poi-table-cell poi-yelp-cell" data-bind="visible:poi.isYInfoVisible">
+        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="{{linkClick}}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
             <div>
                 <img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
                      alt="Yelp" />
