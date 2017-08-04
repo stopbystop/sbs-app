@@ -9,8 +9,10 @@ namespace Yojowa.StopByStop.Utils
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
     using System.Text.RegularExpressions;
     using Microsoft.ApplicationInsights;
+    using Microsoft.AspNetCore.Http;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -116,9 +118,9 @@ namespace Yojowa.StopByStop.Utils
         /// Gets the IP address.
         /// </summary>
         /// <returns>IP address string</returns>
-        public static string GetIPAddress()
+        public static string GetIPAddress(HttpContext context)
         {
-            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            /*
             string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
             if (!string.IsNullOrEmpty(ipAddress))
@@ -129,19 +131,19 @@ namespace Yojowa.StopByStop.Utils
                     return addresses[0];
                 }
             }
-
-            return context.Request.ServerVariables["REMOTE_ADDR"];
+            */
+            return context.Connection.RemoteIpAddress.ToString();
         }
 
         /// <summary>
         /// Gets the current location.
         /// </summary>
         /// <returns>Current location</returns>
-        public static Location GetCurrentLocation()
+        public static Location GetCurrentLocation(HttpContext context)
         {
             try
             {
-                string ip = GetIPAddress();
+                string ip = GetIPAddress(context);
 
                 if (ip.IndexOf(":") > -1)
                 {
@@ -149,8 +151,8 @@ namespace Yojowa.StopByStop.Utils
                 }
 
                 string url = "http://ip-api.com/json/" + ip.ToString();
-                WebClient client = new WebClient();
-                string jsonstring = client.DownloadString(url);
+                var client = new HttpClient();
+                string jsonstring = client.GetStringAsync(url).Result;
 
                 dynamic dynObj = JsonConvert.DeserializeObject(jsonstring);
                 if (dynObj.lat == null)

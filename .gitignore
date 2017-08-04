@@ -12,3 +12,6 @@ stylecop.cache
 
 .DS_Store
 
+# Log files
+*.log
+

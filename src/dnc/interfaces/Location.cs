@@ -2,7 +2,6 @@
 {
     using Newtonsoft.Json;
     using System;
-    using System.Web.Script.Serialization;
 
     public class Location
     {
@@ -30,7 +29,6 @@
         public string PlaceDescription { get; set; }
 
         [JsonIgnore]
-        [ScriptIgnore]
         public string PlaceDescriptionShort
         {
             get

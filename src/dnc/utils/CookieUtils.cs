@@ -6,9 +6,9 @@
 
 namespace Yojowa.StopByStop.Utils
 {
-    using System;
     using System.Linq;
-    using System.Web;
+    using System;
+    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Cookie utils
@@ -20,11 +20,11 @@ namespace Yojowa.StopByStop.Utils
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="value">The value.</param>
-        public static void WriteCookie(string name, string value)
+        public static void WriteCookie (HttpContext context, string name, string value)
         {
-            var cookie = new HttpCookie(name, value);
-            cookie.Expires = DateTime.UtcNow.AddYears(1);
-            HttpContext.Current.Response.Cookies.Set(cookie);
+            CookieOptions options = new CookieOptions ();
+            options.Expires = DateTime.Now.AddYears (1);
+            context.Response.Cookies.Append (name, value, options);
         }
 
         /// <summary>
@@ -32,18 +32,24 @@ namespace Yojowa.StopByStop.Utils
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>Cookie value</returns>
-        public static string ReadCookie(string name)
+        public static string ReadCookie (HttpContext context, string name)
         {
-            if (HttpContext.Current.Response.Cookies.AllKeys.Contains(name))
+            foreach (var headers in context.Response.Headers.Values)
+            foreach (var header in headers)
+            if (header.StartsWith (name))
             {
-                var cookie = HttpContext.Current.Response.Cookies[name];
-                return cookie.Value;
+                var p1 = header.IndexOf ('=');
+                var p2 = header.IndexOf (';');
+                return header.Substring (p1 + 1, p2 - p1 - 1);
             }
 
-            if (HttpContext.Current.Request.Cookies.AllKeys.Contains(name))
+            foreach (var headers in context.Request.Headers.Values)
+            foreach (var header in headers)
+            if (header.StartsWith (name))
             {
-                var cookie = HttpContext.Current.Request.Cookies[name];
-                return cookie.Value;
+                var p1 = header.IndexOf ('=');
+                var p2 = header.IndexOf (';');
+                return header.Substring (p1 + 1, p2 - p1 - 1);
             }
 
             return null;
