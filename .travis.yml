@@ -1,4 +1,6 @@
 language: csharp
+mono: none
+dotnet: 1.0.5
 
 install:
 - npm install
