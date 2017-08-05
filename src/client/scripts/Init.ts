@@ -330,7 +330,7 @@ module StopByStop {
         }
 
         private static initJunctionMapWhenReady(junctionAppViewModel: JunctionSPAAppViewModel): JQueryPromise<JunctionMapViewModel> {
-            var dfd = jQuery.Deferred();
+            var dfd = jQuery.Deferred<JunctionMapViewModel>();
             var mapElement = $("#map")[0];
             var mapContainerElement = $(".poi-map")[0];
 
