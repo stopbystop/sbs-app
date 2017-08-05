@@ -7,4 +7,3 @@ install:
 - npm install
 script:
 - npm run build
-- dotnet test test/xunit/Yojowa.StopByStop.UnitTests.csproj
