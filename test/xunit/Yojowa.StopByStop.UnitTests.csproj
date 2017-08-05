@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\dnc\interfaces\Yojowa.StopByStop.Interfaces.csproj" />
+    <ProjectReference Include="..\..\src\dnc\utils\Yojowa.StopByStop.Utils.csproj" />
   </ItemGroup>
 
 </Project>

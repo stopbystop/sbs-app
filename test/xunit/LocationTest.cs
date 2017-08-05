@@ -61,7 +61,7 @@
             [Fact]
             public void NormalizeCityIDTest ()
             {
-                Assert.AreEqual<string> (
+                Assert.Equal<string> (
                     "k-i-sawyer-s-air-force-base-united-states",
                     LocationUtils.NormalizeCityId ("K.I.Sawyer's Air Force Base-united-states"));
             }
@@ -73,15 +73,15 @@
             /// <param name="expectedLocations">The expected locations.</param>
             private static void VerifyLocations (IEnumerable<Location> locationsToVerify, IEnumerable<Location> expectedLocations)
             {
-                Assert.AreEqual<int> (expectedLocations.Count (), locationsToVerify.Count ());
+                Assert.Equal<int> (expectedLocations.Count (), locationsToVerify.Count ());
 
                 for (int i = 0; i < locationsToVerify.Count (); i++)
                 {
                     var locationToVerify = locationsToVerify.ToArray ()[i];
                     var expectedLocation = expectedLocations.ToArray ()[i];
 
-                    Assert.AreEqual<double> (Math.Round (locationToVerify.Lat, 1), Math.Round (expectedLocation.Lat, 1));
-                    Assert.AreEqual<double> (Math.Round (locationToVerify.Lon, 1), Math.Round (expectedLocation.Lon, 1));
+                    Assert.Equal<double> (Math.Round (locationToVerify.Lat, 1), Math.Round (expectedLocation.Lat, 1));
+                    Assert.Equal<double> (Math.Round (locationToVerify.Lon, 1), Math.Round (expectedLocation.Lon, 1));
                 }
             }
         }

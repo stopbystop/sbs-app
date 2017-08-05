@@ -1,3 +1,5 @@
+/// <reference path="tsdef/jquery.d.ts"/>
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -8,8 +10,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/// <reference path="tsdef/jquery.d.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     ;
@@ -167,17 +167,11 @@ var StopByStop;
                 }
             }
         };
+        Telemetry._appInsights = window["appInsights"];
         return Telemetry;
     }());
-    Telemetry._appInsights = window["appInsights"];
     StopByStop.Telemetry = Telemetry;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/jquerymobile.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Telemetry.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var PoiTypeFilterViewModel = (function () {
@@ -411,13 +405,6 @@ var StopByStop;
     }());
     StopByStop.ValueFilterViewModel = ValueFilterViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/jquerymobile.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Telemetry.ts"/>
-/// <reference path="PoiTypeFilterViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var FilterViewModel = (function () {
@@ -682,8 +669,8 @@ var StopByStop;
             StopByStop.AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         };
-        Utils.getShareUrl = function (hostName, navLocation) {
-            var shareUrl = hostName;
+        Utils.getShareUrl = function (basePortalUrl, navLocation) {
+            var shareUrl = basePortalUrl;
             if (shareUrl.substr(shareUrl.length - 1) !== "/") {
                 shareUrl += "/";
             }
@@ -693,6 +680,9 @@ var StopByStop;
                     shareUrl += "route/" + navLocation.routeId;
                     if (navLocation.page === StopByStop.SBSPage.exit) {
                         shareUrl += "/exit/osm-" + navLocation.exitId;
+                        if (navLocation.poiType) {
+                            shareUrl += "/" + StopByStop.PoiType[navLocation.poiType];
+                        }
                     }
                     break;
             }
@@ -751,32 +741,29 @@ var StopByStop;
             }
             return placeName;
         };
+        // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+        Utils.observeDOM = (function () {
+            var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
+            return function (obj, callback) {
+                if (MutationObserver) {
+                    // define a new observer
+                    var obs = new MutationObserver(function (mutations, observer) {
+                        if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
+                            callback();
+                    });
+                    // have the observer observe foo for changes in children
+                    obs.observe(obj, { childList: true, subtree: true });
+                }
+                else if (eventListenerSupported) {
+                    obj.addEventListener('DOMNodeInserted', callback, false);
+                    obj.addEventListener('DOMNodeRemoved', callback, false);
+                }
+            };
+        })();
         return Utils;
     }());
-    // http://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
-    Utils.observeDOM = (function () {
-        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver, eventListenerSupported = window.addEventListener;
-        return function (obj, callback) {
-            if (MutationObserver) {
-                // define a new observer
-                var obs = new MutationObserver(function (mutations, observer) {
-                    if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
-                        callback();
-                });
-                // have the observer observe foo for changes in children
-                obs.observe(obj, { childList: true, subtree: true });
-            }
-            else if (eventListenerSupported) {
-                obj.addEventListener('DOMNodeInserted', callback, false);
-                obj.addEventListener('DOMNodeRemoved', callback, false);
-            }
-        };
-    })();
     StopByStop.Utils = Utils;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var LocationViewModel = (function () {
@@ -855,14 +842,11 @@ var StopByStop;
         LocationViewModel.round1DecimalDigit = function (n) {
             return Math.round(n * 10) / 10;
         };
+        LocationViewModel.GRAIN = 0.1;
         return LocationViewModel;
     }());
-    LocationViewModel.GRAIN = 0.1;
     StopByStop.LocationViewModel = LocationViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var ReviewGroupViewModel = (function () {
@@ -879,13 +863,6 @@ var StopByStop;
     }());
     StopByStop.ReviewGroupViewModel = ReviewGroupViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="ReviewGroupViewModel.ts"/>
-/// <reference path="FilterViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var PoiViewModel = (function () {
@@ -904,6 +881,7 @@ var StopByStop;
             this.yUrl = ko.observable("#");
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
+            this.urlName = this._obj.un;
         }
         PoiViewModel.prototype.updateYInfo = function (reviewDataItem) {
             if (reviewDataItem) {
@@ -967,19 +945,6 @@ var StopByStop;
     }());
     StopByStop.PoiViewModel = PoiViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-"use strict";
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="ReviewGroupViewModel.ts"/>
-/// <reference path="PoiViewModel.ts"/>
-/// <reference path="IStopPlace.ts"/>
-/// <reference path="../Utils.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var PoiOnJunctionViewModel = (function () {
@@ -1006,13 +971,6 @@ var StopByStop;
     }());
     StopByStop.PoiOnJunctionViewModel = PoiOnJunctionViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Utils.ts"/>
-/// <reference path="../Telemetry.ts"/>
-/// <reference path="PoiOnJunctionViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var RouteStopViewModel = (function () {
@@ -1107,22 +1065,17 @@ var StopByStop;
     var AppState = (function () {
         function AppState() {
         }
+        AppState.current = {
+            basePortalUrl: null,
+            baseDataUrl: null,
+            baseImageUrl: null,
+            windowOpenTarget: "_system",
+            metadata: null
+        };
         return AppState;
     }());
-    AppState.current = {
-        baseDataUrl: null,
-        baseImageUrl: null,
-        windowOpenTarget: "_system",
-        metadata: null
-    };
     StopByStop.AppState = AppState;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="PoiOnJunctionViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var JunctionViewModel = (function () {
@@ -1166,18 +1119,10 @@ var StopByStop;
     }());
     StopByStop.JunctionViewModel = JunctionViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="JunctionViewModel.ts"/>
-/// <reference path="FilterViewModel.ts"/>
-/// <reference path="../Utils.ts"/>
-/// <reference path="../AppState.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var RouteJunctionPoiTypeViewModel = (function () {
-        function RouteJunctionPoiTypeViewModel(rootPoiCategory, junctionViewModel) {
+        function RouteJunctionPoiTypeViewModel(rootPoiCategory, junctionViewModel, app) {
             var _this = this;
             this._rpc = rootPoiCategory;
             this.visiblePois = ko.observableArray([]);
@@ -1185,6 +1130,12 @@ var StopByStop;
             this.poiCountString = ko.observable("");
             this._junctionViewModel = junctionViewModel;
             this.poiTypeString = StopByStop.PoiType[rootPoiCategory.t].toLowerCase();
+            this.url = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, {
+                page: StopByStop.SBSPage.exit,
+                routeId: app.routeId,
+                exitId: this._junctionViewModel.osmid.toString(),
+                poiType: this._rpc.t
+            });
             this.poiCountStringWithLabel = ko.computed(function () {
                 return _this.poiCountString() + " " + _this._rpc.n + "(s)";
             });
@@ -1201,15 +1152,6 @@ var StopByStop;
     }());
     StopByStop.RouteJunctionPoiTypeViewModel = RouteJunctionPoiTypeViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="JunctionViewModel.ts"/>
-/// <reference path="FilterViewModel.ts"/>
-/// <reference path="RouteJunctionPoiTypeViewModel.ts"/>
-/// <reference path="../Utils.ts"/>
-/// <reference path="../AppState.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var RouteJunctionViewModel = (function () {
@@ -1234,7 +1176,7 @@ var StopByStop;
             var rootPoiCategories = StopByStop.AppState.current.metadata.rpc;
             for (var rpcId in rootPoiCategories) {
                 var rpc = rootPoiCategories[rpcId];
-                var vm = new StopByStop.RouteJunctionPoiTypeViewModel(rpc, this.junction);
+                var vm = new StopByStop.RouteJunctionPoiTypeViewModel(rpc, this.junction, app);
                 this.poiTypeViewModels.push(vm);
                 this._poiTypeViewModelLookup[rpc.t] = vm;
             }
@@ -1260,6 +1202,11 @@ var StopByStop;
                 }
                 return new Date(_this.eta().getTime() + totalDetourTime * 1000);
             });
+            this.url = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, {
+                page: StopByStop.SBSPage.exit,
+                routeId: app.routeId,
+                exitId: this.routeJunction.j.oid.toString()
+            });
         }
         RouteJunctionViewModel.prototype.onPoiVisibilityUpdated = function () {
             $.each(this.poiTypeViewModels(), function (i, item) { item.visiblePois.removeAll(); });
@@ -1284,15 +1231,6 @@ var StopByStop;
     }());
     StopByStop.RouteJunctionViewModel = RouteJunctionViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Utils.ts"/>
-/// <reference path="../Telemetry.ts"/>
-/// <reference path="../AppState.ts"/>
-/// <reference path="RouteStopViewModel.ts"/>
-/// <reference path="RouteJunctionViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     ;
@@ -1466,13 +1404,6 @@ var StopByStop;
     }());
     StopByStop.RoutePlanViewModel = RoutePlanViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="FilterViewModel.ts"/>
-/// <reference path="RouteStopViewModel.ts"/>
-/// <reference path="RoutePlanViewModel.ts"/>
-"use strict";
 /// <reference path="stopbystop-interfaces.ts"/>
 var StopByStop;
 (function (StopByStop) {
@@ -1486,15 +1417,10 @@ var StopByStop;
             }
             this.BaseImageUrl = baseImageUrl;
             this.BaseUrl = baseUrl;
-            this.RouteUrl = baseUrl + "route/";
-            this.PlacesUrl = baseUrl + "place/";
-            this.RouteDataUrl = baseUrl + "routedata/";
-            this.PoiUrl = baseUrl + "poi/";
-            this.PlacesNearbyUrl = baseUrl + "placesnearby/";
-            this.PlacesUrlV2 = baseUrl + "placev2/";
+            this.PlacesDataUrlV2 = baseUrl + "placev2/";
             this.RouteDataUrlV2 = baseUrl + "routedatav2/";
-            this.PoiUrlV2 = baseUrl + "poiv2/";
-            this.PlacesNearbyUrlV2 = baseUrl + "placesnearbyv2/";
+            this.PoiDataUrlV2 = baseUrl + "poiv2/";
+            this.PlacesNearbyDataUrlV2 = baseUrl + "placesnearbyv2/";
             this.CityImagesUrl = "https://az804061.vo.msecnd.net/client/content/city_images/";
         }
         return InitUrls;
@@ -1538,10 +1464,10 @@ var StopByStop;
             //should be picked up from place.i
             if (place.n === currentLocationString) {
                 var modifiedCurrentLocation = place.i.replace(",", "/");
-                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + modifiedCurrentLocation;
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyDataUrlV2 + modifiedCurrentLocation;
             }
             else {
-                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyUrlV2 + place.l.a + '/' + place.l.o;
+                placesNearbyUrl = StopByStop.AppState.current.urls.PlacesNearbyDataUrlV2 + place.l.a + '/' + place.l.o;
             }
             $.ajax({
                 url: placesNearbyUrl,
@@ -1659,7 +1585,7 @@ var StopByStop;
                 if (value) {
                     $wrapper.append("<div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div>");
                     $.ajax({
-                        url: StopByStop.AppState.current.urls.PlacesUrlV2 + value,
+                        url: StopByStop.AppState.current.urls.PlacesDataUrlV2 + value,
                         dataType: 'json',
                         method: 'GET',
                         success: function (data) {
@@ -1723,18 +1649,11 @@ var StopByStop;
                 $("#view_trip").removeClass("ui-disabled");
             }
         };
+        InitHome.yIncrement = -100;
         return InitHome;
     }());
-    InitHome.yIncrement = -100;
     StopByStop.InitHome = InitHome;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="JunctionViewModel.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="../Utils.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var RouteSegmentViewModel = (function () {
@@ -1798,21 +1717,12 @@ var StopByStop;
                 }
             }
         };
+        RouteSegmentViewModel.SEGMENT_INITIAL_SPACE = 7;
+        RouteSegmentViewModel.SPACE_FOR_JUNCTION = 8;
         return RouteSegmentViewModel;
     }());
-    RouteSegmentViewModel.SEGMENT_INITIAL_SPACE = 7;
-    RouteSegmentViewModel.SPACE_FOR_JUNCTION = 8;
     StopByStop.RouteSegmentViewModel = RouteSegmentViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Telemetry.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="RouteSegmentViewModel.ts" />
-/// <reference path="FilterViewModel.ts" />
-/// <reference path="RoutePlanViewModel.ts" />
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var SideBarStopViewModel = (function () {
@@ -2023,14 +1933,6 @@ var StopByStop;
     }());
     StopByStop.SideBarViewModel = SideBarViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="LocationViewModel.ts"/>
-/// <reference path="RouteSegmentViewModel.ts" />
-/// <reference path="FilterViewModel.ts" />
-/// <reference path="SideBarViewModel.ts" />
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var RouteViewModel = (function () {
@@ -2161,13 +2063,6 @@ var StopByStop;
     }());
     StopByStop.RouteViewModel = RouteViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="RouteViewModel.ts"/>
-/// <reference path="FilterViewModel.ts"/>
-/// <reference path="IAppViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var AppViewModel = (function () {
@@ -2185,7 +2080,7 @@ var StopByStop;
             this.selectedJunction = ko.observable(null);
             this.isRouteLoading(true);
             this.routeLoadingMessage("Loading route " + routeTitle + " ...");
-            this.url(StopByStop.Utils.getShareUrl(initSettings.baseDataUrl, initSettings.navigationLocation));
+            this.url(StopByStop.Utils.getShareUrl(initSettings.basePortalUrl, initSettings.navigationLocation));
             if (route) {
                 this._route = route;
                 var rjs = [];
@@ -2194,6 +2089,7 @@ var StopByStop;
                 this.filter.onFilterUpdated = this.onPoiFilterUpdated.bind(this);
                 this.routePlan = new StopByStop.RoutePlanViewModel(this._route.rid, this._route.d, new StopByStop.LocationViewModel(route.tl));
                 this.isRouteLoading(false);
+                this.routeId = route.rid;
                 this.route = new StopByStop.RouteViewModel(this._route, this, initSettings, function () {
                     /*
                     if (initSettings.app === SBSApp.Web) {
@@ -2240,7 +2136,6 @@ var StopByStop;
     }());
     StopByStop.AppViewModel = AppViewModel;
 })(StopByStop || (StopByStop = {}));
-"use strict";
 String.prototype.f = function () {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -2252,12 +2147,6 @@ String.prototype.f = function () {
     }
     return s;
 };
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../tsdef/google.maps.d.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="JunctionViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var JunctionMapViewModel = (function () {
@@ -2339,16 +2228,6 @@ var StopByStop;
     }());
     StopByStop.JunctionMapViewModel = JunctionMapViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../tsdef/jquery.d.ts"/>
-/// <reference path="../tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../tsdef/google.maps.d.ts"/>
-/// <reference path="../extensions.ts"/>
-/// <reference path="../stopbystop-interfaces.ts"/>
-/// <reference path="../Init.ts"/>
-/// <reference path="RouteViewModel.ts"/>
-/// <reference path="JunctionMapViewModel.ts"/>
-/// <reference path="IAppViewModel.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var JunctionAppBaseViewModel = (function () {
@@ -2361,7 +2240,7 @@ var StopByStop;
                 var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
                 var latStr = locationToLoad.lat.toFixed(1);
                 var lonStr = locationToLoad.lon.toFixed(1);
-                $.ajax(StopByStop.AppState.current.urls.PoiUrlV2 + latStr + "," + lonStr)
+                $.ajax(StopByStop.AppState.current.urls.PoiDataUrlV2 + latStr + "," + lonStr)
                     .done(function (data) {
                     for (var i = 0; i < data.length; i++) {
                         var p = data[i];
@@ -2386,6 +2265,7 @@ var StopByStop;
             if (poiTypeToShow === void 0) { poiTypeToShow = StopByStop.PoiType.all; }
             var _this = _super.call(this) || this;
             // TODO: here
+            _this.routeId = route.rid;
             _this.routePlan = routePlan;
             _this.routeJunction = routeJunctionViewModel;
             _this.filter = new StopByStop.FilterViewModel(parentFilter.routeId, [_this.routeJunction.routeJunction], metadata, false);
@@ -2423,20 +2303,6 @@ var StopByStop;
     }(JunctionAppBaseViewModel));
     StopByStop.JunctionSPAAppViewModel = JunctionSPAAppViewModel;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="tsdef/jquery.d.ts"/>
-/// <reference path="tsdef/jquerymobile.d.ts"/>
-/// <reference path="tsdef/knockout-3.3.d.ts"/>
-/// <reference path="AppState.ts" />
-/// <reference path="Telemetry.ts"/>
-/// <reference path="Utils.ts"/>
-/// <reference path="stopbystop-interfaces.ts"/>
-/// <reference path="InitUrls.ts"/>
-/// <reference path="InitHome.ts"/>
-/// <reference path="ViewModels/IAppViewModel.ts" />
-/// <reference path="ViewModels/AppViewModel.ts" />
-/// <reference path="ViewModels/RouteViewModel.ts" />
-/// <reference path="ViewModels/JunctionAppViewModel.ts" />
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var Init = (function () {
@@ -2540,7 +2406,7 @@ var StopByStop;
                     if (navigationAbandoned) {
                         return;
                     }
-                    var shareUrl = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation);
+                    var shareUrl = StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, StopByStop.AppState.current.navigationLocation);
                     Init._app().url(shareUrl);
                     if (!StopByStop.AppState.current.historyDisabled && StopByStop.Utils.isHistoryAPISupported()) {
                         var newHistoryState = history.state;
@@ -2656,7 +2522,7 @@ var StopByStop;
                 $(".view-mode-switch").trigger("create");
                 Init.wireupPOIGroup(jmmv);
             });
-            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.baseDataUrl, StopByStop.AppState.current.navigationLocation));
+            Init._app().url(StopByStop.Utils.getShareUrl(StopByStop.AppState.current.basePortalUrl, StopByStop.AppState.current.navigationLocation));
             Init._app().title(junctionAppViewModel.routeJunction.title);
             document.title = Init._app().title();
             Init.animateFiltersTrigger();
@@ -2771,22 +2637,12 @@ var StopByStop;
                 });
             }
         };
+        Init._loadRoutePromise = null;
+        Init._cachedRoutes = {};
         return Init;
     }());
-    Init._loadRoutePromise = null;
-    Init._cachedRoutes = {};
     StopByStop.Init = Init;
 })(StopByStop || (StopByStop = {}));
-/// <reference path="../../../src/client/scripts/tsdef/qunit.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/jquery.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/google.maps.d.ts"/>
-/// <reference path="../../../src/client/scripts/stopbystop-interfaces.ts"/>
-/// <reference path="../../../src/client/scripts/ViewModels/IAppViewModel.ts"/>
-/// <reference path="../../../src/client/scripts/ViewModels/IStopPlace.ts"/>
-/// <reference path="../../../src/client/scripts/ViewModels/RoutePlanViewModel.ts"/>
-/// <reference path="../../../src/client/scripts/Init.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     var TestStorage = (function () {
@@ -2819,6 +2675,7 @@ var StopByStop;
 ;
 QUnit.begin(function () {
     StopByStop.AppState.current = {
+        basePortalUrl: "",
         baseDataUrl: "",
         baseImageUrl: "",
         windowOpenTarget: "_system",
@@ -2927,13 +2784,6 @@ QUnit.test("RoutePlanViewModel: restore stop data from storage test", function (
     assert.equal(routePlanViewModel.stops().length, 1);
     assert.equal(myStorage.getData(StopByStop.ROUTE_PLAN_STORAGE_KEY), "{\"testrouteid\":{\"stops\":{\"id1\":{\"dfe\":1,\"dtefrs\":100,\"duration\":5,\"exitId\":\"exitid\",\"id\":\"id1\",\"lat\":42,\"lon\":-170,\"name\":\"name\",\"type\":2}}}}");
 });
-/// <reference path="../../../src/client/scripts/tsdef/qunit.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/jquery.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/knockout-3.3.d.ts"/>
-/// <reference path="../../../src/client/scripts/tsdef/google.maps.d.ts"/>
-/// <reference path="../../../src/client/scripts/stopbystop-interfaces.ts"/>
-/// <reference path="../../../src/client/scripts/Utils.ts"/>
-"use strict";
 var StopByStop;
 (function (StopByStop) {
     QUnit.begin(function () {

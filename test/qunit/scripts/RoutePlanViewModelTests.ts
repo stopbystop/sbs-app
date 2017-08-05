@@ -47,6 +47,7 @@ module StopByStop {
 
 QUnit.begin(() => {
     StopByStop.AppState.current = {
+        basePortalUrl: "",
         baseDataUrl: "",
         baseImageUrl: "",
         windowOpenTarget: "_system",
