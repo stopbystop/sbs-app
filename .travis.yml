@@ -1,6 +1,6 @@
 language: csharp
 mono: none
-dotnet: 1.0.5git 
+dotnet: 1.0.5 
 
 install:
 - npm install
@@ -8,3 +8,4 @@ install:
 script:
 - npm run build
 - xbuild /p:Configuration=Release /p:SkipClientAfterBuild=true ./src/StopByStop-web.sln
+- dotnet test test/xunit/Yojowa.StopByStop.UnitTests.csproj
