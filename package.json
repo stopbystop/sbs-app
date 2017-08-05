@@ -20,12 +20,12 @@
     "typescript": "^2.2.1"
   },
   "scripts": {
-    "build": "dotnet restore ./src/Stopbystop-core.sln && dotnet build ./src/Stopbystop-core.sln && cd ./src/client && tsc -p . && gulp build-cordova && gulp build-web && cd ../cordova/scripts && tsc -p . && cd ../../../test/qunit && tsc -p .",
+    "build": "dotnet restore ./src/StopByStop-core.sln && dotnet build ./src/StopByStop-core.sln && cd ./src/client && tsc -p . && gulp build-cordova && gulp build-web && cd ../cordova/scripts && tsc -p . && cd ../../../test/qunit && tsc -p .",
     "build-web": "cd ./src/client && tsc -p . && gulp build-web",
     "build-cordova": "cd ./src/cordova/scripts && tsc -p . && cd ../../client && gulp build-cordova",
     "build-test": "cd ./test/qunit && tsc -p .",
-    "build-dotnet": "dotnet restore ./src/Stopbystop-core.sln && dotnet build ./src/Stopbystop-core.sln",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-dotnet": "dotnet restore ./src/StopByStop-core.sln && dotnet build ./src/StopByStop-core.sln",
+    "test": "dotnet test ./test/xunit/Yojowa.StopByStop.UnitTests.csproj"
   },
   "repository": {
     "type": "git",
