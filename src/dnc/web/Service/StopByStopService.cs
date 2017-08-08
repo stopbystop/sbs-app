@@ -64,7 +64,7 @@
             else
             {
             */
-            service = new RouteServiceProxy (WebConfigurationManager.AppSettings["proxyserviceurl"]);
+            service = new RouteServiceProxy (SBSConfiguration.BEServiceUrl);
             /* 
             }
             */
@@ -85,7 +85,7 @@
             else
             {
                 */
-            service = new PlacesServiceProxy (WebConfigurationManager.AppSettings["proxyserviceurl"]);
+            service = new PlacesServiceProxy (SBSConfiguration.BEServiceUrl);
             /* 
         }
         */

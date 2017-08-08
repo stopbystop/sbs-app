@@ -2,20 +2,12 @@
 {
     using Service;
     using System;
-    using System.Web.Mvc;
     using Yojowa.StopByStop.Utils;
     using Microsoft.AspNetCore.Mvc;
 
-    [NoCache]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class PoiController : Controller
     {
-        [HttpGet]
-        [Route("poi/{id}")]
-        public ContentResult Index(string id)
-        {
-            return VersionRedirector.Instance.Get(string.Format("poi/{0}", id));
-        }
-
 
         [HttpGet]
         [Route("poiv2/{id}")]
@@ -27,7 +19,7 @@
                 throw new ArgumentException("InvalidLocation");
             }
             var reviewData = StopByStopService.RouteServiceInstance.GetPoiReviewData(location);
-            return Json(reviewData, JsonRequestBehavior.AllowGet);
+            return Json(reviewData);
         }
     }
 }

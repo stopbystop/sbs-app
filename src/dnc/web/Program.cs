@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace web
+namespace Yojowa.StopByStop.Web
 {
     public class Program
     {
@@ -16,6 +16,7 @@ namespace web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseApplicationInsights(SBSConfiguration.AppInsightsIKey)
                 .Build();
 
             host.Run();

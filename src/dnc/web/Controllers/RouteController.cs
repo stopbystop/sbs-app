@@ -8,14 +8,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Web.Mvc;
-    using System.Web.Routing;
     using Yojowa.StopByStop.Utils;
     using Yojowa.StopByStop.Web.Models;
     using Microsoft.AspNetCore.Mvc;
 
 
-    [NoCache]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class RouteController : Controller
     {
         private static Random random = new System.Random();
@@ -46,7 +44,7 @@
                     if (routeJunction != null)
                     {
                         telemetryClient.TrackEvent("PoiGroupToOSMFormatRedirect");
-                        string requestFullUrl = HttpContext.Request.Url.ToString();
+                        string requestFullUrl = HttpContext.Request.Path.Value;
                         string redirectUrl = requestFullUrl
                             .Substring(0, requestFullUrl.IndexOf("route")) +
                             string.Format("route/{0}/exit/osm-{1}/{2}", id, routeJunction.Junction.OSMID, poiTypeString);
@@ -65,7 +63,7 @@
                 }
             }
 
-            var model = new MainModel(metadata, this.Url)
+            var model = new MainModel(metadata, this.HttpContext)
             {
                 Page = ClientPage.Route,
                 RouteId = id,
@@ -111,7 +109,7 @@
                 }
             }
 
-            return View("~/client/Views/Main.cshtml", new MainModel(metadata, this.Url)
+            return View("~/client/Views/Main.cshtml", new MainModel(metadata, this.HttpContext)
             {
                 Page = ClientPage.Exit,
                 RouteId = id,
@@ -138,7 +136,8 @@
 
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
+                return View("~/client/Views/Main.cshtml", 
+                new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.HttpContext)
                 {
                     Page = ClientPage.Route,
                     RouteId = pathId,
@@ -155,7 +154,8 @@
             StopByStop.Route route = GetRouteFromRoutePathId(id, false);
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.Url)
+                return View("~/client/Views/Main.cshtml", 
+                new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.HttpContext)
                 {
                     Page = ClientPage.Route,
                     RouteId = id,
@@ -173,18 +173,11 @@
 
 
         [HttpGet]
-        [Route("routedata/{id}")]
-        public ContentResult RouteJsonData(string id)
-        {
-            return VersionRedirector.Instance.Get(string.Format("routedata/{0}", id));
-        }
-
-        [HttpGet]
         [Route("routedatav2/{id}/metadata/{withmetadata}")]
         public JsonResult RouteJsonDataV2(string id, bool withMetadata)
         {
             StopByStop.Route route = GetRouteFromRoutePathId(id, withMetadata);
-            return Json(route, JsonRequestBehavior.AllowGet);
+            return Json(route);
         }
 
         private static StopByStop.Route GetRouteFromRoutePathId(string routePathId, bool withMetadata)
