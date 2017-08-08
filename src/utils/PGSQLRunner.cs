@@ -149,7 +149,7 @@ namespace Yojowa.StopByStop.Utils
                    var dbException = ex as DbException;
                    if (dbException != null)
                    {
-                       dependencyTelemetry.ResultCode = dbException.ErrorCode.ToString();
+                       dependencyTelemetry.ResultCode = "-1";
                    }
 
                    DisposeOfCommandAndConnection(ref command, ref conn);

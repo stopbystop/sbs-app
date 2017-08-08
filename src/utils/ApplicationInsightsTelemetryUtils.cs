@@ -12,8 +12,6 @@ namespace Yojowa.StopByStop.Utils
     using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DependencyCollector;
     using Microsoft.ApplicationInsights.Extensibility;
-    using Microsoft.ApplicationInsights.TraceListener;
-    using Microsoft.ApplicationInsights.WindowsServer;
 
     /// <summary>
     /// Application Insights telemetry utils
@@ -30,45 +28,6 @@ namespace Yojowa.StopByStop.Utils
             builder.Use((next) => new TelemetryFilter(condition, next));
             builder.Build();
         }
-
-        /// <summary>
-        /// Initializes Application Insights the with in-memory channel.
-        /// </summary>
-        /// <param name="instrumentationKey">The instrumentation key.</param>
-        public static void InitializeWithInMemoryChannel(string instrumentationKey)
-        {
-            Trace.Listeners.Clear();
-            Trace.Listeners.Add(new ConsoleTraceListenerEx());
-            Trace.Listeners.Add(new ApplicationInsightsTraceListener());
-
-            TelemetryConfiguration.Active.InstrumentationKey = instrumentationKey;
-            var telemetryChannel = new InMemoryChannel();
-            TelemetryConfiguration.Active.TelemetryChannel = telemetryChannel;
-
-            new DependencyTrackingTelemetryModule().Initialize(TelemetryConfiguration.Active);
-            new UnhandledExceptionTelemetryModule().Initialize(TelemetryConfiguration.Active);
-            new UnobservedExceptionTelemetryModule().Initialize(TelemetryConfiguration.Active);
-
-            TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-            TelemetryConfiguration.Active.TelemetryInitializers.Add(new AzureRoleEnvironmentTelemetryInitializer());
-            TelemetryConfiguration.Active.TelemetryInitializers.Add(new BuildInfoConfigComponentVersionTelemetryInitializer());
-            TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-            TelemetryConfiguration.Active.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-        }
-
-        /*
-        /// <summary>
-        /// Starts the timer with "using" construct and logs elapsed milliseconds as metric
-        /// </summary>
-        /// <param name="metric">The metric.</param>
-        /// <returns>
-        /// Disposable instance that should be disposed to stop timer
-        /// </returns>
-        public static IDisposable TimeAndLog(Metric metric)
-        {
-            return new TelemetryTimer(metric);
-        }
-        */
 
         /// <summary>
         /// Starts the timer with "using" construct and logs elapsed milliseconds as metric

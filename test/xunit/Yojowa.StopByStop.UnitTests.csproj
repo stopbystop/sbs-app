@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\dnc\interfaces\Yojowa.StopByStop.Interfaces.csproj" />
-    <ProjectReference Include="..\..\src\dnc\utils\Yojowa.StopByStop.Utils.csproj" />
+    <ProjectReference Include="..\..\src\interfaces\Yojowa.StopByStop.Interfaces.csproj" />
+    <ProjectReference Include="..\..\src\utils\Yojowa.StopByStop.Utils.csproj" />
   </ItemGroup>
 
 </Project>

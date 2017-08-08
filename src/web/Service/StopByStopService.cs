@@ -1,15 +1,14 @@
 ﻿namespace Yojowa.StopByStop.Web.Service
 {
-    using Proxy;
-
-    using System;
     using System.Reflection;
-    using System.Web.Configuration;
+    using System;
+    using Microsoft.Extensions.Configuration;
+    using Proxy;
 
     internal class StopByStopService
     {
-        private static object routeServiceCreationLock = new object();
-        private static object placesServiceCreationLock = new object();
+        private static object routeServiceCreationLock = new object ();
+        private static object placesServiceCreationLock = new object ();
 
         private static IRouteService routeServiceInstance;
         private static IPlacesService placesServiceInstance;
@@ -24,7 +23,7 @@
                     {
                         if (routeServiceInstance == null)
                         {
-                            routeServiceInstance = CreateRouteServiceInstance();
+                            routeServiceInstance = CreateRouteServiceInstance ();
                         }
                     }
                 }
@@ -43,7 +42,7 @@
                     {
                         if (placesServiceInstance == null)
                         {
-                            placesServiceInstance = CreatePlacesServiceInstance();
+                            placesServiceInstance = CreatePlacesServiceInstance ();
                         }
                     }
                 }
@@ -52,10 +51,10 @@
             }
         }
 
-
-        private static IRouteService CreateRouteServiceInstance()
+        private static IRouteService CreateRouteServiceInstance ()
         {
             IRouteService service = null;
+            /* 
             if (!RouteUtils.ProxyService)
             {
                 var serviceAssembly = Assembly.Load("Yojowa.StopByStop.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
@@ -64,25 +63,32 @@
             }
             else
             {
-                service = new RouteServiceProxy(WebConfigurationManager.AppSettings["proxyserviceurl"]);
+            */
+            service = new RouteServiceProxy (SBSConfiguration.BEServiceUrl);
+            /* 
             }
+            */
 
             return service;
         }
 
-        private static IPlacesService CreatePlacesServiceInstance()
+        private static IPlacesService CreatePlacesServiceInstance ()
         {
             IPlacesService service = null;
+            /* 
             if (WebConfigurationManager.AppSettings["proxyservice"] == "false")
             {
-                var serviceAssembly = Assembly.Load("Yojowa.StopByStop.Places, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-                var serviceType = serviceAssembly.GetType("Yojowa.StopByStop.Places.PlacesService");
-                service = (IPlacesService)Activator.CreateInstance(serviceType);
+                var serviceAssembly = Assembly.Load ("Yojowa.StopByStop.Places, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+                var serviceType = serviceAssembly.GetType ("Yojowa.StopByStop.Places.PlacesService");
+                service = (IPlacesService) Activator.CreateInstance (serviceType);
             }
             else
             {
-                service = new PlacesServiceProxy(WebConfigurationManager.AppSettings["proxyserviceurl"]);
-            }
+                */
+            service = new PlacesServiceProxy (SBSConfiguration.BEServiceUrl);
+            /* 
+        }
+        */
 
             return service;
         }

@@ -16,71 +16,92 @@ gulp.task("build-", ["min"]);
 gulp.task("build-Debug", ["min"]);
 gulp.task("build-Release", ["min"]);
 gulp.task("build-cordova", ["min", "html:cordova"]);
-gulp.task("build-web", ["min", "html:web"]);
 gulp.task("default", ["min", "html:cordova"]);
+gulp.task("build-web", ["min", "html:web", "copy:web"]);
+gulp.task('clean:web', function(){
+    return del('../web/wwwroot/**/*', { force: true });
+});
 
+gulp.task('copy:web', ['clean:web'], function () {
+
+    /*
+echo f | xcopy %~dp0\client\outscripts\webbundle.js %~dp0\web\client\scripts\webbundle.js /F/R/Y
+echo f | xcopy %~dp0\client\outscripts\sbsbundle.js %~dp0\web\client\scripts\sbsbundle.js /F/R/Y
+echo f | xcopy %~dp0\client\content\manifest.webmanifest %~dp0\web\client\content\manifest.webmanifest /F/R/Y
+echo f | xcopy %~dp0\client\content\*.css %~dp0\web\client\content\ /F/R/Y
+echo f | xcopy %~dp0\client\content\v1\*.* %~dp0\web\client\content\v1\ /F/R/Y/S
+echo f | xcopy %~dp0\client\content\fonts\*.* %~dp0\web\client\content\fonts\ /F/R/Y/S
+    */
+    var copyJs = gulp.src(['./outscripts/webbundle.js', './outscripts/sbsbundle.js']).pipe(gulp.dest('../web/wwwroot/js/'));
+    var copyManifest = gulp.src(['./content/manifest.webmanifest', '*.css']).pipe(gulp.dest('../web/wwwroot/'));
+    var copyCss = gulp.src(['./content/sbsbundle.css', './content/sbsbundle.css.min.css']).pipe(gulp.dest('../web/wwwroot/'));
+    var copyImages = gulp.src(['./content/v1/**/*']).pipe(gulp.dest('../web/wwwroot/'));
+    var copyFonts = gulp.src(['./content/fonts/**/*']).pipe(gulp.dest('../web/wwwroot/fonts/'));
+
+    return merge(copyJs, copyManifest, copyCss, copyImages, copyFonts);
+});
 
 gulp.task('html:web', function () {
     var templateData = {
     },
-    options = {
-        compile: { noEscape: true },
-        partials: {
-        },
-        batch: ['./html/partials', './html/pages'],
-        helpers: {
-            capitals: function (str) {
-                return str.toUpperCase();
+        options = {
+            compile: { noEscape: true },
+            partials: {
             },
-            getImage: function (imageName) {
-                return "@RenderHelper.GetCDNUrl(\"/client/content/v1/images/" + imageName + "\")";
-            },
-            getImageNoCDN: function (imageName) {
-                return "@Url.Content(\"~/client/content/v1/images/" + imageName + "\")";
-            },
-            filterDialogBind: function (forJunction) {
-                return forJunction ? 'with:selectedJunction' : '';
-            },
-            linkClick: function () {
-                return "";
-            }
+            batch: ['./html/partials', './html/pages'],
+            helpers: {
+                capitals: function (str) {
+                    return str.toUpperCase();
+                },
+                getImage: function (imageName) {
+                    return "@RenderHelper.GetCDNUrl(\"/images/" + imageName + "\")";
+                },
+                getImageNoCDN: function (imageName) {
+                    return "@Url.Content(\"~/images/" + imageName + "\")";
+                },
+                filterDialogBind: function (forJunction) {
+                    return forJunction ? 'with:selectedJunction' : '';
+                },
+                linkClick: function () {
+                    return "";
+                }
 
+            }
         }
-    }
 
     return gulp.src('html/web.handlebars')
         .pipe(handlebars(templateData, options))
         /*.pipe(htmlmin({ collapseWhitespace: true, removeComments: true, minifyJS: true, processScripts: ["text/html"] }))*/
         .pipe(rename('Main.cshtml'))
-        .pipe(gulp.dest('./../web/client/Views'));
+        .pipe(gulp.dest('./../web/Views'));
 });
 
 gulp.task('html:cordova', function () {
     var templateData = {
     },
-    cordovaOptions = {
-        ignorePartials: true,
-        partials: {
-        },
-        batch: ['./html/partials', './html/pages'],
-        helpers: {
-            capitals: function (str) {
-                return str.toUpperCase();
+        cordovaOptions = {
+            ignorePartials: true,
+            partials: {
             },
-            getImage: function (imageName) {
-                return "images/" + imageName;
-            },
-            getImageNoCDN: function (imageName) {
-                return "images/" + imageName;
-            },
-            filterDialogBind: function (forJunction) {
-                return forJunction ? 'with:selectedJunction' : '';
-            },
-            linkClick: function () {
-                return "window.open(this.href, '_system', 'location=yes'); return false;";
+            batch: ['./html/partials', './html/pages'],
+            helpers: {
+                capitals: function (str) {
+                    return str.toUpperCase();
+                },
+                getImage: function (imageName) {
+                    return "images/" + imageName;
+                },
+                getImageNoCDN: function (imageName) {
+                    return "images/" + imageName;
+                },
+                filterDialogBind: function (forJunction) {
+                    return forJunction ? 'with:selectedJunction' : '';
+                },
+                linkClick: function () {
+                    return "window.open(this.href, '_system', 'location=yes'); return false;";
+                }
             }
         }
-    }
 
     return gulp.src('html/cordova.handlebars')
         .pipe(handlebars(templateData, cordovaOptions))

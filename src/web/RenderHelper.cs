@@ -4,13 +4,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
-    using System.Web.Script.Serialization;
 
     public static  class RenderHelper
     {
-        private static JavaScriptSerializer serializer = new JavaScriptSerializer();
-
         public static string GetCDNUrl(string relativeUrl)
         {
             if (string.IsNullOrEmpty(relativeUrl) || relativeUrl[0] !='/')
@@ -23,12 +19,7 @@
 
         public static string GetCDNRoot()
         {
-            string cdnRoot = System.Configuration.ConfigurationManager.AppSettings["cdnroot"];
-            if (string.IsNullOrEmpty(cdnRoot))
-            {
-                cdnRoot = VirtualPathUtility.ToAbsolute("~");
-            }
-
+            string cdnRoot = SBSConfiguration.CDNRoot;
             return cdnRoot.TrimEnd('/');
         }
 

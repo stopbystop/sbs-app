@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dnc", "dnc", "{8C490A59-44D4-46BE-8BB9-7086E3B1459B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Interfaces", "dnc\interfaces\Yojowa.StopByStop.Interfaces.csproj", "{4EB0B8EC-FF0C-4DBD-897E-1A30D051D60D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Interfaces", "interfaces\Yojowa.StopByStop.Interfaces.csproj", "{4EB0B8EC-FF0C-4DBD-897E-1A30D051D60D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Utils", "dnc\utils\Yojowa.StopByStop.Utils.csproj", "{912C2B1F-837B-43C7-99AC-392249F37963}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Utils", "utils\Yojowa.StopByStop.Utils.csproj", "{912C2B1F-837B-43C7-99AC-392249F37963}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.UnitTests", "..\test\xunit\Yojowa.StopByStop.UnitTests.csproj", "{40C43275-4291-48F2-91D0-F50E327407B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Web", "dnc\web\Yojowa.StopByStop.Web.csproj", "{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Web", "web\Yojowa.StopByStop.Web.csproj", "{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
