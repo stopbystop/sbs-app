@@ -18,20 +18,11 @@ gulp.task("build-Release", ["min"]);
 gulp.task("build-cordova", ["min", "html:cordova"]);
 gulp.task("default", ["min", "html:cordova"]);
 gulp.task("build-web", ["min", "html:web", "copy:web"]);
-gulp.task('clean:web', function(){
+gulp.task('clean:web', function () {
     return del('../web/wwwroot/**/*', { force: true });
 });
 
 gulp.task('copy:web', ['clean:web'], function () {
-
-    /*
-echo f | xcopy %~dp0\client\outscripts\webbundle.js %~dp0\web\client\scripts\webbundle.js /F/R/Y
-echo f | xcopy %~dp0\client\outscripts\sbsbundle.js %~dp0\web\client\scripts\sbsbundle.js /F/R/Y
-echo f | xcopy %~dp0\client\content\manifest.webmanifest %~dp0\web\client\content\manifest.webmanifest /F/R/Y
-echo f | xcopy %~dp0\client\content\*.css %~dp0\web\client\content\ /F/R/Y
-echo f | xcopy %~dp0\client\content\v1\*.* %~dp0\web\client\content\v1\ /F/R/Y/S
-echo f | xcopy %~dp0\client\content\fonts\*.* %~dp0\web\client\content\fonts\ /F/R/Y/S
-    */
     var copyJs = gulp.src(['./outscripts/webbundle.js', './outscripts/sbsbundle.js']).pipe(gulp.dest('../web/wwwroot/js/'));
     var copyManifest = gulp.src(['./content/manifest.webmanifest', '*.css']).pipe(gulp.dest('../web/wwwroot/'));
     var copyCss = gulp.src(['./content/sbsbundle.css', './content/sbsbundle.css.min.css']).pipe(gulp.dest('../web/wwwroot/'));

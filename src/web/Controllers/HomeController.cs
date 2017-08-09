@@ -9,7 +9,7 @@
     {
         public ActionResult Index (string rf)
         {
-            return View ("~/client/Views/Main.cshtml", new MainModel (StopByStopService.RouteServiceInstance.GetMetadata (), this.HttpContext)
+            return View ("~/Views/Main.cshtml", new MainModel (StopByStopService.RouteServiceInstance.GetMetadata (), this.HttpContext)
             {
                 Page = ClientPage.Home
             });
@@ -17,7 +17,7 @@
 
         public ActionResult About ()
         {
-            return View ("~/client/Views/Main.cshtml", new MainModel (StopByStopService.RouteServiceInstance.GetMetadata (), this.HttpContext)
+            return View ("~/Views/Main.cshtml", new MainModel (StopByStopService.RouteServiceInstance.GetMetadata (), this.HttpContext)
             {
                 Page = ClientPage.About
             });

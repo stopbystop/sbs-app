@@ -1,17 +1,8 @@
 ﻿@model Yojowa.StopByStop.Web.Models.MainModel
 @{
     Layout = null;
-    string currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-    string rf = HttpContext.Current.Request.QueryString["rf"];
-    if (string.IsNullOrEmpty(rf))
-    {
-        rf = Yojowa.StopByStop.Utils.CookieUtils.ReadCookie("rf");
-    }
-    if (string.IsNullOrEmpty(rf))
-    {
-        rf = "";
-    }
-
+    string currentUrl = Yojowa.StopByStop.Utils.WebUtils.GetFullUrl(@Context);
+    string rf = Yojowa.StopByStop.Utils.WebUtils.GetRF(@Context);
     this.Model.GenerateTitleAndDescription();
 }
 <!DOCTYPE html>
