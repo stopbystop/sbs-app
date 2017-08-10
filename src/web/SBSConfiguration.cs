@@ -5,5 +5,6 @@ namespace Yojowa.StopByStop.Web
         public static readonly string CDNRoot = "/";
         public static readonly string BEServiceUrl = "https://www.stopbystop.com/service";
         public static readonly string AppInsightsIKey = "test";
+        public static readonly bool IsProduction = false;
     }
 }

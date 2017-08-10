@@ -47,8 +47,8 @@ gulp.task('html:web', function () {
                 getImage: function (imageName) {
                     return "@RenderHelper.GetCDNUrl(\"/images/" + imageName + "\")";
                 },
-                getImageNoCDN: function (imageName) {
-                    return "@Url.Content(\"~/images/" + imageName + "\")";
+                getSVGImage: function (imageName) {
+                    return "@Url.Content(\"~/images/svg/" + imageName + "\")";
                 },
                 filterDialogBind: function (forJunction) {
                     return forJunction ? 'with:selectedJunction' : '';
@@ -82,7 +82,7 @@ gulp.task('html:cordova', function () {
                 getImage: function (imageName) {
                     return "images/" + imageName;
                 },
-                getImageNoCDN: function (imageName) {
+                getSVGImage: function (imageName) {
                     return "images/" + imageName;
                 },
                 filterDialogBind: function (forJunction) {

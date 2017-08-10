@@ -23,7 +23,7 @@
 
 
     <!-- TODO: change to min.css-->
-    @System.Web.Optimization.Styles.Render("~/client/content/sbscssbundle")
+    <link rel="stylesheet" type="text/css" href='@RenderHelper.GetCDNUrl("/sbsbundle.css")'/>
 
     <script type="text/javascript">
         var getQueryString = function (field, url) {
@@ -73,9 +73,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 
 
-    @System.Web.Optimization.Scripts.Render("~/client/content/sbsjsbundle")
+    <script src='@RenderHelper.GetCDNUrl("/js/sbsbundle.js")'></script>
+    <script src='@RenderHelper.GetCDNUrl("/js/webbundle.js")'></script>
 
-    @if (System.Configuration.ConfigurationManager.AppSettings["envtype"] == "production")
+    @if (SBSConfiguration.IsProduction)
     {
     <script type="text/javascript">
         window.isProduction = true;
@@ -120,8 +121,9 @@
 
         $(window).on("load", function () {
             window.setTimeout(function () {
+                @*
                 $("head").append('<link rel="stylesheet" type="text/css" href="@(System.Web.Optimization.Styles.Url("~/client/content/sbscssdelayedbundle"))" />');
-
+                *@
                 @* FB script *@
                 if (window.isProduction) {
                     window.fbAsyncInit = function() {
