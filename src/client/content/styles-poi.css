@@ -25,7 +25,7 @@
 }
 
 .poi-header-add {
-    background-image: url('v1/icons/add-to-route-ff.png');
+    background-image: url('icons/add-to-route-ff.png');
 }
 
 .sbs-cdb .poi-header-add {
@@ -33,7 +33,7 @@
 }
 
 .poi-header-add-acc {
-    background-image: url('v1/icons/add-to-route-acc.png');
+    background-image: url('icons/add-to-route-acc.png');
 }
 
 .sbs-cdb .poi-header-add-acc {
@@ -41,7 +41,7 @@
 }
 
 .poi-header-navigate-acc {
-    background-image: url('v1/icons/navigate-acc.png');
+    background-image: url('icons/navigate-acc.png');
 }
 
 .sbs-cdb .poi-header-navigate-acc {

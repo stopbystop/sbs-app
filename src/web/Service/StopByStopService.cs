@@ -64,7 +64,7 @@
             else
             {
             */
-            service = new RouteServiceProxy (SBSConfiguration.BEServiceUrl);
+            service = new RouteServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
             /* 
             }
             */
@@ -85,7 +85,7 @@
             else
             {
                 */
-            service = new PlacesServiceProxy (SBSConfiguration.BEServiceUrl);
+            service = new PlacesServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
             /* 
         }
         */

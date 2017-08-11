@@ -76,7 +76,7 @@
     <script src='@RenderHelper.GetCDNUrl("/js/sbsbundle.js")'></script>
     <script src='@RenderHelper.GetCDNUrl("/js/webbundle.js")'></script>
 
-    @if (SBSConfiguration.IsProduction)
+    @if (Startup.SBSConfiguration.IsProduction)
     {
     <script type="text/javascript">
         window.isProduction = true;

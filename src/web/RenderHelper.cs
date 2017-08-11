@@ -19,7 +19,7 @@
 
         public static string GetCDNRoot()
         {
-            string cdnRoot = SBSConfiguration.CDNRoot;
+            string cdnRoot = Startup.SBSConfiguration.CDNRoot;
             return cdnRoot.TrimEnd('/');
         }
 
