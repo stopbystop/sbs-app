@@ -56,7 +56,7 @@ namespace Yojowa.StopByStop.Web
             ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".less", "text/css"));
             ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".webmanifest", "application/manifest+json"));
 
-            app.UseStaticFiles ();
+            app.UseStaticFiles (options);
 
             app.UseMvc (routes =>
             {

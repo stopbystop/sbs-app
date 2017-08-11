@@ -24,13 +24,13 @@
     {
         public MainModel (Metadata metadata, HttpContext context)
         {
-            this.BaseDataUrl = "https://www.stopbystop.com/";
+            this.BaseDataUrl = WebUtils.GetHostName(context);
             /*
             :
             HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
             */
             this.BasePortalUrl = context.Request.PathBase.Value;
-            this.BaseImageUrl = RenderHelper.GetCDNUrl ("/client/content/v1/icons/");
+            this.BaseImageUrl = RenderHelper.GetCDNUrl ("/icons/");
             this.Metadata = metadata;
         }
 

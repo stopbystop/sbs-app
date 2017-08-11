@@ -36,5 +36,12 @@ namespace Yojowa.StopByStop.Utils
                 context.Request.Path,
                 context.Request.QueryString);
         }
+
+        public static string GetHostName (HttpContext context)
+        {
+            return string.Format ("{0}://{1}",
+                context.Request.Scheme,
+                context.Request.Host);
+        }
     }
 }

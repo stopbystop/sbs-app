@@ -111,7 +111,7 @@ p, h1, a, span, h2 {
 }
 
 body {
-    background-image: url('v1/images/main_image.jpg');
+    background-image: url('images/main_image.jpg');
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: 100%;
@@ -260,7 +260,7 @@ body {
 .sbs-web .route-page.ui-page-theme-a,
 .sbs-web .route-page.ui-page-theme-a .ui-panel-wrapper {
     /*
-    background-image: url('v1/images/main_image.jpg');
+    background-image: url('images/main_image.jpg');
         */
 }
 
@@ -271,7 +271,7 @@ body {
 
 .sbs-web .ui-alt-icon.ui-icon-bars::after,
 .sbs-web .ui-alt-icon .ui-icon-bars::after {
-    background-image: url("v1/images/svg/lines7.svg");
+    background-image: url("images/svg/lines7.svg");
     background-size: 85%;
     background-position: 47%;
 }
@@ -287,7 +287,7 @@ body {
 .sbs-web .ui-alt-icon.ui-icon-search::after,
 .sbs-web .ui-alt-icon .ui-icon-search::after,
 .sbs-web .ui-input-search::after {
-    background-image: url("v1/images/svg/magnifying-glass32-mobile.svg");
+    background-image: url("images/svg/magnifying-glass32-mobile.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-search::after,

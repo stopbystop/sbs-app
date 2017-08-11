@@ -220,7 +220,7 @@
 }
 
 .pois-list-filters-button {
-    background-image: url('v1/images/filter-icon.png');
+    background-image: url('images/filter-icon.png');
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: 75px;
@@ -251,12 +251,12 @@
 
 
 .sbs-web .pois-list fieldset .list-view {
-    background-image: url('v1/icons/list-view.png');
+    background-image: url('icons/list-view.png');
 }
 
 
 .sbs-web .pois-list fieldset .map-view {
-    background-image: url('v1/icons/map-view.png');
+    background-image: url('icons/map-view.png');
 }
 
 .pois-list-view-mode-switch {
@@ -307,7 +307,7 @@
 }
 
 .poi-yelp-loading {
-    background-image: url('v1/images/hex3.gif');
+    background-image: url('images/hex3.gif');
     background-size: 50px;
     background-repeat: no-repeat;
     background-position: center;

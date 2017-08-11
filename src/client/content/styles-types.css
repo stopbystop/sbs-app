@@ -7,7 +7,7 @@
 
 /*2*/
 .poi-placename-restaurants {
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
     background-color: #f15b6a;
 }
 
@@ -18,7 +18,7 @@
 
 /*4*/
 .restaurants{
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
     box-shadow: none;
     background-size: 25px;
     background-repeat: no-repeat;
@@ -44,7 +44,7 @@
 
 /*7*/
 .sbs-web .restaurants-icon {
-    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_2.png');
 }
 
 /*8*/
@@ -56,7 +56,7 @@
 
 /* category */
 .restaurants-c-icon-w, .ui-icon-restaurants-c-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
 }
 
 .sbs-cdb .restaurants-c-icon-w, .sbs-cdb .ui-icon-restaurants-c-icon-w:after  {
@@ -64,7 +64,7 @@
 }
 
 .restaurants-c-icon-a, .ui-icon-restaurants-c-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_2.png');
 }
 
 .sbs-cdb .restaurants-c-icon-a, .sbs-cdb .ui-icon-restaurants-c-icon-a:after  {
@@ -74,7 +74,7 @@
 
 /* feature:mt*/
 .restaurants-p-mt-icon-w, .ui-icon-restaurants-p-mt-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_mt_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_mt_1.png');
 }
 
 .sbs-cdb .restaurants-p-mt-icon-w, .sbs-cdb .ui-icon-restaurants-p-mt-icon-w:after  {
@@ -82,7 +82,7 @@
 }
 
 .restaurants-p-mt-icon-a, .ui-icon-restaurants-p-mt-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_mt_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_mt_2.png');
 }
 
 .sbs-cdb .restaurants-p-mt-icon-a, .sbs-cdb .ui-icon-restaurants-p-mt-icon-a:after  {
@@ -91,7 +91,7 @@
 
 /* feature:f*/
 .restaurants-p-f-icon-w, .ui-icon-restaurants-p-f-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_f_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_f_1.png');
 }
 
 .sbs-cdb .restaurants-p-f-icon-w, .sbs-cdb .ui-icon-restaurants-p-f-icon-w:after  {
@@ -99,7 +99,7 @@
 }
 
 .restaurants-p-f-icon-a, .ui-icon-restaurants-p-f-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_f_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_f_2.png');
 }
 
 .sbs-cdb .restaurants-p-f-icon-a, .sbs-cdb .ui-icon-restaurants-p-f-icon-a:after  {
@@ -108,7 +108,7 @@
 
 /* feature:gf*/
 .restaurants-p-gf-icon-w, .ui-icon-restaurants-p-gf-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_gf_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_gf_1.png');
 }
 
 .sbs-cdb .restaurants-p-gf-icon-w, .sbs-cdb .ui-icon-restaurants-p-gf-icon-w:after  {
@@ -116,7 +116,7 @@
 }
 
 .restaurants-p-gf-icon-a, .ui-icon-restaurants-p-gf-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_gf_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_gf_2.png');
 }
 
 .sbs-cdb .restaurants-p-gf-icon-a, .sbs-cdb .ui-icon-restaurants-p-gf-icon-a:after  {
@@ -125,7 +125,7 @@
 
 /* feature:pc*/
 .restaurants-p-pc-icon-w, .ui-icon-restaurants-p-pc-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_pc_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_pc_1.png');
 }
 
 .sbs-cdb .restaurants-p-pc-icon-w, .sbs-cdb .ui-icon-restaurants-p-pc-icon-w:after  {
@@ -133,7 +133,7 @@
 }
 
 .restaurants-p-pc-icon-a, .ui-icon-restaurants-p-pc-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_pc_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_pc_2.png');
 }
 
 .sbs-cdb .restaurants-p-pc-icon-a, .sbs-cdb .ui-icon-restaurants-p-pc-icon-a:after  {
@@ -148,7 +148,7 @@
 
 /*2*/
 .poi-placename-gasstations {
-    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+    background-image: url('icons/poi/gasstations/gasstations_1.png');
     background-color: #4fc0e8;
 }
 
@@ -159,7 +159,7 @@
 
 /*4*/
 .gasstations {
-    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+    background-image: url('icons/poi/gasstations/gasstations_1.png');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
@@ -184,7 +184,7 @@
 
 /*7*/
 .sbs-web .gasstations-icon {
-    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
+    background-image: url('icons/poi/gasstations/gasstations_2.png');
 }
 
 /*8*/

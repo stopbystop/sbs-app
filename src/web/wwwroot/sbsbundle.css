@@ -571,7 +571,7 @@ p, h1, a, span, h2 {
 }
 
 body {
-    background-image: url('v1/images/main_image.jpg');
+    background-image: url('images/main_image.jpg');
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: 100%;
@@ -720,7 +720,7 @@ body {
 .sbs-web .route-page.ui-page-theme-a,
 .sbs-web .route-page.ui-page-theme-a .ui-panel-wrapper {
     /*
-    background-image: url('v1/images/main_image.jpg');
+    background-image: url('images/main_image.jpg');
         */
 }
 
@@ -731,7 +731,7 @@ body {
 
 .sbs-web .ui-alt-icon.ui-icon-bars::after,
 .sbs-web .ui-alt-icon .ui-icon-bars::after {
-    background-image: url("v1/images/svg/lines7.svg");
+    background-image: url("images/svg/lines7.svg");
     background-size: 85%;
     background-position: 47%;
 }
@@ -747,7 +747,7 @@ body {
 .sbs-web .ui-alt-icon.ui-icon-search::after,
 .sbs-web .ui-alt-icon .ui-icon-search::after,
 .sbs-web .ui-input-search::after {
-    background-image: url("v1/images/svg/magnifying-glass32-mobile.svg");
+    background-image: url("images/svg/magnifying-glass32-mobile.svg");
 }
 
 .sbs-cdb .ui-alt-icon.ui-icon-search::after,
@@ -2203,7 +2203,7 @@ svg image {
     }
 
 .sbs-web .direction-icon.exit {
-    background-image: url('v1/icons/exit.png');
+    background-image: url('icons/exit.png');
 }
 
 .direction-icon.right {
@@ -2213,7 +2213,7 @@ svg image {
 }
 
 .sbs-web .direction-icon.right {
-    background-image: url('v1/icons/right.png');
+    background-image: url('icons/right.png');
 }
 
 .direction-icon.left {
@@ -2223,7 +2223,7 @@ svg image {
 }
 
 .sbs-web .direction-icon.left {
-    background-image: url('v1/icons/left.png');
+    background-image: url('icons/left.png');
 }
 
 .direction-icon.merge {
@@ -2233,7 +2233,7 @@ svg image {
 }
 
 .sbs-web .direction-icon.merge {
-    background-image: url('v1/icons/merge.png');
+    background-image: url('icons/merge.png');
 }
 
 .direction-icon.southwest {
@@ -2243,7 +2243,7 @@ svg image {
 }
 
 .sbs-web .direction-icon.southwest {
-    background-image: url('v1/icons/southwest.png');
+    background-image: url('icons/southwest.png');
 }
 
 .distance_marker {
@@ -2476,7 +2476,7 @@ svg image {
 .current-loc {
     width: 3em;
     height: 3em;
-    background: url('v1/icons/car.png');
+    background: url('icons/car.png');
     background-size: 3em;
     position: absolute;
     left: -1em;
@@ -2673,7 +2673,7 @@ div.ui-slider {
 
 
 .route_line {
-    background-image: url('v1/images/route_line.gif');
+    background-image: url('images/route_line.gif');
     background-position: center top;
     background-repeat: repeat-y;
     width: 100%;
@@ -2811,7 +2811,7 @@ div.ui-slider {
 }
 
 .sbs-web #sidebar .end-icon {
-    background-image: url('v1/icons/pin-icon.png');
+    background-image: url('icons/pin-icon.png');
 }
 
 /* end of sidebar styles*/
@@ -2850,7 +2850,7 @@ div.ui-slider {
 .filters-trigger {
     width: 100%;
     height: 100%;
-    background-image: url('v1/images/filter-icon.png');
+    background-image: url('images/filter-icon.png');
     background-repeat: no-repeat;
     background-size: 65%;
     background-position: center;
@@ -3452,7 +3452,7 @@ div.ui-slider {
 }
 
 .pois-list-filters-button {
-    background-image: url('v1/images/filter-icon.png');
+    background-image: url('images/filter-icon.png');
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: 75px;
@@ -3483,12 +3483,12 @@ div.ui-slider {
 
 
 .sbs-web .pois-list fieldset .list-view {
-    background-image: url('v1/icons/list-view.png');
+    background-image: url('icons/list-view.png');
 }
 
 
 .sbs-web .pois-list fieldset .map-view {
-    background-image: url('v1/icons/map-view.png');
+    background-image: url('icons/map-view.png');
 }
 
 .pois-list-view-mode-switch {
@@ -3539,7 +3539,7 @@ div.ui-slider {
 }
 
 .poi-yelp-loading {
-    background-image: url('v1/images/hex3.gif');
+    background-image: url('images/hex3.gif');
     background-size: 50px;
     background-repeat: no-repeat;
     background-position: center;
@@ -3926,7 +3926,7 @@ div.ui-slider {
 
 /*2*/
 .poi-placename-restaurants {
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
     background-color: #f15b6a;
 }
 
@@ -3937,7 +3937,7 @@ div.ui-slider {
 
 /*4*/
 .restaurants{
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
     box-shadow: none;
     background-size: 25px;
     background-repeat: no-repeat;
@@ -3963,7 +3963,7 @@ div.ui-slider {
 
 /*7*/
 .sbs-web .restaurants-icon {
-    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_2.png');
 }
 
 /*8*/
@@ -3975,7 +3975,7 @@ div.ui-slider {
 
 /* category */
 .restaurants-c-icon-w, .ui-icon-restaurants-c-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_1.png');
 }
 
 .sbs-cdb .restaurants-c-icon-w, .sbs-cdb .ui-icon-restaurants-c-icon-w:after  {
@@ -3983,7 +3983,7 @@ div.ui-slider {
 }
 
 .restaurants-c-icon-a, .ui-icon-restaurants-c-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_2.png');
 }
 
 .sbs-cdb .restaurants-c-icon-a, .sbs-cdb .ui-icon-restaurants-c-icon-a:after  {
@@ -3993,7 +3993,7 @@ div.ui-slider {
 
 /* feature:mt*/
 .restaurants-p-mt-icon-w, .ui-icon-restaurants-p-mt-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_mt_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_mt_1.png');
 }
 
 .sbs-cdb .restaurants-p-mt-icon-w, .sbs-cdb .ui-icon-restaurants-p-mt-icon-w:after  {
@@ -4001,7 +4001,7 @@ div.ui-slider {
 }
 
 .restaurants-p-mt-icon-a, .ui-icon-restaurants-p-mt-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_mt_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_mt_2.png');
 }
 
 .sbs-cdb .restaurants-p-mt-icon-a, .sbs-cdb .ui-icon-restaurants-p-mt-icon-a:after  {
@@ -4010,7 +4010,7 @@ div.ui-slider {
 
 /* feature:f*/
 .restaurants-p-f-icon-w, .ui-icon-restaurants-p-f-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_f_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_f_1.png');
 }
 
 .sbs-cdb .restaurants-p-f-icon-w, .sbs-cdb .ui-icon-restaurants-p-f-icon-w:after  {
@@ -4018,7 +4018,7 @@ div.ui-slider {
 }
 
 .restaurants-p-f-icon-a, .ui-icon-restaurants-p-f-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_f_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_f_2.png');
 }
 
 .sbs-cdb .restaurants-p-f-icon-a, .sbs-cdb .ui-icon-restaurants-p-f-icon-a:after  {
@@ -4027,7 +4027,7 @@ div.ui-slider {
 
 /* feature:gf*/
 .restaurants-p-gf-icon-w, .ui-icon-restaurants-p-gf-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_gf_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_gf_1.png');
 }
 
 .sbs-cdb .restaurants-p-gf-icon-w, .sbs-cdb .ui-icon-restaurants-p-gf-icon-w:after  {
@@ -4035,7 +4035,7 @@ div.ui-slider {
 }
 
 .restaurants-p-gf-icon-a, .ui-icon-restaurants-p-gf-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_gf_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_gf_2.png');
 }
 
 .sbs-cdb .restaurants-p-gf-icon-a, .sbs-cdb .ui-icon-restaurants-p-gf-icon-a:after  {
@@ -4044,7 +4044,7 @@ div.ui-slider {
 
 /* feature:pc*/
 .restaurants-p-pc-icon-w, .ui-icon-restaurants-p-pc-icon-w:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_pc_1.png');
+    background-image: url('icons/poi/restaurants/restaurants_pc_1.png');
 }
 
 .sbs-cdb .restaurants-p-pc-icon-w, .sbs-cdb .ui-icon-restaurants-p-pc-icon-w:after  {
@@ -4052,7 +4052,7 @@ div.ui-slider {
 }
 
 .restaurants-p-pc-icon-a, .ui-icon-restaurants-p-pc-icon-a:after {
-    background-image: url('v1/icons/poi/restaurants/restaurants_pc_2.png');
+    background-image: url('icons/poi/restaurants/restaurants_pc_2.png');
 }
 
 .sbs-cdb .restaurants-p-pc-icon-a, .sbs-cdb .ui-icon-restaurants-p-pc-icon-a:after  {
@@ -4067,7 +4067,7 @@ div.ui-slider {
 
 /*2*/
 .poi-placename-gasstations {
-    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+    background-image: url('icons/poi/gasstations/gasstations_1.png');
     background-color: #4fc0e8;
 }
 
@@ -4078,7 +4078,7 @@ div.ui-slider {
 
 /*4*/
 .gasstations {
-    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+    background-image: url('icons/poi/gasstations/gasstations_1.png');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: center;
@@ -4103,7 +4103,7 @@ div.ui-slider {
 
 /*7*/
 .sbs-web .gasstations-icon {
-    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
+    background-image: url('icons/poi/gasstations/gasstations_2.png');
 }
 
 /*8*/
@@ -4127,7 +4127,7 @@ div.ui-slider {
 }
 
 .sbs-web .ui-overlay-a, .sbs-web .route-page.ui-page-theme-a, .sbs-web .ui-page-theme-a .ui-panel-wrapper {
-    background-image: url('v1/images/main_image.jpg') !important;
+    background-image: url('images/main_image.jpg') !important;
 }
 
 .sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
@@ -4138,7 +4138,7 @@ div.ui-slider {
     .sbs-web .ui-overlay-a,
     .sbs-web .route-page.ui-page-theme-a,
     .sbs-web .ui-page-theme-a .ui-panel-wrapper {
-        background-image: url('v1/images/main_image.jpg') !important;
+        background-image: url('images/main_image.jpg') !important;
         padding-top: 160px !important;
     }
 
@@ -4161,7 +4161,7 @@ div.ui-slider {
     .sbs-web .ui-overlay-a,
     .sbs-web .route-page.ui-page-theme-a,
     .sbs-web .ui-page-theme-a .ui-panel-wrapper {
-        background-image: url('v1/images/main_image.jpg') !important;
+        background-image: url('images/main_image.jpg') !important;
     }
 
     .sbs-cdb .ui-overlay-a, .sbs-cdb .route-page.ui-page-theme-a, .sbs-cdb .ui-page-theme-a .ui-panel-wrapper {
