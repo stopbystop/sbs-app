@@ -15,6 +15,11 @@ module StopByStop {
     export const ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
 
     export class Utils {
+        public static getNonHighwayDrivingTimeToPlaceInSeconds(distance: number): number {
+            // for now let's assume 20mph non-highway speed
+            return distance / 20 * 3600;
+        }
+
         public static updateNavigationLocation(hash: string, navigationLocation: ISBSNavigationLocation): void {
             if (!hash) {
                 hash = "#home";
@@ -55,10 +60,12 @@ module StopByStop {
                                 case "exitid":
                                     navigationLocation.exitId = val;
                                     break;
+                                case "poiid":
+                                    navigationLocation.poiId = val;
                                 case "poitype":
                                     navigationLocation.poiType = PoiType.all;
                                     if (val) {
-                                        navigationLocation.poiType = PoiType[val];
+                                        navigationLocation.poiType = PoiType[val] || navigationLocation.poiType;
                                     }
                                     break;
                             }
@@ -81,8 +88,13 @@ module StopByStop {
                 loc += ("&routeid=" + navigationLocation.routeId);
             }
 
-            if (navigationLocation.exitId && navigationLocation.page === SBSPage.exit) {
+            if (navigationLocation.exitId &&
+                (navigationLocation.page === SBSPage.exit || navigationLocation.page === SBSPage.poi)) {
                 loc += ("&exitid=" + navigationLocation.exitId);
+            }
+
+            if (navigationLocation.poiId && navigationLocation.page === SBSPage.poi) {
+                loc += ("&poiid=" + navigationLocation.poiId);
             }
 
             if (navigationLocation.poiType && navigationLocation.page === SBSPage.exit && PoiType[navigationLocation.poiType]) {
@@ -173,14 +185,19 @@ module StopByStop {
             };
         };
 
-        public static spaPageNavigate(page: SBSPage, routeId?: string, exitId?: string, poiType?: PoiType, changeHash: boolean = true): void {
+        public static spaPageNavigate(
+            navigationLocation: ISBSNavigationLocation,
+            changeHash: boolean = true): void {
             var pageId = "#home";
-            switch (page) {
+            switch (navigationLocation.page) {
                 case SBSPage.about:
                     pageId = "#about";
                     break;
                 case SBSPage.exit:
                     pageId = "#exit";
+                    break;
+                case SBSPage.poi:
+                    pageId = "#poi";
                     break;
                 case SBSPage.route:
                     pageId = "#route";
@@ -188,17 +205,20 @@ module StopByStop {
             }
 
             var dataUrl = pageId;
-            if (routeId) {
-                dataUrl += "&routeid=" + routeId;
+            if (navigationLocation.routeId) {
+                dataUrl += "&routeid=" + navigationLocation.routeId;
             }
-            if (exitId) {
-                dataUrl += "&exitid=" + exitId;
+            if (navigationLocation.exitId) {
+                dataUrl += "&exitid=" + navigationLocation.exitId;
             }
-            if (poiType) {
-                dataUrl += "&poitype=" + PoiType[poiType].toLowerCase();
+            if (navigationLocation.poiType) {
+                dataUrl += "&poitype=" + PoiType[navigationLocation.poiType].toLowerCase();
+            }
+            if (navigationLocation.poiId) {
+                dataUrl += "&poiId=" + navigationLocation.poiId;
             }
 
-            var reverse = (AppState.current.navigationLocation && AppState.current.navigationLocation.page > page);
+            var reverse = (AppState.current.navigationLocation && AppState.current.navigationLocation.page > navigationLocation.page);
 
             AppState.current.knownHashChangeInProgress = true;
 
@@ -225,6 +245,9 @@ module StopByStop {
                             shareUrl += "/" + PoiType[navLocation.poiType];
                         }
                     }
+                    break;
+                case SBSPage.poi:
+                    shareUrl += "poi/" + navLocation.poiPath;
                     break;
             }
 
@@ -273,6 +296,48 @@ module StopByStop {
         public static getPoiIconUrl(poiType: PoiType, iconFormat: PoiIconFormat, baseImageUrl: string) {
             var poiTypeString = PoiType[poiType].toLowerCase();
             return baseImageUrl + "poi/" + poiTypeString + "/" + poiTypeString + "_" + iconFormat.toString() + ".png";
+        }
+
+        public static getNavigationUrlFromCurrentLocation(...stops: ILocation[]): JQueryPromise<string> {
+            var deferred = $.Deferred<string>();
+            if (stops && stops.length > 0) {
+                if (navigator && navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position: Position) => {
+                            var srcLat = position.coords.latitude;
+                            var srcLon = position.coords.longitude;
+
+                            var daddrStr = "";
+                            for (var i = 0; i < stops.length - 1; i++) {
+                                if (i > 0) {
+                                    daddrStr += "+to:";
+                                }
+                                daddrStr += (stops[i].a + "," + stops[i].o);
+                            }
+
+                            if (daddrStr !== "") {
+                                daddrStr += "+to:";
+                            }
+
+                            var destination = stops[stops.length - 1];
+                            daddrStr += destination.a + "," + destination.o;
+                            var navigationUrl = "https://maps.google.com/maps?saddr="
+                                + srcLat + ","
+                                + srcLon + "&daddr="
+                                + daddrStr;
+                            deferred.resolve(navigationUrl);
+                        },
+                        (positionError: PositionError) => {
+                            var error = positionError.message;
+                            Telemetry.trackError(new Error("getCurrentPositionError: " + error));
+                            console.error("Please allow StopByStop.com to share your location.");
+                            deferred.reject(error);
+                        });
+                }
+            } else {
+                deferred.reject();
+            }
+            return deferred.promise();
         }
 
         private static getPlaceNameFromPlaceId(placeId: string) {

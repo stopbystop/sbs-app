@@ -1,5 +1,6 @@
 /// <reference path="tsdef/jquery.d.ts"/>
 "use strict";
+<<<<<<< HEAD
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10,6 +11,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+=======
+>>>>>>> origin/poipage
 var StopByStop;
 (function (StopByStop) {
     ;
@@ -26,7 +29,8 @@ var StopByStop;
         SBSPage[SBSPage["home"] = 0] = "home";
         SBSPage[SBSPage["route"] = 1] = "route";
         SBSPage[SBSPage["exit"] = 2] = "exit";
-        SBSPage[SBSPage["about"] = 3] = "about";
+        SBSPage[SBSPage["poi"] = 3] = "poi";
+        SBSPage[SBSPage["about"] = 4] = "about";
     })(SBSPage = StopByStop.SBSPage || (StopByStop.SBSPage = {}));
     var PoiIconFormat;
     (function (PoiIconFormat) {
@@ -57,19 +61,22 @@ var StopByStop;
         TelemetryEvent[TelemetryEvent["POIGroupPageScroll"] = 12] = "POIGroupPageScroll";
         TelemetryEvent[TelemetryEvent["POIGroupSwitchList"] = 13] = "POIGroupSwitchList";
         TelemetryEvent[TelemetryEvent["POIGroupSwitchMap"] = 14] = "POIGroupSwitchMap";
-        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 15] = "Remove5MinFromStop";
-        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 16] = "RemoveStopFromRoute";
-        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 17] = "RoutePageScroll";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 18] = "RoutePlanNavigateClick";
-        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 19] = "RoutePlanNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 20] = "ShowStopSettingsPopup";
-        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 21] = "SideBarThumbTouch";
-        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 22] = "SocialButtonClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 23] = "StopPopupNavigateClick";
-        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 24] = "StopPopupNavigateBeforeDirect";
-        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 25] = "TelLinkClick";
-        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 26] = "ViewTripButtonClick";
-        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 27] = "YelpLinkClick";
+        TelemetryEvent[TelemetryEvent["POIPageAddToRouteClick"] = 15] = "POIPageAddToRouteClick";
+        TelemetryEvent[TelemetryEvent["POIPageNavigateClick"] = 16] = "POIPageNavigateClick";
+        TelemetryEvent[TelemetryEvent["POIPageNavigateBeforeDirect"] = 17] = "POIPageNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["Remove5MinFromStop"] = 18] = "Remove5MinFromStop";
+        TelemetryEvent[TelemetryEvent["RemoveStopFromRoute"] = 19] = "RemoveStopFromRoute";
+        TelemetryEvent[TelemetryEvent["RoutePageScroll"] = 20] = "RoutePageScroll";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateClick"] = 21] = "RoutePlanNavigateClick";
+        TelemetryEvent[TelemetryEvent["RoutePlanNavigateBeforeDirect"] = 22] = "RoutePlanNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["ShowStopSettingsPopup"] = 23] = "ShowStopSettingsPopup";
+        TelemetryEvent[TelemetryEvent["SideBarThumbTouch"] = 24] = "SideBarThumbTouch";
+        TelemetryEvent[TelemetryEvent["SocialButtonClick"] = 25] = "SocialButtonClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateClick"] = 26] = "StopPopupNavigateClick";
+        TelemetryEvent[TelemetryEvent["StopPopupNavigateBeforeDirect"] = 27] = "StopPopupNavigateBeforeDirect";
+        TelemetryEvent[TelemetryEvent["TelLinkClick"] = 28] = "TelLinkClick";
+        TelemetryEvent[TelemetryEvent["ViewTripButtonClick"] = 29] = "ViewTripButtonClick";
+        TelemetryEvent[TelemetryEvent["YelpLinkClick"] = 30] = "YelpLinkClick";
     })(TelemetryEvent = StopByStop.TelemetryEvent || (StopByStop.TelemetryEvent = {}));
     var TelemetryProperty;
     (function (TelemetryProperty) {
@@ -172,6 +179,7 @@ var StopByStop;
     }());
     StopByStop.Telemetry = Telemetry;
 })(StopByStop || (StopByStop = {}));
+<<<<<<< HEAD
 var StopByStop;
 (function (StopByStop) {
     var PoiTypeFilterViewModel = (function () {
@@ -499,6 +507,8 @@ var StopByStop;
     }());
     StopByStop.FilterViewModel = FilterViewModel;
 })(StopByStop || (StopByStop = {}));
+=======
+>>>>>>> origin/poipage
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
@@ -517,6 +527,10 @@ var StopByStop;
     var Utils = (function () {
         function Utils() {
         }
+        Utils.getNonHighwayDrivingTimeToPlaceInSeconds = function (distance) {
+            // for now let's assume 20mph non-highway speed
+            return distance / 20 * 3600;
+        };
         Utils.updateNavigationLocation = function (hash, navigationLocation) {
             if (!hash) {
                 hash = "#home";
@@ -555,10 +569,12 @@ var StopByStop;
                                 case "exitid":
                                     navigationLocation.exitId = val;
                                     break;
+                                case "poiid":
+                                    navigationLocation.poiId = val;
                                 case "poitype":
                                     navigationLocation.poiType = StopByStop.PoiType.all;
                                     if (val) {
-                                        navigationLocation.poiType = StopByStop.PoiType[val];
+                                        navigationLocation.poiType = StopByStop.PoiType[val] || navigationLocation.poiType;
                                     }
                                     break;
                             }
@@ -578,8 +594,12 @@ var StopByStop;
             if (navigationLocation.routeId) {
                 loc += ("&routeid=" + navigationLocation.routeId);
             }
-            if (navigationLocation.exitId && navigationLocation.page === StopByStop.SBSPage.exit) {
+            if (navigationLocation.exitId &&
+                (navigationLocation.page === StopByStop.SBSPage.exit || navigationLocation.page === StopByStop.SBSPage.poi)) {
                 loc += ("&exitid=" + navigationLocation.exitId);
+            }
+            if (navigationLocation.poiId && navigationLocation.page === StopByStop.SBSPage.poi) {
+                loc += ("&poiid=" + navigationLocation.poiId);
             }
             if (navigationLocation.poiType && navigationLocation.page === StopByStop.SBSPage.exit && StopByStop.PoiType[navigationLocation.poiType]) {
                 loc += ("&poitype=" + StopByStop.PoiType[navigationLocation.poiType]);
@@ -641,31 +661,37 @@ var StopByStop;
             };
         };
         ;
-        Utils.spaPageNavigate = function (page, routeId, exitId, poiType, changeHash) {
+        Utils.spaPageNavigate = function (navigationLocation, changeHash) {
             if (changeHash === void 0) { changeHash = true; }
             var pageId = "#home";
-            switch (page) {
+            switch (navigationLocation.page) {
                 case StopByStop.SBSPage.about:
                     pageId = "#about";
                     break;
                 case StopByStop.SBSPage.exit:
                     pageId = "#exit";
                     break;
+                case StopByStop.SBSPage.poi:
+                    pageId = "#poi";
+                    break;
                 case StopByStop.SBSPage.route:
                     pageId = "#route";
                     break;
             }
             var dataUrl = pageId;
-            if (routeId) {
-                dataUrl += "&routeid=" + routeId;
+            if (navigationLocation.routeId) {
+                dataUrl += "&routeid=" + navigationLocation.routeId;
             }
-            if (exitId) {
-                dataUrl += "&exitid=" + exitId;
+            if (navigationLocation.exitId) {
+                dataUrl += "&exitid=" + navigationLocation.exitId;
             }
-            if (poiType) {
-                dataUrl += "&poitype=" + StopByStop.PoiType[poiType].toLowerCase();
+            if (navigationLocation.poiType) {
+                dataUrl += "&poitype=" + StopByStop.PoiType[navigationLocation.poiType].toLowerCase();
             }
-            var reverse = (StopByStop.AppState.current.navigationLocation && StopByStop.AppState.current.navigationLocation.page > page);
+            if (navigationLocation.poiId) {
+                dataUrl += "&poiId=" + navigationLocation.poiId;
+            }
+            var reverse = (StopByStop.AppState.current.navigationLocation && StopByStop.AppState.current.navigationLocation.page > navigationLocation.page);
             StopByStop.AppState.current.knownHashChangeInProgress = true;
             $.mobile.pageContainer.pagecontainer("change", pageId, { dataUrl: dataUrl, changeHash: changeHash, transition: "slide", reverse: reverse });
         };
@@ -684,6 +710,9 @@ var StopByStop;
                             shareUrl += "/" + StopByStop.PoiType[navLocation.poiType];
                         }
                     }
+                    break;
+                case StopByStop.SBSPage.poi:
+                    shareUrl += "poi/" + navLocation.poiPath;
                     break;
             }
             return shareUrl;
@@ -727,6 +756,47 @@ var StopByStop;
             var poiTypeString = StopByStop.PoiType[poiType].toLowerCase();
             return baseImageUrl + "poi/" + poiTypeString + "/" + poiTypeString + "_" + iconFormat.toString() + ".png";
         };
+        Utils.getNavigationUrlFromCurrentLocation = function () {
+            var stops = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                stops[_i] = arguments[_i];
+            }
+            var deferred = $.Deferred();
+            if (stops && stops.length > 0) {
+                if (navigator && navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var srcLat = position.coords.latitude;
+                        var srcLon = position.coords.longitude;
+                        var daddrStr = "";
+                        for (var i = 0; i < stops.length - 1; i++) {
+                            if (i > 0) {
+                                daddrStr += "+to:";
+                            }
+                            daddrStr += (stops[i].a + "," + stops[i].o);
+                        }
+                        if (daddrStr !== "") {
+                            daddrStr += "+to:";
+                        }
+                        var destination = stops[stops.length - 1];
+                        daddrStr += destination.a + "," + destination.o;
+                        var navigationUrl = "https://maps.google.com/maps?saddr="
+                            + srcLat + ","
+                            + srcLon + "&daddr="
+                            + daddrStr;
+                        deferred.resolve(navigationUrl);
+                    }, function (positionError) {
+                        var error = positionError.message;
+                        StopByStop.Telemetry.trackError(new Error("getCurrentPositionError: " + error));
+                        console.error("Please allow StopByStop.com to share your location.");
+                        deferred.reject(error);
+                    });
+                }
+            }
+            else {
+                deferred.reject();
+            }
+            return deferred.promise();
+        };
         Utils.getPlaceNameFromPlaceId = function (placeId) {
             var placeName = "";
             var usIndex = placeId.indexOf("-united-states");
@@ -764,6 +834,7 @@ var StopByStop;
     }());
     StopByStop.Utils = Utils;
 })(StopByStop || (StopByStop = {}));
+<<<<<<< HEAD
 var StopByStop;
 (function (StopByStop) {
     var LocationViewModel = (function () {
@@ -1054,6 +1125,8 @@ var StopByStop;
     }());
     StopByStop.RouteStopViewModel = RouteStopViewModel;
 })(StopByStop || (StopByStop = {}));
+=======
+>>>>>>> origin/poipage
 /// <reference path="tsdef/jquery.d.ts"/>
 /// <reference path="tsdef/jquerymobile.d.ts"/>
 /// <reference path="tsdef/knockout-3.3.d.ts"/>
@@ -1074,6 +1147,7 @@ var StopByStop;
         };
         return AppState;
     }());
+<<<<<<< HEAD
     StopByStop.AppState = AppState;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
@@ -2786,6 +2860,28 @@ QUnit.test("RoutePlanViewModel: restore stop data from storage test", function (
 });
 var StopByStop;
 (function (StopByStop) {
+=======
+    AppState.current = {
+        basePortalUrl: null,
+        baseDataUrl: null,
+        baseImageUrl: null,
+        windowOpenTarget: "_system",
+        metadata: null
+    };
+    StopByStop.AppState = AppState;
+})(StopByStop || (StopByStop = {}));
+/// <reference path="../../../src/client/scripts/tsdef/qunit.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/sinon.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/jquery.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/knockout-3.3.d.ts"/>
+/// <reference path="../../../src/client/scripts/tsdef/google.maps.d.ts"/>
+/// <reference path="../../../src/client/scripts/stopbystop-interfaces.ts"/>
+/// <reference path="../../../src/client/scripts/AppState.ts"/>
+/// <reference path="../../../src/client/scripts/Utils.ts"/>
+"use strict";
+var StopByStop;
+(function (StopByStop) {
+>>>>>>> origin/poipage
     QUnit.begin(function () {
         StopByStop.AppState.current.pageInfo = {
             pageName: "TestPageName",
@@ -2796,16 +2892,16 @@ var StopByStop;
         updateAndVerifyNavigationLocation(assert, "#route", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.route });
         updateAndVerifyNavigationLocation(assert, "#route&routeId=route1", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.route, routeId: "route1", poiType: undefined });
         updateAndVerifyNavigationLocation(assert, "https://hostname.com/page", { page: StopByStop.SBSPage.route, routeId: "route1" }, { page: StopByStop.SBSPage.home, routeId: "route1" });
-        updateAndVerifyNavigationLocation(assert, "#exit&routeId=route1&exitId=exit1&poiType=gas", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations });
+        updateAndVerifyNavigationLocation(assert, "#exit&routeId=route1&exitId=exit1&poiType=gasstations", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations });
         updateAndVerifyNavigationLocation(assert, "#exit&routeId=route1&exitId=exit1&poiType=factory", { page: StopByStop.SBSPage.home }, { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.all });
     });
     QUnit.test("Utils: GetHashFromNavigationLocation test", function (assert) {
-        assert.equal(StopByStop.Utils.getHashFromNavigationLocation({ page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "#exit&routeid=route1&exitid=exit1&poitype=gas");
+        assert.equal(StopByStop.Utils.getHashFromNavigationLocation({ page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "#exit&routeid=route1&exitid=exit1&poitype=gasstations");
         assert.equal(StopByStop.Utils.getHashFromNavigationLocation({ page: StopByStop.SBSPage.route, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "#route&routeid=route1");
     });
     QUnit.test("Utils: GetShareUrl test", function (assert) {
-        assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com", { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/route/route1/exit/osm-exit1");
-        assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com/", { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/route/route1/exit/osm-exit1");
+        assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com", { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/route/route1/exit/osm-exit1/gasstations");
+        assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com/", { page: StopByStop.SBSPage.exit, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/route/route1/exit/osm-exit1/gasstations");
         assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com", { page: StopByStop.SBSPage.about, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/");
         assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com", { page: StopByStop.SBSPage.home, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/");
         assert.equal(StopByStop.Utils.getShareUrl("https://www.host.com", { page: StopByStop.SBSPage.route, routeId: "route1", exitId: "exit1", poiType: StopByStop.PoiType.gasstations }), "https://www.host.com/route/route1");
@@ -2816,11 +2912,73 @@ var StopByStop;
         assert.equal(StopByStop.Utils.getRouteTitleFromRouteId(""), "");
         assert.equal(StopByStop.Utils.getRouteTitleFromRouteId("10-to-10"), "");
     });
+    QUnit.test("Utils: runOnce test", function (assert) {
+        var callback = sinon.spy();
+        var proxy = StopByStop.Utils.runOnce(callback);
+        proxy();
+        proxy();
+        assert.equal(callback.callCount, 1);
+    });
+    QUnit.test("Utils: getNavigationUrlFromCurrentLocation test", function (assert) {
+        var fakeSuccessGetCurrentPosition = function (successCallback, errorCallback, options) {
+            successCallback({
+                coords: {
+                    latitude: 45.0,
+                    longitude: -100.0
+                }
+            });
+        };
+        var fakeFailGetCurrentPosition = function (successCallback, errorCallback, options) {
+            errorCallback({
+                code: 1,
+                message: "Unavailable",
+                PERMISSION_DENIED: 0,
+                POSITION_UNAVAILABLE: 0,
+                TIMEOUT: 0
+            });
+        };
+        var loc1 = {
+            a: 44,
+            o: -100
+        };
+        var loc2 = {
+            a: 43,
+            o: -100
+        };
+        var navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeSuccessGetCurrentPosition);
+        var d1 = assert.async();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1).then(function (val) {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100");
+            assert.equal(navLocationStub.callCount, 1);
+            d1();
+        });
+        var d2 = assert.async();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1, loc2).then(function (val) {
+            assert.equal(val, "https://maps.google.com/maps?saddr=45,-100&daddr=44,-100+to:43,-100");
+            assert.equal(navLocationStub.callCount, 2);
+            d2();
+        });
+        navLocationStub.restore();
+        navLocationStub = sinon.stub(navigator.geolocation, "getCurrentPosition", fakeFailGetCurrentPosition);
+        var d3 = assert.async();
+        var successCb = sinon.spy();
+        var errorCb = sinon.spy();
+        StopByStop.Utils.getNavigationUrlFromCurrentLocation(loc1)
+            .done(successCb)
+            .fail(errorCb)
+            .always(function (val) {
+            assert.equal(val, "Unavailable");
+            assert.equal(navLocationStub.callCount, 1);
+            assert.equal(successCb.callCount, 0);
+            assert.equal(errorCb.callCount, 1);
+            d3();
+        });
+        navLocationStub.restore();
+    });
     function updateAndVerifyNavigationLocation(assert, hash, inputLocation, expectedLocation) {
         StopByStop.Utils.updateNavigationLocation(hash, inputLocation);
         assert.deepEqual(inputLocation, expectedLocation);
     }
 })(StopByStop || (StopByStop = {}));
-/// <reference path="RoutePlanViewModelTests.ts" />
 /// <reference path="UtilsTests.ts" /> 
 //# sourceMappingURL=testbundle.js.map

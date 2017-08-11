@@ -83,7 +83,7 @@
                                                 </div>
                                                 <div class="pois">
                                                     <div data-bind="foreach: poiTypeViewModels">
-                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi '+poiTypeString, attr:{href:url, 'data-type': poiTypeString}">
+                                                        <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi poi-route-icon poi-type-'+poiTypeString, attr:{href:url, 'data-type': poiTypeString}">
                                                             <div style="position:relative">
                                                                 <div class="poi-count" data-bind="html: poiCountString"></div>
                                                                 <div class="poi-distance-label" data-bind="html: closestPoiDistance"></div>

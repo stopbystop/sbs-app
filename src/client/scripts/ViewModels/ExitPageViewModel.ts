@@ -11,44 +11,10 @@
 "use strict";
 module StopByStop {
 
-    export abstract class JunctionAppBaseViewModel implements IAppViewModel {
-        protected _poiLocations: LocationViewModel[];
-        protected _locationToLoadIndex: number = 0;
+    export class ExitPageViewModel {
+        private _poiLocations: LocationViewModel[];
+        private _locationToLoadIndex: number = 0;
 
-        public filter: FilterViewModel;
-        public routePlan: RoutePlanViewModel;
-        public routeJunction: RouteJunctionViewModel;
-        public junctionMapViewModel: JunctionMapViewModel;
-        public routeId: string;
-        
-        protected loadFullPoiData() {
-            
-            if (this._locationToLoadIndex < this._poiLocations.length) {
-                var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
-
-                var latStr = locationToLoad.lat.toFixed(1);
-                var lonStr = locationToLoad.lon.toFixed(1);
-
-                $.ajax(AppState.current.urls.PoiDataUrlV2 + latStr + "," + lonStr)
-                    .done((data: IReviewGroup[]) => {
-
-                        for (var i = 0; i < data.length; i++) {
-                            var p = data[i];
-                            if (this.routeJunction.junction.poiLookup[p.id]) {
-                                this.routeJunction.junction.poiLookup[p.id].poi.updateYInfo(p);
-                            }
-                        }
-
-                        this.loadFullPoiData();
-                    });
-            } else {
-                this.routeJunction.junction.completeYDataLoad();
-            }
-        }
-
-    };
-
-    export class JunctionSPAAppViewModel extends JunctionAppBaseViewModel {
         constructor(
             route: IRoute,
             routeJunctionViewModel: RouteJunctionViewModel,
@@ -57,7 +23,6 @@ module StopByStop {
             metadata: IMetadata,
             poiTypeToShow: PoiType = PoiType.all
         ) {
-            super();
             // TODO: here
 
             this.routeId = route.rid;
@@ -104,9 +69,41 @@ module StopByStop {
         };
 
 
+        public filter: FilterViewModel;
+        public routePlan: RoutePlanViewModel;
+        public routeJunction: RouteJunctionViewModel;
+        public junctionMapViewModel: JunctionMapViewModel;
+        public routeId: string;
+
+
         public initMap(mapDiv: Element, mapContainerDiv: Element): JunctionMapViewModel {
             this.junctionMapViewModel = new JunctionMapViewModel(mapDiv, mapContainerDiv, this.routeJunction, AppState.current.urls);
             return this.junctionMapViewModel;
+        }
+
+        private loadFullPoiData() {
+
+            if (this._locationToLoadIndex < this._poiLocations.length) {
+                var locationToLoad = this._poiLocations[this._locationToLoadIndex++];
+
+                var latStr = locationToLoad.lat.toFixed(1);
+                var lonStr = locationToLoad.lon.toFixed(1);
+
+                $.ajax(AppState.current.urls.PoiDataUrlV2 + latStr + "," + lonStr)
+                    .done((data: IReviewGroup[]) => {
+
+                        for (var i = 0; i < data.length; i++) {
+                            var p = data[i];
+                            if (this.routeJunction.junction.poiLookup[p.id]) {
+                                this.routeJunction.junction.poiLookup[p.id].poi.updateYInfo(p);
+                            }
+                        }
+
+                        this.loadFullPoiData();
+                    });
+            } else {
+                this.routeJunction.junction.completeYDataLoad();
+            }
         }
     }
 }

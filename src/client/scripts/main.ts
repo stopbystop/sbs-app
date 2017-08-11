@@ -7,7 +7,6 @@
 /// <reference path="Init.ts"/>
 /// <reference path="WebInit.ts"/>
 /// <reference path="ViewModels/LocationViewModel.ts"/>
-/// <reference path="ViewModels/IStopPlace.ts"/>
 /// <reference path="ViewModels/PoiTypeFilterViewModel.ts"/>
 /// <reference path="ViewModels/FilterViewModel.ts"/>
 /// <reference path="ViewModels/ReviewGroupViewModel.ts"/>
@@ -23,5 +22,5 @@
 /// <reference path="ViewModels/IAppViewModel.ts"/>
 /// <reference path="ViewModels/AppViewModel.ts"/>
 /// <reference path="ViewModels/JunctionMapViewModel.ts"/>
-/// <reference path="ViewModels/JunctionAppViewModel.ts"/>
+/// <reference path="ViewModels/ExitPageViewModel.ts"/>
 /// <reference path="ViewModels/SideBarViewModel.ts"/>

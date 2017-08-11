@@ -93,8 +93,8 @@ module StopByStop {
                     }
 
                     this.poiInfoWindow = (<google.maps.InfoWindow>poiMarker["iw"]);
-                    (<any>window).showPoiOptionsForMapPopup = () => {
-                        poi.addToRouteOptionsClick();
+                    (<any>window).navigateToPoiPage = () => {
+                        poi.navigateToPoiPageClick();
                     };
                     this.poiInfoWindow.open(this.map, poiMarker);
 

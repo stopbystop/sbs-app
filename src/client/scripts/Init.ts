@@ -10,7 +10,7 @@
 /// <reference path="ViewModels/IAppViewModel.ts" />
 /// <reference path="ViewModels/AppViewModel.ts" />
 /// <reference path="ViewModels/RouteViewModel.ts" />
-/// <reference path="ViewModels/JunctionAppViewModel.ts" />
+/// <reference path="ViewModels/ExitPageViewModel.ts" />
 
 "use strict";
 
@@ -129,13 +129,7 @@ module StopByStop {
                     // are we loading correct page?
                     var pageBeingLoaded = ui.toPage[0].id;
                     if (SBSPage[AppState.current.navigationLocation.page] !== pageBeingLoaded) {
-                        Utils.spaPageNavigate(
-                            AppState.current.navigationLocation.page,
-                            AppState.current.navigationLocation.routeId,
-                            AppState.current.navigationLocation.exitId,
-                            AppState.current.navigationLocation.poiType,
-                            false);
-
+                        Utils.spaPageNavigate(AppState.current.navigationLocation, false);
                         navigationAbandoned = true;
                     }
 
@@ -168,32 +162,16 @@ module StopByStop {
                     switch (AppState.current.navigationLocation.page) {
                         case SBSPage.route:
                         case SBSPage.exit:
+                        case SBSPage.poi:
                             if (Init._currentRouteId !== AppState.current.navigationLocation.routeId) {
                                 Init._currentRouteId = AppState.current.navigationLocation.routeId;
                                 Init._app(new AppViewModel(null, AppState.current, Utils.getRouteTitleFromRouteId(AppState.current.navigationLocation.routeId)));
-
                                 Init._loadRoutePromise = Init.loadRoute(AppState.current.navigationLocation.routeId);
-
                                 Init._loadRoutePromise.done((callback: JQueryPromiseCallback<any>) => {
-
-                                    if (AppState.current.navigationLocation.page === SBSPage.exit) {
-                                        Init.completeExitPageInit();
-                                    } else {
-                                        this._app().route.sideBar.recalculatePosition();
-                                        Init.animateFiltersTrigger();
-                                    }
+                                    Init.completePageInit();
                                 });
                             } else {
-                                if (AppState.current.navigationLocation.page === SBSPage.route) {
-
-                                    this._app().route.recalcRoadLine($(".route")[0]);
-                                    this._app().title(this._app().route.shortDescription);
-                                    this._app().route.sideBar.recalculatePosition();
-                                    Init.animateFiltersTrigger();
-
-                                } else if (AppState.current.navigationLocation.page === SBSPage.exit) {
-                                    Init.completeExitPageInit();
-                                }
+                                Init.completePageInit();
                             }
                             break;
                         default:
@@ -207,6 +185,20 @@ module StopByStop {
                         (new Date()).getTime() - pageBeforeShowTime);
                 }
             });
+        }
+
+        private static completePageInit(): void {
+            switch (AppState.current.navigationLocation.page) {
+                case SBSPage.route:
+                    Init.completeRoutePageInit();
+                    break;
+                case SBSPage.exit:
+                    Init.completeExitPageInit();
+                    break;
+                case SBSPage.poi:
+                    Init.completePoiPageInit();
+                    break;
+            }
         }
 
         private static wireupHashChange(): void {
@@ -224,13 +216,7 @@ module StopByStop {
 
                             Utils.updateNavigationLocation(newHash, AppState.current.navigationLocation);
                             if (oldPage !== AppState.current.navigationLocation.page) {
-                                Utils.spaPageNavigate(
-                                    AppState.current.navigationLocation.page,
-                                    AppState.current.navigationLocation.routeId,
-                                    AppState.current.navigationLocation.exitId,
-                                    AppState.current.navigationLocation.poiType,
-                                    false);
-
+                                Utils.spaPageNavigate(AppState.current.navigationLocation, false);
                             }
                         }
 
@@ -291,13 +277,44 @@ module StopByStop {
             }
         }
 
+        private static completePoiPageInit(): void {
+            var selectedPoiId = AppState.current.navigationLocation.poiId;
+
+            var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
+
+            var appViewModel = Init._app();
+
+            if (!appViewModel.selectedJunction()) {
+                var junctionAppViewModel = new ExitPageViewModel(
+                    appViewModel.route.route,
+                    selectedRouteJunction,
+                    appViewModel.filter,
+                    appViewModel.routePlan,
+                    AppState.current.metadata,
+                    PoiType.all);
+
+                appViewModel.selectedJunction(junctionAppViewModel);
+            }
+
+            var selectedPoi = selectedRouteJunction.junction.pois()
+                .filter((value: PoiOnJunctionViewModel, index: number, arr: PoiOnJunctionViewModel[]) => {
+                    return value.poi.id === selectedPoiId;
+                })[0];
+
+            appViewModel.selectedPoi(selectedPoi.poi);
+
+            appViewModel.url(Utils.getShareUrl(AppState.current.basePortalUrl, AppState.current.navigationLocation));
+            appViewModel.title(selectedPoi.poi.name);
+            document.title = appViewModel.title();
+        }
+
         private static completeExitPageInit(): void {
             var selectedRouteJunction = Init._app().routePlan.junctionMap[AppState.current.navigationLocation.exitId];
             var poiType = AppState.current.navigationLocation.poiType;
 
             var appViewModel = Init._app();
 
-            var junctionAppViewModel = new JunctionSPAAppViewModel(
+            var junctionAppViewModel = new ExitPageViewModel(
                 appViewModel.route.route,
                 selectedRouteJunction,
                 appViewModel.filter,
@@ -315,11 +332,19 @@ module StopByStop {
 
             })
 
-            Init._app().url(Utils.getShareUrl(AppState.current.basePortalUrl, AppState.current.navigationLocation));
-            Init._app().title(junctionAppViewModel.routeJunction.title);
-            document.title = Init._app().title();
+            appViewModel.url(Utils.getShareUrl(AppState.current.basePortalUrl, AppState.current.navigationLocation));
+            appViewModel.title(junctionAppViewModel.routeJunction.title);
+            document.title = appViewModel.title();
             Init.animateFiltersTrigger();
         }
+
+        private static completeRoutePageInit(): void {
+            this._app().route.recalcRoadLine($(".route")[0]);
+            this._app().title(this._app().route.shortDescription);
+            this._app().route.sideBar.recalculatePosition();
+            Init.animateFiltersTrigger();
+        }
+
 
         private static animateFiltersTrigger() {
             window.setTimeout(() => {
@@ -329,7 +354,7 @@ module StopByStop {
             }, 50);
         }
 
-        private static initJunctionMapWhenReady(junctionAppViewModel: JunctionSPAAppViewModel): JQueryPromise<JunctionMapViewModel> {
+        private static initJunctionMapWhenReady(junctionAppViewModel: ExitPageViewModel): JQueryPromise<JunctionMapViewModel> {
             var dfd = jQuery.Deferred<JunctionMapViewModel>();
             var mapElement = $("#map")[0];
             var mapContainerElement = $(".poi-map")[0];

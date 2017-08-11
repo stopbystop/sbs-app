@@ -10,7 +10,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -40,12 +40,12 @@
     <TypeScriptCompile Include="scripts\tsdef\jquerymobile.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\knockout-3.3.d.ts" />
     <TypeScriptCompile Include="scripts\tsdef\qunit.d.ts" />
+    <TypeScriptCompile Include="scripts\tsdef\sinon.d.ts" />
     <TypeScriptCompile Include="scripts\Utils.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\FilterViewModel.ts" />
-    <TypeScriptCompile Include="scripts\ViewModels\JunctionAppViewModel.ts" />
+    <TypeScriptCompile Include="scripts\ViewModels\ExitPageViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\AppViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\IAppViewModel.ts" />
-    <TypeScriptCompile Include="scripts\ViewModels\IStopPlace.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\JunctionMapViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\JunctionViewModel.ts" />
     <TypeScriptCompile Include="scripts\ViewModels\LocationViewModel.ts" />
@@ -71,6 +71,7 @@
     <Content Include="content\rrssb.css" />
     <Content Include="content\sbsbundle.css" />
     <Content Include="content\sbsbundle.css.min.css" />
+    <Content Include="content\styles-poi.css" />
     <Content Include="content\styles-types.css" />
     <Content Include="content\styles-exit-min48.css" />
     <Content Include="content\styles-exit-min32.css" />
@@ -95,6 +96,9 @@
     <Content Include="content\v1\icons\car.png" />
     <Content Include="content\v1\icons\exit.png" />
     <Content Include="content\v1\icons\exit_map.png" />
+    <Content Include="content\v1\icons\add-to-route-ff.png" />
+    <Content Include="content\v1\icons\add-to-route-acc.png" />
+    <Content Include="content\v1\icons\navigate-acc.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_1.png" />
     <Content Include="content\v1\icons\poi\gasstations\gasstations_2.png" />
     <Content Include="content\v1\icons\poi\hotels\hotels_1.png" />
@@ -228,7 +232,9 @@
     <Content Include="html\partials\footer.handlebars" />
     <Content Include="html\web.handlebars" />
     <Content Include="html\partials\stopSettingsDialog.handlebars" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>

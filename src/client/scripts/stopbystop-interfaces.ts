@@ -146,8 +146,6 @@ module StopByStop {
     }
 
     export interface IPoiOnJunction {
-        /** sbsid */
-        id: string;
         /** distance from junction */
         dfj: number;
         /** poi */
@@ -220,7 +218,8 @@ module StopByStop {
         home = 0,
         route = 1,
         exit = 2,
-        about = 3
+        poi = 3,
+        about = 4
     }
 
     export interface IPageInfo {
@@ -239,6 +238,10 @@ module StopByStop {
         exitId?: string;
         /** POI type */
         poiType?: PoiType;
+        /** POI id */
+        poiId?: string;
+        /** POI path */
+        poiPath?: string;
     }
 
     export interface IPoiPropertyMetadata {
@@ -275,7 +278,7 @@ module StopByStop {
         p: IPoiPropertyMetadata[];
     }
 
-    export interface IMetadata {
+        export interface IMetadata {
         /** category metadata */
         c: { [id: number]: IPoiCategory };
         /** root categories by type id */

@@ -3,26 +3,27 @@
 
 "use strict";
 module StopByStop {
-    export class LocationViewModel {
+    export class LocationViewModel implements ILocation {
         constructor(obj: ILocation) {
-            this.lat = obj.a;
-            this.lon = obj.o;
+            this.a = this.lat = obj.a;
+            this.o = this.lon = obj.o;
             this.placeDescription = obj.pd || "";
         }
 
+        public a: number;
+        public o: number;
         public lat: number;
         public lon: number;
         public placeDescription: string;
 
         private static GRAIN: number = 0.1;
-        public static getGridLocations(location: ILocation): LocationViewModel[]
-        {
+        public static getGridLocations(location: ILocation): LocationViewModel[] {
             var mainLocation = new LocationViewModel(
                 {
                     a: LocationViewModel.roundToNLat(location.a),
                     o: LocationViewModel.roundToWLon(location.o)
                 });
-            
+
 
             // n locations
             var nwLocation = new LocationViewModel({
@@ -38,7 +39,7 @@ module StopByStop {
                 o: mainLocation.lon + LocationViewModel.GRAIN
             });
 
-          
+
 
             // e locations
             var eLocation = new LocationViewModel({
@@ -60,7 +61,7 @@ module StopByStop {
                 a: mainLocation.lat - LocationViewModel.GRAIN,
                 o: mainLocation.lon - LocationViewModel.GRAIN
             });
-            
+
 
             // w location
             var wLocation = new LocationViewModel({

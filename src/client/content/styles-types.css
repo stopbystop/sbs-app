@@ -1,22 +1,28 @@
 ﻿/*restaurants type*/
 
 /*1*/
-.exit-restaurants .poi-placename {
+.poi-type-color-restaurants {
     color: #f15b6a;
 }
 
 /*2*/
+<<<<<<< HEAD
 .poi-placename-restaurants {
     background-image: url('icons/poi/restaurants/restaurants_1.png');
+=======
+.poi-type-restaurants {
+    background-image: url('v1/icons/poi/restaurants/restaurants_1.png');
+>>>>>>> origin/poipage
     background-color: #f15b6a;
 }
 
 /*3*/
-.sbs-cdb .poi-placename-restaurants {
+.sbs-cdb .poi-type-restaurants {
     background-image: url('../images/restaurants_1.png');
 }
 
 /*4*/
+<<<<<<< HEAD
 .restaurants{
     background-image: url('icons/poi/restaurants/restaurants_1.png');
     box-shadow: none;
@@ -25,17 +31,16 @@
     background-position: center;
     background-color: #f15b6a;
     border-radius: 50%;
+=======
+.poi-type-accent-restaurants {
+    background-image: url('v1/icons/poi/restaurants/restaurants_2.png');
+>>>>>>> origin/poipage
 }
 
 /*5*/
-.sbs-cdb .restaurants {
-    background-image: url('../images/restaurants_1.png');
-}
-
-
-/*6*/
-.restaurants-icon {
+.sbs-cdb .poi-type-accent-restaurants {
     background-image: url('../images/restaurants_2.png');
+<<<<<<< HEAD
     background-size: 90%;
     display: inline-block;
     background-repeat: no-repeat;
@@ -50,6 +55,8 @@
 /*8*/
 .sidebar-stop.restaurants .heading {
     color: #f15b6a;
+=======
+>>>>>>> origin/poipage
 }
 
 /*9: feature icons*/
@@ -142,22 +149,28 @@
 
 /*gasstations type*/
 /*1*/
-.exit-gasstations .poi-placename {
+.poi-type-color-gasstations {
     color: #4fc0e8;
 }
 
 /*2*/
+<<<<<<< HEAD
 .poi-placename-gasstations {
     background-image: url('icons/poi/gasstations/gasstations_1.png');
+=======
+.poi-type-gasstations {
+    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+>>>>>>> origin/poipage
     background-color: #4fc0e8;
 }
 
 /*3*/
-.sbs-cdb .poi-placename-gasstations {
+.sbs-cdb .poi-type-gasstations {
     background-image: url('../images/gasstations_1.png');
 }
 
 /*4*/
+<<<<<<< HEAD
 .gasstations {
     background-image: url('icons/poi/gasstations/gasstations_1.png');
     background-size: 25px;
@@ -166,28 +179,36 @@
     background-color: #4fc0e8;
     border-radius: 50%;
     box-shadow: none;
+=======
+.poi-type-accent-gasstations {
+    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
+>>>>>>> origin/poipage
 }
 
 /*5*/
-.sbs-cdb .gasstations {
+.sbs-cdb .poi-type-accent-gasstations {
+    background-image: url('../images/gasstations_2.png');
+}
+
+/* category */
+.gasstations-c-icon-w, .ui-icon-gasstations-c-icon-w:after {
+    background-image: url('v1/icons/poi/gasstations/gasstations_1.png');
+}
+
+.sbs-cdb .gasstations-c-icon-w, .sbs-cdb .ui-icon-gasstations-c-icon-w:after  {
     background-image: url('../images/gasstations_1.png');
 }
 
-/*6*/
-.gasstations-icon {
-    background-image: url('../images/gasstations_2.png');
-    background-size: 90%;
-    display: inline-block;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
+<<<<<<< HEAD
 /*7*/
 .sbs-web .gasstations-icon {
     background-image: url('icons/poi/gasstations/gasstations_2.png');
+=======
+.gasstations-c-icon-a, .ui-icon-gasstations-c-icon-a:after {
+    background-image: url('v1/icons/poi/gasstations/gasstations_2.png');
+>>>>>>> origin/poipage
 }
 
-/*8*/
-.sidebar-stop.gasstations .heading {
-    color: #4fc0e8;
+.sbs-cdb .gasstations-c-icon-a, .sbs-cdb .ui-icon-gasstations-c-icon-a:after  {
+    background-image: url('../images/gasstations_2.png');
 }

@@ -4,49 +4,47 @@
 /// <reference path="LocationViewModel.ts"/>
 /// <reference path="ReviewGroupViewModel.ts"/>
 /// <reference path="PoiViewModel.ts"/>
-/// <reference path="IStopPlace.ts"/>
 /// <reference path="../Utils.ts"/>
 
 "use strict";
 module StopByStop {
-    export class PoiOnJunctionViewModel implements IStopPlace {
+    export class PoiOnJunctionViewModel {
         private _app: IAppViewModel;
+        private _navLocation: ISBSNavigationLocation;
 
-        constructor(obj: IPoiOnJunction, exit: IRouteJunction, app: IAppViewModel) {
+        constructor(obj: IPoiOnJunction, exit: JunctionViewModel, app: IAppViewModel) {
             this.obj = obj;
             this._app = app;
-            this.id = this.obj.id;
             this.dfe = this.obj.dfj;
             this.dtefrs = exit.dfrs;
-            this.exitId = exit.j.oid.toString();
-            this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " miles from exit";
-            this.poi = new PoiViewModel(this.obj.p);
-            this.name = this.poi.name;
-            this.lat = this.poi.location.lat;
-            this.lon = this.poi.location.lon;
-            this.type = obj.p.t;
-            this.poiTypeString = PoiType[this.type].toLowerCase();
+            this.exitId = exit.osmid.toString();
+
+            this.poi = new PoiViewModel(this.obj.p, app, this);
+            this.distanceFromJunctionText = Utils.getMileString(this.dfe) + " from exit";
+            this.distanceFromJunctionTextFull = Utils.getMileString(this.dfe) + " from " + exit.name;
+
+            this._navLocation = {
+                page: SBSPage.poi,
+                routeId: AppState.current.navigationLocation.routeId,
+                exitId: this.exitId,
+                poiId: this.poi.id,
+                poiPath: this.poi.id + "-" + this.poi.urlName
+            };
+
         }
 
-        public poiTypeString:string;
+
         public obj: IPoiOnJunction;
-        public id: string;
         public exitId: string;
-        public name: string;
-        public location: LocationViewModel;
         public dfe: number;
         public dtefrs: number;
-        public distanceFromJunctionText: string;
         public poi: PoiViewModel;
-        public duration: number;
-        public lat: number;
-        public lon: number;
-        public type: PoiType;
+        public distanceFromJunctionText: string;
+        public distanceFromJunctionTextFull: string;
 
-
-        public addToRouteOptionsClick(): void {
-            var plannedStop = this._app.routePlan.getOrCreateStop(this);
-            this._app.routePlan.showStopSettings(plannedStop);
+        public navigateToPoiPageClick(): void {
+            this._app.selectedPoi(this.poi);
+            Utils.spaPageNavigate(this._navLocation);
         }
     }
 }   

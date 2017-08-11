@@ -335,11 +335,12 @@
 
 .poi-placename-type {
     width: 20%;
-    background-size: 1.5em;
+    background-size: 60%;
+    background-position:center;
 }
 
 .exit-type{
-    left: 20%;
+    left: 21%;
     width: 80%;
     height: 100%;
     padding-top: 0;

@@ -10,7 +10,7 @@
 /// <reference path="ViewModels/IAppViewModel.ts" />
 /// <reference path="ViewModels/AppViewModel.ts" />
 /// <reference path="ViewModels/RouteViewModel.ts" />
-/// <reference path="ViewModels/JunctionAppViewModel.ts" />
+/// <reference path="ViewModels/ExitPageViewModel.ts" />
 
 
 module StopByStop {

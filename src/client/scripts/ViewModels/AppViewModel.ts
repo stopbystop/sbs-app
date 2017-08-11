@@ -31,11 +31,6 @@ module StopByStop {
                 this.routeId = route.rid;
                 this.route = new RouteViewModel(this._route, this, initSettings, () => {
 
-                    /*
-                    if (initSettings.app === SBSApp.Web) {
-                        this.routePlan.loadStopsFromStorage();
-                    }
-                    */
 
                     $.each(this.route.routeSegments(), (i, rs) => {
                         $.each(rs.routeJunctions, (i2, rj) => {
@@ -67,7 +62,8 @@ module StopByStop {
         public routePlan: RoutePlanViewModel = null;
         public isRouteLoading: KnockoutObservable<boolean> = ko.observable(false);
         public routeLoadingMessage: KnockoutObservable<string> = ko.observable("");
-        public selectedJunction: KnockoutObservable<JunctionAppBaseViewModel> = ko.observable(null);
+        public selectedJunction: KnockoutObservable<ExitPageViewModel> = ko.observable(null);
+        public selectedPoi: KnockoutObservable<PoiViewModel> = ko.observable(null);
 
         public initSideBar(): void {
             if (this.route && this.route.sideBar) {

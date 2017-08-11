@@ -101,7 +101,7 @@ module StopByStop {
             for (var i = 0; i < this.junction.pois().length; i++) {
                 var poi = this.junction.pois()[i];
                 if (poi.obj.v === undefined || poi.obj.v === true) {
-                    this._poiTypeViewModelLookup[poi.type].visiblePois.push(poi);
+                    this._poiTypeViewModelLookup[poi.poi.poiType].visiblePois.push(poi);
                     visible = true;
                 }
             }
@@ -113,7 +113,12 @@ module StopByStop {
         }
 
         public navigateToExitPage(): void {
-            Utils.spaPageNavigate(SBSPage.exit, AppState.current.navigationLocation.routeId, this.junction.osmid.toString());
+            Utils.spaPageNavigate(
+                {
+                    page: SBSPage.exit,
+                    routeId: AppState.current.navigationLocation.routeId,
+                    exitId: this.junction.osmid.toString()
+                });
         }
     }
 }

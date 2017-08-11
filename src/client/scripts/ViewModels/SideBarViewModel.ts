@@ -22,7 +22,7 @@ module StopByStop {
         constructor(stop: RouteStopViewModel, routePlan: RoutePlanViewModel) {
             this.stop = stop;
             this.routePlan = routePlan;
-            this.poiTypeClass = PoiType[stop.stopPlace.type];
+            this.poiTypeClass = PoiType[stop.poiOnJunction.poi.poiType];
             this.top = ko.observable("");
             this.left = ko.observable("");
         }
@@ -218,14 +218,14 @@ module StopByStop {
             if (sideBarStopItems.length > 0 && Utils.hasAnyOwnProperties(this._routeViewModel.routeJunctionElementLookup)) {
                 // sort by distance to exit from route start. This is so that we can render exits belonging to the same exit
                 // next to each other
-                sideBarStopItems.sort((a, b) => a.stop.stopPlace.dtefrs - b.stop.stopPlace.dtefrs);
+                sideBarStopItems.sort((a, b) => a.stop.poiOnJunction.dtefrs - b.stop.poiOnJunction.dtefrs);
 
                 var currentExitId = "";
                 var currentIndexOnThisExit = 0;
 
                 for (var i = 0; i < sideBarStopItems.length; i++) {
                     var sideBarStopViewModel = sideBarStopItems[i];
-                    var poiExitId = sideBarStopViewModel.stop.stopPlace.exitId;
+                    var poiExitId = sideBarStopViewModel.stop.poiOnJunction.exitId;
 
                     if (!this._routeViewModel.routeJunctionElementLookup[poiExitId]) {
                         continue;

@@ -161,8 +161,7 @@ body {
     }
 
         .breadcrumb_main li a {
-            background: #fff none repeat scroll 0 0;
-            color: #ffffff !important;
+            color: #fff !important;
             display: block;
             float: left;
             font-weight: 700;
@@ -207,37 +206,48 @@ body {
             padding-left: 10px;
         }
 
-        .breadcrumb_main li:nth-child(2) a {
-            background: #57BADB;
-        }
 
             .breadcrumb_main li:nth-child(2) a:after {
                 border-left-color: #57BADB;
             }
 
-        .breadcrumb_main li:nth-child(3) a {
-            background: #35ACD4;
-        }
-
             .breadcrumb_main li:nth-child(3) a:after {
                 border-left-color: #35ACD4;
             }
 
-        .breadcrumb_main li:nth-child(4) a {
-            background: #2795B9;
-        }
 
             .breadcrumb_main li:nth-child(4) a:after {
                 border-left-color: #2795B9;
             }
 
-        .breadcrumb_main li:nth-child(5) a {
-            background: #207A97;
-        }
-
             .breadcrumb_main li:nth-child(5) a:after {
                 border-left-color: #207A97;
             }
+.breadCrumb.module {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+
+.breadcrumb_main li a {
+    font-family: 'MontReg', Arial;
+    font-size: 1em;
+    color: #9cadb7 !important;
+    padding-left: 11px;
+}
+
+
+    .breadcrumb_main li a:after, .breadcrumb_main li a:before {
+        content: none;
+    }
+
+.breadcrumb_main .middle-item {
+    max-width: 50px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 /* end of breadcrumb styles*/
 
 
@@ -1094,42 +1104,6 @@ h1 {
     text-transform: uppercase;
 }
 
-
-/* breadcrumb styles */
-.breadCrumb.module {
-    margin-left: 8px;
-    margin-right: 8px;
-}
-
-
-.breadcrumb_main li a {
-    background-color: transparent;
-    font-family: 'MontReg', Arial;
-    font-size: 1em;
-    color: #9cadb7 !important;
-    padding-left: 11px;
-}
-
-
-
-    .breadcrumb_main li a:hover, .breadcrumb_main li a:visited, .breadcrumb_main li a:focus {
-        background-color: rgb(39, 45, 63) !important;
-    }
-
-.exit-page .breadcrumb_main li:nth-child(2) a:hover, .exit-page .breadcrumb_main li:nth-child(2) a:visited, .exit-page .breadcrumb_main li:nth-child(2) a:focus, .breadcrumb_main li:nth-child(2) a {
-    background-color: transparent !important;
-    color: #fff !important;
-}
-
-.breadcrumb_main li a:after, .breadcrumb_main li a:before {
-    content: none;
-}
-
-/* NOTE: this enables background on all pages */
-.breadCrumbHolder.module {
-    /*background: #32394c;*/
-}
-
 .exit-page .breadcrumb-arrow {
     width: 6px;
     height: auto;
@@ -1152,9 +1126,16 @@ input {
 }
 
 
-.sbs .sbs-bgcolor
-{
-     background-color: #32394c;
+
+.sbs .sbs-bgcolor {
+    background-color: #32394c;
+    color: #fff;
+}
+
+/* TODO: change */
+.sbs .sbs-bgcolor-dk {
+    background-color: #2b3244;
+    color: #fff;
 }
 
 .sbs .sbs-color-accent {

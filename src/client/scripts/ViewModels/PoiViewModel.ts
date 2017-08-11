@@ -7,13 +7,55 @@
 
 "use strict";
 module StopByStop {
+
+    export interface IPoiPropertyViewModel {
+        id: string;
+        poiTypeString: string;
+        name: string;
+        values: string[];
+    }
+
+    export class PoiSimplePropertyViewModel implements IPoiPropertyViewModel {
+        constructor(id:string, poiTypeString:string, name: string, propertyValues: string[]) {
+            this.name = name;
+            this.values = propertyValues;
+            this.id = id;
+            this.poiTypeString = poiTypeString;
+        }
+
+        public id: string;
+        public poiTypeString: string;
+        public name: string;
+        public values: string[];
+    }
+
+    export class PoiMetadataPropertyViewModel implements IPoiPropertyViewModel {
+        constructor(poiTypeString: string, metadata: IPoiPropertyMetadata, propertyValues: number[]) {
+            this.id = metadata.id;
+            this.poiTypeString = poiTypeString;
+            this.metadata = metadata;
+            this.name = metadata.n;
+            this.values = propertyValues.map((value: number, index: number, array: number[]) => metadata.v[value].n);
+        }
+
+        public id: string;
+        public poiTypeString: string;
+        public metadata: IPoiPropertyMetadata;
+        public name: string;
+        public values: string[];
+    }
+
     export class PoiViewModel {
         private _obj: IPoi;
         private _reviewDataItem: IReviewGroup;
+        private _app: IAppViewModel;
+        private _poiOnJunction: PoiOnJunctionViewModel;
 
-        constructor(obj: IPoi) {
+        constructor(obj: IPoi, app: IAppViewModel, poiOnJunction: PoiOnJunctionViewModel = null) {
+            this._poiOnJunction = poiOnJunction;
+            this._poiOnJunction.poi = this;
             this._obj = obj;
-
+            this._app = app;
             this.id = this._obj.id;
             this.categories = this._obj.c.map((value, index, arr) => AppState.current.metadata.c[value]);
             this.poiType = this._obj.t;
@@ -30,8 +72,51 @@ module StopByStop {
             this.yStarClass = ko.observable("stars_0");
             this.yReviewCountString = ko.observable("");
             this.urlName = this._obj.un;
+            this.poiTypeString = PoiType[this.poiType].toLowerCase();
+
+            if (this._poiOnJunction) {
+                this.stop = this._app.routePlan.getOrCreateStop(this._poiOnJunction);
+            }
+
+            this.properties = [];
+            var metadata = AppState.current.metadata;
+
+            for (var p in this._obj.pp) {
+                if (this._obj.pp[p]) {
+                    var propertyMetadata = metadata.ppm[p];
+                    if (propertyMetadata) {
+                        var values = this._obj.pp[p];
+                        this.properties.push(new PoiMetadataPropertyViewModel(this.poiTypeString, propertyMetadata, values));
+                    }
+                }
+            }
         }
 
+        public addToRouteOptionsClick(): void {
+            if (this.stop) {
+                Telemetry.trackEvent(TelemetryEvent.POIPageAddToRouteClick, null, null, false);
+                this._app.routePlan.showStopSettings(this.stop);
+            }
+        }
+
+        public navigateNowClick(): void {
+            if (this.stop) {
+                Telemetry.trackEvent(TelemetryEvent.POIPageNavigateClick, null, null, false);
+                var getNavUrlPromise: JQueryPromise<string> = Utils.getNavigationUrlFromCurrentLocation(this.stop.poiOnJunction.poi.location);
+                getNavUrlPromise.done((navigationUrl: string) => {
+
+                    Telemetry.trackEvent(
+                        TelemetryEvent.POIPageNavigateBeforeDirect,
+                        [
+                            { k: TelemetryProperty.NavigationUrl, v: navigationUrl }
+                        ],
+                        null,
+                        true);
+
+                    Utils.windowOpen(navigationUrl);
+                });
+            }
+        }
 
         public updateYInfo(reviewDataItem: IReviewGroup): void {
             if (reviewDataItem) {
@@ -45,22 +130,25 @@ module StopByStop {
             }
         }
 
+        public stop: RouteStopViewModel;
+        public distanceFromJunctionText: string;
+        public poiTypeString: string;
         public urlName: string;
         public categories: IPoiCategory[];
         public id: string;
         public poiType: PoiType;
         public name: string;
+        public url: string;
         public description: KnockoutObservable<string>;
         public location: LocationViewModel;
         public visible: KnockoutObservable<boolean>;
         public telPhoneString: string;
         public isYInfoLoading: KnockoutObservable<boolean>;
         public isYInfoVisible: KnockoutObservable<boolean>;
-
         public yUrl: KnockoutObservable<string>;
         public yStarClass: KnockoutObservable<string>;
         public yReviewCountString: KnockoutObservable<string>;
-
+        public properties: IPoiPropertyViewModel[];
 
         private static getReviewsString(reviewCount: number): string {
             if (reviewCount === 0) {

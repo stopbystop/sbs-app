@@ -1,1 +1,104 @@
-﻿
+﻿<!-- poi page-->
+<div id="poi" data-role="page" class="jqm-demos poi-page" data-page-name="poi-page" data-telemetry-page-name="Poi">
+    {{>header renderFilterButton=false}}
+    <div role="main" class="ui-content jqm-content">
+        <div class="page-content-inner">
+            <div class="breadCrumbHolder module">
+                <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
+                    <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#home">
+                                <span itemprop="name">Home</span>
+                                <span><img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span>
+                            </a>
+                        </li>
+                        <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#route">
+                                <span class="middle-item" itemprop="name" data-bind="text:route.title"></span>
+                                <span><img class="breadcrumb-arrow" src="{{{getImage "arrow.png"}}}"></span>
+                            </a>
+                        </li>
+                        <li data-bind="if:selectedJunction" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="#exit">
+                                <span itemprop="name" data-bind="text:selectedJunction().routeJunction.junction.name"></span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="main_inner" data-bind="if:isRouteLoading">
+                    <div class="route-loading">
+                        <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                    </div>
+                </div>
+                <div data-bind="if:selectedPoi">
+                    <div class="main_inner" data-bind="with:selectedPoi()">
+                        <div class="poi-header sbs-bgcolor">
+                            <div style="float:left">
+                                <div data-bind="css:'poi-header-icon poi-header-type-icon poi-type-' + poiTypeString">
+                                </div>
+                            </div>
+                            <div class="poi-header-main">
+                                <div class="poi-header-name" data-bind="text:name"></div>
+                                <div class="poi-header-details" data-bind="with:stop">
+                                    <span data-bind="text:poiOnJunction.distanceFromJunctionTextFull"></span>
+                                    <br />
+                                    <span data-bind="text:etaToStopString"></span>
+                                </div>
+                            </div>
+                            <div class="poi-header-right">
+                                <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
+                            </div>
+                        </div>
+
+                        <div data-role="controlgroup" data-type="horizontal" style="height:50px;">
+                            <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-add-acc" data-role="button">Add to route</a>
+                            <a href="#" data-bind="click: navigateNowClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
+                        </div>
+
+
+                        <div class="poi-page-properties-table">
+                            <!-- categories-->
+                            <div style="display:table-row">
+                                <div style="display:table-cell;width:20%;">
+                                    <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
+                                </div>
+                                <div class="poi-page-cat-item-cell">
+                                    <div data-bind="foreach: categories" class="poi-page-cat-item-container">
+                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data.n"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ko foreach: properties -->
+                            <div style="display:table-row">
+                                <div style="display:table-cell;width:20%;">
+
+                                    <div data-bind="css:poiTypeString+'-p-' + id + '-icon-w poi-page-cat-icon'"></div>
+
+                                </div>
+                                <div class="poi-page-cat-item-cell">
+                                    <div data-bind="foreach: values" class="poi-page-cat-item-container">
+                                        <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+
+                        <!-- properties-->
+                    </div>
+                    <!-- /main_inner -->
+                </div>
+                <!-- /if selectedPoi -->
+            </div>
+            <!-- /breadCrumbHolder module -->
+        </div>
+        <!-- /page-content-inner -->
+    </div>
+    <!-- /main -->
+    {{>stopSettingsDialog addToRouteText='Add to <br/> route'}}
+    {{>navpanel}}
+    {{>footer}}
+</div>
+<!-- end of poi page -->

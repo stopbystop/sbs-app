@@ -4,6 +4,7 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <UseIISExpress>false</UseIISExpress>
     <NameOfLastUsedPublishProfile>stopbystop-production2</NameOfLastUsedPublishProfile>
+    <ToolsVersionPromptShown>2.3</ToolsVersionPromptShown>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
