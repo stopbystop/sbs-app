@@ -41,7 +41,7 @@ The project has two UI modes: MVC (classic navigation model) and SPA (single pag
 * ``npm run build``
 
 ## Building and running (in Docker container)
-* Build docker image: ``docker build -f ./src/web/web.dockerfile -t sbs-web.``
+* Build docker image: ``docker build -f ./src/web/web.dockerfile -t sbs-web .``
 * Start docker container: ``docker run --name sbs-web -p 5000:5000 -d sbs-web``
 * Test that it is working. TBD.
 
@@ -71,3 +71,8 @@ You can view the latest version of SPA UI for a given branch using rawgit.com. F
 
 ## Emulate device and location with Chrome developer tools
 ![img](http://i.imgur.com/7BHkQUD.png)
+
+## Generate keys using openssl
+* ``openssl req -new -x509 -newkey rsa:2048 -keyout localhost.key -out localhost.cer -days 365 -nodes -subj /CN=localhost``
+* ``openssl pkcs12 -export -out localhost.pfx -inkey localhost.key -in localhost.cer``
+

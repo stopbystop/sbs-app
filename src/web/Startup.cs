@@ -6,11 +6,12 @@
     using System;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Rewrite;
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
 
     public class Startup
     {
@@ -23,20 +24,25 @@
                 .AddEnvironmentVariables ();
 
             Configuration = builder.Build ();
-            Startup.SBSConfiguration = new SBSConfiguration();
-            Configuration.GetSection("SBS").Bind(Startup.SBSConfiguration);
+            Startup.SBSConfiguration = new SBSConfiguration ();
+            Configuration.GetSection ("SBS").Bind (Startup.SBSConfiguration);
         }
 
         public IConfigurationRoot Configuration { get; private set; }
-        public static SBSConfiguration SBSConfiguration{get;private set;}
+        public static SBSConfiguration SBSConfiguration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry(Configuration.GetSection("SBS")["AppInsightsIKey"]);
+            services.AddApplicationInsightsTelemetry (Startup.SBSConfiguration.AppInsightsIKey);
 
             // Add framework services.
             services.AddMvc ();
+
+            services.Configure<MvcOptions> (options =>
+            {
+                options.Filters.Add (new RequireHttpsAttribute ());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +77,9 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var rewriteOptions = new RewriteOptions().AddRedirectToHttps();
+            app.UseRewriter (rewriteOptions);
         }
     }
 }

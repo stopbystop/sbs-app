@@ -1,12 +1,18 @@
 FROM microsoft/dotnet:1.1-sdk
 
-WORKDIR /web
-COPY ./src/Yojowa.StopByStop.Web.csproj .
-RUN dotnet restore
+WORKDIR /sbs-app
+COPY ./web/Yojowa.StopByStop.Web.csproj web/
+COPY ./interfaces/Yojowa.StopByStop.Interfaces.csproj interfaces/
+COPY ./utils/Yojowa.StopByStop.Utils.csproj utils/
+RUN dotnet restore ./web/Yojowa.StopByStop.Web.csproj
 
-COPY ./src/ .
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+COPY ./web/ web/
+COPY ./utils/ utils/
+COPY ./interfaces/ interfaces/
+RUN dotnet restore ./web/Yojowa.StopByStop.Web.csproj
+RUN dotnet publish -c Release -o out ./web/Yojowa.StopByStop.Web.csproj
 
 EXPOSE 5000
-ENTRYPOINT ["dotnet", "out/Yojowa.StopByStop.Web.dll"]
+ENV ASPNETCORE_URLS http://*:5000
+WORKDIR web
+ENTRYPOINT ["dotnet", "run", "./web/Yojowa.StopByStop.Web.csproj"]
