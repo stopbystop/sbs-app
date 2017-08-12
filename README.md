@@ -37,14 +37,13 @@ Never submit to master branch directly. Propose your changes in one of two ways
 ## MVC and SPA UI
 The project has two UI modes: MVC (classic navigation model) and SPA (single page app mode). MVC is what is running in production. SPA is currently under development, the entry point is src/cordova/www/index.html.
 
-## Building and running
-You can build Typescript files with npm and you can also build the whole solution with Visual Studio 2015.
+## Building and running (with dotnet installed)
+* ``npm run build``
 
-### Building SPA app with npm
-To build run the following from repo root:
-* `npm install`
-* `npm run build-cordova`
-* If you made changes to CSS and images you need to run this to copy bundled CSS to destination: `src\copybundles.cmd` from root
+## Building and running (in Docker container)
+* Build docker image: ``docker build -f ./src/web/web.dockerfile -t sbs-web.``
+* Start docker container: ``docker run --name sbs-web -p 5000:5000 -d sbs-web``
+* Test that it is working. TBD.
 
 ### Running SPA app locally
 To run you can use http-server. It is already installed into dev dependencies after you run `npm install`:
