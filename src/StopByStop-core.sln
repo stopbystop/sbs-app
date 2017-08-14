@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.Web", "web\Yojowa.StopByStop.Web.csproj", "{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yojowa.StopByStop.NpgsqlOM", "npgsqlom\Yojowa.StopByStop.NpgsqlOM.csproj", "{1876DAF8-4176-4691-AAED-F118ADF69C3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,18 @@ Global
 		{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}.Release|x64.Build.0 = Release|x64
 		{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}.Release|x86.ActiveCfg = Release|x86
 		{B964A84A-5E4B-4B37-AB93-90D19ACC2C32}.Release|x86.Build.0 = Release|x86
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|x64.ActiveCfg = Debug|x64
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|x64.Build.0 = Debug|x64
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|x86.ActiveCfg = Debug|x86
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Debug|x86.Build.0 = Debug|x86
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|x64.ActiveCfg = Release|x64
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|x64.Build.0 = Release|x64
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|x86.ActiveCfg = Release|x86
+		{1876DAF8-4176-4691-AAED-F118ADF69C3D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4EB0B8EC-FF0C-4DBD-897E-1A30D051D60D} = {8C490A59-44D4-46BE-8BB9-7086E3B1459B}

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Company>Yojowa, LLC</Company>
+    <Description>StopByStop Npgsql OM project</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3"/>
+    <PackageReference Include="Npgsql" Version="3.2.5"/>
+    <ProjectReference Include="..\interfaces\Yojowa.StopByStop.Interfaces.csproj" />
+    <ProjectReference Include="..\utils\Yojowa.StopByStop.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

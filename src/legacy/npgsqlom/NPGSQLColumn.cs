@@ -4,7 +4,7 @@
 // <author>Alex Bulankou</author>
 // <date>02/01/2017</date>
 
-namespace Yojowa.StopByStop
+namespace Yojowa.StopByStop.Store
 {
     using System;
     using Utils;
