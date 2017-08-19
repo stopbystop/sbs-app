@@ -14,11 +14,11 @@
             var host = new WebHostBuilder ()
                 .UseKestrel (options =>
                 {
-                    options.UseHttps ("localhost.pfx", "");
+                    //options.UseHttps ("localhost.pfx", "");
                 })
                 .UseContentRoot (Directory.GetCurrentDirectory ())
                 .UseIISIntegration ()
-                .UseUrls("https://*:4430")
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup> ()
 
                 .Build ();

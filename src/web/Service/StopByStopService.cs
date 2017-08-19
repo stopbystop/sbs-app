@@ -54,42 +54,22 @@
         private static IRouteService CreateRouteServiceInstance ()
         {
             IRouteService service = null;
-            /* 
-            if (!RouteUtils.ProxyService)
-            {
-                var serviceAssembly = Assembly.Load("Yojowa.StopByStop.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-                var serviceType = serviceAssembly.GetType("Yojowa.StopByStop.Service.StopByStopService");
-                service = (IRouteService)Activator.CreateInstance(serviceType);
-            }
-            else
-            {
-            */
-            service = new RouteServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
-            /* 
-            }
-            */
-
+            #if PROXY_SERVICE
+                service = new RouteServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
+            #else
+                service = new Yojowa.StopByStop.Service.StopByStopService();
+            #endif
             return service;
         }
 
         private static IPlacesService CreatePlacesServiceInstance ()
         {
             IPlacesService service = null;
-            /* 
-            if (WebConfigurationManager.AppSettings["proxyservice"] == "false")
-            {
-                var serviceAssembly = Assembly.Load ("Yojowa.StopByStop.Places, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-                var serviceType = serviceAssembly.GetType ("Yojowa.StopByStop.Places.PlacesService");
-                service = (IPlacesService) Activator.CreateInstance (serviceType);
-            }
-            else
-            {
-                */
-            service = new PlacesServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
-            /* 
-        }
-        */
-
+            #if PROXY_SERVICE
+                service = new PlacesServiceProxy (Startup.SBSConfiguration.BEServiceUrl);
+            #else
+                service = new Yojowa.StopByStop.Places.PlacesService();
+            #endif
             return service;
         }
     }

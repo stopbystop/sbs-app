@@ -37,18 +37,17 @@ namespace Yojowa.StopByStop.Utils
         /// <param name="url">The URL.</param>
         /// <param name="onFail">The on fail action.</param>
         /// <returns>String loaded from this ur</returns>
-        public static string StringFromUrl (string url, Action<HttpStatusCode, string> onFail = null, string token = null)
+        public static string StringFromUrl (string url, Action<HttpStatusCode, string> onFail = null, string token = null, int retryCount = 5)
         {
             int attemptsMade = 0;
             string htmlData = null;
             FunctionRunningUtils.RunWithRetries<object> (
-                5,
+                retryCount,
                 (int attemptIndex) =>
                 {
                     try
                     {
-                        var task = httpClient.GetStringAsync (url);
-                        var request = new HttpRequestMessage (HttpMethod.Get, "url");
+                        var request = new HttpRequestMessage (HttpMethod.Get, url);
                         if (!string.IsNullOrEmpty (token))
                         {
                             request.Headers.Authorization = new AuthenticationHeaderValue ("Bearer", token);

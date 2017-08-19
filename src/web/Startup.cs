@@ -41,7 +41,7 @@
 
             services.Configure<MvcOptions> (options =>
             {
-                options.Filters.Add (new RequireHttpsAttribute ());
+                //options.Filters.Add (new RequireHttpsAttribute ());
             });
         }
 
@@ -78,8 +78,10 @@
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            /*
             var rewriteOptions = new RewriteOptions().AddRedirectToHttps();
             app.UseRewriter (rewriteOptions);
+            */
         }
     }
 }

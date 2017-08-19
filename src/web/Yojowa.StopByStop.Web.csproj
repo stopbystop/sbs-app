@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Company>Yojowa, LLC</Company>
     <Description>StopByStop Web project</Description>
+    <ProxyService>True</ProxyService>
+    <ProxyServiceProjectPath>../../../sbs-vso/src</ProxyServiceProjectPath>
+      <DefineConstants Condition="'$(ProxyService)'=='True'">PROXY_SERVICE</DefineConstants>
   </PropertyGroup>
 
 
@@ -22,6 +25,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="1.0.2"/>
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2"/>
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="1.1.2"/>
+   
+  </ItemGroup>
+  <ItemGroup Condition="'$(ProxyService)'=='False'">
+    <ProjectReference Include="$(ProxyServiceProjectPath)/service/Yojowa.StopByStop.Service.csproj"/>
+    <ProjectReference Include="$(ProxyServiceProjectPath)/places/Yojowa.StopByStop.Places.csproj"/>
   </ItemGroup>
 
 
