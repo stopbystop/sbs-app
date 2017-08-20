@@ -4,7 +4,26 @@
 	"version": "0.1.0",
 	"command": "npm",
 	"isShellCommand": true,
-	"args": ["run", "build"],
+	"args": [
+		"run",
+		"build"
+	],
 	"showOutput": "silent",
-	"problemMatcher": "$tsc"
+	"problemMatcher": "$tsc",
+	"tasks": [
+		{
+			"taskName": "Build web",
+			"type": "shell",
+			"command": "/usr/local/share/dotnet/dotnet",
+			"args": [
+				"build",
+				"${workspaceRoot}/src/web/Yojowa.StopByStop.Web.csproj"
+			],
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		}
+	]
 }

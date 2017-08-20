@@ -12,6 +12,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Yojowa.StopByStop.Utils;
 
     public class Startup
     {
@@ -26,6 +27,7 @@
             Configuration = builder.Build ();
             Startup.SBSConfiguration = new SBSConfiguration ();
             Configuration.GetSection ("SBS").Bind (Startup.SBSConfiguration);
+            FlightManager.Initialize();
         }
 
         public IConfigurationRoot Configuration { get; private set; }

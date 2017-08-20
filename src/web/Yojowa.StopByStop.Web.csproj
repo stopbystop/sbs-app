@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Company>Yojowa, LLC</Company>
     <Description>StopByStop Web project</Description>
-    <ProxyService>True</ProxyService>
+    <ProxyService>False</ProxyService>
     <ProxyServiceProjectPath>../../../sbs-vso/src</ProxyServiceProjectPath>
       <DefineConstants Condition="'$(ProxyService)'=='True'">PROXY_SERVICE</DefineConstants>
   </PropertyGroup>
@@ -28,9 +28,15 @@
    
   </ItemGroup>
   <ItemGroup Condition="'$(ProxyService)'=='False'">
-    <ProjectReference Include="$(ProxyServiceProjectPath)/service/Yojowa.StopByStop.Service.csproj"/>
+    <ProjectReference Include="$(ProxyServiceProjectPath)/service/Yojowa.StopByStop.Service.csproj" />
     <ProjectReference Include="$(ProxyServiceProjectPath)/places/Yojowa.StopByStop.Places.csproj"/>
   </ItemGroup>
 
-
+<!--
+<Target Name="CopyServiceFiles" AfterTargets="Build">
+    <Message Importance="High" Text="$(ProxyServiceProjectPath)/service/bin/$(Configuration)/$(TargetFramework)/Yojowa.StopByStop.Service.dll" />
+     <Message Importance="High" Text="$(OutputPath)" />
+   <Copy SourceFiles="$(ProxyServiceProjectPath)/service/bin/$(Configuration)/$(TargetFramework)/Yojowa.StopByStop.Service.dll" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
+</Target>
+-->
 </Project>
