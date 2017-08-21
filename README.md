@@ -41,9 +41,9 @@ The project has two UI modes: MVC (classic navigation model) and SPA (single pag
 * ``npm run build``
 
 ## Building and running (in Docker container)
-* Build docker image: ``docker build -f ./src/web/web.dockerfile -t sbs-web .``
-* Start docker container: ``docker run --name sbs-web -p 5000:5000 -d sbs-web``
-* Test that it is working. TBD.
+* Build docker image: ``docker build -f ./sbs-gh/web.dockerfile -t bulankou/scratch:sbs-web .``
+* Upload to repo ``docker push bulankou/scratch:sbs-web``
+* Start docker container: ``docker run --name sbs-web -p 5000:5000 -d bulankou/scratch:sbs-web``
 
 ### Running SPA app locally
 To run you can use http-server. It is already installed into dev dependencies after you run `npm install`:

@@ -30,7 +30,7 @@ namespace Yojowa.StopByStop.Web.Controllers
             pingData.ProxyService = true;
 #else
             pingData.ProxyService = false;
-            pingData.DBKey = Yojowa.StopByStop.Service.StopByStopService.DBConnection.Key;
+            pingData.DBKey = Yojowa.StopByStop.Service.StopByStopService.ConnectionId;
             pingData.RouteCacheEnabled = Yojowa.StopByStop.Service.StopByStopService.EnableRouteCache;
 #endif   
             return Json (pingData);

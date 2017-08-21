@@ -36,7 +36,13 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry (Startup.SBSConfiguration.AppInsightsIKey);
+            string ikey = Environment.GetEnvironmentVariable("APPINSIGHTS_IKEY");
+            if (string.IsNullOrEmpty(ikey))
+            {
+                ikey = Startup.SBSConfiguration.AppInsightsIKey;
+            }
+            
+            services.AddApplicationInsightsTelemetry (ikey);
 
             // Add framework services.
             services.AddMvc ();
