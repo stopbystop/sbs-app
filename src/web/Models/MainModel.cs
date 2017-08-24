@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Text;
     using System;
@@ -22,9 +23,13 @@
 
     public class MainModel
     {
+       
+
         public MainModel (Metadata metadata, HttpContext context)
         {
-            this.BaseDataUrl = WebUtils.GetHostName(context);
+            this.BaseDataUrl = string.IsNullOrEmpty (Startup.SBSConfiguration.BaseDataUrl) ?
+                WebUtils.GetHostName (context) :
+                Startup.SBSConfiguration.BaseDataUrl;
             /*
             :
             HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");

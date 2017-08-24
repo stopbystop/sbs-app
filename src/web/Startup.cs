@@ -7,12 +7,14 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.AspNetCore.Rewrite;
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Yojowa.StopByStop.Utils;
+
 
     public class Startup
     {
@@ -27,7 +29,13 @@
             Configuration = builder.Build ();
             Startup.SBSConfiguration = new SBSConfiguration ();
             Configuration.GetSection ("SBS").Bind (Startup.SBSConfiguration);
-            FlightManager.Initialize();
+            string baseDataUrlFromEnv = Environment.GetEnvironmentVariable ("BASE_DATA_URL");
+            if (!string.IsNullOrEmpty (baseDataUrlFromEnv))
+            {
+                Startup.SBSConfiguration.BaseDataUrl = baseDataUrlFromEnv;
+            }
+
+            FlightManager.Initialize ();
         }
 
         public IConfigurationRoot Configuration { get; private set; }
@@ -36,16 +44,18 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services)
         {
-            string ikey = Environment.GetEnvironmentVariable("APPINSIGHTS_IKEY");
-            if (string.IsNullOrEmpty(ikey))
+            string ikey = Environment.GetEnvironmentVariable ("APPINSIGHTS_IKEY");
+            if (string.IsNullOrEmpty (ikey))
             {
                 ikey = Startup.SBSConfiguration.AppInsightsIKey;
             }
-            
+
             services.AddApplicationInsightsTelemetry (ikey);
 
             // Add framework services.
             services.AddMvc ();
+            services.Configure<GzipCompressionProviderOptions> (options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression ();
 
             services.Configure<MvcOptions> (options =>
             {
@@ -77,6 +87,7 @@
             ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".less", "text/css"));
             ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".webmanifest", "application/manifest+json"));
 
+            app.UseResponseCompression ();
             app.UseStaticFiles (options);
 
             app.UseMvc (routes =>
@@ -87,7 +98,7 @@
             });
 
             /*
-            var rewriteOptions = new RewriteOptions().AddRedirectToHttps();
+            var rewriteOptions = new RewriteOptions ().AddRedirectToHttps ();
             app.UseRewriter (rewriteOptions);
             */
         }

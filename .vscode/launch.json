@@ -5,7 +5,7 @@
             "name": "Launch web",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Build web",
+            "preLaunchTask": "Build web release",
             "program": "${workspaceRoot}/src/web/bin/Debug/netcoreapp1.1/Yojowa.StopByStop.Web.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src/web",

@@ -21,9 +21,14 @@
     <meta name="apple-itunes-app" content="app-id=1088291321" />
     <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css" />
 
-
-    <!-- TODO: change to min.css-->
+@if(RenderHelper.IsDebug())
+{
     <link rel="stylesheet" type="text/css" href='@RenderHelper.GetCDNUrl("/sbsbundle.css")'/>
+}
+else
+{
+     <link rel="stylesheet" type="text/css" href='@RenderHelper.GetCDNUrl("/sbsbundle.css.min.css")'/>
+}
 
     <script type="text/javascript">
         var getQueryString = function (field, url) {
@@ -72,9 +77,18 @@
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 
-
+@if(RenderHelper.IsDebug())
+{
     <script src='@RenderHelper.GetCDNUrl("/js/sbsbundle.js")'></script>
     <script src='@RenderHelper.GetCDNUrl("/js/webbundle.js")'></script>
+}
+else
+{
+    <script src='@RenderHelper.GetCDNUrl("/js/sbsbundle.js.min.js")'></script>
+    <script src='@RenderHelper.GetCDNUrl("/js/webbundle.js.min.js")'></script>
+}
+
+
 
     @if (Startup.SBSConfiguration.IsProduction)
     {

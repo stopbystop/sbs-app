@@ -41,7 +41,7 @@ The project has two UI modes: MVC (classic navigation model) and SPA (single pag
 * ``npm run build``
 
 ## Building and running (in Docker container)
-* Build docker image: ``docker build -f ./sbs-gh/web.dockerfile -t bulankou/scratch:sbs-web .``
+* Build docker image (from ..): ``docker build -f ./sbs-gh/web.dockerfile -t bulankou/scratch:sbs-web .``
 * Upload to repo ``docker push bulankou/scratch:sbs-web``
 * Start docker container: ``docker run --name sbs-web -p 5000:5000 -d bulankou/scratch:sbs-web``
 

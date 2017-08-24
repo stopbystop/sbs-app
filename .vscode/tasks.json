@@ -24,6 +24,22 @@
 				"reveal": "always",
 				"panel": "new"
 			}
+		},
+		{
+			"taskName": "Build web release",
+			"type": "shell",
+			"command": "/usr/local/share/dotnet/dotnet",
+			"args": [
+				"build",
+				"${workspaceRoot}/src/web/Yojowa.StopByStop.Web.csproj",
+				"-c",
+				"Release"
+			],
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }

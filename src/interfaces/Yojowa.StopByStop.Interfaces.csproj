@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Import Project="../build/Yojowa.StopByStop.Common.proj" />
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Company>Yojowa, LLC</Company>

@@ -18,5 +18,7 @@ namespace Yojowa.StopByStop.Web
 #endif
         public string AppInsightsIKey { get; set; }
         public bool IsProduction { get; set; }
+
+        public string BaseDataUrl { get; set; }
     }
 }

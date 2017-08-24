@@ -1,32 +1,46 @@
 ﻿namespace Yojowa.StopByStop.Web
 {
-    using Newtonsoft.Json;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
+    using System;
+    using Newtonsoft.Json;
 
-    public static  class RenderHelper
+    public static class RenderHelper
     {
-        public static string GetCDNUrl(string relativeUrl)
+
+        private static readonly string CacheBusterString =
+            typeof (RenderHelper).GetTypeInfo ().Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion.Replace (".", "-");
+
+        public static bool IsDebug ()
         {
-            if (string.IsNullOrEmpty(relativeUrl) || relativeUrl[0] !='/')
+#if DEBUG
+            return true;
+#else
+            return false;
+#endif
+        }
+
+        public static string GetCDNUrl (string relativeUrl)
+        {
+            if (string.IsNullOrEmpty (relativeUrl) || relativeUrl[0] != '/')
             {
-                throw new ArgumentException("relativeUrl is expected to start with '/'");
+                throw new ArgumentException ("relativeUrl is expected to start with '/'");
             }
 
-            return GetCDNRoot() + relativeUrl;
+            return GetCDNRoot () + relativeUrl + string.Format ("?cb={0}", CacheBusterString);
         }
 
-        public static string GetCDNRoot()
+        public static string GetCDNRoot ()
         {
             string cdnRoot = Startup.SBSConfiguration.CDNRoot;
-            return cdnRoot.TrimEnd('/');
+            return cdnRoot.TrimEnd ('/');
         }
 
-        public static string GetYelpStarClassName(double rating)
+        public static string GetYelpStarClassName (double rating)
         {
             string starClassName = null;
-            switch (rating.ToString())
+            switch (rating.ToString ())
             {
                 case "5":
                     starClassName = "stars_5";
@@ -63,14 +77,12 @@
             return starClassName;
         }
 
-        public static string ToJSON(object model)
+        public static string ToJSON (object model)
         {
-            return JsonConvert.SerializeObject(model, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+            return JsonConvert.SerializeObject (model, new JsonSerializerSettings () { NullValueHandling = NullValueHandling.Ignore });
             //return serializer.Serialize(model);
         }
 
-       
     }
 
-    
 }

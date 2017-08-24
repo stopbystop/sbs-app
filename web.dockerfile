@@ -7,5 +7,5 @@ RUN dotnet publish -c Release -o out ./sbs-gh/src/web/Yojowa.StopByStop.Web.cspr
 
 EXPOSE 5000
 ENV ASPNETCORE_URLS http://*:5000
-WORKDIR web
-ENTRYPOINT ["dotnet", "run", "./sbs-gh/src/web/Yojowa.StopByStop.Web.csproj"]
+WORKDIR ./sbs-gh/src/web
+ENTRYPOINT ["dotnet", "run"]
