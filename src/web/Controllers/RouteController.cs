@@ -109,7 +109,7 @@
                 }
             }
 
-            return View("~/client/Views/Main.cshtml", new MainModel(metadata, this.HttpContext)
+            return View("~/Views/Main.cshtml", new MainModel(metadata, this.HttpContext)
             {
                 Page = ClientPage.Exit,
                 RouteId = id,
@@ -136,7 +136,7 @@
 
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", 
+                return View("~/Views/Main.cshtml", 
                 new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.HttpContext)
                 {
                     Page = ClientPage.Route,
@@ -154,7 +154,7 @@
             StopByStop.Route route = GetRouteFromRoutePathId(id, false);
             if (route != null)
             {
-                return View("~/client/Views/Main.cshtml", 
+                return View("~/Views/Main.cshtml", 
                 new MainModel(StopByStopService.RouteServiceInstance.GetMetadata(), this.HttpContext)
                 {
                     Page = ClientPage.Route,

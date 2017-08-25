@@ -15,7 +15,6 @@
     using Microsoft.Extensions.Logging;
     using Yojowa.StopByStop.Utils;
 
-
     public class Startup
     {
         public Startup (IHostingEnvironment env)
@@ -60,6 +59,15 @@
 
             // Add framework services.
             services.AddMvc ();
+            services.AddCors (options =>
+            {
+                options.AddPolicy ("CorsPolicy",
+                    builder => builder.AllowAnyOrigin ()
+                    .
+                    .AllowAnyMethod ()
+                    .AllowAnyHeader ()
+                    .AllowCredentials ());
+            });
             services.Configure<GzipCompressionProviderOptions> (options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.AddResponseCompression ();
 
@@ -94,6 +102,7 @@
             ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".webmanifest", "application/manifest+json"));
 
             app.UseResponseCompression ();
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles (options);
 
             app.UseMvc (routes =>
