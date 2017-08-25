@@ -35,7 +35,7 @@
             HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + urlHelper.Content("~/");
             */
             this.BasePortalUrl = context.Request.PathBase.Value;
-            this.BaseImageUrl = RenderHelper.GetCDNUrl ("/icons/");
+            this.BaseImageUrl = RenderHelper.GetCDNRoot() + "/icons/";
             this.Metadata = metadata;
         }
 

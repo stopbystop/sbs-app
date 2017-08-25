@@ -530,7 +530,7 @@ var StopByStop;
             this.RouteDataUrlV2 = baseUrl + "routedatav2/";
             this.PoiDataUrlV2 = baseUrl + "poiv2/";
             this.PlacesNearbyDataUrlV2 = baseUrl + "placesnearbyv2/";
-            this.CityImagesUrl = "https://az804061.vo.msecnd.net/client/content/city_images/";
+            this.CityImagesUrl = baseImageUrl + "city_images/";
         }
         return InitUrls;
     }());

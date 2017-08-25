@@ -35,6 +35,12 @@
                 Startup.SBSConfiguration.BaseDataUrl = baseDataUrlFromEnv;
             }
 
+            string cdnRootFromEnv = Environment.GetEnvironmentVariable ("CDN_ROOT");
+            if (!string.IsNullOrEmpty (cdnRootFromEnv))
+            {
+                Startup.SBSConfiguration.CDNRoot = cdnRootFromEnv;
+            }
+
             FlightManager.Initialize ();
         }
 

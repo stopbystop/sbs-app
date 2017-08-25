@@ -5,7 +5,7 @@
             "name": "Launch web",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Build web release",
+            "preLaunchTask": "Build web",
             "program": "${workspaceRoot}/src/web/bin/Debug/netcoreapp1.1/Yojowa.StopByStop.Web.dll",
             "args": [],
             "cwd": "${workspaceRoot}/src/web",
@@ -26,6 +26,36 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
+            }
+        },
+         {
+            "name": "Launch web release",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build web release",
+            "program": "${workspaceRoot}/src/web/bin/Debug/netcoreapp1.1/Yojowa.StopByStop.Web.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/web",
+            "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceRoot}/Views"
