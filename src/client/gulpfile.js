@@ -22,12 +22,28 @@ gulp.task('clean:web', function () {
     return del('../web/wwwroot/**/*', { force: true });
 });
 
+
 gulp.task('copy:web', ['clean:web'], function () {
     var copyJs = gulp.src(['./outscripts/webbundle.js', './outscripts/sbsbundle.js','./outscripts/sbsbundle.js.min.js','./outscripts/webbundle.js.min.js']).pipe(gulp.dest('../web/wwwroot/js/'));
     var copyManifest = gulp.src(['./content/manifest.webmanifest', '*.css']).pipe(gulp.dest('../web/wwwroot/'));
     var copyCss = gulp.src(['./content/sbsbundle.css', './content/sbsbundle.css.min.css']).pipe(gulp.dest('../web/wwwroot/'));
     var copyImages = gulp.src(['./content/v1/**/*']).pipe(gulp.dest('../web/wwwroot/'));
     var copyFonts = gulp.src(['./content/fonts/**/*']).pipe(gulp.dest('../web/wwwroot/fonts/'));
+
+    return merge(copyJs, copyManifest, copyCss, copyImages, copyFonts);
+});
+
+
+
+//TODO:
+gulp.task('copy:cordova', function () {
+    var copyJs = gulp.src(['./outscripts/sbsbundle.js','./outscripts/sbsbundle.js.min.js']).pipe(gulp.dest('../cordova/www/scripts/'));
+    var copyManifest = gulp.src(['./content/manifest.webmanifest']).pipe(gulp.dest('../cordova/www/images/'));
+    //TODO
+    //var copyCss = gulp.src(['./content/sbsbundle.css', './content/sbsbundle.css.min.css']).pipe(gulp.dest('../web/wwwroot/'));
+    //var copyImages = gulp.src(['./content/v1/**/*']).pipe(gulp.dest('../web/wwwroot/'));
+    //var copyFonts = gulp.src(['./content/fonts/**/*']).pipe(gulp.dest('../web/wwwroot/fonts/'));
+   
 
     return merge(copyJs, copyManifest, copyCss, copyImages, copyFonts);
 });
