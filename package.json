@@ -4,6 +4,7 @@
   "description": "Client-side logic for sbs app",
   "main": "index.js",
   "dependencies": {
+    "cordova": "^7.0.1",
     "http-server": "^0.9.0"
   },
   "devDependencies": {

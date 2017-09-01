@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html class="sbs-cdb">
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta http-equiv="Content-Security-Policy" />
+    
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content='images/ms-icon-144x144.png'>
+    <meta name="theme-color" content="#ffffff">
+    
+    <meta property="og:url" content="https://www.stopbystop.com" />
+    <meta property="og:title" content="Stop by Stop" />
+    <meta property="og:description" content="See best places to stop on the way to your destination" />
+    
+    <meta property="og:site_name" content="Stop by Stop" />
+    <meta property="og:image" content="https://www.stopbystop.com/client/content/images/app_image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="fb:app_id" content="1385725698401226" />
+    
+    
+    
+    <link rel="apple-touch-icon" sizes="57x57" href='images/apple-icon-57x57.png'>
+    <link rel="apple-touch-icon" sizes="60x60" href='images/apple-icon-60x60.png'>
+    <link rel="apple-touch-icon" sizes="72x72" href='images/apple-icon-72x72.png'>
+    <link rel="apple-touch-icon" sizes="76x76" href='images/apple-icon-76x76.png'>
+    <link rel="apple-touch-icon" sizes="114x114" href='images/apple-icon-114x114.png'>
+    <link rel="apple-touch-icon" sizes="120x120" href='images/apple-icon-120x120.png'>
+    <link rel="apple-touch-icon" sizes="144x144" href='images/apple-icon-144x144.png'>
+    <link rel="apple-touch-icon" sizes="152x152" href='images/apple-icon-152x152.png'>
+    <link rel="apple-touch-icon" sizes="180x180" href='images/apple-icon-180x180.png'>
+    <link rel="icon" type="image/png" sizes="192x192" href='images/android-icon-192x192.png'>
+    <link rel="icon" type="image/png" sizes="32x32" href='images/favicon-32x32.png'>
+    <link rel="icon" type="image/png" sizes="96x96" href='images/favicon-96x96.png'>
+    <link rel="icon" type="image/png" sizes="16x16" href='images/favicon-16x16.png'>
+    
+    
+
+    <link href="css/jquery.mobile-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.icons-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.inline-png-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.inline-svg-1.4.5.min.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet" />
+    <!-- TODO: change to min.css-->
+    <link href="css/sbsbundle.css" rel="stylesheet" />
+    <script src="scripts/jquery.1.11.3.min.js"></script>
+    <script src="scripts/knockout.3.4.0.min.js"></script>
+    <script src="cordova.js"></script>
+
+    <script src="scripts/fastclick.min.js"></script>
+
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery.mobile-1.4.5.min.js"></script>
+    <script src="scripts/ai_1.0.2_min.js"></script>
+    <script src="scripts/fb_min.js"></script>
+    <script src="scripts/sbsbundle.js"></script>
+    <script src="scripts/appBundle.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Gh8xWgcXKlrJs8gT_h8PJO-cIB49ovk" async defer></script>
+
+    <title>See best places to stop on the way to your destination - Stop by Stop</title>
+</head>
+<body class="sbs">
+    <div id="sbsRoot">
+         <!-- home page-->
+        <div data-role="page" class="jqm-demos jqm-home sbs-homePG" id="home" data-page-name="sbs-homePG" data-telemetry-page-name="Home">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                </div>
+            </div>    <div role="main" class="ui-content jqm-content">
+                <div id="home_content">
+                    <div class="main_inner">
+                        <p class="main_title">With you <span style="font-weight:300"> every stop</span> of the way!</p>
+                        <h1 class="sub_title">Are you traveling by car in the US and looking for best places to stop for food or gas?</h1>
+                    </div>
+                    <div class="page-content">
+                        <div class="main_inner">
+                            <p class="form_title">Start by typing <span style="font-weight:300"> the city name</span> or pick location nearby</p>
+                            <form class="ui-filterable">
+                                <div class="input-wrapper">
+                                    <label for="from" class="ui-hidden-accessible">Where are you coming from?</label>
+                                    <input type="search" id="from" value="" placeholder="Current Location" autocomplete="off" />
+                                    <ul id="from_autocomplete" data-defaults="true" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
+                                </div><!-- /demo-html -->
+                                <div class="input-wrapper">
+                                    <label for="to" class="ui-hidden-accessible">Where are you going?</label>
+                                    <input type="search" id="to" value="" placeholder="Where are you going?" autocomplete="off" />
+                                    <ul id="to_autocomplete" class="autocomplete" data-role="listview" data-inset="true" style="display:none;"></ul>
+                                </div><!-- /demo-html -->
+                                <!-- The images get populated below once the user clicks on  the "to" text field-->
+                                <div id="Images">
+                                </div>
+                                <div class="input-wrapper">
+                                    <input type="button" class="buttonWrap button button-green contactSubmitButton view-trip ui-disabled"
+                                           id="view_trip" data-role="none" value="View my trip" />
+                                </div>
+                            </form>
+        
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /content -->
+            <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>    <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div></div>
+        <!-- end of home page-->        <!-- route page-->
+        <div id="route" data-role="page" class="jqm-demos route-page" data-page-name="route-page" data-telemetry-page-name="Route">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                    <div class="filters-container">
+                        <div class="filters-trigger-line1"></div>
+                        <div class="filters-trigger-line2"></div>
+                        <div class="filters-trigger"></div>
+                    </div>    </div>
+            </div>    <div role="main" class="ui-content jqm-content">
+                <div class="page-content-inner">
+                    <div class="breadCrumbHolder module">
+                        <div class="breadCrumb module" style="position:relative">
+                            <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                                <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#home"><span itemprop="name">Home</span></a>
+                                </li>
+                            </ul>
+        
+                        </div>
+                        <div class="main_inner" data-bind="if:isRouteLoading">
+                            <div class="route-loading">
+                                <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                            </div>
+                        </div>
+                        <div class="main_inner" data-bind="if:route">
+                            <div class="route-summary">
+                                <h2 class="description_title" data-bind="text:route.title"></h2>
+                                <div class="route-summary-table">
+                                    <div class="route-description2" style="display:table-row">
+                                        <div class="route-summary-cell">
+                                            <span class="route-description-metric-label">Distance</span>
+                                        </div>
+                                        <div class="route-summary-cell">
+                                            <span class="route-description-metric">
+                                                <span data-bind="text: route.distance"></span>
+                                                <span>mi</span>
+                                            </span>
+                                        </div>
+                                        <div class="route-summary-cell">
+                                            <span class="route-description-metric-label">Total Time</span>
+                                        </div>
+        
+                                        <div class="route-summary-cell">
+                                            <span class="route-description-metric">
+                                                <span data-bind="if:(route.tripTimeHours() > 0)">
+                                                    <span data-bind="text: route.tripTimeHours"></span>
+                                                    <span>hr</span>
+                                                </span>
+                                                <span data-bind="text: route.tripTimeMinutes"></span>
+                                                <span>min</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ko with: filter -->
+                               <div>
+                                 <div class="route-summary-table">
+                                   <div class="route-description2" style="display:table-row">
+                                     <!-- ko foreach: typeFiltersList -->
+                                     <div class="route-summary-cell">
+                                       <div style="margin:0 auto;display:table">
+                                           <div style="display:table">
+                                               <div style="display:table-row">
+                                                   <div style="display:table-cell;vertical-align:middle;">
+                                       
+                                                       <span data-bind="css:'poi-type-accent-' + StopByStop.PoiType[type]+' poi-count-table-icon'"></span>
+                                       
+                                                   </div>
+                                                   <div style="display:table-cell">
+                                                       <div style="display:table-row;font-size:1.5em">
+                                                           <div class="sbs-color-accent" style="display:table-cell;font-weight:normal; text-align:center;">
+                                                               <span data-bind="text:filteredCount"></span>
+                                                           </div>
+                                                       </div>
+                                                       <div style="display:table-row;font-size:0.5em">
+                                                           <div style="display:table-cell;text-align:center;">in range</div>
+                                                       </div>
+                                                       <div style="display:table-row;font-size:1.5em;">
+                                                           <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;">
+                                                               <span data-bind="text:filteredCountWithFeatures"></span>
+                                                           </div>
+                                                       </div>
+                                                       <div style="display:table-row;font-size:0.5em">
+                                                           <div style="display:table-cell;text-align:center;">match</div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                     </div>
+                                     <!-- /ko -->
+                                   </div>
+                                 </div>
+                               
+                                 <div class="route-description2 miles">
+                                   <span class="route-description-metric-label">within</span>
+                                   <span class="route-description-metric" data-bind="text: maxDistanceFromJunction"></span>
+                                   <span class="route-description-metric-label">mile(s) from exit</span>
+                                 </div>
+                               </div>
+                                <!-- /ko -->
+                            </div>
+                            <p></p>
+                            <!-- route -->
+                            <div class="ui-filterable route-wrapper">
+                                <div class="route" data-bind="element:route.boundElement">
+                                    <div class="route_line" data-bind="foreach: route.routeSegments">
+                                        <div class="segment" data-bind="style: {height: height, lineHeight:height}">
+        
+                                            <div class="segment-name">
+                                                <span class="direction-icon exit"></span>
+                                                <span class="segment-instructions">
+                                                    <span data-bind="html: instructions, attr: {title: instructionsTip}"></span>
+                                                </span>
+        
+                                                <span class="highway-name">
+                                                    <span data-bind="text: highwayNameText, attr: {title:highwayNameText}"></span>
+                                                </span>
+                                                <div class="segment-distance">
+                                                    <span class="distance_marker" data-bind="text: distanceText"></span>
+                                                </div>
+                                            </div>
+        
+                                            <div data-bind="foreach: routeVisibleJunctions">
+                                                <div class="junction-wrapper" data-bind="style: {top:top},attr:{osmid:junction.osmid}">
+                                                    <div class="exit_marker">
+                                                        <a class="junction" data-bind="click: navigateToExitPage, attr:{href:url, alt:junction.name}">
+                                                            <div class="junction-name" data-bind="html: junction.ref, attr: {title:junction.name}"></div>
+                                                        </a>
+                                                        <div class="segment-distance distance-to-junction" data-bind="style:{width:hasStops()?'8em':'4em', backgroundColor:hasStops()?'lightyellow':'#fff'}">
+                                                            <span class="time_to_junction_marker" data-bind="text: etaString"></span>
+                                                        </div>
+                                                        <div class="pois">
+                                                            <div data-bind="foreach: poiTypeViewModels">
+                                                                <a data-bind="visible:visiblePois().length > 0, click: navigateToExitPage, css: 'poi poi-route-icon poi-type-'+poiTypeString, attr:{href:url, 'data-type': poiTypeString}">
+                                                                    <div style="position:relative">
+                                                                        <div class="poi-count" data-bind="html: poiCountString"></div>
+                                                                        <div class="poi-distance-label" data-bind="html: closestPoiDistance"></div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <!-- sidebar -->
+                            <div style="padding-left:10px;" data-bind="template:{name:'sidebar-template', if:route.sideBar, afterRender:initSideBar.bind($data)}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+                <!-- filter dialog start-->
+            
+            <div data-bind=""
+                 data-role="popup"
+                 data-history="false"
+                 class="ui-content filter-dlg">
+                <div data-role="header">
+                    <h2>Set filters</h2>
+                </div>
+                <div role="main" class="filter-content-main">
+                    <div class="containing-element">
+                        <div class="filter-scrollable-content">
+                            <label style="text-align:center">How far from exits would you like to see places? (miles)</label>
+                            <fieldset data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                <label><input type="checkbox" name="rddist" value="1" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs1" />1</label>
+                                <label><input type="checkbox" name="rddist" value="2" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs2" />2</label>
+                                <label><input type="checkbox" name="rddist" value="3" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs3" />3</label>
+                                <label><input type="checkbox" name="rddist" value="4" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs4" />4</label>
+                                <label><input type="checkbox" name="rddist" value="5" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs5" />5</label>
+                            </fieldset>
+            
+                            <!-- ko foreach: filter.typeFiltersList -->
+                            <div class="filter-list">
+                                <label>
+                                    <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:isOn" />
+                                    <span style="display:inline-block;padding-top:10px;" data-bind="text:'Show '+categoryName"></span>
+                                    <div style="float:right;display:table">
+                                        <div style="display:table-row;font-size:1.5em">
+                                            <div class="sbs-color-accent" style="display:table-cell;padding-right:20px;font-weight:normal; text-align:center;"><span data-bind="text:filteredCount"></span></div>
+                                            <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;"><span data-bind="text:filteredCountWithFeatures"></span></div>
+                                        </div>
+                                        <div style="display:table-row;font-size:0.5em;">
+                                            <div style="display:table-cell;padding-right:20px;text-align:center;">in range</div>
+                                            <div style="display:table-cell;text-align:center;">match</div>
+                                        </div>
+                                    </div>
+                                </label>
+                                <div data-bind="visible:isOn">
+                                    <div data-bind="visible:rootCategory.scf">
+                                        <label>
+                                            <a data-bind="click: categoryFilter.expand.bind(categoryFilter), visible:categoryFilter.isCollapsed, css:'ui-corner-all ui-btn-icon-left filter-prop-hideshow '+typeName+'-c-icon-w'" href="#" data-role="button">Filter categories</a>
+                                            <a data-bind="click: categoryFilter.collapse.bind(categoryFilter), visible:!categoryFilter.isCollapsed(), css:'ui-corner-all ui-btn-icon-left filter-prop-hideshow '+typeName+'-c-icon-w'" href="#" data-role="button">Hide categories</a>
+                                        </label>
+                                        <div data-bind="visible:!categoryFilter.isCollapsed()">
+                                            <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                                <a data-bind="click: categoryFilter.selectAll.bind(categoryFilter)" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">Select all</a>
+                                                <a data-bind="click: categoryFilter.unselectAll.bind(categoryFilter)" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">Clear all</a>
+                                            </div>
+                                            <fieldset class="filter-value-list" data-bind="foreach: categoryFilter.valueList" data-role="controlgroup" data-type="horizontal">
+                                                <input type="checkbox" data-bind="attr:{id:'cb2'+parentCategory.id+id.toString(), name:'cb2'+parentCategory.id+id.toString()},jqmchecked: isOn" data-mini="true">
+                                                <label data-bind="attr:{for:'cb2'+parentCategory.id+id.toString()}">
+                                                    <span class="filter-list-value" data-bind="text:name"></span>
+                                                    <span class="filter-value-count sbs-bgcolor sbs-color-accent" data-bind="text:count"></span>
+                                                </label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <!-- ko foreach: propertyList -->
+                                    <div>
+                                        <label>
+                                            <a data-bind="click: expand, html:'Filter '+name.toLowerCase(), visible:isCollapsed, css:'ui-corner-all filter-prop-hideshow '+filter.typeName+'-p-'+id+'-icon-w'"
+                                               href="#" data-role="button"></a>
+                                            <a data-bind="click: collapse, html:'Hide '+name.toLowerCase(), visible:!isCollapsed(), css:'ui-corner-all filter-prop-hideshow '+filter.typeName+'-p-'+id+'-icon-w'"
+                                               href="#" data-role="button"></a>
+                                        </label>
+                                        <div data-bind="visible:!isCollapsed()">
+                                            <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                                <a data-bind="click: selectAll, html:'Select all'" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true"></a>
+                                                <a data-bind="click: unselectAll, html:'Clear all'" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true"></a>
+                                            </div>
+                                            <fieldset class="filter-value-list" data-bind="foreach:valueList" data-role="controlgroup" data-type="horizontal">
+                                                <input type="checkbox" data-bind="attr:{id:'cb2'+parentCategory.id+id.toString(), name:'cb2'+parentCategory.id+id.toString()},jqmchecked: isOn" data-mini="true">
+                                                <label data-bind="attr:{for:'cb2'+parentCategory.id+id.toString()}">
+                                                    <span class="filter-list-value" data-bind="text:name"></span>
+                                                    <span class="filter-value-count sbs-bgcolor sbs-color-accent" data-bind="text:count"></span>
+                                                </label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+                        <div class="filter-ok-container">
+                            <a href="#" class="ui-btn ui-btn-inline ui-corner-all filter-apply-btn" data-rel="back">OK</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- filter dialog end-->
+             <!-- stop settings dialog start-->
+            <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
+                <div data-bind="with:routePlan">
+                    <div data-role="header">
+                        <h2 style="margin:0 5%;" data-bind="html:editedStop().poiOnJunction.poi.name"></h2>
+                    </div>
+                    <div role="main" style="padding:5px;background-color:#fff;">
+                        <div class="containing-element">
+                            <p style="text-align:center;">How long would you like to stop there?</p>
+                            <div data-bind="with:editedStop" style="display:table;margin-left:13%;margin-bottom:7%;">
+                                <div style="display:table-row">
+                                    <div style="display:table-cell">
+                                        <a class="sbs-bgcolor-accent" data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;"
+                                           href="#" data-role="button" data-icon="minus"></a>
+                                    </div>
+            
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationHours"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                            hr
+                                        </div>
+                                    </div>
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationMinutes"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                            min
+                                        </div>
+                                    </div>
+            
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;" href="#" class="sbs-bgcolor-accent" data-role="button" data-icon="plus"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left:5%;">
+                                <a data-bind="click:addEditedStopToRoute" href="#" class="exit-add ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;" data-rel="back">
+                                    <span style="vertical-align:middle">
+                                        Keep this <br/>stop
+                                    </span>
+            
+                                </a>
+                                <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="exit-navigate ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;">
+                                    <span style="vertical-align:middle">
+                                        Navigate<br />there<br />now
+                                    </span>
+                                </a>
+                            </div>
+                            <div>
+            
+                            </div>
+                            <div style="margin-left:4%;">
+                                <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="exit-action ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- stop settings dialog end-->    <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>    <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              <div class="letsgo-outer">
+                     <!-- let's go button-->
+                     <div data-bind="if:(routePlan && routePlan.stops().length > 0)" class="letsgo-container">
+                         <a href="#" class="ui-btn ui-btn-inline ui-corner-all letsgo-button"
+                            data-bind="click:function(){routePlan.navigate();return false;}"
+                            data-rel="back">Let's go</a>
+                     </div>
+                 </div>
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div></div>
+        <!-- end of route page-->        <!-- exit page-->
+        <div id="exit" data-role="page" class="jqm-demos exit-page" data-page-name="exit-page" data-telemetry-page-name="Exit">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                    <div class="filters-container">
+                        <div class="filters-trigger-line1"></div>
+                        <div class="filters-trigger-line2"></div>
+                        <div class="filters-trigger"></div>
+                    </div>    </div>
+            </div>    <div role="main" class="ui-content jqm-content">
+                <div class="page-content-inner">
+                    <div class="breadCrumbHolder module">
+                        <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
+                            <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                                <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#home"><span itemprop="name">Home <img class="breadcrumb-arrow" src="images/arrow.png"></span></a>
+                                </li>
+                                <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#route">
+                                        <span itemprop="name" data-bind="text:route.title"></span>
+                                    </a>
+                                </li>
+                            </ul>
+        
+                        </div>
+                        <div class="main_inner" data-bind="if:isRouteLoading">
+                            <div class="route-loading">
+                                <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                            </div>
+                        </div>
+                        <div data-bind="if:selectedJunction">
+                            <div class="main_inner">
+                                <div class="route-summary">
+                                    <h2 class="description_title" data-bind="text:selectedJunction().routeJunction.junction.name"></h2>
+        
+                                    <!-- ko with: selectedJunction().filter -->
+                                    <div>
+                                      <div class="route-summary-table">
+                                        <div class="route-description2" style="display:table-row">
+                                          <!-- ko foreach: typeFiltersList -->
+                                          <div class="route-summary-cell">
+                                            <div style="margin:0 auto;display:table">
+                                                <div style="display:table">
+                                                    <div style="display:table-row">
+                                                        <div style="display:table-cell;vertical-align:middle;">
+                                            
+                                                            <span data-bind="css:'poi-type-accent-' + StopByStop.PoiType[type]+' poi-count-table-icon'"></span>
+                                            
+                                                        </div>
+                                                        <div style="display:table-cell">
+                                                            <div style="display:table-row;font-size:1.5em">
+                                                                <div class="sbs-color-accent" style="display:table-cell;font-weight:normal; text-align:center;">
+                                                                    <span data-bind="text:filteredCount"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div style="display:table-row;font-size:0.5em">
+                                                                <div style="display:table-cell;text-align:center;">in range</div>
+                                                            </div>
+                                                            <div style="display:table-row;font-size:1.5em;">
+                                                                <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;">
+                                                                    <span data-bind="text:filteredCountWithFeatures"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div style="display:table-row;font-size:0.5em">
+                                                                <div style="display:table-cell;text-align:center;">match</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          <!-- /ko -->
+                                        </div>
+                                      </div>
+                                    
+                                      <div class="route-description2 miles">
+                                        <span class="route-description-metric-label">within</span>
+                                        <span class="route-description-metric" data-bind="text: maxDistanceFromJunction"></span>
+                                        <span class="route-description-metric-label">mile(s) from exit</span>
+                                      </div>
+                                    </div>
+                                    <!-- /ko -->
+                                </div>
+        
+                                <div class="pois-list">
+                                    <div>
+                                        <div class="pois-list-filters-container">
+                                            <a href="#" class="ui-btn ui-btn-inline ui-btn-icon-right pois-list-filters-button">Filters</a>
+                                        </div>
+                                        <fieldset class="view-mode-switch pois-list-view-mode-switch" data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                            <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-21" value="list" checked="checked" />
+                                            <label class="list-view" for="view-mode-radio-choice-21">List</label>
+        
+                                            <input type="radio" name="view-mode-radio-choice-2" id="view-mode-radio-choice-22" value="map" />
+                                            <label class="map-view" for="view-mode-radio-choice-22">Map</label>
+                                        </fieldset>
+                                    </div>
+        
+                                    <!-- start POI list-->
+                                    <!-- ko foreach: selectedJunction().routeJunction.poiTypeViewModels-->
+                                    <!-- ko foreach: visiblePois()-->
+                                    <div class="poi-table">
+                                        <div class="poi-table-row">
+                                            <div class="poi-table-cell poi-details-cell">
+                                                <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
+                                                   style="text-align:left;" data-bind="click:navigateToPoiPageClick.bind($data), attr:{url:poi.url,'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
+                                                    <div data-bind="css:'poi-typeicon poi-placename-type poi-type-'+poi.poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+                                                    <div data-bind="css:'exit-type exit-'+poi.poiTypeString">
+                                                        <div data-bind="css:'poi-placename poi-type-color-'+poi.poiTypeString">
+                                                            <span itemprop="name" data-bind="text:poi.name"></span>
+                                                        </div>
+                                                        <div class="poi-details" style="font-size:small;" data-bind="foreach: poi.categories">
+                                                            <span class="poi-cat sbs-color-accent" data-bind="text: $data.n"></span>
+                                                        </div>
+                                                        <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
+                                                        
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="poi-table-cell poi-yelp-cell" data-bind="visible:poi.isYInfoVisible">
+                                                <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
+                                                    <div>
+                                                        <img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
+                                                             alt="Yelp" />
+                                                    </div>
+                                                    <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
+                                        
+                                                    <div data-bind="visible: !poi.isYInfoLoading()">
+                                                        <div class="rating-small poi-rating">
+                                                            <i data-bind="css:'star-img '+poi.yStarClass()"></i>
+                                                        </div>
+                                                        <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="poi-table-cell poi-phone-cell call-icon">
+                                                <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title" target="_blank">
+                                                    <img src='images/phone2.png' class="poi-phone" alt="Call" />
+                                                </a>
+                                            </div>
+                                            <!-- /poi-table-cell -->
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                    <!--/ko-->
+                                    <!-- end POI list-->
+        
+        
+        
+                                    <div class="poi-map">
+                                        <div id="map" style="width:100%;clear:both"></div>
+                                    </div>
+                                    <!-- poi-map -->
+                                </div>
+                                <!-- /poi-list -->
+                            </div>
+                            <!-- /main_inner -->
+                        </div>
+                        <!-- /if selectedJunction -->
+                    </div>
+                    <!-- /breadCrumbHolder module -->
+                </div>
+                <!-- /page-content-inner -->
+            </div>
+            <!-- /main -->
+                <!-- filter dialog start-->
+            
+            <div data-bind="with:selectedJunction"
+                 data-role="popup"
+                 data-history="false"
+                 class="ui-content filter-dlg">
+                <div data-role="header">
+                    <h2>Set filters</h2>
+                </div>
+                <div role="main" class="filter-content-main">
+                    <div class="containing-element">
+                        <div class="filter-scrollable-content">
+                            <label style="text-align:center">How far from exits would you like to see places? (miles)</label>
+                            <fieldset data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                <label><input type="checkbox" name="rddist" value="1" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs1" />1</label>
+                                <label><input type="checkbox" name="rddist" value="2" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs2" />2</label>
+                                <label><input type="checkbox" name="rddist" value="3" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs3" />3</label>
+                                <label><input type="checkbox" name="rddist" value="4" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs4" />4</label>
+                                <label><input type="checkbox" name="rddist" value="5" data-bind="jqmchecked:filter.maxDistanceFromJunctionIs5" />5</label>
+                            </fieldset>
+            
+                            <!-- ko foreach: filter.typeFiltersList -->
+                            <div class="filter-list">
+                                <label>
+                                    <input class="ui-btn-inline" type="checkbox" data-bind="jqmchecked:isOn" />
+                                    <span style="display:inline-block;padding-top:10px;" data-bind="text:'Show '+categoryName"></span>
+                                    <div style="float:right;display:table">
+                                        <div style="display:table-row;font-size:1.5em">
+                                            <div class="sbs-color-accent" style="display:table-cell;padding-right:20px;font-weight:normal; text-align:center;"><span data-bind="text:filteredCount"></span></div>
+                                            <div class="sbs-color-accent" style="display:table-cell;font-weight:normal;text-align:center;"><span data-bind="text:filteredCountWithFeatures"></span></div>
+                                        </div>
+                                        <div style="display:table-row;font-size:0.5em;">
+                                            <div style="display:table-cell;padding-right:20px;text-align:center;">in range</div>
+                                            <div style="display:table-cell;text-align:center;">match</div>
+                                        </div>
+                                    </div>
+                                </label>
+                                <div data-bind="visible:isOn">
+                                    <div data-bind="visible:rootCategory.scf">
+                                        <label>
+                                            <a data-bind="click: categoryFilter.expand.bind(categoryFilter), visible:categoryFilter.isCollapsed, css:'ui-corner-all ui-btn-icon-left filter-prop-hideshow '+typeName+'-c-icon-w'" href="#" data-role="button">Filter categories</a>
+                                            <a data-bind="click: categoryFilter.collapse.bind(categoryFilter), visible:!categoryFilter.isCollapsed(), css:'ui-corner-all ui-btn-icon-left filter-prop-hideshow '+typeName+'-c-icon-w'" href="#" data-role="button">Hide categories</a>
+                                        </label>
+                                        <div data-bind="visible:!categoryFilter.isCollapsed()">
+                                            <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                                <a data-bind="click: categoryFilter.selectAll.bind(categoryFilter)" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">Select all</a>
+                                                <a data-bind="click: categoryFilter.unselectAll.bind(categoryFilter)" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true">Clear all</a>
+                                            </div>
+                                            <fieldset class="filter-value-list" data-bind="foreach: categoryFilter.valueList" data-role="controlgroup" data-type="horizontal">
+                                                <input type="checkbox" data-bind="attr:{id:'cb3'+parentCategory.id+id.toString(), name:'cb3'+parentCategory.id+id.toString()},jqmchecked: isOn" data-mini="true">
+                                                <label data-bind="attr:{for:'cb3'+parentCategory.id+id.toString()}">
+                                                    <span class="filter-list-value" data-bind="text:name"></span>
+                                                    <span class="filter-value-count sbs-bgcolor sbs-color-accent" data-bind="text:count"></span>
+                                                </label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <!-- ko foreach: propertyList -->
+                                    <div>
+                                        <label>
+                                            <a data-bind="click: expand, html:'Filter '+name.toLowerCase(), visible:isCollapsed, css:'ui-corner-all filter-prop-hideshow '+filter.typeName+'-p-'+id+'-icon-w'"
+                                               href="#" data-role="button"></a>
+                                            <a data-bind="click: collapse, html:'Hide '+name.toLowerCase(), visible:!isCollapsed(), css:'ui-corner-all filter-prop-hideshow '+filter.typeName+'-p-'+id+'-icon-w'"
+                                               href="#" data-role="button"></a>
+                                        </label>
+                                        <div data-bind="visible:!isCollapsed()">
+                                            <div data-role="controlgroup" data-type="horizontal" style="float:none;text-align:center;">
+                                                <a data-bind="click: selectAll, html:'Select all'" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true"></a>
+                                                <a data-bind="click: unselectAll, html:'Clear all'" class="ui-corner-all" data-mini="true" href="#" data-role="button" data-inline="true"></a>
+                                            </div>
+                                            <fieldset class="filter-value-list" data-bind="foreach:valueList" data-role="controlgroup" data-type="horizontal">
+                                                <input type="checkbox" data-bind="attr:{id:'cb3'+parentCategory.id+id.toString(), name:'cb3'+parentCategory.id+id.toString()},jqmchecked: isOn" data-mini="true">
+                                                <label data-bind="attr:{for:'cb3'+parentCategory.id+id.toString()}">
+                                                    <span class="filter-list-value" data-bind="text:name"></span>
+                                                    <span class="filter-value-count sbs-bgcolor sbs-color-accent" data-bind="text:count"></span>
+                                                </label>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                            <!-- /ko -->
+                        </div>
+                        <div class="filter-ok-container">
+                            <a href="#" class="ui-btn ui-btn-inline ui-corner-all filter-apply-btn" data-rel="back">OK</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- filter dialog end-->
+            <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>    <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div></div>
+        <!-- /exit-page -->
+        <!-- end of exit page-->        ﻿<!-- poi page-->
+        <div id="poi" data-role="page" class="jqm-demos poi-page" data-page-name="poi-page" data-telemetry-page-name="Poi">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                </div>
+            </div>    <div role="main" class="ui-content jqm-content">
+                <div class="page-content-inner">
+                    <div class="breadCrumbHolder module">
+                        <div id="breadCrumb0" class="breadCrumb module" style="position:relative">
+                            <ul itemscope="" itemtype="http://schema.org/BreadcrumbList" class="breadcrumb_main">
+                                <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#home">
+                                        <span itemprop="name">Home</span>
+                                        <span><img class="breadcrumb-arrow" src="images/arrow.png"></span>
+                                    </a>
+                                </li>
+                                <li data-bind="if:route" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#route">
+                                        <span class="middle-item" itemprop="name" data-bind="text:route.title"></span>
+                                        <span><img class="breadcrumb-arrow" src="images/arrow.png"></span>
+                                    </a>
+                                </li>
+                                <li data-bind="if:selectedJunction" itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                                    <a itemprop="item" href="#exit">
+                                        <span itemprop="name" data-bind="text:selectedJunction().routeJunction.junction.name"></span>
+                                    </a>
+                                </li>
+                            </ul>
+        
+                        </div>
+                        <div class="main_inner" data-bind="if:isRouteLoading">
+                            <div class="route-loading">
+                                <h2 class="description_title" data-bind="text:routeLoadingMessage"></h2>
+                            </div>
+                        </div>
+                        <div data-bind="if:selectedPoi">
+                            <div class="main_inner" data-bind="with:selectedPoi()">
+                                <div class="poi-header sbs-bgcolor">
+                                    <div style="float:left">
+                                        <div data-bind="css:'poi-header-icon poi-header-type-icon poi-type-' + poiTypeString">
+                                        </div>
+                                    </div>
+                                    <div class="poi-header-main">
+                                        <div class="poi-header-name" data-bind="text:name"></div>
+                                        <div class="poi-header-details" data-bind="with:stop">
+                                            <span data-bind="text:poiOnJunction.distanceFromJunctionTextFull"></span>
+                                            <br />
+                                            <span data-bind="text:etaToStopString"></span>
+                                        </div>
+                                    </div>
+                                    <div class="poi-header-right">
+                                        <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all poi-header-icon poi-header-add sbs-bgcolor-accent" data-role="button"></a>
+                                    </div>
+                                </div>
+        
+                                <div data-role="controlgroup" data-type="horizontal" style="height:50px;">
+                                    <a href="#" data-bind="click: addToRouteOptionsClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-add-acc" data-role="button">Add to route</a>
+                                    <a href="#" data-bind="click: navigateNowClick" class="ui-corner-all ui-btn poi-page-action-btn poi-header-navigate-acc" data-role="button">Navigate Now</a>
+                                </div>
+        
+        
+                                <div class="poi-page-properties-table">
+                                    <!-- categories-->
+                                    <div style="display:table-row">
+                                        <div style="display:table-cell;width:20%;">
+                                            <div data-bind="css:poiTypeString+'-c-icon-w poi-page-cat-icon'"></div>
+                                        </div>
+                                        <div class="poi-page-cat-item-cell">
+                                            <div data-bind="foreach: categories" class="poi-page-cat-item-container">
+                                                <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data.n"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+        
+                                    <!-- ko foreach: properties -->
+                                    <div style="display:table-row">
+                                        <div style="display:table-cell;width:20%;">
+        
+                                            <div data-bind="css:poiTypeString+'-p-' + id + '-icon-w poi-page-cat-icon'"></div>
+        
+                                        </div>
+                                        <div class="poi-page-cat-item-cell">
+                                            <div data-bind="foreach: values" class="poi-page-cat-item-container">
+                                                <span class="poi-cat sbs-bgcolor-dk sbs-color-accent poi-page-cat-item" data-bind="text: $data"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /ko -->
+                                </div>
+        
+                                <!-- properties-->
+                            </div>
+                            <!-- /main_inner -->
+                        </div>
+                        <!-- /if selectedPoi -->
+                    </div>
+                    <!-- /breadCrumbHolder module -->
+                </div>
+                <!-- /page-content-inner -->
+            </div>
+            <!-- /main -->
+             <!-- stop settings dialog start-->
+            <div data-bind="if:(routePlan && routePlan.editedStop())" data-history="false" data-role="popup" class="ui-content stop-settings-dialog">
+                <div data-bind="with:routePlan">
+                    <div data-role="header">
+                        <h2 style="margin:0 5%;" data-bind="html:editedStop().poiOnJunction.poi.name"></h2>
+                    </div>
+                    <div role="main" style="padding:5px;background-color:#fff;">
+                        <div class="containing-element">
+                            <p style="text-align:center;">How long would you like to stop there?</p>
+                            <div data-bind="with:editedStop" style="display:table;margin-left:13%;margin-bottom:7%;">
+                                <div style="display:table-row">
+                                    <div style="display:table-cell">
+                                        <a class="sbs-bgcolor-accent" data-bind="click:subtract5MinutesFromDuration" style="height:25px;margin:10px;padding-right:0;"
+                                           href="#" data-role="button" data-icon="minus"></a>
+                                    </div>
+            
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationHours"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:11px;">
+                                            hr
+                                        </div>
+                                    </div>
+                                    <div style="display:table-cell;vertical-align:middle;position:relative;">
+                                        <span style="padding:3px;font-size:30px;border:1px solid #fff;" data-bind="text:stopDurationMinutes"></span>
+                                        <div style="position:absolute;font-variant:small-caps;left:9px;">
+                                            min
+                                        </div>
+                                    </div>
+            
+                                    <div style="display:table-cell">
+                                        <a data-bind="click:add5MinutesToDuration" style="height:25px;margin:10px;padding-right:0;" href="#" class="sbs-bgcolor-accent" data-role="button" data-icon="plus"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-left:5%;">
+                                <a data-bind="click:addEditedStopToRoute" href="#" class="exit-add ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;" data-rel="back">
+                                    <span style="vertical-align:middle">
+                                        Add to <br/> route
+                                    </span>
+            
+                                </a>
+                                <a data-bind="click:navigateToEditedStop" href="#" data-rel="back" class="exit-navigate ui-btn ui-btn-inline ui-corner-all sbs-bgcolor-accent"
+                                   style="width:40%;margin:2px;padding:5px;height:63px;">
+                                    <span style="vertical-align:middle">
+                                        Navigate<br />there<br />now
+                                    </span>
+                                </a>
+                            </div>
+                            <div>
+            
+                            </div>
+                            <div style="margin-left:4%;">
+                                <a data-bind="click:removeEditedStop" href="#" data-rel="back" class="exit-action ui-btn ui-btn-inline ui-corner-all" style="width:83%;background-color:#eb65a0;color:#fff;">I don't want to stop there</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- stop settings dialog end-->    <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>    <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div></div>
+        <!-- end of poi page -->
+        <!-- about page-->
+        <div id="about" data-role="page" class="jqm-demos about-page" data-page-name="about-page" data-telemetry-page-name="About">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                </div>
+            </div>    <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>    <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div></div>
+        <!-- end of about page -->        <div style="display:none">
+            <div data-role="header" data-position="fixed" class="jqm-header" data-tap-toggle="false">
+                <div class="main_inner">
+                    <h2>
+                        <a href="#home">
+                            <img src='images/logo2.png' alt="StopByStop" />
+                        </a>
+                    </h2>
+                    <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                </div>
+            </div>            <div class="nav-menu" data-role="panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul id="menupanel-list" data-role="listview">
+                    <li data-icon="home">
+                        <a href="#home" data-rel="close">Home</a>
+                    </li>
+                    <li data-icon="about">
+                        <a href="#about" data-rel="close">About</a>
+                    </li>
+            
+                    <li>
+                        <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">Contact Us</a>
+                    </li>
+                </ul>
+            </div>            <div data-role="footer" data-position="fixed" class="jqm-footer" data-tap-toggle="false">
+              
+              
+                 <div style="position:absolute;top:3px;left:15px;">
+                  <a href="mailto:support@stopbystop.com?subject=StopByStop.com" target="_top">
+                        <img style="height:50px;" src='images/feedback.svg' />
+                   </a>
+               </div>
+               
+            
+                
+                <div class="social_icons">
+                    <ul>
+                        <!--Facebook-->
+                        <li>          
+                            <a data-bind="attr:{href:'https://www.facebook.com/sharer/sharer.php?u='+url()+'&amp;t='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-fb social-btn" target="_blank">
+                                <img src="images/fb.png" alt="facebook">
+                            </a>
+                        </li>
+            
+            
+                        <!--google+-->
+                        <li>
+                          
+                            <a data-bind="attr:{href:'https://plus.google.com/share?url='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-gp social-btn" target="_blank">
+                                <img src="images/google.png" alt="google+">
+                               
+                            </a>
+                        </li>
+                        <!--linkdin-->
+                        <li>
+                            <a data-bind="attr:{href:'http://www.linkedin.com/shareArticle?mini=true&amp;url='+url()+'&amp;title='+title()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               class="popup social-ln social-btn" target="_blank">
+                                <img src="images/linkedin.png" alt="linkedin">
+                            </a>
+                        </li>
+                        <!--Twitter-->
+                        <li>
+                            <a data-bind="attr:{href:'https://twitter.com/intent/tweet?text='+url()}"
+                               onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;"
+                               target="_blank" class="popup social-tw social-btn">
+                                <img src="images/twitter.png" alt="twitter">
+                                
+                            </a>
+                        </li>
+            
+                    </ul>
+                </div>
+              
+            </div>        </div>
+        <script type="text/html" id="sidebar-template">
+            <div id="sidebar" data-bind="style:{height:route.sideBar.sideBarHeight()+'px',position:route.sideBar.sideBarPosition,top:route.sideBar.sideBarTop,bottom:route.sideBar.sideBarBottom}">
+                <div class="sidebar-label sidebar-top">
+                    <div class="sidebar_text" data-bind="html:route.fromLocation.placeDescription">
+                    </div>
+                    <div class="route-start">
+                        <span data-bind="text:route.startTimeString"></span>
+                    </div>
+                </div>
+        
+                <div id="sidebar-inner" data-bind="style:{height:route.sideBar.sideBarInnerHeight()+'px', top:route.sideBar.sideBarInnerTop()+'px'}">
+                    <div data-bind="foreach: route.sideBar.stops">
+                        <div class="sidebar-stop" data-bind="css:'poi ui-link poi-type-'+ poiTypeClass+' sidebar-stop', style:{top:top,left:left}, click:click">
+                            <div class="sidebar-stop-time">
+                                <span data-bind="css:'heading poi-type-color-' + poiTypeClass,text:stop.poiOnJunction.poi.name"></span>
+                                <br />
+                                <span data-bind="text:stop.etaString"></span>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div id="sidebar-thumb" data-bind="style:{top:route.sideBar.sideBarThumbTop, backgroundColor:route.sideBar.isDraggingThumb()? '#EB65A0':'#FFF'}"></div>
+                </div>
+        
+                <div class="sidebar-label sidebar-bottom">
+                    <div class="route-eta">
+                        <span data-bind="text:route.etaString"></span>
+                    </div>
+                    <span class ="end-icon"></span>
+                    <div class="sidebar_text" data-bind="html:route.toLocation.placeDescription"></div>
+                    
+                </div>
+            </div>
+        </script>    </div>
+    <div style="display:none">
+        <div id="poiPopupTemplate">
+            <div class='poi-popup' style='width:200px;height:120px;overflow:auto; position:relative;'>
+                <div class="poi-table-row">
+                    <div class="poi-table-cell poi-details-cell">
+                        <a href="#" data-rel="popup" data-transition="slidedown" data-position-to="origin" class="ui-btn ui-corner-all poi-table-cell-link sbs-navigate-btn"
+                           style="text-align:left;" data-bind="click:window.navigateToPoiPage(), attr:{url:poi.url,'data-lat':poi.location.lat,'data-lon':poi.location.lon, 'data-sbsid':poi.id}">
+                            <div data-bind="css:'poi-typeicon poi-placename-type poi-type-'+poi.poiTypeString" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness"></div>
+                            <div data-bind="css:'exit-type exit-'+poi.poiTypeString">
+                                <div data-bind="css:'poi-placename poi-type-color-'+poi.poiTypeString">
+                                    <span itemprop="name" data-bind="text:poi.name"></span>
+                                </div>
+                                <div class="poi-details distance" data-bind="html:distanceFromJunctionText"></div>
+                               
+                            </div>
+                        </a>
+                    </div>
+                    <div class="poi-table-cell poi-yelp-cell" data-bind="visible:poi.isYInfoVisible">
+                        <a href="#" data-bind="attr:{href:poi.yUrl}" onclick="window.open(this.href, &#x27;_system&#x27;, &#x27;location&#x3D;yes&#x27;); return false;" class="ui-btn ui-corner-all poi-table-cell-link yelp-link" target="_blank">
+                            <div>
+                                <img class="review-provider-icon" src="https://s3-media4.fl.yelpcdn.com/assets/srv0/developer_pages/7e704c57a423/assets/img/yelp_logo_75x38.png"
+                                     alt="Yelp" />
+                            </div>
+                            <div data-bind="visible: poi.isYInfoLoading" class="poi-yelp-loading" title="Yelp information loading..."></div>
+                
+                            <div data-bind="visible: !poi.isYInfoLoading()">
+                                <div class="rating-small poi-rating">
+                                    <i data-bind="css:'star-img '+poi.yStarClass()"></i>
+                                </div>
+                                <div class="poi-rating-count" data-bind="html:poi.yReviewCountString"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="poi-table-cell poi-phone-cell call-icon">
+                        <a data-bind="attr:{href:'tel:'+poi.telPhoneString}" class="ui-btn ui-corner-all poi-table-cell-link yelp-link call_map_title" target="_blank">
+                            <img src='images/phone2.png' class="poi-phone" alt="Call" />
+                        </a>
+                    </div>
+                    <!-- /poi-table-cell -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
