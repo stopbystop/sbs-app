@@ -76,7 +76,7 @@ var StopByStop;
     var TelemetryMeasurement;
     (function (TelemetryMeasurement) {
     })(TelemetryMeasurement = StopByStop.TelemetryMeasurement || (StopByStop.TelemetryMeasurement = {}));
-    var Telemetry = (function () {
+    var Telemetry = /** @class */ (function () {
         function Telemetry() {
         }
         Telemetry.trackPageView = function (pageName, url, duration, telemetryProperties, telemetryMeasurements, flush) {
@@ -181,7 +181,7 @@ var StopByStop;
     StopByStop.W_LON_BOUNDARY = -125.00;
     StopByStop.E_LON_BOUNDARY = -66.00;
     StopByStop.ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
-    var Utils = (function () {
+    var Utils = /** @class */ (function () {
         function Utils() {
         }
         Utils.getNonHighwayDrivingTimeToPlaceInSeconds = function (distance) {
@@ -499,7 +499,7 @@ var StopByStop;
 /// <reference path="stopbystop-interfaces.ts"/>
 var StopByStop;
 (function (StopByStop) {
-    var AppState = (function () {
+    var AppState = /** @class */ (function () {
         function AppState() {
         }
         AppState.current = {

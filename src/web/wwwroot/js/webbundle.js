@@ -76,7 +76,7 @@ var StopByStop;
     var TelemetryMeasurement;
     (function (TelemetryMeasurement) {
     })(TelemetryMeasurement = StopByStop.TelemetryMeasurement || (StopByStop.TelemetryMeasurement = {}));
-    var Telemetry = (function () {
+    var Telemetry = /** @class */ (function () {
         function Telemetry() {
         }
         Telemetry.trackPageView = function (pageName, url, duration, telemetryProperties, telemetryMeasurements, flush) {
@@ -181,7 +181,7 @@ var StopByStop;
     StopByStop.W_LON_BOUNDARY = -125.00;
     StopByStop.E_LON_BOUNDARY = -66.00;
     StopByStop.ROUTE_PLAN_STORAGE_KEY = "sbsroutes";
-    var Utils = (function () {
+    var Utils = /** @class */ (function () {
         function Utils() {
         }
         Utils.getNonHighwayDrivingTimeToPlaceInSeconds = function (distance) {
@@ -499,7 +499,7 @@ var StopByStop;
 /// <reference path="stopbystop-interfaces.ts"/>
 var StopByStop;
 (function (StopByStop) {
-    var AppState = (function () {
+    var AppState = /** @class */ (function () {
         function AppState() {
         }
         AppState.current = {
@@ -516,7 +516,7 @@ var StopByStop;
 /// <reference path="stopbystop-interfaces.ts"/>
 var StopByStop;
 (function (StopByStop) {
-    var InitUrls = (function () {
+    var InitUrls = /** @class */ (function () {
         function InitUrls(baseUrl, baseImageUrl) {
             if (typeof baseUrl !== "string") {
                 baseUrl = "/";
@@ -546,7 +546,7 @@ var StopByStop;
 /// <reference path="InitUrls.ts"/>
 var StopByStop;
 (function (StopByStop) {
-    var InitHome = (function () {
+    var InitHome = /** @class */ (function () {
         function InitHome() {
         }
         /*
@@ -768,7 +768,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var PoiTypeFilterViewModel = (function () {
+    var PoiTypeFilterViewModel = /** @class */ (function () {
         function PoiTypeFilterViewModel(poiType, metadata, filter) {
             var _this = this;
             this._metadata = metadata;
@@ -890,7 +890,7 @@ var StopByStop;
         return PoiTypeFilterViewModel;
     }());
     StopByStop.PoiTypeFilterViewModel = PoiTypeFilterViewModel;
-    var MultiValueFilterViewModel = (function () {
+    var MultiValueFilterViewModel = /** @class */ (function () {
         function MultiValueFilterViewModel(p, filter) {
             this.isCollapsed = ko.observable(true);
             this.valueEnablementLookup = {};
@@ -978,7 +978,7 @@ var StopByStop;
         return MultiValueFilterViewModel;
     }());
     StopByStop.MultiValueFilterViewModel = MultiValueFilterViewModel;
-    var ValueFilterViewModel = (function () {
+    var ValueFilterViewModel = /** @class */ (function () {
         function ValueFilterViewModel(id, name, parentCategory, filterViewModel) {
             var _this = this;
             this.parentCategory = parentCategory;
@@ -1001,7 +1001,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var FilterViewModel = (function () {
+    var FilterViewModel = /** @class */ (function () {
         function FilterViewModel(routeId, rjs, metadata, preserveShowAllSettings) {
             if (preserveShowAllSettings === void 0) { preserveShowAllSettings = true; }
             var _this = this;
@@ -1095,7 +1095,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var LocationViewModel = (function () {
+    var LocationViewModel = /** @class */ (function () {
         function LocationViewModel(obj) {
             this.a = this.lat = obj.a;
             this.o = this.lon = obj.o;
@@ -1178,7 +1178,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var ReviewGroupViewModel = (function () {
+    var ReviewGroupViewModel = /** @class */ (function () {
         function ReviewGroupViewModel(obj) {
             this._obj = obj;
             this.name = ko.observable(this._obj.n);
@@ -1194,7 +1194,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var PoiSimplePropertyViewModel = (function () {
+    var PoiSimplePropertyViewModel = /** @class */ (function () {
         function PoiSimplePropertyViewModel(id, poiTypeString, name, propertyValues) {
             this.name = name;
             this.values = propertyValues;
@@ -1204,7 +1204,7 @@ var StopByStop;
         return PoiSimplePropertyViewModel;
     }());
     StopByStop.PoiSimplePropertyViewModel = PoiSimplePropertyViewModel;
-    var PoiMetadataPropertyViewModel = (function () {
+    var PoiMetadataPropertyViewModel = /** @class */ (function () {
         function PoiMetadataPropertyViewModel(poiTypeString, metadata, propertyValues) {
             this.id = metadata.id;
             this.poiTypeString = poiTypeString;
@@ -1215,7 +1215,7 @@ var StopByStop;
         return PoiMetadataPropertyViewModel;
     }());
     StopByStop.PoiMetadataPropertyViewModel = PoiMetadataPropertyViewModel;
-    var PoiViewModel = (function () {
+    var PoiViewModel = /** @class */ (function () {
         function PoiViewModel(obj, app, poiOnJunction) {
             if (poiOnJunction === void 0) { poiOnJunction = null; }
             this._poiOnJunction = poiOnJunction;
@@ -1334,7 +1334,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var PoiOnJunctionViewModel = (function () {
+    var PoiOnJunctionViewModel = /** @class */ (function () {
         function PoiOnJunctionViewModel(obj, exit, app) {
             this.obj = obj;
             this._app = app;
@@ -1362,7 +1362,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RouteStopViewModel = (function () {
+    var RouteStopViewModel = /** @class */ (function () {
         function RouteStopViewModel(poiOnJunction) {
             var _this = this;
             this.poiOnJunction = poiOnJunction;
@@ -1426,7 +1426,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var JunctionViewModel = (function () {
+    var JunctionViewModel = /** @class */ (function () {
         function JunctionViewModel(robj, app) {
             this.poiLookup = {};
             this._obj = robj.j;
@@ -1470,7 +1470,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RouteJunctionPoiTypeViewModel = (function () {
+    var RouteJunctionPoiTypeViewModel = /** @class */ (function () {
         function RouteJunctionPoiTypeViewModel(rootPoiCategory, junctionViewModel, app) {
             var _this = this;
             this._rpc = rootPoiCategory;
@@ -1508,7 +1508,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RouteJunctionViewModel = (function () {
+    var RouteJunctionViewModel = /** @class */ (function () {
         function RouteJunctionViewModel(obj, routeStartTime, app) {
             var _this = this;
             this._obj = this.routeJunction = obj;
@@ -1591,7 +1591,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RoutePlanViewModel = (function () {
+    var RoutePlanViewModel = /** @class */ (function () {
         function RoutePlanViewModel(routeId, routeDistance, destination) {
             this._stopDictionary = {};
             this.junctionMap = {};
@@ -1705,7 +1705,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RouteSegmentViewModel = (function () {
+    var RouteSegmentViewModel = /** @class */ (function () {
         function RouteSegmentViewModel(obj, routeStartTime, app) {
             var _this = this;
             this._obj = obj;
@@ -1774,7 +1774,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var SideBarStopViewModel = (function () {
+    var SideBarStopViewModel = /** @class */ (function () {
         function SideBarStopViewModel(stop, routePlan) {
             this.stop = stop;
             this.routePlan = routePlan;
@@ -1788,7 +1788,7 @@ var StopByStop;
         return SideBarStopViewModel;
     }());
     StopByStop.SideBarStopViewModel = SideBarStopViewModel;
-    var SideBarViewModel = (function () {
+    var SideBarViewModel = /** @class */ (function () {
         function SideBarViewModel(routePlan, routeViewModel, initSettings) {
             var _this = this;
             this._headerHeight = 0;
@@ -1984,7 +1984,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var RouteViewModel = (function () {
+    var RouteViewModel = /** @class */ (function () {
         function RouteViewModel(route, app, initSettings, routeInitializationComplete) {
             var _this = this;
             this._stopDurationSubscriptions = [];
@@ -2114,7 +2114,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var AppViewModel = (function () {
+    var AppViewModel = /** @class */ (function () {
         function AppViewModel(route, initSettings, routeTitle, routeInitializationComplete) {
             if (routeInitializationComplete === void 0) { routeInitializationComplete = null; }
             var _this = this;
@@ -2194,7 +2194,7 @@ String.prototype.f = function () {
 };
 var StopByStop;
 (function (StopByStop) {
-    var JunctionMapViewModel = (function () {
+    var JunctionMapViewModel = /** @class */ (function () {
         function JunctionMapViewModel(mapDiv, mapContainerDiv, junction, urls) {
             this.mapDivInitialized = false;
             this.junction = junction;
@@ -2275,7 +2275,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var ExitPageViewModel = (function () {
+    var ExitPageViewModel = /** @class */ (function () {
         function ExitPageViewModel(route, routeJunctionViewModel, parentFilter, routePlan, metadata, poiTypeToShow) {
             // TODO: here
             if (poiTypeToShow === void 0) { poiTypeToShow = StopByStop.PoiType.all; }
@@ -2341,7 +2341,7 @@ var StopByStop;
 })(StopByStop || (StopByStop = {}));
 var StopByStop;
 (function (StopByStop) {
-    var Init = (function () {
+    var Init = /** @class */ (function () {
         function Init() {
         }
         Init.startup = function (settings) {
@@ -2716,7 +2716,7 @@ var StopByStop;
 /// <reference path="ViewModels/ExitPageViewModel.ts" />
 var StopByStop;
 (function (StopByStop) {
-    var WebInit = (function () {
+    var WebInit = /** @class */ (function () {
         function WebInit() {
         }
         WebInit.startup = function (webInitData) {

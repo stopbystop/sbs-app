@@ -17,99 +17,103 @@
 
     public class Startup
     {
-        public Startup (IHostingEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder ()
-                .SetBasePath (env.ContentRootPath)
-                .AddJsonFile ("appsettings.json", optional : false, reloadOnChange : true)
-                .AddJsonFile ($"appsettings.{env.EnvironmentName}.json", optional : true)
-                .AddEnvironmentVariables ();
+#if DEBUG
+            string appsettingsName = "appsettings.DEBUG.json";
+#else
+            string appsettingsName = "appsettings.RELEASE.json";
+#endif
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile(appsettingsName, optional: false, reloadOnChange: true)
+                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
-            Configuration = builder.Build ();
-            Startup.SBSConfiguration = new SBSConfiguration ();
-            Configuration.GetSection ("SBS").Bind (Startup.SBSConfiguration);
-            string baseDataUrlFromEnv = Environment.GetEnvironmentVariable ("BASE_DATA_URL");
-            if (!string.IsNullOrEmpty (baseDataUrlFromEnv))
+            Configuration = builder.Build();
+            Startup.SBSConfiguration = new SBSConfiguration();
+            Configuration.GetSection("SBS").Bind(Startup.SBSConfiguration);
+            string baseDataUrlFromEnv = Environment.GetEnvironmentVariable("BASE_DATA_URL");
+            if (!string.IsNullOrEmpty(baseDataUrlFromEnv))
             {
                 Startup.SBSConfiguration.BaseDataUrl = baseDataUrlFromEnv;
             }
 
-            string cdnRootFromEnv = Environment.GetEnvironmentVariable ("CDN_ROOT");
-            if (!string.IsNullOrEmpty (cdnRootFromEnv))
+            string cdnRootFromEnv = Environment.GetEnvironmentVariable("CDN_ROOT");
+            if (!string.IsNullOrEmpty(cdnRootFromEnv))
             {
                 Startup.SBSConfiguration.CDNRoot = cdnRootFromEnv;
             }
 
-            FlightManager.Initialize ();
+            FlightManager.Initialize();
         }
 
         public IConfigurationRoot Configuration { get; private set; }
         public static SBSConfiguration SBSConfiguration { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
-            string ikey = Environment.GetEnvironmentVariable ("APPINSIGHTS_IKEY");
-            if (string.IsNullOrEmpty (ikey))
+            string ikey = Environment.GetEnvironmentVariable("APPINSIGHTS_IKEY");
+            if (string.IsNullOrEmpty(ikey))
             {
                 ikey = Startup.SBSConfiguration.AppInsightsIKey;
             }
 
-            services.AddApplicationInsightsTelemetry (ikey);
+            services.AddApplicationInsightsTelemetry(ikey);
 
             // Add framework services.
-            services.AddMvc ();
-            services.AddCors (options =>
-            {
-                options.AddPolicy ("CorsPolicy",
-                    builder => builder.AllowAnyOrigin ()
-                    .AllowAnyMethod ()
-                    .AllowAnyHeader ()
-                    .AllowCredentials ());
-            });
-            services.Configure<GzipCompressionProviderOptions> (options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
-            services.AddResponseCompression ();
+            services.AddMvc();
+            services.AddCors(options =>
+           {
+               options.AddPolicy("CorsPolicy",
+                   builder => builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .AllowCredentials());
+           });
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddResponseCompression();
 
-            services.Configure<MvcOptions> (options =>
-            {
+            services.Configure<MvcOptions>(options =>
+           {
                 //options.Filters.Add (new RequireHttpsAttribute ());
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole (Configuration.GetSection ("Logging"));
-            loggerFactory.AddDebug ();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-            if (env.IsDevelopment ())
+            if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage ();
-                app.UseBrowserLink ();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler ("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             var options = new StaticFileOptions
             {
-                ContentTypeProvider = new FileExtensionContentTypeProvider ()
+                ContentTypeProvider = new FileExtensionContentTypeProvider()
             };
 
-            ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".less", "text/css"));
-            ((FileExtensionContentTypeProvider) options.ContentTypeProvider).Mappings.Add (new KeyValuePair<string, string> (".webmanifest", "application/manifest+json"));
+            ((FileExtensionContentTypeProvider)options.ContentTypeProvider).Mappings.Add(new KeyValuePair<string, string>(".less", "text/css"));
+            ((FileExtensionContentTypeProvider)options.ContentTypeProvider).Mappings.Add(new KeyValuePair<string, string>(".webmanifest", "application/manifest+json"));
 
-            app.UseResponseCompression ();
+            app.UseResponseCompression();
             app.UseCors("CorsPolicy");
-            app.UseStaticFiles (options);
+            app.UseStaticFiles(options);
 
-            app.UseMvc (routes =>
-            {
-                routes.MapRoute (
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc(routes =>
+           {
+               routes.MapRoute(
+                   name: "default",
+                   template: "{controller=Home}/{action=Index}/{id?}");
+           });
 
             /*
             var rewriteOptions = new RewriteOptions ().AddRedirectToHttps ();
