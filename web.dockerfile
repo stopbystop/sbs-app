@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:1.1-sdk
+FROM microsoft/dotnet:2.0-sdk
 WORKDIR /sbs-app
 COPY ./sbs-gh/src/ sbs-gh/src/
 COPY ./sbs-vso/src/ sbs-vso/src/
