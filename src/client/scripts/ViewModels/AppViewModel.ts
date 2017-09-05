@@ -16,6 +16,7 @@ module StopByStop {
             this.isRouteLoading(true);
             this.routeLoadingMessage("Loading route " + routeTitle + " ...");
             this.url(Utils.getShareUrl(initSettings.basePortalUrl, initSettings.navigationLocation));
+            this.version = initSettings.appVersion;
 
             if (route) {
                 this._route = route;
@@ -53,6 +54,7 @@ module StopByStop {
             window.document.title = this.title();
         }
 
+        public version: string;
         public routeId: string;
         public route: RouteViewModel = null;
         public url: KnockoutObservable<string> = ko.observable("");

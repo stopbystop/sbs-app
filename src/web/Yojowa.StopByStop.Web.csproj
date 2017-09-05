@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Company>Yojowa, LLC</Company>
     <Description>StopByStop Web project</Description>
-    <ProxyService>False</ProxyService>
+    <ProxyService>True</ProxyService>
     <ProxyServiceProjectPath>../../../sbs-vso/src</ProxyServiceProjectPath>
       <DefineConstants Condition="'$(ProxyService)'=='True'">PROXY_SERVICE</DefineConstants>
   </PropertyGroup>

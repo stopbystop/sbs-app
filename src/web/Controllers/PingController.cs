@@ -4,6 +4,7 @@ namespace Yojowa.StopByStop.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Service;
     using Yojowa.StopByStop.Utils;
+    using System.Reflection;
 
     [ResponseCache (Location = ResponseCacheLocation.None, NoStore = true)]
     public class PingController : Controller
@@ -17,6 +18,8 @@ namespace Yojowa.StopByStop.Web.Controllers
             public string DBKey { get; set; }
 
             public bool RouteCacheEnabled { get; set; }
+
+            public string AppVersion{get;set;}
         }
 
         [HttpGet]
@@ -26,6 +29,10 @@ namespace Yojowa.StopByStop.Web.Controllers
 
             var pingData = new PingData ();
             pingData.Configuration = Startup.SBSConfiguration;
+            pingData.AppVersion = typeof (PingController).GetTypeInfo ()
+                .Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
+                
 #if PROXY_SERVICE
             pingData.ProxyService = true;
 #else

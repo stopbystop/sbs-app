@@ -15,5 +15,6 @@ module StopByStop {
         route: RouteViewModel;
         selectedJunction: KnockoutObservable<ExitPageViewModel>;
         selectedPoi: KnockoutObservable<PoiViewModel>;
+        version:string;
     }
 }

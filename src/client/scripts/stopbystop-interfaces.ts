@@ -27,6 +27,7 @@ module StopByStop {
         knownHashChangeInProgress?: boolean;
         historyDisabled?: boolean;
         metadata: IMetadata;
+        appVersion:string;
     }
 
     export interface IWebInitData {
@@ -48,6 +49,8 @@ module StopByStop {
         purl: string;
         /** metadata */
         m: IMetadata;
+        /**version */
+        v:string;
 
     }
 

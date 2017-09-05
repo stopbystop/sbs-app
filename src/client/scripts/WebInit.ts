@@ -37,7 +37,8 @@ module StopByStop {
                 },
                 historyDisabled: true,
                 windowOpenTarget: "_blank",
-                metadata: webInitData.m
+                metadata: webInitData.m,
+                appVersion: webInitData.v
             };
 
             Init.startup(appState);

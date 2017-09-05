@@ -507,7 +507,8 @@ var StopByStop;
             baseDataUrl: null,
             baseImageUrl: null,
             windowOpenTarget: "_system",
-            metadata: null
+            metadata: null,
+            appVersion: null
         };
         return AppState;
     }());
@@ -2131,6 +2132,7 @@ var StopByStop;
             this.isRouteLoading(true);
             this.routeLoadingMessage("Loading route " + routeTitle + " ...");
             this.url(StopByStop.Utils.getShareUrl(initSettings.basePortalUrl, initSettings.navigationLocation));
+            this.version = initSettings.appVersion;
             if (route) {
                 this._route = route;
                 var rjs = [];
@@ -2738,7 +2740,8 @@ var StopByStop;
                 },
                 historyDisabled: true,
                 windowOpenTarget: "_blank",
-                metadata: webInitData.m
+                metadata: webInitData.m,
+                appVersion: webInitData.v
             };
             StopByStop.Init.startup(appState);
             if (!location.hash) {
