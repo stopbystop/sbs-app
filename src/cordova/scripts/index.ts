@@ -35,10 +35,11 @@ module StopByStop.Cordova {
                     navigationLocation: { page: SBSPage.home },
                     historyDisabled: true,
                     windowOpenTarget: "_system",
-                    metadata: null
+                    metadata: null,
+                    appVersion: "0.2017.0905"
                 });
 
-                
+
                 AppState.current.pageInfo = {
                     pageName: "sbs-homePG",
                     telemetryPageName: "Home"
@@ -46,10 +47,10 @@ module StopByStop.Cordova {
 
                 Init.wireupAndBindOnce();
                 InitHome.wireup();
-                
+
             }
             catch (e) {
-                alert("Error trying to initialize application: "+ e);
+                alert("Error trying to initialize application: " + e);
             }
         }
 
