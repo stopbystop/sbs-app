@@ -507,7 +507,8 @@ var StopByStop;
             baseDataUrl: null,
             baseImageUrl: null,
             windowOpenTarget: "_system",
-            metadata: null
+            metadata: null,
+            appVersion: null
         };
         return AppState;
     }());

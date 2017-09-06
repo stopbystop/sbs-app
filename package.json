@@ -5,9 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "cordova": "^7.0.1",
-    "http-server": "^0.9.0"
-  },
-  "devDependencies": {
+    "http-server": "^0.9.0",
+    "ntypescript": "^1.201706190042.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-compile-handlebars": "^0.6.1",
@@ -23,9 +22,9 @@
   "scripts": {
     "build": "npm run build-web && npm run build-cordova && npm run build-dotnet",
     "build-proxy": "npm run build-web && npm run build-cordova && npm run build-dotnet-proxy",
-    "build-web": "cd ./src/client && tsc -p . && gulp build-web && cd ../../",
-    "build-cordova": "cd ./src/cordova/scripts && tsc -p . && cd ../../client && gulp build-cordova && cd ../../",
-    "build-test": "cd ./test/qunit && tsc -p . && cd ../../",
+    "build-web": "cd ./src/client && ../../node_modules/.bin/tsc -p . && ../../node_modules/.bin/gulp build-web && cd ../../",
+    "build-cordova": "cd ./src/cordova/scripts && ../../../node_modules/.bin/tsc -p . && cd ../../client && ../../node_modules/.bin/gulp build-cordova && cd ../../",
+    "build-test": "cd ./test/qunit && ../../node_modules/.bin/tsc -p . && cd ../../",
     "build-dotnet": "dotnet restore ./src/StopByStop-core.sln && dotnet build ./src/StopByStop-core.sln",
     "build-dotnet-proxy": "dotnet restore ./src/StopByStop-core.sln -p:ProxyService='True' && dotnet build ./src/StopByStop-core.sln -p:ProxyService='True'",
     "test": "npm run build-test && dotnet test ./test/xunit/Yojowa.StopByStop.UnitTests.csproj -p:ProxyService='True'"

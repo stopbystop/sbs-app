@@ -43,7 +43,7 @@ module StopByStop {
             var junctionMarker = new google.maps.Marker({
                 position: junctionPoint,
                 map: this.map,
-                icon: this.urls.BaseImageUrl + "icons/exit_map.png"
+                icon: this.urls.BaseImageUrl + "exit_map.png"
             });
 
             this.createPois();

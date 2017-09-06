@@ -1,0 +1,7 @@
+**/*
+!sbs-gh/src/**/*
+!sbs-vso/src/**/*
+!sbs-gh/*
+sbs-gh/cordova
+**/bin/**/*
+**/obj/**/*
