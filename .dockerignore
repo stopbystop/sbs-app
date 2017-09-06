@@ -1,7 +1,8 @@
 **/*
 !sbs-gh/src/**/*
 !sbs-vso/src/**/*
+!sbs-vso/sbs_destinations
 !sbs-gh/*
-sbs-gh/cordova
+sbs-gh/src/cordova
 **/bin/**/*
 **/obj/**/*
