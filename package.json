@@ -27,7 +27,8 @@
     "build-test": "cd ./test/qunit && ../../node_modules/.bin/tsc -p . && cd ../../",
     "build-dotnet": "dotnet restore ./src/StopByStop-core.sln && dotnet build ./src/StopByStop-core.sln",
     "build-dotnet-proxy": "dotnet restore ./src/StopByStop-core.sln -p:ProxyService='True' && dotnet build ./src/StopByStop-core.sln -p:ProxyService='True'",
-    "test": "npm run build-test && dotnet test ./test/xunit/Yojowa.StopByStop.UnitTests.csproj -p:ProxyService='True'"
+    "test": "npm run build-test && dotnet test ./test/xunit/Yojowa.StopByStop.UnitTests.csproj -p:ProxyService='True'",
+    "start-dotnet": "cd ./src/web && dotnet run --no-restore --no-build --no-launch-profile"
   },
   "repository": {
     "type": "git",

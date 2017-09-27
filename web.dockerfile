@@ -43,7 +43,7 @@ COPY --from=node /sbs-app/sbs-gh/src/web/wwwroot /sbs-app/sbs-gh/src/web/wwwroot
 COPY ./sbs-vso/sbs_destinations ./sbs-vso/sbs_destinations
 RUN dotnet run --project ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj gendestimg
 
-#EXPOSE 5000
-#ENV ASPNETCORE_URLS http://*:5000
-#WORKDIR ./sbs-gh/src/web
-#ENTRYPOINT ["dotnet", "run", "-c", "Release"]
+EXPOSE 5000
+ENV ASPNETCORE_URLS http://*:5000
+WORKDIR ./sbs-gh/src/web
+ENTRYPOINT ["dotnet", "run", "-c", "Release", "--no-restore", "--no-build", "--no-launch-profile"]
