@@ -3,6 +3,8 @@
 !sbs-vso/src/**/*
 !sbs-vso/sbs_destinations
 !sbs-gh/*
+!sbs-gh/test/xunit/**/*
+!sbs-vso/test/xunit/**/*
 sbs-gh/src/cordova
 **/bin/**/*
 **/obj/**/*
