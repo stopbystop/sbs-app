@@ -61,6 +61,14 @@ You can view the latest version of SPA UI for a given branch using rawgit.com. F
 * ``openssl req -new -x509 -newkey rsa:2048 -keyout localhost.key -out localhost.cer -days 365 -nodes -subj /CN=localhost``
 * ``openssl pkcs12 -export -out localhost.pfx -inkey localhost.key -in localhost.cer``
 
+##IDE
 
+### VSCode
 
+### Atom with Nuclide
+https://nuclide.io/docs/editor/setup/
 
+#### Auto-update
+Use the command from here: https://askubuntu.com/questions/589469/how-to-automatically-update-atom-editor
+* ```wget https://github.com$(cat /tmp/latest | grep -o -E 'href=".*atom-amd64.deb' | cut -d'"' -f2) -O /tmp/atom-amd64.deb```
+* ```sudo atom-auto-update```
