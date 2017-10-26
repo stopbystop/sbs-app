@@ -61,6 +61,17 @@ You can view the latest version of SPA UI for a given branch using rawgit.com. F
 * ``openssl req -new -x509 -newkey rsa:2048 -keyout localhost.key -out localhost.cer -days 365 -nodes -subj /CN=localhost``
 * ``openssl pkcs12 -export -out localhost.pfx -inkey localhost.key -in localhost.cer``
 
+
+## React Native
+* https://facebook.github.io/react-native/docs/getting-started.html
+### JDK
+* https://stackoverflow.com/questions/14788345/how-to-install-jdk-on-ubuntu-linux
+* ``sudo apt-get install openjdk-8-jdk``
+* ``apt-cache search jdk``
+* ``export JAVA_HOME=/usr/lib/jvm/java-8-openjdk``
+* ``export PATH=$PATH:/usr/lib/jvm/java-8-openjdk/bin``
+* ``javac -version``
+
 ##IDE
 
 ### VSCode
@@ -72,3 +83,11 @@ https://nuclide.io/docs/editor/setup/
 Use the command from here: https://askubuntu.com/questions/589469/how-to-automatically-update-atom-editor
 * ```wget https://github.com$(cat /tmp/latest | grep -o -E 'href=".*atom-amd64.deb' | cut -d'"' -f2) -O /tmp/atom-amd64.deb```
 * ```sudo atom-auto-update```
+
+
+## Next steps
+* Typings for material UI for web: https://www.npmjs.com/package/@types/material-ui
+* Get webpack to work: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html
+
+* react native: https://nativebase.io/, material: http://docs.nativebase.io/Customize.html#custom-component-headref
+* Add typescript for native: https://medium.com/@rintoj/react-native-with-typescript-40355a90a5d7

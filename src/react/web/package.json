@@ -1,0 +1,33 @@
+{
+  "name": "sbs-react-web",
+  "version": "0.0.1",
+  "description": "SBS React web",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
+    "build": "webpack --config webpack-production.config.js --progress --colors"
+  },
+  "private": true,
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.3",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.18.0",
+    "html-webpack-plugin": "^2.24.1",
+    "source-map-loader": "^0.2.3",
+    "transfer-webpack-plugin": "^0.1.4",
+    "typescript": "^2.5.3",
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "@types/material-ui": "^0.18.3",
+    "@types/react": "^16.0.18",
+    "@types/react-dom": "^16.0.2",
+    "material-ui": "latest",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-tap-event-plugin": "^2.0.1"
+  }
+}
