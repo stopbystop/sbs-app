@@ -1,12 +1,12 @@
 {
   "name": "sbs-react-web",
   "version": "0.0.1",
+  "private": true,
   "description": "SBS React web",
   "scripts": {
     "start": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
     "build": "webpack --config webpack-production.config.js --progress --colors"
   },
-  "private": true,
   "devDependencies": {
     "awesome-typescript-loader": "^3.2.3",
     "babel-core": "^6.18.2",

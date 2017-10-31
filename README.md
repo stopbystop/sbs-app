@@ -86,8 +86,7 @@ Use the command from here: https://askubuntu.com/questions/589469/how-to-automat
 
 
 ## Next steps
-* Typings for material UI for web: https://www.npmjs.com/package/@types/material-ui
-* Get webpack to work: https://www.typescriptlang.org/docs/handbook/react-&-webpack.html
+
+* Finish adding typescript for native: https://github.com/Microsoft/TypeScript-React-Native-Starter#moving-files-over-to-typescript
 
 * react native: https://nativebase.io/, material: http://docs.nativebase.io/Customize.html#custom-component-headref
-* Add typescript for native: https://medium.com/@rintoj/react-native-with-typescript-40355a90a5d7
