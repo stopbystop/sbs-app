@@ -1,4 +1,4 @@
-package com.n;
+package com.sbsrn;
 
 import android.app.Application;
 

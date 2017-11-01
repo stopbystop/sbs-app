@@ -5,21 +5,14 @@ import {
   Text,
   View
 } from 'react-native';
+import RootNavigator from "./Components/Navigator"
 
 export default class MyAwesomeProject extends React.Component<object, object> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+     
+        <RootNavigator/>
       </View>
     );
   }
@@ -44,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('MyAwesomeProject', () => MyAwesomeProject);
+AppRegistry.registerComponent('sbsrn', () => MyAwesomeProject);

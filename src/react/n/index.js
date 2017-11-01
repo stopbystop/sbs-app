@@ -1,1 +1,5 @@
-import './src/index';
+import './lib/index';
+//test
+//test
+//test
+//test

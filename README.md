@@ -87,6 +87,6 @@ Use the command from here: https://askubuntu.com/questions/589469/how-to-automat
 
 ## Next steps
 
-* Finish adding typescript for native: https://github.com/Microsoft/TypeScript-React-Native-Starter#moving-files-over-to-typescript
+* Finish adding typescript for native: https://github.com/Microsoft/TtypeScript-React-Native-Starter#moving-files-over-to-typescript
 
 * react native: https://nativebase.io/, material: http://docs.nativebase.io/Customize.html#custom-component-headref

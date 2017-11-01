@@ -1,4 +1,4 @@
-package com.n;
+package com.sbsrn;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "n";
+        return "sbsrn";
     }
 }
