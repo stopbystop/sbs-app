@@ -1,3 +1,5 @@
+# This docker file runs full app installation from nothing. It assumes that web.docker file is the 
+# directory parent to ./git-sbs and ./git-vso
 FROM node:8.0 as node
 WORKDIR /sbs-app
 RUN mkdir --parents ./sbs-gh/src/web/wwwroot
