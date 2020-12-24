@@ -76,8 +76,8 @@ module StopByStop {
 
         public static trackEvent(
             telemetryEvent: TelemetryEvent,
-            telemetryProperties: [{ k: TelemetryProperty, v: string }] = null,
-            telemetryMeasurements: [{ k: TelemetryMeasurement, v: number }] = null,
+            telemetryProperties: { k: TelemetryProperty, v: string }[] = null,
+            telemetryMeasurements: { k: TelemetryMeasurement, v: number }[] = null,
             flush: boolean = false
         ): void {
 
@@ -121,7 +121,7 @@ module StopByStop {
             }
         }
 
-        private static getAIProperties(telemetryProperties: [{ k: TelemetryProperty, v: string }]): { [name: string]: string; } {
+        private static getAIProperties(telemetryProperties: { k: TelemetryProperty, v: string }[]): { [name: string]: string; } {
             var aiProps: { [name: string]: string; } = {
             };
             aiProps[TelemetryProperty[TelemetryProperty.PageName]] = AppState.current.pageInfo.telemetryPageName;
@@ -131,7 +131,7 @@ module StopByStop {
             return aiProps;
         }
 
-        private static getAIMeasurements(telemetryMeasurements: [{ k: TelemetryMeasurement, v: number }]): { [name: string]: number; } {
+        private static getAIMeasurements(telemetryMeasurements: { k: TelemetryMeasurement, v: number }[]): { [name: string]: number; } {
             var aiMeasurements: { [name: string]: number; } = {};
             if (telemetryMeasurements) {
                 $.each(telemetryMeasurements, (i, v) => { aiMeasurements[TelemetryMeasurement[v.k]] = v.v; });
