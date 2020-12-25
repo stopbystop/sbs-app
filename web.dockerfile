@@ -32,20 +32,21 @@ COPY ./sbs-vso/src/service_interfaces/*proj sbs-vso/src/service_interfaces/
 COPY ./sbs-vso/src/service_utils/*proj sbs-vso/src/service_utils/
 COPY ./sbs-vso/src/store/*proj sbs-vso/src/store/
 COPY ./sbs-vso/src/ydata_provider/*proj sbs-vso/src/ydata_provider/
-RUN dotnet restore ./sbs-gh/src/web/Yojowa.StopByStop.Web.csproj -p:ProxyService='False'
+RUN dotnet restore ./sbs-gh/src/web/Yojowa.StopByStop.Web.csproj -p:ProxyService='False' --no-cache
 COPY ./sbs-vso/src ./sbs-vso/src
 COPY ./sbs-gh/src/interfaces sbs-gh/src/interfaces
 COPY ./sbs-gh/src/utils sbs-gh/src/utils
 COPY ./sbs-gh/src/npgsqlom sbs-gh/src/npgsqlom
 
 # Generate POIs
-RUN dotnet restore ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj
+RUN dotnet restore ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj --no-cache
 RUN dotnet run --project ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj genpoi
 
 # Now copy everything under gh/src, so that if anything is changed under web it is cached until this point
 COPY ./sbs-gh/src ./sbs-gh/src
 
 # As POIs were generated, now it is time to build web and service
+RUN dotnet restore ./sbs-gh/src/web/Yojowa.StopByStop.Web.csproj --no-cache
 RUN dotnet build -c Release ./sbs-gh/src/web/Yojowa.StopByStop.Web.csproj -p:ProxyService='False'
 COPY --from=node /sbs-app/sbs-gh/src/web/wwwroot /sbs-app/sbs-gh/src/web/wwwroot
 
