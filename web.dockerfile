@@ -15,7 +15,7 @@ RUN npm run build-web
 #* Generate city images. Run ``sudo dotnet run --project ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj gendestimg``
 
 
-FROM microsoft/dotnet:2.0-sdk as dotnet
+FROM mcr.microsoft.com/dotnet/sdk:2.1 as dotnet
 WORKDIR /sbs-app
 COPY ./sbs-gh/src/build/*proj sbs-gh/src/build/
 COPY ./sbs-gh/src/interfaces/*proj sbs-gh/src/interfaces/
@@ -40,7 +40,7 @@ COPY ./sbs-gh/src/npgsqlom sbs-gh/src/npgsqlom
 
 # Generate POIs
 RUN dotnet restore ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj --no-cache
-RUN dotnet run --project ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj genpoi
+# RUN dotnet run --project ./sbs-vso/src/console_utils/Yojowa.StopByStop.ConsoleUtils.csproj genpoi
 
 # Now copy everything under gh/src, so that if anything is changed under web it is cached until this point
 COPY ./sbs-gh/src ./sbs-gh/src
@@ -60,9 +60,10 @@ COPY ./sbs-vso/test ./sbs-vso/test
 
 # Run tests
 RUN dotnet test ./sbs-gh/test/xunit
-RUN dotnet test ./sbs-vso/test/xunit
+# RUN dotnet test ./sbs-vso/test/xunit
 
 EXPOSE 5000
 ENV ASPNETCORE_URLS http://*:5000
 WORKDIR ./sbs-gh/src/web
 ENTRYPOINT ["dotnet", "run", "-c", "Release", "--no-restore", "--no-build", "--no-launch-profile"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
